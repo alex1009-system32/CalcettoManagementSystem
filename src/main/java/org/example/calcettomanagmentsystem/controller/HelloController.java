@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem;
+package org.example.calcettomanagmentsystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

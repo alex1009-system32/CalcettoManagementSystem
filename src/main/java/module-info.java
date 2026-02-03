@@ -13,4 +13,6 @@ module org.example.calcettomanagmentsystem {
 
     opens org.example.calcettomanagmentsystem to javafx.fxml;
     exports org.example.calcettomanagmentsystem;
+    exports org.example.calcettomanagmentsystem.controller;
+    opens org.example.calcettomanagmentsystem.controller to javafx.fxml;
 }
