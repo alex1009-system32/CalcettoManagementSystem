@@ -10,6 +10,8 @@ module org.example.calcettomanagmentsystem {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
+    requires annotations;
 
     opens org.example.calcettomanagmentsystem to javafx.fxml;
     exports org.example.calcettomanagmentsystem;
