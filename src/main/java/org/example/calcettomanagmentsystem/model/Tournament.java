@@ -1,0 +1,52 @@
+package org.example.calcettomanagmentsystem.model;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
+
+public class Tournament {
+
+    private int tid;
+    private String tournamentName;
+    private LocalDate date;
+    private long duration;
+
+    public Tournament(int tid, String tournamentName, long duration) {
+        setTid(tid);
+        setTournamentName(tournamentName);
+        setDate(LocalDate.now());
+        setDuration(duration);
+    }
+
+    public int getTid() {
+        return tid;
+    }
+
+    public void setTid(int tid) {
+        this.tid = tid;
+    }
+
+    public String getTournamentName() {
+        return tournamentName;
+    }
+
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+}

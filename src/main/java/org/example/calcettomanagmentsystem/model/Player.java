@@ -3,16 +3,17 @@ package org.example.calcettomanagmentsystem.model;
 import org.jetbrains.annotations.NotNull;
 
 public record Player(
-        String pid,
+        int pid,
         String pname,
         String pemail
 ) {
+    @NotNull
     @Override
     public String toString() {
         return "Player{" +
-                "pid='" + pid +
+                "pid=" + pid +
                 ", pname='" + pname +
-                ", pemail='" + pemail +
-                '}';
+                "', pemail='" + pemail +
+                "'}";
     }
 }
