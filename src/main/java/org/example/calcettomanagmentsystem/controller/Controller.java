@@ -2,7 +2,6 @@ package org.example.calcettomanagmentsystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.example.calcettomanagmentsystem.dao.TestDaoClient;
 
 import java.util.List;
 

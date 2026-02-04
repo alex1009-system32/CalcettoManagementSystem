@@ -9,5 +9,5 @@ import java.util.List;
 public interface TeamDao {
     void addTeamFromTournament(Team team, Tournament tournament);
     List<Team>getAllTeamsFromTournament (Tournament tournament);
-    Team getTeamById(int id);
+    Team getTeamById(int tid);
 }

@@ -7,5 +7,5 @@ import java.util.List;
 public interface PlayerDao {
     void addPlayer(Player player);
     List<Player> getAllPlayers();
-    Player getPlayerById(int id);
+    Player getPlayerById(int pid);
 }

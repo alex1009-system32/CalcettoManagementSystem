@@ -10,5 +10,5 @@ public interface MatchDao {
     void addMatch(Match match);
     List<Match> getAllMatchesFromTournament(Tournament tournament);
     List<Match> getAllMatchesFromTeam(Team team);
-    Match getMatchById(int id);
+    Match getMatchById(int mid);
 }
