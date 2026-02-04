@@ -1,7 +1,6 @@
 package org.example.calcettomanagmentsystem.dao;
 
 import org.example.calcettomanagmentsystem.connection.Database;
-import org.example.calcettomanagmentsystem.model.TestClient;
 
 import java.sql.*;
 import java.util.ArrayList;
