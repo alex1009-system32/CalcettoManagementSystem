@@ -12,8 +12,8 @@ public record Player(
     public String toString() {
         return "Player{" +
                 "pid=" + pid +
-                ", pname='" + pname +
-                "', pemail='" + pemail +
-                "'}";
+                ", pname='" + pname + '\'' +
+                ", pemail='" + pemail + '\'' +
+                '}';
     }
 }

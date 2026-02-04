@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.model;
 
+import java.util.Arrays;
+
 public class Team {
 
     private int tid;
@@ -39,5 +41,14 @@ public class Team {
 
     private void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "tid=" + tid +
+                ", teamName='" + teamName + '\'' +
+                ", players=" + Arrays.toString(players) +
+                '}';
     }
 }

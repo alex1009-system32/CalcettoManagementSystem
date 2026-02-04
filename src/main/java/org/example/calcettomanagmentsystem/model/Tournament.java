@@ -49,4 +49,14 @@ public class Tournament {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "Tournament{" +
+                "tid=" + tid +
+                ", tournamentName='" + tournamentName + '\'' +
+                ", date=" + date +
+                ", duration=" + duration +
+                '}';
+    }
 }

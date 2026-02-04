@@ -1,5 +1,6 @@
 package org.example.calcettomanagmentsystem.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Match {
@@ -46,5 +47,14 @@ public class Match {
 
     public void setPointsForLastTeam(int points) {
         this.points.put(teams[1], points);
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "points=" + points +
+                ", teams=" + Arrays.toString(teams) +
+                ", round=" + round +
+                '}';
     }
 }
