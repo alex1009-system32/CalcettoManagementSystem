@@ -7,16 +7,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Database {
+public class DatabaseOld {
 
     private static Properties properties = new Properties();
     private static java.sql.Connection connection;
 
-    private Database() {
+    private DatabaseOld() {
     }
 
     static{
-        try (InputStream inputStream = Database.class.getClassLoader().getResourceAsStream("db.properties")) {
+        try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("db.properties")) {
             if (inputStream == null) {
                 throw new RuntimeException("Properties file not found!");
             }
