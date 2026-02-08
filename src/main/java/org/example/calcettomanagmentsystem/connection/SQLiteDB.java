@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class SQLiteDB {
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
     private static java.sql.Connection connection;
 
     private static String setup = """
