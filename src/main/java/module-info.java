@@ -12,6 +12,7 @@ module org.example.calcettomanagmentsystem {
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires annotations;
+    requires org.postgresql.jdbc;
 
     opens org.example.calcettomanagmentsystem to javafx.fxml;
     exports org.example.calcettomanagmentsystem;
