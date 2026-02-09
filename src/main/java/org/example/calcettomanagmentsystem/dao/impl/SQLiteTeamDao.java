@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
@@ -22,7 +23,17 @@ public class SQLiteTeamDao implements TeamDao {
     }
 
     @Override
-    public void addTeamFromTournament(Team team, Tournament tournament) {
+    public void addTeamFromTournament(String teamname, Tournament tournament) {
+
+    }
+
+    @Override
+    public void addPlayerToTeam(int tid, Player player) {
+
+    }
+
+    @Override
+    public void addPlayerToTeam(String teamname, Player player) {
 
     }
 

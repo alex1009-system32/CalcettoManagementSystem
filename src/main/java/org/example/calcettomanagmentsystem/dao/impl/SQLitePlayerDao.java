@@ -20,8 +20,9 @@ public class SQLitePlayerDao implements PlayerDao {
         }
     }
 
+
     @Override
-    public void addPlayer(Player player) {
+    public void addPlayer(String pname, String pemail) {
 
     }
 

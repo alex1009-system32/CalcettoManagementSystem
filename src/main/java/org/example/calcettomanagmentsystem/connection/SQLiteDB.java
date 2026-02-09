@@ -13,53 +13,43 @@ public class SQLiteDB {
     private static java.sql.Connection connection;
 
     private static String setup = """
-            CREATE IF NOT EXISTS tournament(
-                tid SERIAL PRIMARY KEY,
-                tournament name VARCHAR(192),
-                
-                startdate TEXT,
-                duration INTEGER
-            );
-            
-            CREATE IF NOT EXISTS team(
-                tid SERIAL PRIMARY KEY,
-                teamname VARCHAR(20),
-                
-                trid NUMERIC,
-                
-                FOREIGN KEY(trid) REFERENCES tournament(tid)
-            );
-            
-            CREATE IF NOT EXISTS player(
-                pid SERIAL PRIMARY KEY,
-                pname VARCHAR(255),
-                pemail VARCHAR(255) UNIQUE,
-                
-                tid NUMERIC,
-                
-                FOREIGN KEY(tid) REFERENCES team(tid)
-            );
-            
-            CREATE IF NOT EXISTS player(
-                mid  SERIAL PRIMARY KEY,
-                round NUMERIC,
-                
-                tid NUMERIC,
-                
-                FOREIGN KEY(tid) REFERENCES tournament(tid)
-            );
-            
-            CREATE IF NOT EXISTS team_match(
-                tid NUMERIC,
-                mid NUMERIC,
-                
-                points NUMERIC,
-                
-                FOREIGN KEY(tid) REFERENCES team(tid),
-                FOREIGN KEY(mid) REFERENCES match(mid),
-                
-                PRIMARY KEY(tid, mid)
-            );
+            CREATE TABLE IF NOT EXISTS tournament (
+                  tid INTEGER PRIMARY KEY,
+                  tournament_name TEXT,
+                  start_date TEXT,
+                  duration INTEGER
+              );
+              
+              CREATE TABLE IF NOT EXISTS team (
+                  tid INTEGER PRIMARY KEY,
+                  team_name TEXT,
+                  trid INTEGER,
+                  FOREIGN KEY(trid) REFERENCES tournament(tid)
+              );
+              
+              CREATE TABLE IF NOT EXISTS player (
+                  pid INTEGER PRIMARY KEY,
+                  pname TEXT,
+                  pemail TEXT UNIQUE,
+                  tid INTEGER,
+                  FOREIGN KEY(tid) REFERENCES team(tid)
+              );
+              
+              CREATE TABLE IF NOT EXISTS match (
+                  mid INTEGER PRIMARY KEY,
+                  round INTEGER,
+                  tid INTEGER,
+                  FOREIGN KEY(tid) REFERENCES tournament(tid)
+              );
+              
+              CREATE TABLE IF NOT EXISTS team_match (
+                  tid INTEGER,
+                  mid INTEGER,
+                  points REAL,
+                  PRIMARY KEY(tid, mid),
+                  FOREIGN KEY(tid) REFERENCES team(tid),
+                  FOREIGN KEY(mid) REFERENCES match(mid)
+              );
             """;
 
     private SQLiteDB() {

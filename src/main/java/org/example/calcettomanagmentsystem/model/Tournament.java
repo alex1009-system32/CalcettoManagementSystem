@@ -11,10 +11,10 @@ public class Tournament {
     private LocalDate date;
     private long duration;
 
-    public Tournament(int tid, String tournamentName, long duration) {
+    public Tournament(int tid, String tournamentName, String date, long duration) {
         setTid(tid);
         setTournamentName(tournamentName);
-        setDate(LocalDate.now());
+        setDate(LocalDate.parse(date));
         setDuration(duration);
     }
 
