@@ -3,6 +3,7 @@ package org.example.calcettomanagmentsystem.model;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Match {
     private HashMap<Team, Integer> points;
@@ -32,6 +33,18 @@ public class Match {
 
     private void setMid(int mid) {
         this.mid = mid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Match match = (Match) o;
+        return getMid() == match.getMid() && getRound() == match.getRound() && Objects.equals(points, match.points) && Objects.equals(teams, match.teams);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(points, teams, getMid(), getRound());
     }
 
     @Override

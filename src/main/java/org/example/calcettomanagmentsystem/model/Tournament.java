@@ -3,6 +3,7 @@ package org.example.calcettomanagmentsystem.model;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Tournament {
 
@@ -48,6 +49,18 @@ public class Tournament {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Tournament that = (Tournament) o;
+        return getTid() == that.getTid() && getDuration() == that.getDuration() && Objects.equals(getTournamentName(), that.getTournamentName()) && Objects.equals(getDate(), that.getDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTid(), getTournamentName(), getDate(), getDuration());
     }
 
     @Override
