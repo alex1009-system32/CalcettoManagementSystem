@@ -14,21 +14,21 @@ public class SQLiteDB {
 
     private static String setup = """
             CREATE TABLE IF NOT EXISTS tournament (
-                  tid INTEGER PRIMARY KEY,
+                  tid SERIAL PRIMARY KEY,
                   tournament_name TEXT,
                   start_date TEXT,
                   duration INTEGER
               );
               
               CREATE TABLE IF NOT EXISTS team (
-                  tid INTEGER PRIMARY KEY,
+                  tid SERIAL PRIMARY KEY,
                   team_name TEXT,
                   trid INTEGER,
                   FOREIGN KEY(trid) REFERENCES tournament(tid)
               );
               
               CREATE TABLE IF NOT EXISTS player (
-                  pid INTEGER PRIMARY KEY,
+                  pid SERIAL PRIMARY KEY,
                   pname TEXT,
                   pemail TEXT UNIQUE,
                   tid INTEGER,
@@ -36,7 +36,7 @@ public class SQLiteDB {
               );
               
               CREATE TABLE IF NOT EXISTS match (
-                  mid INTEGER PRIMARY KEY,
+                  mid SERIAL PRIMARY KEY,
                   round INTEGER,
                   tid INTEGER,
                   FOREIGN KEY(tid) REFERENCES tournament(tid)

@@ -9,6 +9,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLiteMatchDao implements MatchDao {
@@ -24,13 +25,41 @@ public class SQLiteMatchDao implements MatchDao {
     }
 
     @Override
-    public void addMatch(Match match) {
+    public void addMatch(Tournament tournament, int round) {
+        String sql = "INSERT INTO match (round, tid) VALUES (?, ?)";
 
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(2, tournament.getTid());
+            preparedStatement.setInt(1, round);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addTeamToMatch(Team team, double points, Match match) {
+        String sql = "INSERT INTO team_match(tid, points, mid) VALUES (?, ?, ?)";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, team.getTid());
+            preparedStatement.setDouble(2, points);
+            preparedStatement.setInt(3, match.getMid());
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Match> getAllMatchesFromTournament(Tournament tournament) {
-        return List.of();
+        String sql =  "SELECT * FROM match WHERE tid = ?";
+
+        // ToDo go on thurdure right here
+
+        return new ArrayList<Match>(){{}};
     }
 
     @Override

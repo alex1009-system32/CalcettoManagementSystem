@@ -7,7 +7,8 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 public interface MatchDao {
-    void addMatch(Match match);
+    void addMatch(Tournament tournament, int round);
+    void addTeamToMatch(Team team, double points, Match match);
     List<Match> getAllMatchesFromTournament(Tournament tournament);
     List<Match> getAllMatchesFromTeam(Team team);
     Match getMatchById(int mid);

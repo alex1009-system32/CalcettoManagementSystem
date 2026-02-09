@@ -2,22 +2,19 @@ package org.example.calcettomanagmentsystem.model;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Match {
-
     private HashMap<Team, Integer> points;
-    private Team[] teams;
+    private List<Team> teams;
 
+    private int mid;
     private int round;
 
-    public Match(int round, Team FirstTeam, Team LastTeam) {
+    public Match(int mid, int round) {
         this.points = new HashMap<>();
 
-        this.points.put(FirstTeam, 0);
-        this.points.put(LastTeam, 0);
-
-        this.teams = new Team[]{FirstTeam, LastTeam};
-
+        setMid(mid);
         setRound(round);
     }
 
@@ -25,35 +22,24 @@ public class Match {
         return round;
     }
 
-    public HashMap<Team, Integer> getTeams() {
-        return points;
+    public int getMid() {
+        return mid;
     }
 
-    public Integer getPointsFromFirstTeam() {
-        return points.get(teams[0]);
-    }
-
-    public Integer getPointsFromLastTeam() {
-        return points.get(teams[1]);
-    }
-
-    public void setRound(int round) {
+    private void setRound(int round) {
         this.round = round;
     }
 
-    public void setPointsForFirstTeam(int points) {
-        this.points.put(teams[0], points);
-    }
-
-    public void setPointsForLastTeam(int points) {
-        this.points.put(teams[1], points);
+    private void setMid(int mid) {
+        this.mid = mid;
     }
 
     @Override
     public String toString() {
         return "Match{" +
                 "points=" + points +
-                ", teams=" + Arrays.toString(teams) +
+                ", teams=" + teams +
+                ", mid=" + mid +
                 ", round=" + round +
                 '}';
     }

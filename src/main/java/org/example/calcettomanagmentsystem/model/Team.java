@@ -1,22 +1,33 @@
 package org.example.calcettomanagmentsystem.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Team {
 
     private int tid;
     private String teamName;
 
-    private Player[] players;
+    private List<Player> players;
 
-    public Team(int tid, String teamName, Player firstPlayer, Player lastPlayer) {
-        this.players = new Player[2];
+    public Team(int tid, String teamName) {
+        this.players = new ArrayList<Player>();
 
         setTid(tid);
         setTeamName(teamName);
+    }
 
-        players[0] = firstPlayer;
-        players[1] = lastPlayer;
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+
+    public boolean containsPlayer(Player player) {
+        return players.contains(player);
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player);
     }
 
     public int getTid() {
@@ -26,14 +37,6 @@ public class Team {
     public String getTeamName() {
         return teamName;
     }
-
-    public Player getFirstPlayer() {
-        return players[0];
-    }
-
-    public Player getLastPlayer() {
-        return players[1];
-        };
 
     private void setTid(int tid) {
         this.tid = tid;
@@ -48,7 +51,7 @@ public class Team {
         return "Team{" +
                 "tid=" + tid +
                 ", teamName='" + teamName + '\'' +
-                ", players=" + Arrays.toString(players) +
+                ", players=" + Arrays.toString(players.toArray()) +
                 '}';
     }
 }
