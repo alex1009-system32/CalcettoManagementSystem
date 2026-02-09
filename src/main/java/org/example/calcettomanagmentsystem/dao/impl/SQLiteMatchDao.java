@@ -8,6 +8,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +57,59 @@ public class SQLiteMatchDao implements MatchDao {
     @Override
     public List<Match> getAllMatchesFromTournament(Tournament tournament) {
         String sql =  "SELECT * FROM match WHERE tid = ?";
+        String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
-        // ToDo go on thurdure right here
+        Team team;
+        Match match;
+        List<Match> matches = new ArrayList<>();
 
-        return new ArrayList<Match>(){{}};
+        PreparedStatement innerPreparedStatement;
+        ResultSet innerResultSet;
+
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, tournament.getTid());
+
+            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+
+            while(resultset.next()) {
+                match = new Match(
+                        resultset.getInt("mid"),
+                        resultset.getInt("round")
+                );
+
+                innerPreparedStatement = connection.prepareStatement(innerSql);
+                innerPreparedStatement.setInt(
+                        1,
+                        resultset.getInt("mid"
+                ));
+
+                innerResultSet = innerPreparedStatement.executeQuery();
+
+                while (innerResultSet.next()) {
+                    SQLiteTeamDao teamDao = new SQLiteTeamDao();
+
+                    team = teamDao.getTeamById(
+                            innerResultSet.getInt("tid")
+                    );
+
+                    match.addTeam(team);
+                    match.addPoints(
+                            team,
+                            innerResultSet.getDouble("points")
+                    );
+
+                }
+
+                matches.add(match);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matches;
     }
 
     @Override

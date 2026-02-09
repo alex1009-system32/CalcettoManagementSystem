@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Match {
-    private HashMap<Team, Integer> points;
+    private HashMap<Team, Double> points;
     private List<Team> teams;
 
     private int mid;
@@ -17,6 +17,14 @@ public class Match {
 
         setMid(mid);
         setRound(round);
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
+
+    public void addPoints(Team team, double points) {
+        this.points.put(team, points);
     }
 
     public int getRound() {
