@@ -72,10 +72,16 @@ public class SQLiteDB {
             connection = DriverManager.getConnection(
                     properties.getProperty("db.sqlite.url")
             );
-            Statement statement = connection.createStatement();
-            statement.execute(setup);
         }
         return connection;
+    }
+
+    public static void init() throws SQLException {
+        try (Connection connection = getConnection()){
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(setup);
+            statement.close();
+        }
     }
 
 }
