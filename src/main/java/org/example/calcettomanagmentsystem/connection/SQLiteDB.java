@@ -217,10 +217,11 @@ public class SQLiteDB {
     }
 
     public static void initTest() throws SQLException {
-        try (Connection connection = getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.execute(testSetup);
-            statement.close();
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+
+        for (String sql : testSetup.split(";")) {
+            statement.execute(sql);
         }
     }
 

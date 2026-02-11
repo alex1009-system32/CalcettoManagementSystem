@@ -5,7 +5,9 @@ import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +25,11 @@ public class SQLiteTournamentDao implements TournamentDao {
 
     @Override
     public void addTournament(String tournament_name, int duration) {
-        String sql = "INSERT INTO tournament (tournament_name, start_date, duration) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO tournament (tournament_name, start_date, duration) VALUES (?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, tournament_name);
-            preparedStatement.setString(2, LocalTime.now().toString());
+            preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
             preparedStatement.setInt(3, duration);
 
             preparedStatement.execute();

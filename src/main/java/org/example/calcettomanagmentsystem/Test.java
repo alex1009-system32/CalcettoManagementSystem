@@ -1,22 +1,27 @@
 package org.example.calcettomanagmentsystem;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
+import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
+import org.example.calcettomanagmentsystem.model.Player;
+import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Test {
 
     static void main() {
 
-        try {
+        SQLitePlayerDao sqliteDao = new SQLitePlayerDao();
 
-            SQLiteDB.initTest();
+        List<Player> p = sqliteDao.getAllPlayers();
 
-            // ToDo: Its a bug, it don't createst the DB
-            IO.println(SQLiteDB.getTestSetup());
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        for (Player p1 : p) {
+            System.out.println(p1);
         }
 
     }
