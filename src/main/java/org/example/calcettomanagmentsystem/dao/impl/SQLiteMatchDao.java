@@ -114,13 +114,111 @@ public class SQLiteMatchDao implements MatchDao {
 
     @Override
     public List<Match> getAllMatchesFromTeam(Team team) {
-        return List.of();
+        String sql =  "SELECT * FROM match WHERE tid = ?";
+        String innerSql = "SELECT * FROM team_match WHERE mid = ?";
+
+        Match match;
+        List<Match> matches = new ArrayList<>();
+
+        PreparedStatement innerPreparedStatement;
+        ResultSet innerResultSet;
+
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, team.getTid());
+
+            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+
+            while(resultset.next()) {
+                match = new Match(
+                        resultset.getInt("mid"),
+                        resultset.getInt("round")
+                );
+
+                innerPreparedStatement = connection.prepareStatement(innerSql);
+                innerPreparedStatement.setInt(
+                        1,
+                        resultset.getInt("mid"
+                        ));
+
+                innerResultSet = innerPreparedStatement.executeQuery();
+
+                while (innerResultSet.next()) {
+                    SQLiteTeamDao teamDao = new SQLiteTeamDao();
+
+                    match.addTeam(team);
+                    match.addPoints(
+                            team,
+                            innerResultSet.getDouble("points")
+                    );
+
+                }
+
+                matches.add(match);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matches;
+
     }
 
     @Override
     public Match getMatchById(int mid) {
-        return null;
+        String sql =  "SELECT * FROM match WHERE mid = ?";
+        String innerSql = "SELECT * FROM team_match WHERE mid = ?";
+
+        Team team;
+        Match match = null;
+
+        PreparedStatement innerPreparedStatement;
+        ResultSet innerResultSet;
+
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, mid);
+
+            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+
+            while(resultset.next()) {
+                match = new Match(
+                        resultset.getInt("mid"),
+                        resultset.getInt("round")
+                );
+
+                innerPreparedStatement = connection.prepareStatement(innerSql);
+                innerPreparedStatement.setInt(
+                        1,
+                        resultset.getInt("mid"
+                        ));
+
+                innerResultSet = innerPreparedStatement.executeQuery();
+
+                while (innerResultSet.next()) {
+                    SQLiteTeamDao teamDao = new SQLiteTeamDao();
+
+                    team = teamDao.getTeamById(
+                            innerResultSet.getInt("tid")
+                    );
+
+                    match.addTeam(team);
+                    match.addPoints(
+                            team,
+                            innerResultSet.getDouble("points")
+                    );
+
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return match;
     }
 
-    // ToDo need to go further here!!!!!
 }
