@@ -26,12 +26,27 @@ public class SQLitePlayerDao implements PlayerDao {
 
     @Override
     public void addPlayer(String pname, String pemail, Match match) {
-        String sql = "INSERT INTO player (pname, pemail, mid) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO player (pname, pemail, tid) VALUES (?, ?, ?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, pname);
             preparedStatement.setString(2, pemail);
             preparedStatement.setInt(3, match.getMid());
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addPlayer(String pname, String pemail, int mid) {
+        String sql = "INSERT INTO player (pname, pemail, tid) VALUES (?, ?, ?)";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, pname);
+            preparedStatement.setString(2, pemail);
+            preparedStatement.setInt(3, mid);
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -50,7 +65,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
             while(resultSet.next()) {
                 players.add(new Player(
-                        resultSet.getInt("mid"),
+                        resultSet.getInt("pid"),
                         resultSet.getString("pname"),
                         resultSet.getString("pemail")
                 ));

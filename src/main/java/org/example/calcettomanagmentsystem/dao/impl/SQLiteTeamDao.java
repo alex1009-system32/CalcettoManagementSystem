@@ -24,7 +24,7 @@ public class SQLiteTeamDao implements TeamDao {
 
     @Override
     public void addTeamFromTournament(String teamname, Tournament tournament) {
-        String sql = "INSERT INTO match (round, tid) VALUES (?, ?)";
+        String sql = "INSERT INTO team (team_name, trid) VALUES (?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, teamname);
@@ -55,7 +55,7 @@ public class SQLiteTeamDao implements TeamDao {
 
                 t = new Team(
                         resultSet.getInt("tid"),
-                        resultSet.getString("teamName")
+                        resultSet.getString("team_name")
                 );
 
                 innerPreparedStatement.setInt(
@@ -87,7 +87,7 @@ public class SQLiteTeamDao implements TeamDao {
 
     @Override
     public Team getTeamById(int tid) {
-        String sql = "SELECT * FROM team WHERE trid = ?";
+        String sql = "SELECT * FROM team WHERE tid = ?";
         String innerSql = "SELECT * FROM player WHERE tid = ?";
 
         Team team = null;
@@ -105,7 +105,7 @@ public class SQLiteTeamDao implements TeamDao {
 
                 team = new Team(
                         resultSet.getInt("tid"),
-                        resultSet.getString("teamName")
+                        resultSet.getString("team_name")
                 );
 
                 innerPreparedStatement.setInt(

@@ -1,9 +1,6 @@
 package org.example.calcettomanagmentsystem.model;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Match {
     private HashMap<Team, Double> points;
@@ -14,6 +11,7 @@ public class Match {
 
     public Match(int mid, int round) {
         this.points = new HashMap<>();
+        this.teams = new ArrayList<>();
 
         setMid(mid);
         setRound(round);

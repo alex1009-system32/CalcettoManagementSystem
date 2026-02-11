@@ -70,7 +70,7 @@ public class SQLiteMatchDao implements MatchDao {
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, tournament.getTid());
 
-            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+            ResultSet resultset = preparedStatement.executeQuery();
 
             while(resultset.next()) {
                 match = new Match(
@@ -112,6 +112,8 @@ public class SQLiteMatchDao implements MatchDao {
         return matches;
     }
 
+    // Not functioning
+    @Deprecated()
     @Override
     public List<Match> getAllMatchesFromTeam(Team team) {
         String sql =  "SELECT * FROM match WHERE tid = ?";
@@ -126,8 +128,7 @@ public class SQLiteMatchDao implements MatchDao {
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, team.getTid());
-
-            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+            ResultSet resultset = preparedStatement.executeQuery();
 
             while(resultset.next()) {
                 match = new Match(
@@ -181,7 +182,7 @@ public class SQLiteMatchDao implements MatchDao {
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, mid);
 
-            ResultSet resultset = preparedStatement.executeQuery(innerSql);
+            ResultSet resultset = preparedStatement.executeQuery();
 
             while(resultset.next()) {
                 match = new Match(
