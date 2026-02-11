@@ -12,123 +12,96 @@ import java.util.List;
 
 public class SQLiteTeamDao implements TeamDao {
 
-    private Connection connection;
+	private Connection connection;
 
-    public SQLiteTeamDao() {
-        try {
-            this.connection = SQLiteDB.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public SQLiteTeamDao() {
+		try {
+			this.connection = SQLiteDB.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void addTeamFromTournament(String teamname, Tournament tournament) {
-        String sql = "INSERT INTO team (team_name, trid) VALUES (?, ?)";
+	@Override
+	public void addTeamFromTournament(String teamname, Tournament tournament) {
+		String sql = "insert into team (team_name, trid) values (?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, teamname);
-            preparedStatement.setInt(2, tournament.getTid());
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setString(1, teamname);
+			preparedStatement.setInt(2, tournament.getTid());
 
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
-    @Override
-    public List<Team> getAllTeamsFromTournament(Tournament tournament) {
-        String sql = "SELECT * FROM team WHERE trid = ?";
-        String innerSql = "SELECT * FROM player WHERE tid = ?";
+	@Override
+	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
+		String sql = "select * from team where trid = ?";
+		String innerSql = "select * from player where tid = ?";
 
-        Team t;
-        List<Team> teams = new ArrayList<>();
+		Team t;
+		List<Team> teams = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, tournament.getTid());
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tournament.getTid());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql);
 
-            while (resultSet.next()) {
+			while (resultSet.next()) {
 
-                t = new Team(
-                        resultSet.getInt("tid"),
-                        resultSet.getString("team_name")
-                );
+				t = new Team(resultSet.getInt("tid"), resultSet.getString("team_name"));
 
-                innerPreparedStatement.setInt(
-                        1,
-                        resultSet.getInt("tid")
-                );
+				innerPreparedStatement.setInt(1, resultSet.getInt("tid"));
 
-                ResultSet innerResultSet = innerPreparedStatement.executeQuery();
+				ResultSet innerResultSet = innerPreparedStatement.executeQuery();
 
-                while (innerResultSet.next()) {
-                    t.addPlayer(
-                            new Player(
-                                    innerResultSet.getInt("pid"),
-                                    innerResultSet.getString("pname"),
-                                    innerResultSet.getString("pemail")
-                            )
-                    );
-                }
+				while (innerResultSet.next()) {
+					t.addPlayer(new Player(innerResultSet.getInt("pid"), innerResultSet.getString("pname"), innerResultSet.getString("pemail")));
+				}
 
-                teams.add(t);
+				teams.add(t);
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return teams;
-    }
+		return teams;
+	}
 
-    @Override
-    public Team getTeamById(int tid) {
-        String sql = "SELECT * FROM team WHERE tid = ?";
-        String innerSql = "SELECT * FROM player WHERE tid = ?";
+	@Override
+	public Team getTeamById(int tid) {
+		String sql = "select * from team where tid = ?";
+		String innerSql = "select * from player where tid = ?";
 
-        Team team = null;
+		Team team = null;
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(
-                    1,
-                    tid
-            );
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tid);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql);
 
-            while (resultSet.next()) {
+			while (resultSet.next()) {
 
-                team = new Team(
-                        resultSet.getInt("tid"),
-                        resultSet.getString("team_name")
-                );
+				team = new Team(resultSet.getInt("tid"), resultSet.getString("team_name"));
 
-                innerPreparedStatement.setInt(
-                        1,
-                        resultSet.getInt("tid")
-                );
+				innerPreparedStatement.setInt(1, resultSet.getInt("tid"));
 
-                ResultSet innerResultSet = innerPreparedStatement.executeQuery();
+				ResultSet innerResultSet = innerPreparedStatement.executeQuery();
 
-                while (innerResultSet.next()) {
-                    team.addPlayer(
-                            new Player(
-                                    innerResultSet.getInt("pid"),
-                                    innerResultSet.getString("pname"),
-                                    innerResultSet.getString("pemail")
-                            )
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+				while (innerResultSet.next()) {
+					team.addPlayer(new Player(innerResultSet.getInt("pid"), innerResultSet.getString("pname"), innerResultSet.getString("pemail")));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return team;
-    }
+		return team;
+	}
 }

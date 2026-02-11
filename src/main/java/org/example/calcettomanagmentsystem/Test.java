@@ -18,10 +18,10 @@ import java.util.List;
 
 public class Test {
 
-    static void main() {
+	static void main() {
 
-        System.out.println(new SQLiteMatchDao().getMatchById(2));
+		System.out.println(new SQLiteMatchDao().getMatchById(2));
 
-    }
+	}
 
 }

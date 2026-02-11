@@ -13,85 +13,75 @@ import java.util.List;
 
 public class SQLiteTournamentDao implements TournamentDao {
 
-    private Connection connection;
+	private Connection connection;
 
-    public SQLiteTournamentDao() {
-        try {
-           this.connection = SQLiteDB.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	public SQLiteTournamentDao() {
+		try {
+			this.connection = SQLiteDB.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void addTournament(String tournament_name, int duration) {
-        String sql = "INSERT INTO tournament (tournament_name, start_date, duration) VALUES (?, ?, ?)";
+	@Override
+	public void addTournament(String tournament_name, int duration) {
+		String sql = "insert into tournament (tournament_name, start_date, duration) values (?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, tournament_name);
-            preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
-            preparedStatement.setInt(3, duration);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setString(1, tournament_name);
+			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
+			preparedStatement.setInt(3, duration);
 
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public List<Tournament> getAllTournaments() {
-        String sql = "SELECT * FROM tournament";
+	@Override
+	public List<Tournament> getAllTournaments() {
+		String sql = "select * from tournament";
 
-        List<Tournament> tournaments = new ArrayList<>();
+		List<Tournament> tournaments = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            ResultSet resultSet = preparedStatement.executeQuery();
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                tournaments.add(new Tournament(
-                        resultSet.getInt("tid"),
-                        resultSet.getString("tournament_name"),
-                        resultSet.getString("start_date"),
-                        resultSet.getInt("duration")
-                ));
-            }
+			while (resultSet.next()) {
+				tournaments.add(new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), resultSet.getString("start_date"), resultSet.getInt("duration")));
+			}
 
-            resultSet.close();
+			resultSet.close();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return tournaments;
+		return tournaments;
 
-    }
+	}
 
-    @Override
-    public Tournament getTournamentById(int tid) {
-        String sql = "SELECT * FROM tournament WHERE tid = ?";
+	@Override
+	public Tournament getTournamentById(int tid) {
+		String sql = "select * from tournament where tid = ?";
 
-        Tournament tournament = null;
+		Tournament tournament = null;
 
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, tid);
-            ResultSet resultSet = preparedStatement.executeQuery();
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tid);
+			ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
-                tournament = new Tournament(
-                        resultSet.getInt("tid"),
-                        resultSet.getString("tournament_name"),
-                        resultSet.getString("start_date"),
-                        resultSet.getInt("duration")
-                );
-            }
+			while (resultSet.next()) {
+				tournament = new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), resultSet.getString("start_date"), resultSet.getInt("duration"));
+			}
 
-            resultSet.close();
+			resultSet.close();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        return tournament;
-    }
+		return tournament;
+	}
 
 }

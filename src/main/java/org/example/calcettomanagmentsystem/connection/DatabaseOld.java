@@ -9,33 +9,29 @@ import java.util.Properties;
 
 public class DatabaseOld {
 
-    private static Properties properties = new Properties();
-    private static java.sql.Connection connection;
+	private static Properties properties = new Properties();
+	private static java.sql.Connection connection;
 
-    private DatabaseOld() {
-    }
+	private DatabaseOld() {
+	}
 
-    static{
-        try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("db.properties")) {
-            if (inputStream == null) {
-                throw new RuntimeException("Properties file not found!");
-            }
+	static {
+		try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("db.properties")) {
+			if (inputStream == null) {
+				throw new RuntimeException("Properties file not found!");
+			}
 
-            properties.load(inputStream);
-        } catch (IOException e ) {
-            e.printStackTrace();
-        }
-    }
+			properties.load(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()){
-            connection = DriverManager.getConnection(
-                    properties.getProperty("db.url"),
-                    properties.getProperty("db.user"),
-                    properties.getProperty("db.password")
-            );
-        }
-        return connection;
-    }
+	public static Connection getConnection() throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			connection = DriverManager.getConnection(properties.getProperty("db.url"), properties.getProperty("db.user"), properties.getProperty("db.password"));
+		}
+		return connection;
+	}
 
 }

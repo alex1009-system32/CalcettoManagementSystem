@@ -1,96 +1,96 @@
-CREATE TABLE IF NOT EXISTS tournament
+create table IF not exists tournament
 (
-		tid
-		SERIAL
-		PRIMARY
-		KEY,
-		tournament_name
-		TEXT,
-		start_date
-		TEXT,
-		duration
-		INTEGER
+    tid
+    SERIAL
+    primary
+    key,
+    tournament_name
+    TEXT,
+    start_date
+    TEXT,
+    duration
+    integer
 );
-CREATE TABLE IF NOT EXISTS team
+create table IF not exists team
 (
-		tid
-		SERIAL
-		PRIMARY
-		KEY,
-		team_name
-		TEXT,
-		trid
-		INTEGER,
-		FOREIGN
-		KEY
+    tid
+    SERIAL
+    primary
+    key,
+    team_name
+    TEXT,
+    trid
+    integer,
+    foreign
+    key
 (
-		trid
-) REFERENCES tournament
+    trid
+) references tournament
 (
-		tid
+    tid
 ) );
-CREATE TABLE IF NOT EXISTS player
+create table IF not exists player
 (
-		pid
-		SERIAL
-		PRIMARY
-		KEY,
-		pname
-		TEXT,
-		pemail
-		TEXT
-		UNIQUE,
-		tid
-		INTEGER,
-		FOREIGN
-		KEY
+    pid
+    SERIAL
+    primary
+    key,
+    pname
+    TEXT,
+    pemail
+    TEXT
+    unique,
+    tid
+    integer,
+    foreign
+    key
 (
-		tid
-) REFERENCES team
+    tid
+) references team
 (
-		tid
+    tid
 ) );
-CREATE TABLE IF NOT EXISTS match
+create table IF not exists match
 (
-		mid
-		SERIAL
-		PRIMARY
-		KEY,
-		round
-		INTEGER,
-		tid
-		INTEGER,
-		FOREIGN
-		KEY
+    mid
+    SERIAL
+    primary
+    key,
+    round
+    integer,
+    tid
+    integer,
+    foreign
+    key
 (
-		tid
-) REFERENCES tournament
+    tid
+) references tournament
 (
-		tid
+    tid
 ) );
-CREATE TABLE IF NOT EXISTS team_match
+create table IF not exists team_match
 (
-		tid
-		INTEGER,
-		mid
-		INTEGER,
-		points
-		REAL,
-		PRIMARY
-		KEY
+    tid
+    integer,
+    mid
+    integer,
+    points
+    real,
+    primary
+    key
 (
-		tid,
-		mid
-), FOREIGN KEY
+    tid,
+    mid
+), foreign key
 (
-		tid
-) REFERENCES team
+    tid
+) references team
 (
-		tid
-), FOREIGN KEY
+    tid
+), foreign key
 (
-		mid
-) REFERENCES match
+    mid
+) references match
 (
-		mid
+    mid
 ) );

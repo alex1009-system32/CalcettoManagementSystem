@@ -7,64 +7,60 @@ import java.util.Objects;
 
 public class Team {
 
-    private int tid;
-    private String teamName;
+	private int tid;
+	private String teamName;
 
-    private List<Player> players;
+	private List<Player> players;
 
-    public Team(int tid, String teamName) {
-        this.players = new ArrayList<Player>();
+	public Team(int tid, String teamName) {
+		this.players = new ArrayList<Player>();
 
-        setTid(tid);
-        setTeamName(teamName);
-    }
+		setTid(tid);
+		setTeamName(teamName);
+	}
 
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
+	public void addPlayer(Player player) {
+		players.add(player);
+	}
 
-    public boolean containsPlayer(Player player) {
-        return players.contains(player);
-    }
+	public boolean containsPlayer(Player player) {
+		return players.contains(player);
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Team team = (Team) o;
-        return getTid() == team.getTid() && Objects.equals(getTeamName(), team.getTeamName()) && Objects.equals(players, team.players);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Team team = (Team) o;
+		return getTid() == team.getTid() && Objects.equals(getTeamName(), team.getTeamName()) && Objects.equals(players, team.players);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTid(), getTeamName(), players);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(getTid(), getTeamName(), players);
+	}
 
-    public void removePlayer(Player player) {
-        players.remove(player);
-    }
+	public void removePlayer(Player player) {
+		players.remove(player);
+	}
 
-    public int getTid() {
-        return tid;
-    }
+	public int getTid() {
+		return tid;
+	}
 
-    public String getTeamName() {
-        return teamName;
-    }
+	public String getTeamName() {
+		return teamName;
+	}
 
-    private void setTid(int tid) {
-        this.tid = tid;
-    }
+	private void setTid(int tid) {
+		this.tid = tid;
+	}
 
-    private void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
+	private void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
 
-    @Override
-    public String toString() {
-        return "Team{" +
-                "tid=" + tid +
-                ", teamName='" + teamName + '\'' +
-                ", players=" + Arrays.toString(players.toArray()) +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Team{" + "tid=" + tid + ", teamName='" + teamName + '\'' + ", players=" + Arrays.toString(players.toArray()) + '}';
+	}
 }
