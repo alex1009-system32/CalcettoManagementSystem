@@ -20,7 +20,12 @@ public class Test {
 
 	static void main() {
 
-		System.out.println(new SQLiteMatchDao().getMatchById(2));
+		SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
+		List<Match> list = sqliteMatchDao.getAllMatchesFromTeam(new SQLiteTeamDao().getTeamById(2));
+
+		for (Match match : list) {
+			System.out.println(match);
+		}
 
 	}
 

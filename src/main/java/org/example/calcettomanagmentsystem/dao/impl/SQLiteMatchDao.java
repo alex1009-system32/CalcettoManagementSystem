@@ -101,8 +101,6 @@ public class SQLiteMatchDao implements MatchDao {
 		return matches;
 	}
 
-	// Not Tested
-	@Deprecated
 	@Override
 	public List<Match> getAllMatchesFromTeam(Team team) {
 		String sql = "SELECT * FROM match WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
