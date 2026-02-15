@@ -3,7 +3,7 @@ package org.example.calcettomanagmentsystem.model;
 import java.util.*;
 
 public class Match {
-	private HashMap<Team, Double> points;
+	private Map<Team, Double> points;
 	private List<Team> teams;
 
 	private int mid;

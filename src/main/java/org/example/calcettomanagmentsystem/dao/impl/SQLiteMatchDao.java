@@ -101,11 +101,11 @@ public class SQLiteMatchDao implements MatchDao {
 		return matches;
 	}
 
-	// Not functioning
-	@Deprecated()
+	// Not Tested
+	@Deprecated
 	@Override
 	public List<Match> getAllMatchesFromTeam(Team team) {
-		String sql = "select * from match where tid = ?";
+		String sql = "SELECT * FROM match WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
 		String innerSql = "select * from team_match where mid = ?";
 
 		Match match;
@@ -117,6 +117,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, team.getTid());
+
 			ResultSet resultset = preparedStatement.executeQuery();
 
 			while (resultset.next()) {
@@ -129,6 +130,8 @@ public class SQLiteMatchDao implements MatchDao {
 
 				while (innerResultSet.next()) {
 					SQLiteTeamDao teamDao = new SQLiteTeamDao();
+
+					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
 
 					match.addTeam(team);
 					match.addPoints(team, innerResultSet.getDouble("points"));
@@ -144,7 +147,6 @@ public class SQLiteMatchDao implements MatchDao {
 		}
 
 		return matches;
-
 	}
 
 	@Override
