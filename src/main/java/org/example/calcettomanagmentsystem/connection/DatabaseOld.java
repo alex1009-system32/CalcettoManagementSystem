@@ -16,7 +16,7 @@ public class DatabaseOld {
 	}
 
 	static {
-		try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("db.properties")) {
+		try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("org/example/calcettomanagmentsystem/config/db.properties")) {
 			if (inputStream == null) {
 				throw new RuntimeException("Properties file not found!");
 			}
