@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../css/createTournament-styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.calcettomanagmentsystem.controller.createTournamentController">
+
+    <children>
+        <VBox maxWidth="500" spacing="20" styleClass="form-card">
+            <children>
+                <VBox alignment="CENTER_LEFT" spacing="5">
+                    <Label styleClass="header-title" text="Create Tournament" />
+                    <Region maxWidth="60" minHeight="3" styleClass="accent-line" />
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Tournament Name" />
+                    <TextField fx:id="nameField" styleClass="custom-text-field" />
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Duration" />
+                    <TextField fx:id="durationField" styleClass="custom-text-field" />
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Max Team Size" />
+                    <TextField fx:id="teamSizeField" disable="true" styleClass="custom-text-field" text="5 vs 5" />
+                </VBox>
+            <HBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" minWidth="200.0" onAction="#cancelTournament" styleClass="cancel-button" text="Cancel" />
+                  <Button maxWidth="1.7976931348623157E308" minWidth="200.0" onAction="#createTournament" styleClass="submit-button" text="Create" />
+               </children>
+            </HBox>
+            </children>
+            <padding>
+                <Insets bottom="40" left="40" right="40" top="40" />
+            </padding>
+        </VBox>
+    </children>
+</VBox>

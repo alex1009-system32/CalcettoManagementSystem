@@ -10,7 +10,7 @@ public class Team {
 	private int tid;
 	private String teamName;
 
-	private List<Player> players;
+	private final List<Player> players;
 
 	public Team(int tid, String teamName) {
 		this.players = new ArrayList<Player>();

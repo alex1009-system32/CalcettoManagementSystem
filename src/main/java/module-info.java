@@ -13,10 +13,11 @@ module org.example.calcettomanagmentsystem {
     requires java.sql;
     requires annotations;
     requires org.xerial.sqlitejdbc;
+	requires java.desktop;
 
-    exports org.example.calcettomanagmentsystem;
+	exports org.example.calcettomanagmentsystem;
     exports org.example.calcettomanagmentsystem.controller;
 
-    opens org.example.calcettomanagmentsystem.controller to javafx.fxml;
     opens org.example.calcettomanagmentsystem to javafx.fxml;
+    opens org.example.calcettomanagmentsystem.controller to javafx.fxml;
 }

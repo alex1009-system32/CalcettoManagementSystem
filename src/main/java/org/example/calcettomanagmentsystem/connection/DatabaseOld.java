@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class DatabaseOld {
 
-	private static Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 	private static java.sql.Connection connection;
 
 	private DatabaseOld() {

@@ -2,12 +2,13 @@ package org.example.calcettomanagmentsystem;
 
 public enum FxmlLocation {
 
-	MAINVIEW("/org/example/calcettomanagmentsystem/fxml/main-view.fxml"),
-	HELLOVIEW("/org/example/calcettomanagmentsystem/fxml/hello-view.fxml");
+	CREATETOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
+	SELECTTOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml"),
+	VIEWTOURNAMENT("/org/example/calcettomanagmentsystem/fxml/viewTournament-view.fxml");
 
 	private final String fxmlPath;
 
-	private FxmlLocation(String fxmlPath) {
+	FxmlLocation(String fxmlPath) {
 		this.fxmlPath = fxmlPath;
 	}
 

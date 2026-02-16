@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.connection;
 
+import org.example.calcettomanagmentsystem.Launcher;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -12,7 +14,7 @@ public class SQLiteDB {
 	private static final Properties properties = new Properties();
 	private static java.sql.Connection connection;
 
-	private static String setup = """
+	private static final String setup = """
 			create table IF not exists tournament (
 			  tid integer primary key,
 			    tournament_name TEXT,
@@ -48,7 +50,7 @@ public class SQLiteDB {
 			);
 			""";
 
-	private static String testSetup = """
+	private static final String testSetup = """
 			drop table IF exists team_match;
 			drop table IF exists match;
 			drop table IF exists player;
@@ -188,7 +190,8 @@ public class SQLiteDB {
 	}
 
 	static {
-		try (InputStream inputStream = DatabaseOld.class.getClassLoader().getResourceAsStream("org/example/calcettomanagmentsystem/config/db.properties")) {
+		try (InputStream inputStream = SQLiteDB.class.getResourceAsStream("/org/example/calcettomanagmentsystem/config/db.properties")) {
+
 			if (inputStream == null) {
 				throw new RuntimeException("Properties file not found!");
 			}
