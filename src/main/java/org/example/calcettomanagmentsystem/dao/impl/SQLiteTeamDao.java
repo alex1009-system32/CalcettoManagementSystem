@@ -22,15 +22,15 @@ public class SQLiteTeamDao implements TeamDao {
 		}
 	}
 
+
 	@Override
-	public void addTeamFromTournament(String teamname, Tournament tournament) {
-		String sql = "insert into team (team_name, trid) values (?, ?)";
+	public void addTeam(String teamname) {
+		String sql = "INSERT INTO teams (team_name) VALUES (?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, teamname);
-			preparedStatement.setInt(2, tournament.getTid());
 
-			preparedStatement.execute();
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,39 +38,24 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	@Override
-	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
-		String sql = "select * from team where trid = ?";
-		String innerSql = "select * from player where tid = ?";
-
-		Team t;
-		List<Team> teams = new ArrayList<>();
+	public void addPlayerToTeam(Player player, Team team) {
+		String sql = "UPDATE player SET player.tid = ? WHERE player.pid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tournament.getTid());
+			preparedStatement.setInt(1, team.getTid());
+			preparedStatement.setInt(2, player.pid());
 
-			ResultSet resultSet = preparedStatement.executeQuery();
-			PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql);
-
-			while (resultSet.next()) {
-
-				t = new Team(resultSet.getInt("tid"), resultSet.getString("team_name"));
-
-				innerPreparedStatement.setInt(1, resultSet.getInt("tid"));
-
-				ResultSet innerResultSet = innerPreparedStatement.executeQuery();
-
-				while (innerResultSet.next()) {
-					t.addPlayer(new Player(innerResultSet.getInt("pid"), innerResultSet.getString("pname"), innerResultSet.getString("pemail")));
-				}
-
-				teams.add(t);
-
-			}
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return teams;
+		team.addPlayer(player);
+	}
+
+	@Override
+	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
+		return null;
 	}
 
 	@Override
@@ -95,7 +80,11 @@ public class SQLiteTeamDao implements TeamDao {
 				ResultSet innerResultSet = innerPreparedStatement.executeQuery();
 
 				while (innerResultSet.next()) {
-					team.addPlayer(new Player(innerResultSet.getInt("pid"), innerResultSet.getString("pname"), innerResultSet.getString("pemail")));
+					team.addPlayer(
+							new SQLitePlayerDao().getPlayerById(
+									resultSet.getInt("pid")
+							)
+					);
 				}
 			}
 		} catch (SQLException e) {

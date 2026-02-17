@@ -1,20 +1,41 @@
+PRAGMA
+foreign_keys = on;
+
 create table IF not exists tournament
 (
     tid
-    SERIAL
+    integer
     primary
     key,
     tournament_name
-    TEXT,
+    TEXT
+    not
+    null,
     start_date
     TEXT,
     duration
     integer
-);
+    not
+    null,
+    pre_round
+    integer
+    not
+    null,
+    current_round
+    integer
+    not
+    null,
+    max_team_size
+    integer
+    default
+(
+    2
+) );
+
 create table IF not exists team
 (
     tid
-    SERIAL
+    integer
     primary
     key,
     team_name
@@ -29,10 +50,11 @@ create table IF not exists team
 (
     tid
 ) );
+
 create table IF not exists player
 (
     pid
-    SERIAL
+    integer
     primary
     key,
     pname
@@ -50,10 +72,11 @@ create table IF not exists player
 (
     tid
 ) );
-create table IF not exists match
-(
+
+create table IF not exists "match"
+( -- Wrapped in quotes because 'match' is a keyword
     mid
-    SERIAL
+    integer
     primary
     key,
     round
@@ -68,6 +91,7 @@ create table IF not exists match
 (
     tid
 ) );
+
 create table IF not exists team_match
 (
     tid
@@ -90,7 +114,7 @@ create table IF not exists team_match
 ), foreign key
 (
     mid
-) references match
+) references "match"
 (
     mid
 ) );

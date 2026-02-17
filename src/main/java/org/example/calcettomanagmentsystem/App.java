@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -12,12 +13,12 @@ import java.io.IOException;
 public class App extends Application {
 	private static Scene scene;
 
-	private static Integer tournamentID = null;
+	private static Tournament tournament = null;
 
 	private final int WIDTH = 500;
 	private final int HEIGHT = 680;
 
-	private static String root = FxmlLocation.CREATETOURNAMENT.toString();
+	private static String root = FxmlLocation.SELECTTOURNAMENT.toString();
 
 	public static void setRoot(@NotNull FxmlLocation fxmlLocation) {
 		try {
@@ -37,12 +38,12 @@ public class App extends Application {
 		return fxmlLoader.load();
 	}
 
-	public static Integer getTournamentID() {
-		return tournamentID;
+	public static Tournament getTournament() {
+		return tournament;
 	}
 
-	public static void setTournamentID(Integer tournamentID) {
-		App.tournamentID = tournamentID;
+	public static void setTournament(Tournament tournament) {
+		App.tournament = tournament;
 	}
 
 	@Override

@@ -97,7 +97,8 @@ public class selectTournamentController implements Initializable {
 
 	@FXML
 	protected void selectTournament(Tournament tournament) {
-		System.out.println(tournament);
+		App.setTournament(tournament);
+		App.setRoot(FxmlLocation.STARTTOURNAMET);
 	}
 
 	@FXML

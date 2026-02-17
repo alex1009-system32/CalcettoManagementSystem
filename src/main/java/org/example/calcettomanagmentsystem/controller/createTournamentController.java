@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.FxmlLocation;
+import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 
 public class createTournamentController {
 
@@ -12,6 +13,9 @@ public class createTournamentController {
 
 	@FXML
 	private TextField durationField;
+
+	@FXML
+	private TextField preRoundField;
 
 	@FXML
 	private TextField teamSizeField;
@@ -35,25 +39,31 @@ public class createTournamentController {
 			result = false;
 		}
 
-		if (teamSizeField.getText().isEmpty()) {
-			teamSizeField.setStyle(
+		if (preRoundField.getText().isEmpty()) {
+			preRoundField.setStyle(
 					"-fx-background-color: #fffafb; " +
 					"-fx-border-color: #d63031;"
 			);
 			result = false;
 		}
 
+		/* Is Disaibled
+		if (teamSizeField.getText().isEmpty()) {
+			teamSizeField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
+			result = false;
+		} */
+
 		if (!result) {
 			return false;
 		}
 
 		//ToDo: Need To make the Integer MUST BE A NUMBER!!!
-		/*
 		new SQLiteTournamentDao().addTournament(
 				nameField.getText(),
-				Integer.valueOf(durationField.getText())
+				Integer.valueOf(durationField.getText()),
+				Integer.valueOf(preRoundField.getText()),
+				2
 		);
-		*/
 
 		return true;
 
