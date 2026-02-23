@@ -10,14 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox
-    prefHeight="800.0"
-    prefWidth="1200.0"
-    styleClass="main-container"
-    stylesheets="@../../css/view/startTournamet-styles.css"
-    xmlns:fx="http://javafx.com/fxml/1"
-    xmlns="http://javafx.com/javafx/21.0.6"
-    fx:controller="org.example.calcettomanagmentsystem.controller.view.startTournametController">
+<HBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../../css/view/startTournamet-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.view.startTournametController">
 
     <children>
         <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
@@ -64,7 +57,7 @@
 
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" minWidth="400.0" styleClass="custom-scroll-pane" HBox.hgrow="ALWAYS">
             <content>
-                <FlowPane fx:id="playerFlowPane" styleClass="tournament-grid" />
+                <FlowPane fx:id="playerFlowPane" alignment="TOP_CENTER" orientation="VERTICAL" styleClass="tournament-grid" />
             </content>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

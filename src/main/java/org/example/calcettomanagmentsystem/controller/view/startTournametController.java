@@ -47,14 +47,17 @@ public class startTournametController implements Initializable {
 		List<Player> players = new SQLitePlayerDao().getAllPlayersFromTournament(tournament);
 
 		for (Player player : players) {
+
 			Label pnameLabel = new Label(player.pname());
 			pnameLabel.setAlignment(Pos.CENTER);
 			pnameLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+			pnameLabel.getStyleClass().add("label-major");
 			HBox.setHgrow(pnameLabel, Priority.ALWAYS);
 
 			Label pemailLabel = new Label(player.pemail());
 			pemailLabel.setAlignment(Pos.CENTER);
 			pemailLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+			pemailLabel.getStyleClass().add("label-major");
 			HBox.setHgrow(pemailLabel, Priority.ALWAYS);
 
 			HBox hBox = new HBox();
@@ -64,6 +67,7 @@ public class startTournametController implements Initializable {
 			hBox.getChildren().addAll(pnameLabel, pemailLabel);
 
 			Button playerButton = new Button();
+			playerButton.getStyleClass().add("player-list-row");
 			playerButton.setMnemonicParsing(false);
 			playerButton.setGraphic(hBox);
 

@@ -13,16 +13,7 @@ public class Test {
 
 	static void main() throws SQLException {
 
-		List teams =
-				new SQLiteTeamDao()
-				.getAllTeamsFromTournament(
-					new SQLiteTournamentDao()
-							.getTournamentById(1)
-				);
-
-		for (Object team : teams) {
-			System.out.println(team);
-		}
+		SQLiteDB.initTest();
 
 	}
 
