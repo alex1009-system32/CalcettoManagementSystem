@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-   <VBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../css/selectTournament-styles.css" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.calcettomanagmentsystem.controller.selectTournamentController">
+<VBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../css/selectTournament-styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.calcettomanagmentsystem.controller.selectTournamentController">
    <children>
       <VBox alignment="CENTER" styleClass="header-area">
          <Label styleClass="header-title" text="Calcetto Management System" />
@@ -16,7 +16,7 @@
       </VBox>
       <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="1000.0" styleClass="custom-scroll-pane">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="1000.0" styleClass="custom-scroll-pane" vbarPolicy="NEVER">
                <content>
                   <FlowPane fx:id="tournamentFlowPane" styleClass="tournament-grid" />
                </content>

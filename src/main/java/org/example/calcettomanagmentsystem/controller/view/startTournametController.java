@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class startTournametController implements Initializable {
-	Tournament tournament;
+	Tournament tournament = null;
 	@FXML
 	private Label tournamentNameLabel;
 	@FXML
@@ -38,6 +38,10 @@ public class startTournametController implements Initializable {
 	private FlowPane playerFlowPane;
 
 	private void updateList() {
+		if (tournament == null) {
+			App.setRoot(FxmlLocation.SELECTTOURNAMENT);
+		}
+
 		tournamentNameLabel.setText(tournament.getTournamentName());
 		preRoundLabel.setText(String.valueOf(tournament.getPreRound()));
 		currentRoundLabel.setText(String.valueOf(tournament.getCurrendRound()));
@@ -69,14 +73,13 @@ public class startTournametController implements Initializable {
 			HBox.setHgrow(emailLabel, Priority.ALWAYS);
 			emailLabel.getStyleClass().add("label-minor");
 
-			playerRow.getChildren().add(playerRow);
-
-			//ToDo Need to work on this furdure
+			playerFlowPane.getChildren().add(playerRow);
 
 		}
 
 	}
-	private void newPalyer(Stage stage, TextField nameField, TextField emailField) {
+
+	private void newPalyer(Stage stage, @NotNull TextField nameField, TextField emailField) {
 		boolean result = true;
 
 		if (nameField.getText().isEmpty()) {
@@ -95,11 +98,14 @@ public class startTournametController implements Initializable {
 
 		new SQLitePlayerDao().addPlayer(nameField.getText(), emailField.getText(), tournament);
 
+		updateList();
 		stage.close();
 	}
+
 	private void cancelModal(@NotNull Stage stage) {
 		stage.close();
 	}
+
 	private void displayModal(Stage stage) {
 		Stage modalStage = new Stage();
 

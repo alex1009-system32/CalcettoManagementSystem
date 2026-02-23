@@ -47,7 +47,7 @@ public class SQLiteDB {
 			    FOREIGN KEY(tid) REFERENCES team(tid),
 			    FOREIGN KEY(mid) REFERENCES MATCH(mid)
 			);
-			""";
+	""";
 
 	private static final String testSetup = """
 			PRAGMA
@@ -75,7 +75,7 @@ public class SQLiteDB {
             CREATE TABLE IF NOT EXISTS player (
                     pid INTEGER PRIMARY KEY,
                     pname TEXT,
-                    pemail TEXT UNIQUE,
+                    pemail TEXT, /* Temporary change, missing constraint | UNIQUE | */
                     tid INTEGER,
                     trid INTEGER,
                     FOREIGN KEY ( tid ) REFERENCES team ( tid ),
@@ -149,8 +149,7 @@ public class SQLiteDB {
                 (13, 13, 10.0), (14, 13, 10.0),
                 (13, 14, 22.0), (15, 14, 21.5),
                 (1, 15, 50.0),  (5, 15, 45.0);
-			""";
-
+	""";
 
 	private SQLiteDB() {
 	}

@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class App extends Application {
 	private static Scene scene;
-
 	private static Tournament tournament = null;
 
 	private final int WIDTH = 500;
@@ -50,11 +49,11 @@ public class App extends Application {
 	public void start(Stage stage) throws IOException {
 		scene = new Scene(loadFXML(root), WIDTH, HEIGHT);
 
+		stage.setMinHeight(800);
+		stage.setMinWidth(1300);
+
 		stage.setMaximized(true);
 		stage.setScene(scene);
 		stage.show();
-
-		System.out.println(scene.getWidth());
-		System.out.println(scene.getHeight());
 	}
 }
