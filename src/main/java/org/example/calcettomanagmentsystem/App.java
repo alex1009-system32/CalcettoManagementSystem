@@ -14,8 +14,11 @@ public class App extends Application {
 	private static Scene scene;
 	private static Tournament tournament = null;
 
-	private final int WIDTH = 500;
-	private final int HEIGHT = 680;
+	private final int WIDTH = 1300;
+	private final int HEIGHT = 800;
+
+	private final int MIN_WIDTH = 1300;
+	private final int MIN_HEIGHT = 800;
 
 	private static String root = FxmlLocation.SELECTTOURNAMENT.toString();
 
@@ -30,9 +33,6 @@ public class App extends Application {
 	}
 
 	private static Parent loadFXML(String fxml) throws IOException {
-
-		System.out.println(App.class.getResource(fxml).toString());
-
 		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
 		return fxmlLoader.load();
 	}
@@ -47,10 +47,15 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		scene = new Scene(loadFXML(root), WIDTH, HEIGHT);
 
-		stage.setMinHeight(800);
-		stage.setMinWidth(1300);
+		scene = new Scene(
+				loadFXML(root),
+				HEIGHT,
+				WIDTH
+		);
+
+		stage.setMinHeight(MIN_HEIGHT);
+		stage.setMinWidth(MIN_WIDTH);
 
 		stage.setMaximized(true);
 		stage.setScene(scene);

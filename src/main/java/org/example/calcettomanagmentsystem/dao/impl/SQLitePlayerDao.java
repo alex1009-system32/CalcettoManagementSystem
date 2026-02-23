@@ -28,7 +28,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	@Override
 	public void addPlayer(String pname, String pemail, Tournament tournament) {
-		String sql = "insert into player (pname, pemail, tid) values (?, ?, ?)";
+		String sql = "insert into player (pname, pemail, trid) values (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, pname);

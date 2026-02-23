@@ -47,30 +47,27 @@ public class startTournametController implements Initializable {
 		List<Player> players = new SQLitePlayerDao().getAllPlayersFromTournament(tournament);
 
 		for (Player player : players) {
+			Label pnameLabel = new Label(player.pname());
+			pnameLabel.setAlignment(Pos.CENTER);
+			pnameLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+			HBox.setHgrow(pnameLabel, Priority.ALWAYS);
 
-			HBox playerRow = new HBox();
-			playerRow.setPrefHeight(50.0);
-			playerRow.setPrefWidth(600.0);
-			playerRow.setAlignment(Pos.CENTER);
+			Label pemailLabel = new Label(player.pemail());
+			pemailLabel.setAlignment(Pos.CENTER);
+			pemailLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+			HBox.setHgrow(pemailLabel, Priority.ALWAYS);
 
-			playerRow.getStyleClass().add("player-list-row");
+			HBox hBox = new HBox();
+			hBox.setAlignment(Pos.CENTER);
+			hBox.setPrefHeight(50.0);
+			hBox.setPrefWidth(500.0);
+			hBox.getChildren().addAll(pnameLabel, pemailLabel);
 
-			Label nameLabel = new Label(player.pname());
-			nameLabel.setAlignment(Pos.CENTER);
-			nameLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-			nameLabel.setPadding(new Insets(10));
-			HBox.setHgrow(nameLabel, Priority.ALWAYS);
-			nameLabel.getStyleClass().add("label-major");
+			Button playerButton = new Button();
+			playerButton.setMnemonicParsing(false);
+			playerButton.setGraphic(hBox);
 
-			Label emailLabel = new Label(player.pemail());
-			emailLabel.setAlignment(Pos.CENTER);
-			emailLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-			emailLabel.setPadding(new Insets(10));
-			HBox.setHgrow(emailLabel, Priority.ALWAYS);
-			emailLabel.getStyleClass().add("label-minor");
-
-			playerFlowPane.getChildren().add(playerRow);
-
+			playerFlowPane.getChildren().add(playerButton);
 		}
 
 	}
