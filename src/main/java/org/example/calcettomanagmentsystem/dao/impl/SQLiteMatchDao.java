@@ -56,7 +56,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 	@Override
 	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
-		String sql = "select * from match where tid = ?";
+		String sql = "select * from \"match\" where tid = ?";
 		String innerSql = "select * from team_match where mid = ?";
 
 		Team team;

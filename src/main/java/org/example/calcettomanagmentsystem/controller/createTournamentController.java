@@ -47,7 +47,7 @@ public class createTournamentController {
 			result = false;
 		}
 
-		/* Is Disaibled
+		/* Is Disabled
 		if (teamSizeField.getText().isEmpty()) {
 			teamSizeField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
 			result = false;

@@ -23,7 +23,6 @@ import java.util.concurrent.Flow;
 
 public class selectTournamentController implements Initializable {
 	List<Tournament> tournamentList;
-
 	@FXML
 	private FlowPane tournamentFlowPane;
 
@@ -95,18 +94,15 @@ public class selectTournamentController implements Initializable {
 		tournamentFlowPane.getChildren().add(tournamentButton);
 
 	}
-
 	@FXML
 	protected void selectTournament(Tournament tournament) {
 		App.setTournament(tournament);
 		App.setRoot(FxmlLocation.STARTTOURNAMET);
 	}
-
 	@FXML
 	protected void addTournament() {
 		App.setRoot(FxmlLocation.CREATETOURNAMENT);
 	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		updateList();

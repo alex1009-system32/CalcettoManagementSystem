@@ -38,10 +38,6 @@ public class startTournametController implements Initializable {
 	private FlowPane playerFlowPane;
 
 	private void updateList() {
-		if (tournament == null) {
-			App.setRoot(FxmlLocation.SELECTTOURNAMENT);
-		}
-
 		tournamentNameLabel.setText(tournament.getTournamentName());
 		preRoundLabel.setText(String.valueOf(tournament.getPreRound()));
 		currentRoundLabel.setText(String.valueOf(tournament.getCurrendRound()));
@@ -79,7 +75,7 @@ public class startTournametController implements Initializable {
 
 	}
 
-	private void newPalyer(Stage stage, @NotNull TextField nameField, TextField emailField) {
+	private boolean create(Stage stage, @NotNull TextField nameField, TextField emailField) {
 		boolean result = true;
 
 		if (nameField.getText().isEmpty()) {
@@ -87,22 +83,24 @@ public class startTournametController implements Initializable {
 			result = false;
 		}
 
+		/* Is Disabled
 		if (emailField.getText().isEmpty()) {
 			nameField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
 			result = false;
-		}
+		} */
 
 		if (!result) {
-			return;
+			return false;
 		}
 
 		new SQLitePlayerDao().addPlayer(nameField.getText(), emailField.getText(), tournament);
 
 		updateList();
 		stage.close();
+		return true;
 	}
 
-	private void cancelModal(@NotNull Stage stage) {
+	private void cancel(@NotNull Stage stage) {
 		stage.close();
 	}
 
@@ -153,7 +151,7 @@ public class startTournametController implements Initializable {
 		addPlayerBtn.getStyleClass().add("btn-emerald");
 
 		addPlayerBtn.setOnAction(e -> {
-			newPalyer(modalStage, nameField, emailField);
+			create(modalStage, nameField, emailField);
 		});
 
 		Button cancelBtn = new Button("Cancel");
@@ -161,7 +159,7 @@ public class startTournametController implements Initializable {
 		cancelBtn.getStyleClass().add("btn-cancel");
 
 		cancelBtn.setOnAction(e -> {
-			cancelModal(modalStage);
+			cancel(modalStage);
 		});
 
 		formCard.getChildren().addAll(header, nameGroup, emailGroup, addPlayerBtn, cancelBtn);
