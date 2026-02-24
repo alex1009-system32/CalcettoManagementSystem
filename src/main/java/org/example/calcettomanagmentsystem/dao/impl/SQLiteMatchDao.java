@@ -27,7 +27,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 	@Override
 	public void addMatch(Tournament tournament, int round) {
-		String sql = "insert into match (round, tid) values (?, ?)";
+		String sql = "insert into \"match\" (round, tid) values (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(2, tournament.getTid());
@@ -103,7 +103,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 	@Override
 	public List<Match> getAllMatchesFromTeam(Team team) {
-		String sql = "SELECT * FROM match WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
+		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
 		String innerSql = "select * from team_match where mid = ?";
 
 		Match match;
@@ -149,7 +149,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 	@Override
 	public Match getMatchById(int mid) {
-		String sql = "select * from match where mid = ?";
+		String sql = "select * from \"match\" where mid = ?";
 		String innerSql = "select * from team_match where mid = ?";
 
 		Team team;

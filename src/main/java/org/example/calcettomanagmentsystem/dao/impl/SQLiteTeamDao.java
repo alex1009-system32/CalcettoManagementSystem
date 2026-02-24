@@ -24,7 +24,7 @@ public class SQLiteTeamDao implements TeamDao {
 
 	@Override
 	public void addTeam(String teamname) {
-		String sql = "INSERT INTO teams (team_name) VALUES (?)";
+		String sql = "INSERT INTO team (team_name) VALUES (?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, teamname);
