@@ -19,7 +19,6 @@ import javafx.scene.DepthTest;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.Flow;
 
 public class selectTournamentController implements Initializable {
 	List<Tournament> tournamentList;
@@ -96,12 +95,18 @@ public class selectTournamentController implements Initializable {
 	}
 	@FXML
 	protected void selectTournament(Tournament tournament) {
+
 		App.setTournament(tournament);
-		App.setRoot(FxmlLocation.STARTTOURNAMET);
+
+		if (tournament.getCurrendRound() <= 0.0) {
+			App.setRoot(FxmlLocation.START_TOURNAMENT);
+		} else {
+			App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
+		}
 	}
 	@FXML
 	protected void addTournament() {
-		App.setRoot(FxmlLocation.CREATETOURNAMENT);
+		App.setRoot(FxmlLocation.CREATE_TOURNAMENT);
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

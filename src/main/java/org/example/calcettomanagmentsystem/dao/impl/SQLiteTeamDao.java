@@ -131,4 +131,41 @@ public class SQLiteTeamDao implements TeamDao {
 
 		return team;
 	}
+
+	@Override
+	public Team getTeamByName(String teamName) {
+		String sql = "select * from team where team_name = ?";
+		String innerSql = "select * from player where tid = ?";
+
+		PreparedStatement innerPreparedStatement;
+		ResultSet innerResultSet;
+
+		Team team = null;
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setString(1, teamName);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			innerPreparedStatement = connection.prepareStatement(innerSql);
+
+			while (resultSet.next()) {
+				team = new Team(resultSet.getInt("tid"), resultSet.getString("team_name"));
+				innerPreparedStatement.setInt(1, resultSet.getInt("tid"));
+
+				innerResultSet = innerPreparedStatement.executeQuery();
+
+				while (innerResultSet.next()) {
+					team.addPlayer(
+							new SQLitePlayerDao().getPlayerById(
+									innerResultSet.getInt("pid")
+							)
+					);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return team;
+	}
 }

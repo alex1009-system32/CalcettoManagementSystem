@@ -183,16 +183,16 @@ public class startTournametController implements Initializable {
 	}
 	@FXML
 	protected void goBack() {
-		App.setRoot(FxmlLocation.SELECTTOURNAMENT);
+		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if (App.getTournament() == null) {
-			App.setRoot(FxmlLocation.SELECTTOURNAMENT);
+			App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 		}
 
 		if (App.getTournament().getCurrendRound() != -1) {
-			App.setRoot(FxmlLocation.ROUNDTOURNAMET);
+			App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
 		}
 
 		tournament = App.getTournament();

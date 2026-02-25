@@ -14,4 +14,6 @@ public interface TeamDao {
 	List<Team> getAllTeamsFromTournament(Tournament tournament);
 
 	Team getTeamById(int tid);
+
+	Team getTeamByName(String teamName);
 }

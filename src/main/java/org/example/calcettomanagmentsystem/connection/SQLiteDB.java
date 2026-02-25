@@ -38,7 +38,7 @@ public class SQLiteDB {
                 );
             CREATE TABLE IF NOT EXISTS team (
                     tid INTEGER PRIMARY KEY,
-                    team_name TEXT
+                    team_name TEXT UNIQUE 
                 );
             CREATE TABLE IF NOT EXISTS player (
                     pid INTEGER PRIMARY KEY,

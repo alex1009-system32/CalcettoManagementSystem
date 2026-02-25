@@ -2,11 +2,11 @@ package org.example.calcettomanagmentsystem;
 
 public enum FxmlLocation {
 
-	ROUNDTOURNAMET("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
-	STARTTOURNAMET("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
+	ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
+	START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
 
-	CREATETOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
-	SELECTTOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml");
+	CREATE_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
+	SELECT_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml");
 
 	private final String fxmlPath;
 
@@ -14,8 +14,14 @@ public enum FxmlLocation {
 		this.fxmlPath = fxmlPath;
 	}
 
+	public String getPath() {
+		return fxmlPath;
+	}
+
 	@Override
 	public String toString() {
-		return fxmlPath;
+		return "FxmlLocation{" +
+				"fxmlPath='" + fxmlPath + '\'' +
+				'}';
 	}
 }

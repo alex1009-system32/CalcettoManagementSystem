@@ -36,7 +36,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
 			preparedStatement.setInt(3, duration);
 			preparedStatement.setInt(4, preRound);
-			preparedStatement.setDouble(5, -1.0);
+			preparedStatement.setDouble(5, 0);
 			preparedStatement.setInt(6, maxTeamSize);
 
 			preparedStatement.executeUpdate();

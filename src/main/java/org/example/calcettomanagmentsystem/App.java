@@ -20,11 +20,11 @@ public class App extends Application {
 	private final int MIN_WIDTH = 1300;
 	private final int MIN_HEIGHT = 800;
 
-	private static String root = FxmlLocation.SELECTTOURNAMENT.toString();
+	private static String root = FxmlLocation.SELECT_TOURNAMENT.getPath();
 
 	public static void setRoot(@NotNull FxmlLocation fxmlLocation) {
 		try {
-			scene.setRoot(loadFXML(fxmlLocation.toString()));
+			scene.setRoot(loadFXML(fxmlLocation.getPath()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -51,8 +51,7 @@ public class App extends Application {
 		scene = new Scene(
 				loadFXML(root),
 				HEIGHT,
-				WIDTH
-		);
+				WIDTH);
 
 		stage.setMinHeight(MIN_HEIGHT);
 		stage.setMinWidth(MIN_WIDTH);

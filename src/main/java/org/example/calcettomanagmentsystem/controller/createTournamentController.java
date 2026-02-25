@@ -71,13 +71,13 @@ public class createTournamentController {
 
 	@FXML
 	protected void cancelTournament() {
-		App.setRoot(FxmlLocation.SELECTTOURNAMENT);
+		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
 
 	@FXML
 	protected void createTournament() {
 		if (create()) {
-			App.setRoot(FxmlLocation.SELECTTOURNAMENT);
+			App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 		}
 	}
 

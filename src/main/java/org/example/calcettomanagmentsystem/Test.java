@@ -13,7 +13,7 @@ public class Test {
 
 	static void main() throws SQLException {
 
-		SQLiteDB.initTest();
+		IO.println(new SQLiteTeamDao().getTeamByName("Null Pointers"));
 
 	}
 

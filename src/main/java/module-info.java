@@ -15,6 +15,7 @@ module org.example.calcettomanagmentsystem {
 	requires org.xerial.sqlitejdbc;
 	requires java.desktop;
     requires jdk.unsupported;
+	requires javafaker;
 
 	exports org.example.calcettomanagmentsystem;
 	exports org.example.calcettomanagmentsystem.controller;
