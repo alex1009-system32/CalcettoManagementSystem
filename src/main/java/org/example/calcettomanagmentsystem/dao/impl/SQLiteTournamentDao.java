@@ -11,6 +11,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * <p>
+ *     this class is responsible for inserting into and select tournament objects.
+ *     and them form the databank
+ * </p>
+ *
+ * @author Alex Kerschbamer
+ * @version 0
+ *
+ */
+
 public class SQLiteTournamentDao implements TournamentDao {
 
 	private Connection connection;
@@ -23,6 +35,18 @@ public class SQLiteTournamentDao implements TournamentDao {
 		}
 	}
 
+
+	/**
+	 *
+	 * <p>
+	 *     This method Inserts into a new Tournament with the attributes.
+	 * </p>
+	 *
+	 * @param tournament_name
+	 * @param duration
+	 * @param preRound
+	 * @param maxTeamSize
+	 */
 	@Override
 	public void addTournament(String tournament_name,
 	                          int duration,
@@ -45,6 +69,18 @@ public class SQLiteTournamentDao implements TournamentDao {
 		}
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method increases the round by 1.
+	 * </p>
+	 * <p>
+	 *     It changes the data in the tournament object and the data in the Databank
+	 * </p>
+	 *
+	 * @param tournament need a tournament object for functioning.
+	 *
+	 */
 	@Override
 	public void increaseRound(Tournament tournament) {
 		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
@@ -59,6 +95,14 @@ public class SQLiteTournamentDao implements TournamentDao {
 		}
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method returns a List of all Tournaments that exist in the Databank
+	 * </p>
+	 *
+	 * @return It returns a List all Tournaments.
+	 */
 	@Override
 	public List<Tournament> getAllTournaments() {
 		String sql = "select * from tournament";
@@ -91,6 +135,16 @@ public class SQLiteTournamentDao implements TournamentDao {
 		return tournaments;
 
 	}
+
+	/**
+	 *
+	 * <p>
+	 *     This method returns one Tournament object form the Databank with the given id.
+	 * </p>
+	 *
+	 * @param tid need so the method can get the tournament with the given id.
+	 * @return It returns one Tournament object.
+	 */
 
 	@Override
 	public Tournament getTournamentById(int tid) {

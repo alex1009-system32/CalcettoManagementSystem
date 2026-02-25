@@ -10,6 +10,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * <p>
+ *     this class is responsible for inserting into and select team objects.
+ *     and them form the databank.
+ * </p>
+ *
+ * @author Alex Kerschbamer
+ * @version 0
+ *
+ */
+
 public class SQLiteTeamDao implements TeamDao {
 
 	private Connection connection;
@@ -22,6 +34,14 @@ public class SQLiteTeamDao implements TeamDao {
 		}
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     Inserts into the Databank a new team.
+	 * </p>
+	 *
+	 * @param teamname need to create a new team.
+	 */
 	@Override
 	public void addTeam(String teamname) {
 		String sql = "INSERT INTO team (team_name) VALUES (?)";
@@ -35,6 +55,19 @@ public class SQLiteTeamDao implements TeamDao {
 		}
 
 	}
+
+	/**
+	 *
+	 * <p>
+	 *     This method adds a new player object into a team object.
+	 * </p>
+	 * <p>
+	 *     Simultaneously it Inserts Into the Databank the relationship between player and team.
+	 * </p>
+	 *
+	 * @param player needs a player object.
+	 * @param team needs a team object.
+	 */
 
 	@Override
 	public void addPlayerToTeam(Player player, Team team) {
@@ -52,6 +85,16 @@ public class SQLiteTeamDao implements TeamDao {
 		team.addPlayer(player);
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method is responsible for returning a List of Teams.
+	 *     These team objects stand in relationship with the tournament object.
+	 * </p>
+	 *
+	 * @param tournament is necessary for getting the right Team objects.
+	 * @return It returns a List of objects.
+	 */
 	@Override
 	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
 		String sql = "SELECT * FROM team WHERE tid IN(SELECT tid FROM player WHERE trid = ?)";
@@ -95,6 +138,15 @@ public class SQLiteTeamDao implements TeamDao {
 
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method returns a Team object with the right id.
+	 * </p>
+	 *
+	 * @param tid is necessary for filtering
+	 * @return It returns one Team object
+	 */
 	@Override
 	public Team getTeamById(int tid) {
 		String sql = "select * from team where tid = ?";
@@ -132,6 +184,15 @@ public class SQLiteTeamDao implements TeamDao {
 		return team;
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method returns a Team object with the right teamName.
+	 * </p>
+	 *
+	 * @param teamName is necessary for filtering
+	 * @return It returns one Team object.
+	 */
 	@Override
 	public Team getTeamByName(String teamName) {
 		String sql = "select * from team where team_name = ?";

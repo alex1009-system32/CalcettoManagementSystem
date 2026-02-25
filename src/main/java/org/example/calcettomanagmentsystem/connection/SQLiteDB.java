@@ -8,13 +8,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+/**
+ * <p>
+ *     This class is responsible for connecting to the Database.
+ * </p>
+ *
+ * @author Alex Kerschbamer
+ * @version 0
+ *
+ */
 public class SQLiteDB {
 	private static final Properties properties = new Properties();
 	private static java.sql.Connection connection;
 
 	// OLD DB Schema
 	private static final String setup = """
-    
     """;
 
 	private static final String testSetup = """
@@ -142,6 +150,13 @@ public class SQLiteDB {
 		return connection;
 	}
 
+	/**
+	 *
+	 * <p>Initializes the Databank Structure.</p>
+	 * <p>When Databank file is not given, it makes a file that is named 'calcettomanagmentsystem.db'.</p>
+	 *
+	 * @throws SQLException when Database schema is falsely written.
+	 */
 	public static void init() throws SQLException {
 		Statement statement = getConnection().createStatement();
 		statement.executeUpdate(setup);
@@ -149,6 +164,12 @@ public class SQLiteDB {
 
 	}
 
+	/**
+	 *  <p>Initializes the Databank Structure with Dummy Data.</p>
+	 *  <p>When Databank file is not given, it makes a file that is named 'calcettomanagmentsystem.db'.</p>
+	 *
+	 * @throws SQLException when Database schema is falsely written.
+	 */
 	public static void initTest() throws SQLException {
 		Statement statement = getConnection().createStatement();
 
