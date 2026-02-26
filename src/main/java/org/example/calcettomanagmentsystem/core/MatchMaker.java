@@ -4,6 +4,7 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +50,20 @@ public class MatchMaker {
 
 	}
 
+	/**
+	 *
+	 *  <p>
+	 *      This method returns a List with List that are shuffled(randomized list).
+	 *  </p>
+	 *  <p>
+	 *      The inner list are always a Pair of Teams. <br>
+	 *      If uneven last List element has one Team element.
+	 *  </p>
+	 *
+	 * @param teams needs for shuffling
+	 * @return a List with List of Teams
+	 */
+	@NotNull
 	private List<List<Team>> shuffleTeamList(List<Team> teams) {
 		Collections.shuffle(teams);
 
@@ -57,7 +72,16 @@ public class MatchMaker {
 				.toList();
 	}
 
-	private boolean hasSameTeam(List<List<Team>>... allTeamLists) {
+	/**
+	 *
+	 * <p>
+	 *     This method checks if there are two list objects with the same elements. <br>
+	 * </p>
+	 *
+	 * @param allTeamLists needs at least 2 Lists for comparing.
+	 * @return returns true if there is a match els false.
+	 */
+	private boolean hasSameTeam(@NotNull List<List<Team>>... allTeamLists) {
 
 		if (allTeamLists.length < 2) return false;
 
@@ -78,6 +102,17 @@ public class MatchMaker {
 
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method is a helper method for {@link #hasSameTeam(List[])}. <br>
+	 *     It looks if these lists have the same two elements or not.
+	 * </p>
+	 *
+	 * @param listA
+	 * @param listB
+	 * @return retruns a boolean value for if it has a same team or not.
+	 */
 	private boolean compareTwo(List<List<Team>> listA, List<List<Team>> listB) {
 
 		for (List<Team> teamList1 : listA) {
