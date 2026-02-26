@@ -1,5 +1,6 @@
 package org.example.calcettomanagmentsystem;
 
+import com.github.javafaker.Faker;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
@@ -11,9 +12,12 @@ import java.util.List;
 
 public class Test {
 
-	static void main() throws SQLException {
+	static void main() throws InterruptedException{
 
-		IO.println(new SQLiteTeamDao().getTeamByName("Null Pointers"));
+		while (true) {
+			IO.println(new Faker().funnyName().name());
+			Thread.sleep(100);
+		}
 
 	}
 
