@@ -8,16 +8,24 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Test {
 
 	static void main() throws InterruptedException{
 
-		while (true) {
-			IO.println(new Faker().funnyName().name());
-			Thread.sleep(100);
-		}
+		List<String> deck = new ArrayList<>();
+		deck.add("Ace");
+		deck.add("King");
+		deck.add("Queen");
+		deck.add("Jack");
+
+		// Shuffle the list
+		Collections.shuffle(deck);
+
+		System.out.println(deck);
 
 	}
 
