@@ -8,7 +8,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 public interface PlayerDao {
-	void addPlayer(String pname, String pemail, Tournament tournament);
+	Player addPlayer(String pname, String pemail, Tournament tournament);
 
 	List<Player> getAllPlayers();
 
