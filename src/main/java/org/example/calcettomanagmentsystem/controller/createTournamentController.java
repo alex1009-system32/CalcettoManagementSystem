@@ -6,6 +6,9 @@ import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.FxmlLocation;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 
+/**
+ * Controller responsible for creating new tournaments through the form UI.
+ */
 public class createTournamentController {
 
     @FXML
@@ -20,6 +23,11 @@ public class createTournamentController {
 	@FXML
 	private TextField teamSizeField;
 
+	/**
+	 * Validates form fields and persists a new tournament if valid.
+	 *
+	 * @return true if creation succeeded
+	 */
 	private boolean create() {
 		boolean result = true;
 
@@ -70,11 +78,17 @@ public class createTournamentController {
 	}
 
 	@FXML
+	/**
+	 * Navigates back to the tournament selection screen.
+	 */
 	protected void cancelTournament() {
 		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
 
 	@FXML
+	/**
+	 * Attempts to create a tournament and navigates on success.
+	 */
 	protected void createTournament() {
 		if (create()) {
 			App.setRoot(FxmlLocation.SELECT_TOURNAMENT);

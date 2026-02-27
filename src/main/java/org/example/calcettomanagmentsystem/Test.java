@@ -12,10 +12,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Ad-hoc test harness for local experiments and database initialization.
+ */
 public class Test {
 
-	static void main() throws InterruptedException{
+	/**
+	 * Initializes the test database schema and sample data.
+	 */
+	static void main() throws InterruptedException, SQLException {
 
+		/*
 		List<String> deck = new ArrayList<>();
 		deck.add("Ace");
 		deck.add("King");
@@ -26,6 +33,9 @@ public class Test {
 		Collections.shuffle(deck);
 
 		System.out.println(deck);
+		 */
+
+		SQLiteDB.initTest();
 
 	}
 

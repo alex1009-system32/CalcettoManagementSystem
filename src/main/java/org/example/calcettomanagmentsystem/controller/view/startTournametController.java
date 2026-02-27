@@ -24,6 +24,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the "Start Tournament" view.
+ * Displays tournament metadata and allows adding players.
+ */
 public class startTournametController implements Initializable {
 	Tournament tournament = null;
 	@FXML
@@ -182,6 +186,9 @@ public class startTournametController implements Initializable {
 		displayModal((Stage) tournamentNameLabel.getScene().getWindow());
 	}
 	@FXML
+	/**
+	 * Navigates back to the selection screen.
+	 */
 	protected void goBack() {
 		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}

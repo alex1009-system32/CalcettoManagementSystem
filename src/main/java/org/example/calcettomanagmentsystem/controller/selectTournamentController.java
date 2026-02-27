@@ -20,11 +20,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller that renders the list of tournaments and handles selection/creation actions.
+ */
 public class selectTournamentController implements Initializable {
 	List<Tournament> tournamentList;
 	@FXML
 	private FlowPane tournamentFlowPane;
 
+	/**
+	 * Refreshes the tournament cards shown in the view.
+	 */
 	private void updateList() {
 		tournamentList = new SQLiteTournamentDao().getAllTournaments();
 
@@ -94,6 +100,9 @@ public class selectTournamentController implements Initializable {
 
 	}
 	@FXML
+	/**
+	 * Opens the selected tournament dashboard.
+	 */
 	protected void selectTournament(Tournament tournament) {
 
 		App.setTournament(tournament);
@@ -105,6 +114,9 @@ public class selectTournamentController implements Initializable {
 		}
 	}
 	@FXML
+	/**
+	 * Navigates to the Create Tournament view.
+	 */
 	protected void addTournament() {
 		App.setRoot(FxmlLocation.CREATE_TOURNAMENT);
 	}

@@ -7,17 +7,21 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link PlayerDao}.
+ * Handles player creation, lookup and deletion.
+ */
 public class SQLitePlayerDao implements PlayerDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLitePlayerDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -27,7 +31,10 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
-	public void addPlayer(String pname, String pemail, Tournament tournament) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public Player addPlayer(String pname, String pemail, Tournament tournament) {
 		String sql = "insert into player (pname, pemail, trid) values (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -39,9 +46,14 @@ public class SQLitePlayerDao implements PlayerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return getLastPlayer();
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Player> getAllPlayers() {
 		String sql = "select * from player";
 
@@ -68,6 +80,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
 		String sql = "select * from player WHERE trid=?";
 
@@ -96,6 +111,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Player getPlayerById(int pid) {
 		String sql = "select * from player where pid = ?";
 
@@ -122,5 +140,42 @@ public class SQLitePlayerDao implements PlayerDao {
 
 		return player;
 
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean deletePlayer(Player player) {
+		String sql = "delete from player where mid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, player.pid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Player getLastPlayer() {
+		String sql = "select * from player ORDER BY mid DESC LIMIT 1";
+
+		Match match;
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getPlayerById(
+						resultset.getInt("mid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

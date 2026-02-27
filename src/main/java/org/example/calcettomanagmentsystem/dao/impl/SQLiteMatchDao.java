@@ -6,17 +6,21 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link MatchDao}.
+ * Manages match persistence and relationships to teams and tournaments.
+ */
 public class SQLiteMatchDao implements MatchDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLiteMatchDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -26,7 +30,10 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
-	public void addMatch(Tournament tournament, int round) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public Match addMatch(Tournament tournament, int round) {
 		String sql = "insert into \"match\" (round, tid) values (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -37,10 +44,15 @@ public class SQLiteMatchDao implements MatchDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return getLastMatch();
 	}
 
 	@Override
-	public void addTeamToMatch(Team team, double points, Match match) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean addTeamToMatch(Team team, double points, Match match) {
 		String sql = "insert into team_match(tid, points, mid) values (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -50,11 +62,16 @@ public class SQLiteMatchDao implements MatchDao {
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
 		String sql = "select * from \"match\" where tid = ?";
 		String innerSql = "select * from team_match where mid = ?";
@@ -102,6 +119,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Match> getAllMatchesFromTeam(Team team) {
 		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
 		String innerSql = "select * from team_match where mid = ?";
@@ -148,6 +168,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Match getMatchById(int mid) {
 		String sql = "select * from \"match\" where mid = ?";
 		String innerSql = "select * from team_match where mid = ?";
@@ -189,6 +212,43 @@ public class SQLiteMatchDao implements MatchDao {
 		}
 
 		return match;
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean deleteMatch(Match match) {
+		String sql = "delete from \"match\" where mid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, match.getMid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Match getLastMatch() {
+		String sql = "select * from \"match\" ORDER BY mid DESC LIMIT 1";
+
+		Match match;
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getMatchById(
+						resultset.getInt("mid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

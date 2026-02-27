@@ -54,22 +54,22 @@ public class SQLiteDB {
                     pemail TEXT, /* Temporary change, missing constraint | UNIQUE | */
                     tid INTEGER,
                     trid INTEGER,
-                    FOREIGN KEY ( tid ) REFERENCES team ( tid ),
-                    FOREIGN KEY ( trid ) REFERENCES tournament ( tid )
+                    FOREIGN KEY ( tid ) REFERENCES team ( tid ) ON DELETE CASCADE,
+                    FOREIGN KEY ( trid ) REFERENCES tournament ( tid ) ON DELETE CASCADE
                 );
             CREATE TABLE IF NOT EXISTS "match" (
                     mid INTEGER PRIMARY KEY,
                     round INTEGER,
                     tid INTEGER,
-                    FOREIGN KEY ( tid ) REFERENCES tournament ( tid )
+                    FOREIGN KEY ( tid ) REFERENCES tournament ( tid ) ON DELETE CASCADE
                 );
             CREATE TABLE IF NOT EXISTS team_match (
                     tid INTEGER,
                     mid INTEGER,
                     points REAL DEFAULT ( -1.0 ),
                     PRIMARY KEY ( tid, mid ),
-                    FOREIGN KEY ( tid ) REFERENCES team ( tid ),
-                    FOREIGN KEY ( mid ) REFERENCES "match" ( mid )
+                    FOREIGN KEY ( tid ) REFERENCES team ( tid ) ON DELETE CASCADE,
+                    FOREIGN KEY ( mid ) REFERENCES "match" ( mid )ON DELETE CASCADE
                 );
             
             INSERT INTO tournament (tid, tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES

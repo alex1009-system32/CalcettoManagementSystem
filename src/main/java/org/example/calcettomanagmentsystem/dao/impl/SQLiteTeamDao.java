@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -11,21 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * SQLite implementation of {@link org.example.calcettomanagmentsystem.dao.TeamDao}.
  * <p>
- *     this class is responsible for inserting into and select team objects.
- *     and them form the databank.
+ * Provides persistence operations for Team entities and their player memberships
+ * using a shared {@link java.sql.Connection} from {@link org.example.calcettomanagmentsystem.connection.SQLiteDB}.
  * </p>
- *
- * @author Alex Kerschbamer
- * @version 0
- *
+ * <p>
+ * Responsibilities include creating teams, assigning players to teams, and loading teams
+ * by tournament, id, or unique name.
+ * </p>
  */
 
 public class SQLiteTeamDao implements TeamDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLiteTeamDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -35,15 +39,13 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
+	 * Creates a new team row in the database.
 	 *
-	 * <p>
-	 *     Inserts into the Databank a new team.
-	 * </p>
-	 *
-	 * @param teamname need to create a new team.
+	 * @param teamname team display name
+	 * @return the persisted team
 	 */
 	@Override
-	public void addTeam(String teamname) {
+	public Team addTeam(String teamname) {
 		String sql = "INSERT INTO team (team_name) VALUES (?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -54,23 +56,18 @@ public class SQLiteTeamDao implements TeamDao {
 			e.printStackTrace();
 		}
 
+		return getLastTeam();
 	}
 
 	/**
+	 * Assigns a player to a team and persists the relationship.
 	 *
-	 * <p>
-	 *     This method adds a new player object into a team object.
-	 * </p>
-	 * <p>
-	 *     Simultaneously it Inserts Into the Databank the relationship between player and team.
-	 * </p>
-	 *
-	 * @param player needs a player object.
-	 * @param team needs a team object.
+	 * @param player player to add
+	 * @param team team to receive the player
+	 * @return true if the update succeeded
 	 */
-
 	@Override
-	public void addPlayerToTeam(Player player, Team team) {
+	public boolean addPlayerToTeam(Player player, Team team) {
 		String sql = "UPDATE player SET player.tid = ? WHERE player.pid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -79,21 +76,18 @@ public class SQLiteTeamDao implements TeamDao {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
 
 		team.addPlayer(player);
+		return true;
 	}
 
 	/**
+	 * Loads all teams that have players participating in the given tournament.
 	 *
-	 * <p>
-	 *     This method is responsible for returning a List of Teams.
-	 *     These team objects stand in relationship with the tournament object.
-	 * </p>
-	 *
-	 * @param tournament is necessary for getting the right Team objects.
-	 * @return It returns a List of objects.
+	 * @param tournament tournament filter
+	 * @return list of teams enriched with their players
 	 */
 	@Override
 	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
@@ -139,13 +133,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
+	 * Finds a team by id and loads its players.
 	 *
-	 * <p>
-	 *     This method returns a Team object with the right id.
-	 * </p>
-	 *
-	 * @param tid is necessary for filtering
-	 * @return It returns one Team object
+	 * @param tid team id
+	 * @return team or null if not found
 	 */
 	@Override
 	public Team getTeamById(int tid) {
@@ -185,13 +176,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
+	 * Finds a team by its unique name and loads its players.
 	 *
-	 * <p>
-	 *     This method returns a Team object with the right teamName.
-	 * </p>
-	 *
-	 * @param teamName is necessary for filtering
-	 * @return It returns one Team object.
+	 * @param teamName unique team name
+	 * @return team or null if not found
 	 */
 	@Override
 	public Team getTeamByName(String teamName) {
@@ -228,5 +216,43 @@ public class SQLiteTeamDao implements TeamDao {
 		}
 
 		return team;
+	}
+
+	@Override
+	public boolean deleteTeam(Team team) {
+		String sql = "delete from team where tid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, team.getTid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Helper that retrieves the most recently inserted team.
+	 *
+	 * @return last persisted team or null if none
+	 */
+	private Team getLastTeam() {
+		String sql = "select * from team ORDER BY mid DESC LIMIT 1";
+
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getTeamById(
+						resultset.getInt("tid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

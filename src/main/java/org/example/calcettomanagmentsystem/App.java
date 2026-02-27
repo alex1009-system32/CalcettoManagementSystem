@@ -10,6 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+/**
+ * JavaFX entry point for the Calcetto Management System.
+ * Manages scene navigation and holds the selected tournament state.
+ */
 public class App extends Application {
 	private static Scene scene;
 	private static Tournament tournament = null;
@@ -22,6 +26,11 @@ public class App extends Application {
 
 	private static String root = FxmlLocation.SELECT_TOURNAMENT.getPath();
 
+	/**
+	 * Switches the active scene root to the specified FXML.
+	 *
+	 * @param fxmlLocation target FXML location
+	 */
 	public static void setRoot(@NotNull FxmlLocation fxmlLocation) {
 		try {
 			scene.setRoot(loadFXML(fxmlLocation.getPath()));
@@ -37,10 +46,18 @@ public class App extends Application {
 		return fxmlLoader.load();
 	}
 
+	/**
+	 * @return currently selected tournament, or null if none selected
+	 */
 	public static Tournament getTournament() {
 		return tournament;
 	}
 
+	/**
+	 * Sets the active tournament selection.
+	 *
+	 * @param tournament selected tournament
+	 */
 	public static void setTournament(Tournament tournament) {
 		App.tournament = tournament;
 	}

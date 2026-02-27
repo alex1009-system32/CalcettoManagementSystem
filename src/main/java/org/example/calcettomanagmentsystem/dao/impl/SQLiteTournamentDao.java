@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.*;
@@ -12,21 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * SQLite implementation of {@link org.example.calcettomanagmentsystem.dao.TournamentDao}.
  * <p>
- *     this class is responsible for inserting into and select tournament objects.
- *     and them form the databank
+ * Provides persistence operations for Tournament entities using a shared
+ * {@link java.sql.Connection} from {@link org.example.calcettomanagmentsystem.connection.SQLiteDB}.
  * </p>
- *
- * @author Alex Kerschbamer
- * @version 0
- *
+ * <p>
+ * Responsibilities include creating tournaments, increasing the current round,
+ * listing and retrieving tournaments, and deleting tournaments.
+ * </p>
  */
 
 public class SQLiteTournamentDao implements TournamentDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLiteTournamentDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -37,18 +41,16 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 
 	/**
+	 * Persists a new tournament with the provided attributes.
 	 *
-	 * <p>
-	 *     This method Inserts into a new Tournament with the attributes.
-	 * </p>
-	 *
-	 * @param tournament_name
-	 * @param duration
-	 * @param preRound
-	 * @param maxTeamSize
+	 * @param tournament_name tournament name
+	 * @param duration duration in days
+	 * @param preRound number of preliminary rounds
+	 * @param maxTeamSize max players per team
+	 * @return newly created tournament
 	 */
 	@Override
-	public void addTournament(String tournament_name,
+	public Tournament addTournament(String tournament_name,
 	                          int duration,
 	                          int preRound,
 	                          int maxTeamSize
@@ -67,22 +69,18 @@ public class SQLiteTournamentDao implements TournamentDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return getLastTournament();
 	}
 
 	/**
+	 * Increments the current round of the given tournament in the database.
 	 *
-	 * <p>
-	 *     This method increases the round by 1.
-	 * </p>
-	 * <p>
-	 *     It changes the data in the tournament object and the data in the Databank
-	 * </p>
-	 *
-	 * @param tournament need a tournament object for functioning.
-	 *
+	 * @param tournament tournament to update
+	 * @return true if the update succeeded
 	 */
 	@Override
-	public void increaseRound(Tournament tournament) {
+	public boolean increaseRound(Tournament tournament) {
 		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -91,17 +89,16 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
+	 * Loads all tournaments from the database.
 	 *
-	 * <p>
-	 *     This method returns a List of all Tournaments that exist in the Databank
-	 * </p>
-	 *
-	 * @return It returns a List all Tournaments.
+	 * @return list of tournaments
 	 */
 	@Override
 	public List<Tournament> getAllTournaments() {
@@ -137,13 +134,10 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
+	 * Retrieves a single tournament by id.
 	 *
-	 * <p>
-	 *     This method returns one Tournament object form the Databank with the given id.
-	 * </p>
-	 *
-	 * @param tid need so the method can get the tournament with the given id.
-	 * @return It returns one Tournament object.
+	 * @param tid tournament id
+	 * @return tournament or null if not found
 	 */
 
 	@Override
@@ -178,5 +172,43 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 		return tournament;
 	}
+
+	@Override
+	public boolean deleteTournament(Tournament tournament) {
+		String sql = "delete from tounament where tid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tournament.getTid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Helper that retrieves the last persisted tournament.
+	 *
+	 * @return last created tournament or null if none
+	 */
+	private Tournament getLastTournament() {
+		String sql = "select * from tournament ORDER BY mid DESC LIMIT 1";
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getTournamentById(
+						resultset.getInt("tid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 
 }
