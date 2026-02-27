@@ -10,8 +10,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Gatherers;
 
+/**
+ * Utilities to generate matches for tournaments, including preliminary rounds.
+ */
 public class MatchMaker {
 
+	/**
+	 * Generates preliminary rounds for the tournament if none have started yet.
+	 *
+	 * @param tournament tournament context
+	 */
 	public void makePreRounds(Tournament tournament) {
 		if (tournament.getCurrendRound() != 0) {
 			return;
@@ -32,9 +40,20 @@ public class MatchMaker {
 
 		}
 
+	/**
+	 * Generates matches for the current round based on the tournament state.
+	 *
+	 * @param tournament tournament context
+	 */
 	}
 
 	public void makeMatchesForRound(Tournament tournament) {
+	/**
+	 * Persists matches for the given team pairings.
+	 *
+	 * @param teams list of team pairs (or single team for bye)
+	 * @param tournament tournament context
+	 */
 	}
 
 	private void createMatches(List<List<Team>> teams, Tournament tournament) {
@@ -47,8 +66,6 @@ public class MatchMaker {
 			// ToDo need to update the SQLiteObjects (are a bit outdated)
 
 		}
-
-	}
 
 	/**
 	 *

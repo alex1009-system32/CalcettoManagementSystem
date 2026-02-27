@@ -11,7 +11,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Gatherers;
 
+/**
+ * Utility for generating teams from a list of players.
+ * Splits players into groups of the configured team size and persists the teams.
+ */
 public class TeamMaker {
+	/**
+	 * Creates teams for the given tournament by grouping players by max team size.
+	 * Team names are randomly generated.
+	 *
+	 * @param tournament tournament context
+	 */
 	public void makeTeams(Tournament tournament) {
 		String teamName;
 		Team team;
@@ -35,6 +45,9 @@ public class TeamMaker {
 
 	@NotNull
 	private List<List<Player>> partitionTeams(List<Player> players, int teamSize) {
+		/**
+		 * Partitions the provided players into windows of the specified team size.
+		 */
 		return players.stream()
 				.gather(Gatherers.windowFixed(teamSize))
 				.toList();

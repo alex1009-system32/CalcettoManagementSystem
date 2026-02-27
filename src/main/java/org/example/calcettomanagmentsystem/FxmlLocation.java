@@ -1,5 +1,8 @@
 package org.example.calcettomanagmentsystem;
 
+/**
+ * Centralized enum of FXML resource locations used by the application.
+ */
 public enum FxmlLocation {
 
 	ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
@@ -14,6 +17,9 @@ public enum FxmlLocation {
 		this.fxmlPath = fxmlPath;
 	}
 
+	/**
+	 * @return classpath-relative FXML resource path
+	 */
 	public String getPath() {
 		return fxmlPath;
 	}

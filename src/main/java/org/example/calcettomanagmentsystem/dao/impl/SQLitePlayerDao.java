@@ -11,10 +11,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link PlayerDao}.
+ * Handles player creation, lookup and deletion.
+ */
 public class SQLitePlayerDao implements PlayerDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLitePlayerDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -24,6 +31,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Player addPlayer(String pname, String pemail, Tournament tournament) {
 		String sql = "insert into player (pname, pemail, trid) values (?, ?, ?)";
 
@@ -41,6 +51,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Player> getAllPlayers() {
 		String sql = "select * from player";
 
@@ -67,6 +80,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
 		String sql = "select * from player WHERE trid=?";
 
@@ -95,6 +111,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Player getPlayerById(int pid) {
 		String sql = "select * from player where pid = ?";
 
@@ -124,6 +143,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean deletePlayer(Player player) {
 		String sql = "delete from player where mid = ?";
 

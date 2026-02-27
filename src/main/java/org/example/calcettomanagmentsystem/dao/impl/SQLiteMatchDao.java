@@ -10,10 +10,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SQLite implementation of {@link MatchDao}.
+ * Manages match persistence and relationships to teams and tournaments.
+ */
 public class SQLiteMatchDao implements MatchDao {
 
 	private Connection connection;
 
+	/**
+	 * Initializes the DAO with a shared database connection.
+	 */
 	public SQLiteMatchDao() {
 		try {
 			this.connection = SQLiteDB.getConnection();
@@ -23,6 +30,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Match addMatch(Tournament tournament, int round) {
 		String sql = "insert into \"match\" (round, tid) values (?, ?)";
 
@@ -39,6 +49,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean addTeamToMatch(Team team, double points, Match match) {
 		String sql = "insert into team_match(tid, points, mid) values (?, ?, ?)";
 
@@ -56,6 +69,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
 		String sql = "select * from \"match\" where tid = ?";
 		String innerSql = "select * from team_match where mid = ?";
@@ -103,6 +119,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Match> getAllMatchesFromTeam(Team team) {
 		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
 		String innerSql = "select * from team_match where mid = ?";
@@ -149,6 +168,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public Match getMatchById(int mid) {
 		String sql = "select * from \"match\" where mid = ?";
 		String innerSql = "select * from team_match where mid = ?";
@@ -193,6 +215,9 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean deleteMatch(Match match) {
 		String sql = "delete from \"match\" where mid = ?";
 

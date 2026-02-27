@@ -5,6 +5,9 @@ import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 
 import java.io.InputStream;
 
+/**
+ * Thin launcher class delegating to the JavaFX Application to support IDEs and packaging.
+ */
 public class Launcher {
 	static void main(String[] args) {
 		javafx.application.Application.launch(App.class, args);

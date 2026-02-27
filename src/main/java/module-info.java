@@ -1,3 +1,7 @@
+/**
+ * Java module descriptor for the Calcetto Management System application.
+ * Declares dependencies on JavaFX, SQLite JDBC, and utility libraries.
+ */
 module org.example.calcettomanagmentsystem {
 	requires javafx.controls;
 	requires javafx.fxml;

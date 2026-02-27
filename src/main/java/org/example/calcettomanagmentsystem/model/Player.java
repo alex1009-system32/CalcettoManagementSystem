@@ -5,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 
+/**
+ * Immutable player value object.
+ * Holds id, name, email and associated tournament.
+ */
 public record Player(int pid, String pname, String pemail, Tournament tournament) {
 	@Override
 	public String toString() {
