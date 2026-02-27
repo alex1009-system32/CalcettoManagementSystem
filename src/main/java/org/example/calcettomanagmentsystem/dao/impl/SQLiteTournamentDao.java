@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.*;
@@ -48,7 +49,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @param maxTeamSize
 	 */
 	@Override
-	public void addTournament(String tournament_name,
+	public Tournament addTournament(String tournament_name,
 	                          int duration,
 	                          int preRound,
 	                          int maxTeamSize
@@ -67,6 +68,8 @@ public class SQLiteTournamentDao implements TournamentDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return getLastTournament();
 	}
 
 	/**
@@ -82,7 +85,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 *
 	 */
 	@Override
-	public void increaseRound(Tournament tournament) {
+	public boolean increaseRound(Tournament tournament) {
 		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -91,8 +94,10 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
@@ -178,5 +183,38 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 		return tournament;
 	}
+
+	@Override
+	public boolean deleteTournament(Tournament tournament) {
+		String sql = "delete from tounament where tid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tournament.getTid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Tournament getLastTournament() {
+		String sql = "select * from tournament ORDER BY mid DESC LIMIT 1";
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getTournamentById(
+						resultset.getInt("tid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 
 }

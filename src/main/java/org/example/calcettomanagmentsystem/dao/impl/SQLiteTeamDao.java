@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -43,7 +44,7 @@ public class SQLiteTeamDao implements TeamDao {
 	 * @param teamname need to create a new team.
 	 */
 	@Override
-	public void addTeam(String teamname) {
+	public Team addTeam(String teamname) {
 		String sql = "INSERT INTO team (team_name) VALUES (?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -54,6 +55,7 @@ public class SQLiteTeamDao implements TeamDao {
 			e.printStackTrace();
 		}
 
+		return getLastTeam();
 	}
 
 	/**
@@ -68,9 +70,8 @@ public class SQLiteTeamDao implements TeamDao {
 	 * @param player needs a player object.
 	 * @param team needs a team object.
 	 */
-
 	@Override
-	public void addPlayerToTeam(Player player, Team team) {
+	public boolean addPlayerToTeam(Player player, Team team) {
 		String sql = "UPDATE player SET player.tid = ? WHERE player.pid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -79,10 +80,11 @@ public class SQLiteTeamDao implements TeamDao {
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
 
 		team.addPlayer(player);
+		return true;
 	}
 
 	/**
@@ -228,5 +230,38 @@ public class SQLiteTeamDao implements TeamDao {
 		}
 
 		return team;
+	}
+
+	@Override
+	public boolean deleteTeam(Team team) {
+		String sql = "delete from team where tid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, team.getTid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Team getLastTeam() {
+		String sql = "select * from team ORDER BY mid DESC LIMIT 1";
+
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getTeamById(
+						resultset.getInt("tid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

@@ -15,4 +15,6 @@ public interface PlayerDao {
 	List<Player> getAllPlayersFromTournament(Tournament tournament);
 
 	Player getPlayerById(int pid);
+
+	boolean deletePlayer(Player player);
 }

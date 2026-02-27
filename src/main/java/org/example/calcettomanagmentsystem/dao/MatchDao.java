@@ -16,4 +16,6 @@ public interface MatchDao {
 	List<Match> getAllMatchesFromTeam(Team team);
 
 	Match getMatchById(int mid);
+
+	boolean deleteMatch(Match match);
 }

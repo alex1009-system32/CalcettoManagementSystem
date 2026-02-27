@@ -6,10 +6,7 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,7 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	@Override
-	public void addMatch(Tournament tournament, int round) {
+	public Match addMatch(Tournament tournament, int round) {
 		String sql = "insert into \"match\" (round, tid) values (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -37,10 +34,12 @@ public class SQLiteMatchDao implements MatchDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return getLastMatch();
 	}
 
 	@Override
-	public void addTeamToMatch(Team team, double points, Match match) {
+	public boolean addTeamToMatch(Team team, double points, Match match) {
 		String sql = "insert into team_match(tid, points, mid) values (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -50,8 +49,10 @@ public class SQLiteMatchDao implements MatchDao {
 
 			preparedStatement.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
+
+		return true;
 	}
 
 	@Override
@@ -189,6 +190,40 @@ public class SQLiteMatchDao implements MatchDao {
 		}
 
 		return match;
+	}
+
+	@Override
+	public boolean deleteMatch(Match match) {
+		String sql = "delete from \"match\" where mid = ?";
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, match.getMid());
+			preparedStatement.execute();
+		}  catch (SQLException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Match getLastMatch() {
+		String sql = "select * from \"match\" ORDER BY mid DESC LIMIT 1";
+
+		Match match;
+		ResultSet resultset;
+
+		try (Statement statement= connection.createStatement()) {
+			resultset = statement.executeQuery(sql);
+			while (resultset.next()) {
+				return getMatchById(
+						resultset.getInt("mid")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

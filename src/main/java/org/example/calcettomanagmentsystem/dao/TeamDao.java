@@ -16,4 +16,6 @@ public interface TeamDao {
 	Team getTeamById(int tid);
 
 	Team getTeamByName(String teamName);
+
+	boolean deleteTeam(Team team);
 }

@@ -12,4 +12,6 @@ public interface TournamentDao {
 	List<Tournament> getAllTournaments();
 
 	Tournament getTournamentById(int tid);
+
+	boolean deleteTournament(Tournament tournament);
 }
