@@ -100,9 +100,8 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 		List<Tournament> tournaments = new ArrayList<>();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			ResultSet resultSet = preparedStatement.executeQuery();
-
+		try (Statement statement = connection.createStatement();){
+			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				tournaments.add(new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), LocalDate.parse(resultSet.getString("start_date")), resultSet.getInt("duration"), resultSet.getInt("pre_round"), resultSet.getInt("current_round"), resultSet.getInt("max_team_size")));
 			}

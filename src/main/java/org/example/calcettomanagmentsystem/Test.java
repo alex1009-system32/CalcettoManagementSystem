@@ -38,7 +38,11 @@ public class Test {
 		System.out.println(deck);
 		 */
 
-		SQLiteDB.initTest();
+		List<Tournament> tournaments = new SQLiteTournamentDao().getAllTournaments();
+
+		for (Tournament tournament : tournaments) {
+			System.out.println(tournament);
+		}
 
 	}
 

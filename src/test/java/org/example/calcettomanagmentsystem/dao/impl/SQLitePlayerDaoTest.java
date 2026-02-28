@@ -28,7 +28,7 @@ public class SQLitePlayerDaoTest {
 		Connection connection = mock(Connection.class);
 		PreparedStatement ps = mock(PreparedStatement.class);
 
-		when(connection.prepareStatement("delete from player where mid = ?")).thenReturn(ps);
+		when(connection.prepareStatement("DELETE FROM player WHERE mid = ?")).thenReturn(ps);
 
 		SQLitePlayerDao dao = createDao(connection);
 
@@ -42,8 +42,7 @@ public class SQLitePlayerDaoTest {
 	void deletePlayer_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
 
-		when(connection.prepareStatement("delete from player where mid = ?"))
-				.thenThrow(new SQLException("fail"));
+		when(connection.prepareStatement("DELETE FROM player WHERE mid = ?")).thenThrow(new SQLException("fail"));
 
 		SQLitePlayerDao dao = createDao(connection);
 
@@ -58,7 +57,7 @@ public class SQLitePlayerDaoTest {
 		PreparedStatement ps = mock(PreparedStatement.class);
 		ResultSet rs = mock(ResultSet.class);
 
-		when(connection.prepareStatement("select * from player")).thenReturn(ps);
+		when(connection.prepareStatement("SELECT * FROM player")).thenReturn(ps);
 		when(ps.executeQuery()).thenReturn(rs);
 		when(rs.next()).thenReturn(false);
 
@@ -74,8 +73,7 @@ public class SQLitePlayerDaoTest {
 	void getAllPlayers_sqlException_returnsEmpty() throws Exception {
 		Connection connection = mock(Connection.class);
 
-		when(connection.prepareStatement("select * from player"))
-				.thenThrow(new SQLException("fail"));
+		when(connection.prepareStatement(anyString())).thenThrow(new SQLException("fail"));
 
 		SQLitePlayerDao dao = createDao(connection);
 

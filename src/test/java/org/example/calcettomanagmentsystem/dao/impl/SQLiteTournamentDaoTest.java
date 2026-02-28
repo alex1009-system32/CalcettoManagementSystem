@@ -43,8 +43,7 @@ public class SQLiteTournamentDaoTest {
 	void increaseRound_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
 
-		when(connection.prepareStatement("UPDATE tournament SET current_round = ? WHERE tid = ?"))
-				.thenThrow(new SQLException("fail"));
+		when(connection.prepareStatement("UPDATE tournament SET current_round = ? WHERE tid = ?")).thenThrow(new SQLException("fail"));
 
 		SQLiteTournamentDao dao = createDao(connection);
 
@@ -59,8 +58,8 @@ public class SQLiteTournamentDaoTest {
 		PreparedStatement ps = mock(PreparedStatement.class);
 		ResultSet rs = mock(ResultSet.class);
 
-		when(connection.prepareStatement("select * from tournament")).thenReturn(ps);
-		when(ps.executeQuery()).thenReturn(rs);
+		when(connection.createStatement()).thenReturn(ps);
+		when(ps.executeQuery("SELECT * FROM tournament")).thenReturn(rs);
 		when(rs.next()).thenReturn(false);
 
 		SQLiteTournamentDao dao = createDao(connection);
