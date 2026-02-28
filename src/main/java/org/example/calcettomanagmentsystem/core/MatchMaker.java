@@ -30,9 +30,9 @@ public class MatchMaker {
 	 *
 	 * @param tournament Turnierkontext für Paarungen und Persistenz
 	 * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
-	 *           Wiederholung angewiesen, um Dopplungen zu vermeiden.
+	 * Wiederholung angewiesen, um Dopplungen zu vermeiden.
 	 */
-			return;
+	public void makePreRounds(Tournament tournament) {
 		if (tournament.getCurrendRound() != 0) {
 			return;
 		}
@@ -81,7 +81,7 @@ public class MatchMaker {
 	 *
 	 * @param tournament Turnierkontext zur Ermittlung der Gewinner
 	 * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
-	 *           Teams zu mischen.
+	 * Teams zu mischen.
 	 */
 	public void makeMatchesForRound(Tournament tournament) {
 
@@ -97,7 +97,8 @@ public class MatchMaker {
 
 		List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2)
 		                                     .mapToObj(i -> Arrays.asList(teams.get(i), teams.get(teams.size() - 1 - i)))
-		                                     .collect(Collectors.toList());
+		                                     .collect(Collectors.toList())
+				;
 
 		createMatches(newTeams, tournament);
 		new SQLiteTournamentDao().increaseRound(tournament);
@@ -107,7 +108,7 @@ public class MatchMaker {
 	/**
 	 * Persistiert Matches für vorbereitete Team-Paarungen.
 	 *
-	 * @param teams Team-Paare, optional mit Einzelteam für Freilos
+	 * @param teams      Team-Paare, optional mit Einzelteam für Freilos
 	 * @param tournament Turnierkontext für Match-Erstellung
 	 */
 	private void createMatches(List<List<Team>> teams, Tournament tournament) {

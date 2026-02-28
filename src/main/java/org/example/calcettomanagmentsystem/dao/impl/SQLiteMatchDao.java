@@ -22,13 +22,9 @@ import java.util.List;
  */
 public class SQLiteMatchDao implements MatchDao {
 	private Connection connection;
+
 	/**
 	 * Geteilte Verbindung, um konsistente Transaktionen zu ermöglichen.
-	 */
-
-
-	/**
-	 * Initializes the DAO with a shared database connection.
 	 */
 	public SQLiteMatchDao() {
 		try {
