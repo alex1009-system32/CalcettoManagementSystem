@@ -34,7 +34,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 */
 	@Override
 	public Player addPlayer(String pname, String pemail, Tournament tournament) {
-		String sql = "insert into player (pname, pemail, trid) values (?, ?, ?)";
+		String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, pname);
@@ -54,7 +54,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 */
 	@Override
 	public List<Player> getAllPlayers() {
-		String sql = "select * from player";
+		String sql = "SELECT * FROM player";
 
 		List<Player> players = new ArrayList<>();
 
@@ -62,14 +62,7 @@ public class SQLitePlayerDao implements PlayerDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				players.add(new Player(
-						resultSet.getInt("pid"),
-						resultSet.getString("pname"),
-						resultSet.getString("pemail"),
-						new SQLiteTournamentDao().getTournamentById(
-								resultSet.getInt("tid")
-						)
-				));
+				players.add(new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,7 +76,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 */
 	@Override
 	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
-		String sql = "select * from player WHERE trid=?";
+		String sql = "SELECT * FROM player WHERE trid=?";
 
 		List<Player> players = new ArrayList<>();
 
@@ -93,14 +86,7 @@ public class SQLitePlayerDao implements PlayerDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				players.add(new Player(
-						resultSet.getInt("pid"),
-						resultSet.getString("pname"),
-						resultSet.getString("pemail"),
-						new SQLiteTournamentDao().getTournamentById(
-								resultSet.getInt("tid")
-						)
-				));
+				players.add(new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,7 +100,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 */
 	@Override
 	public Player getPlayerById(int pid) {
-		String sql = "select * from player where pid = ?";
+		String sql = "SELECT * FROM player WHERE pid = ?";
 
 		Player player = null;
 
@@ -124,14 +110,7 @@ public class SQLitePlayerDao implements PlayerDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				player = new Player(
-						resultSet.getInt("pid"),
-						resultSet.getString("pname"),
-						resultSet.getString("pemail"),
-						new SQLiteTournamentDao().getTournamentById(
-								resultSet.getInt("tid")
-						)
-				);
+				player = new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -146,12 +125,12 @@ public class SQLitePlayerDao implements PlayerDao {
 	 */
 	@Override
 	public boolean deletePlayer(Player player) {
-		String sql = "delete from player where mid = ?";
+		String sql = "DELETE FROM player WHERE mid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, player.pid());
 			preparedStatement.execute();
-		}  catch (SQLException e) {
+		} catch (SQLException e) {
 			return false;
 		}
 
@@ -159,10 +138,9 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	private Player getLastPlayer() {
-		String sql = "select * from player ORDER BY pid DESC LIMIT 1";
+		String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
 
-		try (Statement statement = connection.createStatement();
-		     ResultSet resultset = statement.executeQuery(sql)) {
+		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
 			if (resultset.next()) {
 				return getPlayerById(resultset.getInt("pid"));
 			}

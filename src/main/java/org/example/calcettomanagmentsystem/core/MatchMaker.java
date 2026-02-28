@@ -34,8 +34,6 @@ public class MatchMaker {
 	 *
 	 * @param tournament tournament context
 	 */
-
-	// Note Needs to be tested Asap!
 	public void makePreRounds(Tournament tournament) {
 		if (tournament.getCurrendRound() != 0) {
 			return;

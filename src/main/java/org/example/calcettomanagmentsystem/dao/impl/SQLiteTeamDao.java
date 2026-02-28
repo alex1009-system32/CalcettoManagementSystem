@@ -62,7 +62,7 @@ public class SQLiteTeamDao implements TeamDao {
 	 * Assigns a player to a team and persists the relationship.
 	 *
 	 * @param player player to add
-	 * @param team team to receive the player
+	 * @param team   team to receive the player
 	 * @return true if the update succeeded
 	 */
 	@Override
@@ -91,12 +91,11 @@ public class SQLiteTeamDao implements TeamDao {
 	@Override
 	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
 		String sql = "SELECT * FROM team WHERE tid IN(SELECT tid FROM player WHERE trid = ?)";
-		String innerSql = "select * from player where tid = ?";
+		String innerSql = "SELECT * FROM player WHERE tid = ?";
 
 		List<Team> teams = new ArrayList<>();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql); PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, tournament.getTid());
 
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -106,11 +105,7 @@ public class SQLiteTeamDao implements TeamDao {
 
 					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
 						while (innerResultSet.next()) {
-							team.addPlayer(
-									new SQLitePlayerDao().getPlayerById(
-											innerResultSet.getInt("pid")
-									)
-							);
+							team.addPlayer(new SQLitePlayerDao().getPlayerById(innerResultSet.getInt("pid")));
 						}
 					}
 
@@ -134,13 +129,12 @@ public class SQLiteTeamDao implements TeamDao {
 	 */
 	@Override
 	public Team getTeamById(int tid) {
-		String sql = "select * from team where tid = ?";
-		String innerSql = "select * from player where tid = ?";
+		String sql = "SELECT * FROM team WHERE tid = ?";
+		String innerSql = "SELECT * FROM player WHERE tid = ?";
 
 		Team team = null;
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql); PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, tid);
 
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -150,11 +144,7 @@ public class SQLiteTeamDao implements TeamDao {
 
 					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
 						while (innerResultSet.next()) {
-							team.addPlayer(
-									new SQLitePlayerDao().getPlayerById(
-											innerResultSet.getInt("pid")
-									)
-							);
+							team.addPlayer(new SQLitePlayerDao().getPlayerById(innerResultSet.getInt("pid")));
 						}
 					}
 				}
@@ -174,13 +164,12 @@ public class SQLiteTeamDao implements TeamDao {
 	 */
 	@Override
 	public Team getTeamByName(String teamName) {
-		String sql = "select * from team where team_name = ?";
-		String innerSql = "select * from player where tid = ?";
+		String sql = "SELECT * FROM team WHERE team_name = ?";
+		String innerSql = "SELECT * FROM player WHERE tid = ?";
 
 		Team team = null;
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql); PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setString(1, teamName);
 
 			try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -190,11 +179,7 @@ public class SQLiteTeamDao implements TeamDao {
 
 					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
 						while (innerResultSet.next()) {
-							team.addPlayer(
-									new SQLitePlayerDao().getPlayerById(
-											innerResultSet.getInt("pid")
-									)
-							);
+							team.addPlayer(new SQLitePlayerDao().getPlayerById(innerResultSet.getInt("pid")));
 						}
 					}
 				}
@@ -208,12 +193,12 @@ public class SQLiteTeamDao implements TeamDao {
 
 	@Override
 	public boolean deleteTeam(Team team) {
-		String sql = "delete from team where tid = ?";
+		String sql = "DELETE FROM team WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, team.getTid());
 			preparedStatement.execute();
-		}  catch (SQLException e) {
+		} catch (SQLException e) {
 			return false;
 		}
 
@@ -226,16 +211,14 @@ public class SQLiteTeamDao implements TeamDao {
 	 * @return last persisted team or null if none
 	 */
 	private Team getLastTeam() {
-		String sql = "select * from team ORDER BY tid DESC LIMIT 1";
+		String sql = "SELECT * FROM team ORDER BY tid DESC LIMIT 1";
 
 		ResultSet resultset;
 
-		try (Statement statement= connection.createStatement()) {
+		try (Statement statement = connection.createStatement()) {
 			resultset = statement.executeQuery(sql);
 			while (resultset.next()) {
-				return getTeamById(
-						resultset.getInt("tid")
-				);
+				return getTeamById(resultset.getInt("tid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

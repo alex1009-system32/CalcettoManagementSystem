@@ -28,9 +28,7 @@ public class TeamMaker {
 		SQLiteTeamDao teamDao = new SQLiteTeamDao();
 		Faker faker = new Faker();
 
-		List<List<Player>> teams = partitionTeams(
-				new SQLitePlayerDao().getAllPlayersFromTournament(tournament),
-				tournament.getMaxTeamSize());
+		List<List<Player>> teams = partitionTeams(new SQLitePlayerDao().getAllPlayersFromTournament(tournament), tournament.getMaxTeamSize());
 
 		for (List<Player> teamList : teams) {
 			teamName = faker.funnyName().name();
@@ -52,8 +50,6 @@ public class TeamMaker {
 	 */
 	@NotNull
 	private List<List<Player>> partitionTeams(List<Player> players, int teamSize) {
-		return players.stream()
-				.gather(Gatherers.windowFixed(teamSize))
-				.toList();
+		return players.stream().gather(Gatherers.windowFixed(teamSize)).toList();
 	}
 }

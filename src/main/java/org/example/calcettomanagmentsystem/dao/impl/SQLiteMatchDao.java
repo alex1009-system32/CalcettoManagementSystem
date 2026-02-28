@@ -16,7 +16,6 @@ import java.util.List;
  * Manages match persistence and relationships to teams and tournaments.
  */
 public class SQLiteMatchDao implements MatchDao {
-
 	private Connection connection;
 
 	/**

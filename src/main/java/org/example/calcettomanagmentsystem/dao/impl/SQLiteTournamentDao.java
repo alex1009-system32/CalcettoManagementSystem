@@ -38,23 +38,17 @@ public class SQLiteTournamentDao implements TournamentDao {
 		}
 	}
 
-
 	/**
 	 * Persists a new tournament with the provided attributes.
 	 *
 	 * @param tournament_name tournament name
-	 * @param duration duration in days
-	 * @param preRound number of preliminary rounds
-	 * @param maxTeamSize max players per team
+	 * @param duration        duration in days
+	 * @param preRound        number of preliminary rounds
+	 * @param maxTeamSize     max players per team
 	 * @return newly created tournament
 	 */
 	@Override
-	public Tournament addTournament(
-			String tournament_name,
-            int duration,
-			int preRound,
-			int maxTeamSize
-	) {
+	public Tournament addTournament(String tournament_name, int duration, int preRound, int maxTeamSize) {
 		String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -102,7 +96,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 */
 	@Override
 	public List<Tournament> getAllTournaments() {
-		String sql = "select * from tournament";
+		String sql = "SELECT * FROM tournament";
 
 		List<Tournament> tournaments = new ArrayList<>();
 
@@ -110,17 +104,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				tournaments.add(new Tournament(
-						resultSet.getInt("tid"),
-						resultSet.getString("tournament_name"),
-						LocalDate.parse(resultSet
-								.getString("start_date")
-						),
-						resultSet.getInt("duration"),
-						resultSet.getInt("pre_round"),
-						resultSet.getInt("current_round"),
-						resultSet.getInt("max_team_size")
-				));
+				tournaments.add(new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), LocalDate.parse(resultSet.getString("start_date")), resultSet.getInt("duration"), resultSet.getInt("pre_round"), resultSet.getInt("current_round"), resultSet.getInt("max_team_size")));
 			}
 
 			resultSet.close();
@@ -141,7 +125,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 */
 	@Override
 	public Tournament getTournamentById(int tid) {
-		String sql = "select * from tournament where tid = ?";
+		String sql = "SELECT * FROM tournament WHERE tid = ?";
 
 		Tournament tournament = null;
 
@@ -150,17 +134,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				tournament = new Tournament(
-						resultSet.getInt("tid"),
-						resultSet.getString("tournament_name"),
-						LocalDate.parse(resultSet
-								.getString("start_date")
-						),
-						resultSet.getInt("duration"),
-						resultSet.getInt("pre_round"),
-						resultSet.getInt("current_round"),
-						resultSet.getInt("max_team_size")
-				);
+				tournament = new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), LocalDate.parse(resultSet.getString("start_date")), resultSet.getInt("duration"), resultSet.getInt("pre_round"), resultSet.getInt("current_round"), resultSet.getInt("max_team_size"));
 			}
 
 			resultSet.close();
@@ -174,12 +148,12 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 	@Override
 	public boolean deleteTournament(Tournament tournament) {
-		String sql = "delete from tounament where tid = ?";
+		String sql = "DELETE FROM tounament WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, tournament.getTid());
 			preparedStatement.execute();
-		}  catch (SQLException e) {
+		} catch (SQLException e) {
 			return false;
 		}
 
@@ -192,10 +166,9 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @return last created tournament or null if none
 	 */
 	private Tournament getLastTournament() {
-		String sql = "select * from tournament ORDER BY tid DESC LIMIT 1";
+		String sql = "SELECT * FROM tournament ORDER BY tid DESC LIMIT 1";
 
-		try (Statement statement = connection.createStatement();
-		     ResultSet resultset = statement.executeQuery(sql)) {
+		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
 			if (resultset.next()) {
 				return getTournamentById(resultset.getInt("tid"));
 			}
