@@ -12,11 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQLite implementation of {@link MatchDao}.
- * Manages match persistence and relationships to teams and tournaments.
+ * SQLite-spezifische Implementierung für Match-Persistenz.
+ * <p>
+ * Die Klasse kapselt die SQL-Details, damit die Domänenlogik
+ * keine Datenbankkenntnisse benötigt.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.MatchDao
  */
 public class SQLiteMatchDao implements MatchDao {
 	private Connection connection;
+	/**
+	 * Geteilte Verbindung, um konsistente Transaktionen zu ermöglichen.
+	 */
+
 
 	/**
 	 * Initializes the DAO with a shared database connection.
@@ -31,6 +40,9 @@ public class SQLiteMatchDao implements MatchDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Das Match wird mit der aktuellen Turnierrunde angelegt, damit
+	 *           Folgeabfragen über {@code round} konsistent bleiben.
 	 */
 	@Override
 	public Match addMatch(Tournament tournament) {
@@ -67,6 +79,12 @@ public class SQLiteMatchDao implements MatchDao {
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @implNote Punkte werden separat aktualisiert, damit Ergebnisänderungen
+	 *           nicht die Match-Zuordnung beeinflussen.
+	 */
 	@Override
 	public boolean addAddPointToTeamInMatch(Team team, Match match, double point) {
 		String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
@@ -86,6 +104,9 @@ public class SQLiteMatchDao implements MatchDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Für jedes Match werden Team-Informationen nachgeladen, um
+	 *           vollständige Match-Objekte zu liefern.
 	 */
 	@Override
 	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
@@ -128,6 +149,11 @@ public class SQLiteMatchDao implements MatchDao {
 		return matches;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @implNote Der Rundenfilter reduziert bewusst die Datenmenge für die UI.
+	 */
 	@Override
 	public List<Match> getAllMatchesFromTournamentInRound(Tournament tournament, int round) {
 		String sql = "SELECT * FROM \"match\" WHERE tid = ? AND round = ?";
@@ -172,6 +198,9 @@ public class SQLiteMatchDao implements MatchDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Die Relation wird über {@code team_match} aufgelöst, um
+	 *           auch Ergebnisse pro Team laden zu können.
 	 */
 	@Override
 	public List<Match> getAllMatchesFromTeam(Team team) {
@@ -215,6 +244,9 @@ public class SQLiteMatchDao implements MatchDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Der Match-Lookup lädt zusätzlich die Team-Zuordnung und Punkte,
+	 *           damit die Match-Entität vollständig nutzbar ist.
 	 */
 	@Override
 	public Match getMatchById(int mid) {
@@ -272,6 +304,11 @@ public class SQLiteMatchDao implements MatchDao {
 		return true;
 	}
 
+	/**
+	 * Liefert das zuletzt angelegte Match für Folgeoperationen.
+	 *
+	 * @return zuletzt gespeichertes Match oder {@code null}
+	 */
 	private Match getLastMatch() {
 		String sql = "SELECT * FROM \"match\" ORDER BY mid DESC LIMIT 1";
 

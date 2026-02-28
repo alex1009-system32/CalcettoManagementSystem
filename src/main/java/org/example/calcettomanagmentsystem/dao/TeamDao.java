@@ -7,55 +7,60 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 /**
- * Data access contract for managing teams and their player memberships.
+ * Zugriffskontrakt für Teams und deren Spielerzuordnung.
+ * <p>
+ * Ziel ist eine klare Persistenzgrenze für Teamverwaltung.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao
  */
 public interface TeamDao {
 	/**
-	 * Creates and persists a new team.
+	 * Persistiert ein neues Team, damit es referenzierbar bleibt.
 	 *
-	 * @param teamname name of the team
-	 * @return created team
+	 * @param teamname Anzeigename des Teams
+	 * @return erstelltes Team mit ID
 	 */
 	Team addTeam(String teamname);
 
 	/**
-	 * Adds a player to a team and persists the membership.
+	 * Verknüpft einen Spieler mit einem Team, um die Zuordnung festzuhalten.
 	 *
-	 * @param player player to add
-	 * @param team team to join
-	 * @return true if successful
+	 * @param player Spieler, der dem Team beitreten soll
+	 * @param team Zielteam für die Zuordnung
+	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	boolean addPlayerToTeam(Player player, Team team);
 
 	/**
-	 * Loads all teams participating in a given tournament.
+	 * Lädt Teams eines Turniers für Bracket- oder Listenansichten.
 	 *
-	 * @param tournament filter tournament
-	 * @return list of teams
+	 * @param tournament Turnierfilter
+	 * @return Teams des Turniers
 	 */
 	List<Team> getAllTeamsFromTournament(Tournament tournament);
 
 	/**
-	 * Finds a team by id.
+	 * Sucht ein Team für Detailansichten oder Beziehungen.
 	 *
-	 * @param tid team id
-	 * @return team or null if not found
+	 * @param tid Team-ID
+	 * @return Team oder {@code null}, wenn nicht vorhanden
 	 */
 	Team getTeamById(int tid);
 
 	/**
-	 * Finds a team by its unique name.
+	 * Sucht ein Team anhand des eindeutigen Namens.
 	 *
-	 * @param teamName unique team name
-	 * @return team or null if not found
+	 * @param teamName eindeutiger Teamname
+	 * @return Team oder {@code null}, wenn nicht vorhanden
 	 */
 	Team getTeamByName(String teamName);
 
 	/**
-	 * Deletes a team.
+	 * Entfernt ein Team, wenn es nicht mehr gültig ist.
 	 *
-	 * @param team team to delete
-	 * @return true if deletion succeeded
+	 * @param team Team, das gelöscht werden soll
+	 * @return {@code true} bei erfolgreicher Löschung
 	 */
 	boolean deleteTeam(Team team);
 }

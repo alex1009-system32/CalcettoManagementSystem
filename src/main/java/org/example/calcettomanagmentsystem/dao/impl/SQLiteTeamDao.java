@@ -11,19 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQLite implementation of {@link org.example.calcettomanagmentsystem.dao.TeamDao}.
+ * SQLite-Implementierung für Team-Persistenz und Spielerzuordnung.
  * <p>
- * Provides persistence operations for Team entities and their player memberships
- * using a shared {@link java.sql.Connection} from {@link org.example.calcettomanagmentsystem.connection.SQLiteDB}.
+ * Die Klasse kapselt die SQL-Details, damit die Team-Logik
+ * unabhängig von der Speichertechnik bleibt.
  * </p>
- * <p>
- * Responsibilities include creating teams, assigning players to teams, and loading teams
- * by tournament, id, or unique name.
- * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.TeamDao
  */
 
 public class SQLiteTeamDao implements TeamDao {
 
+	/**
+	 * Geteilte Verbindung für konsistente Lese- und Schreiboperationen.
+	 */
 	private Connection connection;
 
 	/**
@@ -38,10 +39,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Creates a new team row in the database.
+	 * Erstellt ein Team und liefert es für direkte Weiterverarbeitung zurück.
 	 *
-	 * @param teamname team display name
-	 * @return the persisted team
+	 * @param teamname gewünschter Anzeigename des Teams
+	 * @return persistiertes Team mit ID
 	 */
 	@Override
 	public Team addTeam(String teamname) {
@@ -59,11 +60,11 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Assigns a player to a team and persists the relationship.
+	 * Persistiert die Teamzuordnung eines Spielers, um Teamroster stabil abzubilden.
 	 *
-	 * @param player player to add
-	 * @param team   team to receive the player
-	 * @return true if the update succeeded
+	 * @param player Spieler, der dem Team zugeordnet wird
+	 * @param team Zielteam für die Zuordnung
+	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	@Override
 	public boolean addPlayerToTeam(Player player, Team team) {
@@ -83,10 +84,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Loads all teams that have players participating in the given tournament.
+	 * Lädt Teams eines Turniers inklusive Spieler, um Bracket-Logik zu unterstützen.
 	 *
-	 * @param tournament tournament filter
-	 * @return list of teams enriched with their players
+	 * @param tournament Turnierfilter
+	 * @return Teams mit vollständig geladenen Spielern
 	 */
 	@Override
 	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
@@ -122,10 +123,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Finds a team by id and loads its players.
+	 * Lädt ein Team mit Spielern für Detailansichten und Auswertungen.
 	 *
-	 * @param tid team id
-	 * @return team or null if not found
+	 * @param tid Team-ID
+	 * @return Team oder {@code null}, wenn nicht vorhanden
 	 */
 	@Override
 	public Team getTeamById(int tid) {
@@ -157,10 +158,10 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Finds a team by its unique name and loads its players.
+	 * Lädt ein Team anhand des Namens, um Eingaben aus der UI zu unterstützen.
 	 *
-	 * @param teamName unique team name
-	 * @return team or null if not found
+	 * @param teamName eindeutiger Teamname
+	 * @return Team oder {@code null}, wenn nicht vorhanden
 	 */
 	@Override
 	public Team getTeamByName(String teamName) {
@@ -206,9 +207,9 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	/**
-	 * Helper that retrieves the most recently inserted team.
+	 * Liefert das zuletzt angelegte Team für Folgeoperationen.
 	 *
-	 * @return last persisted team or null if none
+	 * @return zuletzt persistiertes Team oder {@code null}
 	 */
 	private Team getLastTeam() {
 		String sql = "SELECT * FROM team ORDER BY tid DESC LIMIT 1";

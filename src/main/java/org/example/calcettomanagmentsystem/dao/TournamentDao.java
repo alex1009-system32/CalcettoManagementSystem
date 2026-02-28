@@ -5,48 +5,53 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 /**
- * Data access contract for creating, updating and retrieving tournaments.
+ * Zugriffskontrakt für Turnierverwaltung mit Fokus auf Persistenzgrenzen.
+ * <p>
+ * Stellt eine stabile API für CRUD-Operationen bereit.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao
  */
 public interface TournamentDao {
 	/**
-	 * Persists a new tournament.
+	 * Persistiert ein Turnier, damit es über die UI wiederauffindbar ist.
 	 *
-	 * @param tournament_name name of the tournament
-	 * @param duration duration in days
-	 * @param preRound number of preliminary rounds
-	 * @param maxTeamSize max players per team
-	 * @return created tournament
+	 * @param tournament_name Anzeigename des Turniers
+	 * @param duration Dauer in Tagen als Planungsgrundlage
+	 * @param preRound Anzahl der Vorrunden für die Turnierlogik
+	 * @param maxTeamSize Maximale Teamgröße zur Team-Bildung
+	 * @return erstelltes Turnier mit ID
 	 */
 	Tournament addTournament(String tournament_name, int duration, int preRound, int maxTeamSize);
 
 	/**
-	 * Increments the current round counter of the given tournament.
+	 * Erhöht die aktuelle Runde, um den Turnierfortschritt zu persistieren.
 	 *
-	 * @param tournament tournament to update
-	 * @return true if the update succeeded
+	 * @param tournament Turnier, dessen Fortschritt aktualisiert wird
+	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	boolean increaseRound(Tournament tournament);
 
 	/**
-	 * Loads all tournaments.
+	 * Lädt alle Turniere für Übersichten und Auswahl.
 	 *
-	 * @return list of tournaments
+	 * @return Liste der Turniere
 	 */
 	List<Tournament> getAllTournaments();
 
 	/**
-	 * Retrieves a tournament by id.
+	 * Sucht ein Turnier für Detailansichten und Folgeoperationen.
 	 *
-	 * @param tid tournament id
-	 * @return tournament or null if not found
+	 * @param tid Turnier-ID
+	 * @return Turnier oder {@code null}, wenn nicht vorhanden
 	 */
 	Tournament getTournamentById(int tid);
 
 	/**
-	 * Deletes a tournament.
+	 * Entfernt ein Turnier, wenn es nicht mehr benötigt wird.
 	 *
-	 * @param tournament tournament to delete
-	 * @return true if deletion succeeded
+	 * @param tournament Turnier, das gelöscht werden soll
+	 * @return {@code true} bei erfolgreicher Löschung
 	 */
 	boolean deleteTournament(Tournament tournament);
 }

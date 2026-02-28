@@ -1,6 +1,10 @@
 /**
- * Java module descriptor for the Calcetto Management System application.
- * Declares dependencies on JavaFX, SQLite JDBC, and utility libraries.
+ * Moduldefinition für die Desktop-Anwendung.
+ * <p>
+ * Die Abhängigkeiten sind bewusst so gewählt, dass UI, Datenzugriff und
+ * Hilfsbibliotheken klar getrennt bleiben und die JPMS-Sichtbarkeit
+ * kontrolliert ist.
+ * </p>
  */
 module org.example.calcettomanagmentsystem {
 	requires javafx.controls;

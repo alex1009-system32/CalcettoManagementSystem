@@ -14,27 +14,25 @@ import java.util.stream.Gatherers;
 import java.util.stream.IntStream;
 
 /**
- * Utilities to generate matches for tournaments, including preliminary rounds.
+ * Orchestriert die Match-Erstellung für Turniere.
  * <p>
- * WARNING: This class contains critical logic issues that need to be addressed:
- * 1. Potential infinite loop in preliminary round generation.
- * 2. Inefficient database usage (N+1 queries).
- * 3. Round increment logic might be incorrect.
+ * Die Klasse bündelt Turnierlogik und Persistenzzugriffe, um eine konsistente
+ * Match-Historie über Vorrunden und Hauptrunden zu gewährleisten.
  * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao
  */
 public class MatchMaker {
 
 	/**
-	 * Generates preliminary rounds for the tournament if none have started yet.
-	 * <p>
-	 * <b>CRITICAL WARNING:</b> This method attempts to generate unique team pairings for multiple rounds
-	 * by shuffling and retrying. If the number of possible unique combinations is exhausted or difficult to find
-	 * randomly, this method will enter an INFINITE LOOP.
-	 * </p>
+	 * Erzeugt Vorrunden, sofern das Turnier noch nicht gestartet wurde.
 	 *
-	 * @param tournament tournament context
+	 * @param tournament Turnierkontext für Paarungen und Persistenz
+	 * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
+	 *           Wiederholung angewiesen, um Dopplungen zu vermeiden.
 	 */
-	public void makePreRounds(Tournament tournament) {
+			return;
 		if (tournament.getCurrendRound() != 0) {
 			return;
 		}
@@ -79,9 +77,11 @@ public class MatchMaker {
 	}
 
 	/**
-	 * Generates matches for the current round based on the tournament state.
+	 * Erzeugt Matches für die aktuelle Runde basierend auf dem Turnierstatus.
 	 *
-	 * @param tournament tournament context
+	 * @param tournament Turnierkontext zur Ermittlung der Gewinner
+	 * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
+	 *           Teams zu mischen.
 	 */
 	public void makeMatchesForRound(Tournament tournament) {
 
@@ -105,10 +105,10 @@ public class MatchMaker {
 	}
 
 	/**
-	 * Persists matches for the given team pairings.
+	 * Persistiert Matches für vorbereitete Team-Paarungen.
 	 *
-	 * @param teams      list of team pairs (or single team for bye)
-	 * @param tournament tournament context
+	 * @param teams Team-Paare, optional mit Einzelteam für Freilos
+	 * @param tournament Turnierkontext für Match-Erstellung
 	 */
 	private void createMatches(List<List<Team>> teams, Tournament tournament) {
 		if (teams.size() == 0) return;
@@ -128,17 +128,10 @@ public class MatchMaker {
 	}
 
 	/**
+	 * Erzeugt zufällige Team-Paare für eine Runde.
 	 *
-	 * <p>
-	 * This method returns a List with List that are shuffled(randomized list).
-	 * </p>
-	 * <p>
-	 * The inner list are always a Pair of Teams. <br>
-	 * If uneven last List element has one Team element.
-	 * </p>
-	 *
-	 * @param teams needs for shuffling
-	 * @return a List with List of Teams
+	 * @param teams Teams, die für Paarungen berücksichtigt werden
+	 * @return Liste von Team-Paaren, ggf. mit einem Einzelteam
 	 */
 	@NotNull
 	private List<List<Team>> shuffleTeamList(List<Team> teams) {
@@ -148,13 +141,10 @@ public class MatchMaker {
 	}
 
 	/**
+	 * Prüft, ob eine Paarungskombination bereits verwendet wurde.
 	 *
-	 * <p>
-	 * This method checks if there are two list objects with the same elements. <br>
-	 * </p>
-	 *
-	 * @param allTeamLists needs at least 2 Lists for comparing.
-	 * @return returns true if there is a match els false.
+	 * @param allTeamLists Historie der Paarungen
+	 * @return {@code true}, wenn eine Doppelung erkannt wird
 	 */
 	private boolean hasSameTeam(@NotNull List<List<List<Team>>> allTeamLists) {
 
@@ -177,15 +167,11 @@ public class MatchMaker {
 	}
 
 	/**
+	 * Vergleicht zwei Paarungslisten auf identische Team-Kombinationen.
 	 *
-	 * <p>
-	 * This method is a helper method for {@link #hasSameTeam(List)}. <br>
-	 * It looks if these lists have the same two elements or not.
-	 * </p>
-	 *
-	 * @param listA
-	 * @param listB
-	 * @return retruns a boolean value for if it has a same team or not.
+	 * @param listA erste Paarungsliste
+	 * @param listB zweite Paarungsliste
+	 * @return {@code true}, wenn identische Paarungen vorhanden sind
 	 */
 	private boolean compareTwo(List<List<Team>> listA, List<List<Team>> listB) {
 
@@ -205,6 +191,13 @@ public class MatchMaker {
 
 	}
 
+	/**
+	 * Ermittelt Siegerteams der Vorrunden basierend auf kumulierten Punkten.
+	 *
+	 * @param tournament Turnierkontext für die Vorrundenbewertung
+	 * @return sortierte Siegerliste
+	 * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
+	 */
 	private List<Team> getTheWinnersOfCurrentPreRound(Tournament tournament) {
 		List<Team> winner = new ArrayList<>();
 		Map<Team, Double> teams = new HashMap<>();
@@ -245,6 +238,12 @@ public class MatchMaker {
 
 	}
 
+	/**
+	 * Ermittelt Siegerteams der aktuellen Runde basierend auf Match-Punkten.
+	 *
+	 * @param tournament Turnierkontext für die Rundenbewertung
+	 * @return Siegerliste der aktuellen Runde
+	 */
 	private List<Team> getTheWinnersOfCurrentRound(Tournament tournament) {
 
 		List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrendRound());

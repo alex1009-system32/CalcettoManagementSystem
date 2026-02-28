@@ -12,15 +12,20 @@ import java.util.List;
 import java.util.stream.Gatherers;
 
 /**
- * Utility for generating teams from a list of players.
- * Splits players into groups of the configured team size and persists the teams.
+ * Verantwortet die Team-Erzeugung aus Spielerdaten.
+ * <p>
+ * Die Idee ist, dass Team-Zuschnitt und Persistenz in einer Stelle liegen,
+ * damit Turnierlogik nicht mit Gruppierungsdetails belastet wird.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao
  */
 public class TeamMaker {
 	/**
-	 * Creates teams for the given tournament by grouping players by max team size.
-	 * Team names are randomly generated.
+	 * Erzeugt Teams für ein Turnier basierend auf der maximalen Teamgröße.
 	 *
-	 * @param tournament tournament context
+	 * @param tournament Turnierkontext für Teamgröße und Spielerliste
+	 * @implNote Teamnamen werden zufällig erzeugt, um Eingaben zu vermeiden.
 	 */
 	public void makeTeams(Tournament tournament) {
 		String teamName;
@@ -42,11 +47,11 @@ public class TeamMaker {
 	}
 
 	/**
-	 * Partitions the provided players into windows of the specified team size.
+	 * Teilt Spieler in Gruppen der gewünschten Größe.
 	 *
-	 * @param players  The list of players to partition.
-	 * @param teamSize The size of each team.
-	 * @return A list of player lists, where each inner list represents a team.
+	 * @param players Liste der Spieler, die verteilt werden sollen
+	 * @param teamSize Zielgröße je Team
+	 * @return gruppierte Spielerlisten als Team-Kandidaten
 	 */
 	@NotNull
 	private List<List<Player>> partitionTeams(List<Player> players, int teamSize) {

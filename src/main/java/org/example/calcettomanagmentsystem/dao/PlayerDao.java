@@ -8,47 +8,52 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 /**
- * Data access contract for player management.
+ * Zugriffskontrakt für Spieler mit Turnierbezug.
+ * <p>
+ * Dient der Entkopplung zwischen UI/Logik und Persistenzzugriff.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao
  */
 public interface PlayerDao {
 	/**
-	 * Creates and persists a new player in the context of a tournament.
+	 * Persistiert einen Spieler im Kontext eines Turniers, um Zuordnung zu ermöglichen.
 	 *
-	 * @param pname player name
-	 * @param pemail player email
-	 * @param tournament associated tournament
-	 * @return created player
+	 * @param pname Anzeigename des Spielers
+	 * @param pemail Kontaktadresse zur eindeutigen Identifikation
+	 * @param tournament Turnierkontext für die Zugehörigkeit
+	 * @return erstellter Spieler mit persistierter ID
 	 */
 	Player addPlayer(String pname, String pemail, Tournament tournament);
 
 	/**
-	 * Loads all players in the system.
+	 * Lädt alle Spieler für Übersichten und Verwaltung.
 	 *
-	 * @return list of players
+	 * @return Liste aller Spieler
 	 */
 	List<Player> getAllPlayers();
 
 	/**
-	 * Loads all players belonging to a tournament.
+	 * Lädt alle Spieler eines Turniers für Turnierverwaltung.
 	 *
-	 * @param tournament filter tournament
-	 * @return list of players
+	 * @param tournament Turnierfilter
+	 * @return Spieler des Turniers
 	 */
 	List<Player> getAllPlayersFromTournament(Tournament tournament);
 
 	/**
-	 * Finds a player by id.
+	 * Sucht einen Spieler für Detailansicht oder Verknüpfung.
 	 *
-	 * @param pid player id
-	 * @return player or null if not found
+	 * @param pid Spieler-ID
+	 * @return Spieler oder {@code null}, wenn nicht vorhanden
 	 */
 	Player getPlayerById(int pid);
 
 	/**
-	 * Deletes a player.
+	 * Entfernt einen Spieler, z. B. bei Abmeldung oder Datenkorrektur.
 	 *
-	 * @param player player to delete
-	 * @return true if deletion succeeded
+	 * @param player Spieler, der entfernt werden soll
+	 * @return {@code true} bei erfolgreicher Löschung
 	 */
 	boolean deletePlayer(Player player);
 }

@@ -9,17 +9,23 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
+ * Zentrale Verbindungsschicht für SQLite.
  * <p>
- *     This class is responsible for connecting to the Database.
- *     It handles the connection lifecycle and database initialization.
+ * Die Klasse bündelt Verbindungsaufbau und Initialisierung, um einen
+ * konsistenten Zugriffspfad auf die Datenbank zu gewährleisten.
  * </p>
  *
  * @author Alex Kerschbamer
  * @version 0
- *
  */
 public class SQLiteDB {
+	/**
+	 * Konfiguration aus {@code db.properties}, damit die URL austauschbar bleibt.
+	 */
 	private static final Properties properties = new Properties();
+	/**
+	 * Singleton-Verbindung, um eine einheitliche Datenbank-Session zu nutzen.
+	 */
 	private static java.sql.Connection connection;
 
 	// OLD DB Schema
@@ -27,6 +33,9 @@ public class SQLiteDB {
 	private static final String setup = """
     """;
 
+	/**
+	 * Test-Setup für reproduzierbare Integrationsszenarien.
+	 */
 	private static final String testSetup = """
 			PRAGMA
             foreign_keys = ON;
@@ -145,6 +154,12 @@ public class SQLiteDB {
 		}
 	}
 
+	/**
+	 * Liefert eine wiederverwendbare Verbindung zur konfigurierten SQLite-Instanz.
+	 *
+	 * @return aktive Verbindung zur Datenbank
+	 * @throws SQLException wenn der Verbindungsaufbau fehlschlägt
+	 */
 	public static Connection getConnection() throws SQLException {
 		if (connection == null || connection.isClosed()) {
 			connection = DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
@@ -153,12 +168,12 @@ public class SQLiteDB {
 	}
 
 	/**
+	 * Initialisiert das Schema für produktive Laufzeiten.
+	 * <p>
+	 * Das Ziel ist eine definierte Datenbankstruktur beim ersten Start der App.
+	 * </p>
 	 *
-	 * <p>Initializes the Databank Structure.</p>
-	 * <p>When Databank file is not given, it makes a file that is named 'calcettomanagmentsystem.db'.</p>
-	 * <p><b>WARNING:</b> The setup script is currently empty, so this method will effectively do nothing.</p>
-	 *
-	 * @throws SQLException when Database schema is falsely written.
+	 * @throws SQLException wenn das Schema nicht ausgeführt werden kann
 	 */
 	public static void init() throws SQLException {
 		Statement statement = getConnection().createStatement();
@@ -168,10 +183,9 @@ public class SQLiteDB {
 	}
 
 	/**
-	 *  <p>Initializes the Databank Structure with Dummy Data.</p>
-	 *  <p>When Databank file is not given, it makes a file that is named 'calcettomanagmentsystem.db'.</p>
+	 * Initialisiert das Schema inklusive Beispieldaten für Tests und Demos.
 	 *
-	 * @throws SQLException when Database schema is falsely written.
+	 * @throws SQLException wenn das Test-Schema nicht ausgeführt werden kann
 	 */
 	public static void initTest() throws SQLException {
 		Statement statement = getConnection().createStatement();

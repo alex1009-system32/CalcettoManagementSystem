@@ -12,19 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQLite implementation of {@link org.example.calcettomanagmentsystem.dao.TournamentDao}.
+ * SQLite-Implementierung für Turnier-Persistenz.
  * <p>
- * Provides persistence operations for Tournament entities using a shared
- * {@link java.sql.Connection} from {@link org.example.calcettomanagmentsystem.connection.SQLiteDB}.
+ * Ziel ist eine stabile CRUD-Schnittstelle für Turnierdaten,
+ * damit UI und Logik keine SQL-Details kennen müssen.
  * </p>
- * <p>
- * Responsibilities include creating tournaments, increasing the current round,
- * listing and retrieving tournaments, and deleting tournaments.
- * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.TournamentDao
  */
 
 public class SQLiteTournamentDao implements TournamentDao {
 
+	/**
+	 * Geteilte Verbindung für konsistente Lese- und Schreibzugriffe.
+	 */
 	private Connection connection;
 
 	/**
@@ -39,13 +40,13 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
-	 * Persists a new tournament with the provided attributes.
+	 * Persistiert ein Turnier mit allen Startparametern.
 	 *
-	 * @param tournament_name tournament name
-	 * @param duration        duration in days
-	 * @param preRound        number of preliminary rounds
-	 * @param maxTeamSize     max players per team
-	 * @return newly created tournament
+	 * @param tournament_name Anzeigename, der in der UI verwendet wird
+	 * @param duration Dauer in Tagen für die Turnierplanung
+	 * @param preRound Anzahl der Vorrunden für die Match-Logik
+	 * @param maxTeamSize maximale Teamgröße für Team-Matching
+	 * @return neu erstelltes Turnier
 	 */
 	@Override
 	public Tournament addTournament(String tournament_name, int duration, int preRound, int maxTeamSize) {
@@ -68,10 +69,10 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
-	 * Increments the current round of the given tournament in the database.
+	 * Aktualisiert den Fortschritt, damit Folgerunden konsistent bleiben.
 	 *
-	 * @param tournament tournament to update
-	 * @return true if the update succeeded
+	 * @param tournament Turnier, dessen Runde erhöht wird
+	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	@Override
 	public boolean increaseRound(Tournament tournament) {
@@ -90,9 +91,9 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
-	 * Loads all tournaments from the database.
+	 * Lädt alle Turniere für Auswahl und Übersicht.
 	 *
-	 * @return list of tournaments
+	 * @return Liste der Turniere
 	 */
 	@Override
 	public List<Tournament> getAllTournaments() {
@@ -117,10 +118,10 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
-	 * Retrieves a single tournament by id.
+	 * Liefert ein Turnier anhand seiner ID für Detailansichten.
 	 *
-	 * @param tid tournament id
-	 * @return tournament or null if not found
+	 * @param tid Turnier-ID
+	 * @return Turnier oder {@code null}, wenn nicht vorhanden
 	 */
 	@Override
 	public Tournament getTournamentById(int tid) {
@@ -160,9 +161,9 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	/**
-	 * Helper that retrieves the last persisted tournament.
+	 * Liefert das zuletzt persistierte Turnier für Folgeoperationen.
 	 *
-	 * @return last created tournament or null if none
+	 * @return zuletzt gespeichertes Turnier oder {@code null}
 	 */
 	private Tournament getLastTournament() {
 		String sql = "SELECT * FROM tournament ORDER BY tid DESC LIMIT 1";

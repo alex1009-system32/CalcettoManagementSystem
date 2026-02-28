@@ -11,11 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQLite implementation of {@link PlayerDao}.
- * Handles player creation, lookup and deletion.
+ * SQLite-spezifischer Zugriff auf Spieler.
+ * <p>
+ * Die Implementierung kapselt SQL-Details, damit die Aufrufer
+ * ausschließlich mit Domänenobjekten arbeiten.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.PlayerDao
  */
 public class SQLitePlayerDao implements PlayerDao {
 
+	/**
+	 * Geteilte Verbindung zur Sicherstellung konsistenter Abfragen.
+	 */
 	private Connection connection;
 
 	/**
@@ -31,6 +39,9 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Der Turnierbezug wird direkt beim Einfügen gesetzt, damit
+	 *           Spieler im Turnier sofort auffindbar sind.
 	 */
 	@Override
 	public Player addPlayer(String pname, String pemail, Tournament tournament) {
@@ -51,6 +62,9 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Die Turnierverknüpfung wird nachgeladen, damit die
+	 *           Rückgabeobjekte sofort navigierbar sind.
 	 */
 	@Override
 	public List<Player> getAllPlayers() {
@@ -73,6 +87,8 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Filterung über {@code trid} hält die Ergebnisse turnierspezifisch.
 	 */
 	@Override
 	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
@@ -97,6 +113,9 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @implNote Das Turnier wird nachgeladen, um eine vollständige
+	 *           Spieleransicht bereitzustellen.
 	 */
 	@Override
 	public Player getPlayerById(int pid) {
@@ -137,6 +156,11 @@ public class SQLitePlayerDao implements PlayerDao {
 		return true;
 	}
 
+	/**
+	 * Liefert den zuletzt persistierten Spieler zur Bestätigung der Anlage.
+	 *
+	 * @return zuletzt gespeicherter Spieler oder {@code null}
+	 */
 	private Player getLastPlayer() {
 		String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
 

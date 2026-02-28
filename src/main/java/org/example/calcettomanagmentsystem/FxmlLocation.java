@@ -1,7 +1,11 @@
 package org.example.calcettomanagmentsystem;
 
 /**
- * Centralized enum of FXML resource locations used by the application.
+ * Central registry for FXML resources to avoid scattered literal paths.
+ * <p>
+ * The intent is to make navigation resilient to path changes by keeping
+ * all view identifiers in one place.
+ * </p>
  */
 public enum FxmlLocation {
 
@@ -11,14 +15,24 @@ public enum FxmlLocation {
 	CREATE_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
 	SELECT_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml");
 
+	/**
+	 * Classpath location of the FXML resource.
+	 */
 	private final String fxmlPath;
 
+	/**
+	 * Binds the enum constant to a concrete FXML path.
+	 *
+	 * @param fxmlPath classpath-relative resource path
+	 */
 	FxmlLocation(String fxmlPath) {
 		this.fxmlPath = fxmlPath;
 	}
 
 	/**
-	 * @return classpath-relative FXML resource path
+	 * Exposes the FXML path for loader usage.
+	 *
+	 * @return classpath-relative resource path used by {@link App}
 	 */
 	public String getPath() {
 		return fxmlPath;
