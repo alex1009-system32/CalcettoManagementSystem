@@ -2,7 +2,6 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.*;
@@ -50,10 +49,11 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @return newly created tournament
 	 */
 	@Override
-	public Tournament addTournament(String tournament_name,
-	                          int duration,
-	                          int preRound,
-	                          int maxTeamSize
+	public Tournament addTournament(
+			String tournament_name,
+            int duration,
+			int preRound,
+			int maxTeamSize
 	) {
 		String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -139,7 +139,6 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @param tid tournament id
 	 * @return tournament or null if not found
 	 */
-
 	@Override
 	public Tournament getTournamentById(int tid) {
 		String sql = "select * from tournament where tid = ?";

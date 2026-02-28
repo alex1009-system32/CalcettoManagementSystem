@@ -22,11 +22,19 @@ public interface MatchDao {
 	 * Adds a team to a match and stores its points.
 	 *
 	 * @param team team to add
-	 * @param points points for team
 	 * @param match target match
 	 * @return true if successful
 	 */
-	boolean addTeamToMatch(Team team, double points, Match match);
+	boolean addTeamToMatch(Team team,  Match match);
+
+	/**
+	 * Adds a team to a match and stores its points.
+	 *
+	 * @param team team to add
+	 * @param match target match
+	 * @return true if successful
+	 */
+	boolean addAddPointToTeamInMatch(Team team,  Match match,double point);
 
 	/**
 	 * Loads all matches for a tournament.

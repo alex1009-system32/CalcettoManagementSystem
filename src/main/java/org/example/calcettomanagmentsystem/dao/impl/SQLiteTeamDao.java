@@ -2,7 +2,6 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
-import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;

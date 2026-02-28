@@ -2,7 +2,6 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.PlayerDao;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -30,10 +29,10 @@ public class SQLitePlayerDao implements PlayerDao {
 		}
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Player addPlayer(String pname, String pemail, Tournament tournament) {
 		String sql = "insert into player (pname, pemail, trid) values (?, ?, ?)";
 
@@ -50,10 +49,10 @@ public class SQLitePlayerDao implements PlayerDao {
 		return getLastPlayer();
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<Player> getAllPlayers() {
 		String sql = "select * from player";
 
@@ -79,10 +78,10 @@ public class SQLitePlayerDao implements PlayerDao {
 		return players;
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
 		String sql = "select * from player WHERE trid=?";
 
@@ -110,10 +109,10 @@ public class SQLitePlayerDao implements PlayerDao {
 		return players;
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Player getPlayerById(int pid) {
 		String sql = "select * from player where pid = ?";
 
@@ -142,10 +141,10 @@ public class SQLitePlayerDao implements PlayerDao {
 
 	}
 
-	@Override
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean deletePlayer(Player player) {
 		String sql = "delete from player where mid = ?";
 

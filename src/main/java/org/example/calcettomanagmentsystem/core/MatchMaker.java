@@ -34,7 +34,12 @@ public class MatchMaker {
 
             if (i == 0) {
 
-				//ToDo: need to go on further
+                List<List<Team>> teamList = shuffleTeamList(teams);
+                createMatches(teamList, tournament);
+
+            } else {
+
+                //ToDo need to go on furthur here.
 
             }
 
@@ -66,13 +71,10 @@ public class MatchMaker {
 		Match match;
 
         for (List<Team> teamList : teams) {
-
 			match = sqliteMatchDao.addMatch(tournament);
 
             for (Team team : teamList) {
-
-                // ToDo : need to update the SQLiteMatchDao.java so that it is useful.
-
+                sqliteMatchDao.addTeamToMatch(team, match);
             }
 
         }
