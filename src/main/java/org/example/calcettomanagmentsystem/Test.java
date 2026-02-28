@@ -14,11 +14,15 @@ import java.util.List;
 
 /**
  * Ad-hoc test harness for local experiments and database initialization.
+ * Used primarily for setting up the test database environment.
  */
 public class Test {
 
 	/**
 	 * Initializes the test database schema and sample data.
+	 *
+	 * @param args Command line arguments (unused).
+	 * @throws SQLException If a database access error occurs.
 	 */
 	public static void main(String[] args) throws SQLException {
 		/*
@@ -35,6 +39,7 @@ public class Test {
 		 */
 
 		SQLiteDB.initTest();
+
 	}
 
 }

@@ -26,7 +26,8 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for the "Start Tournament" view.
- * Displays tournament metadata and allows adding players.
+ * Displays tournament metadata and allows adding players to the tournament.
+ * Manages the transition to the active tournament phase.
  */
 public class startTournametController implements Initializable {
 	Tournament tournament = null;
@@ -41,6 +42,10 @@ public class startTournametController implements Initializable {
 	@FXML
 	private FlowPane playerFlowPane;
 
+	/**
+	 * Updates the view with the latest tournament data and player list.
+	 * Rebuilds the player list UI from the database.
+	 */
 	private void updateList() {
 		tournamentNameLabel.setText(tournament.getTournamentName());
 		preRoundLabel.setText(String.valueOf(tournament.getPreRound()));
@@ -80,6 +85,14 @@ public class startTournametController implements Initializable {
 
 	}
 
+	/**
+	 * Creates a new player and adds them to the current tournament.
+	 *
+	 * @param stage      The modal stage to close upon success.
+	 * @param nameField  The text field containing the player's name.
+	 * @param emailField The text field containing the player's email.
+	 * @return true if the player was successfully created, false otherwise.
+	 */
 	private boolean create(Stage stage, @NotNull TextField nameField, TextField emailField) {
 		boolean result = true;
 
@@ -105,10 +118,20 @@ public class startTournametController implements Initializable {
 		return true;
 	}
 
+	/**
+	 * Cancels the player creation process and closes the modal.
+	 *
+	 * @param stage The modal stage to close.
+	 */
 	private void cancel(@NotNull Stage stage) {
 		stage.close();
 	}
 
+	/**
+	 * Displays the modal dialog for adding a new player.
+	 *
+	 * @param stage The parent stage.
+	 */
 	private void displayModal(Stage stage) {
 		Stage modalStage = new Stage();
 
@@ -182,6 +205,9 @@ public class startTournametController implements Initializable {
 		modalStage.showAndWait();
 	}
 	@FXML
+	/**
+	 * Opens the "Add Player" modal dialog.
+	 */
 	protected void openModal() {
 		displayModal((Stage) tournamentNameLabel.getScene().getWindow());
 	}

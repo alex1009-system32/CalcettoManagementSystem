@@ -8,10 +8,11 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 
 /**
  * Controller responsible for creating new tournaments through the form UI.
+ * Handles input validation and database persistence for new tournament entities.
  */
 public class createTournamentController {
 
-    @FXML
+	@FXML
 	private TextField nameField;
 
 	@FXML
@@ -25,8 +26,9 @@ public class createTournamentController {
 
 	/**
 	 * Validates form fields and persists a new tournament if valid.
+	 * Checks for empty fields and highlights them with error styling if necessary.
 	 *
-	 * @return true if creation succeeded
+	 * @return true if creation succeeded and data was valid, false otherwise.
 	 */
 	private boolean create() {
 		boolean result = true;

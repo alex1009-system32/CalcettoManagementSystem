@@ -35,7 +35,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 */
 	@Override
 	public Match addMatch(Tournament tournament) {
-		String sql = "insert into \"match\" (round, tid) values (?, ?)";
+		String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(2, tournament.getTid());
@@ -90,8 +90,8 @@ public class SQLiteMatchDao implements MatchDao {
 	 */
 	@Override
 	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
-		String sql = "select * from \"match\" where tid = ?";
-		String innerSql = "select * from team_match where mid = ?";
+		String sql = "SELECT * FROM \"match\" WHERE tid = ?";
+		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
 		Team team;
 		Match match;
@@ -135,13 +135,61 @@ public class SQLiteMatchDao implements MatchDao {
 		return matches;
 	}
 
+	@Override
+	public List<Match> getAllMatchesFromTournamentInRound(Tournament tournament, int round) {
+		String sql = "SELECT * FROM \"match\" WHERE tid = ? AND round = ?";
+		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
+
+		Team team;
+		Match match;
+		List<Match> matches = new ArrayList<>();
+
+		PreparedStatement innerPreparedStatement;
+		ResultSet innerResultSet;
+
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			preparedStatement.setInt(1, tournament.getTid());
+			preparedStatement.setInt(2, round);
+
+			ResultSet resultset = preparedStatement.executeQuery();
+
+			while (resultset.next()) {
+				match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
+
+				innerPreparedStatement = connection.prepareStatement(innerSql);
+				innerPreparedStatement.setInt(1, resultset.getInt("mid"));
+
+				innerResultSet = innerPreparedStatement.executeQuery();
+
+				while (innerResultSet.next()) {
+					SQLiteTeamDao teamDao = new SQLiteTeamDao();
+
+					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
+
+					match.addTeam(team);
+					match.addPoints(team, innerResultSet.getDouble("points"));
+
+				}
+
+				matches.add(match);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return matches;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Match> getAllMatchesFromTeam(Team team) {
 		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
-		String innerSql = "select * from team_match where mid = ?";
+		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
 		Match match;
 		List<Match> matches = new ArrayList<>();
@@ -189,8 +237,8 @@ public class SQLiteMatchDao implements MatchDao {
 	 */
 	@Override
 	public Match getMatchById(int mid) {
-		String sql = "select * from \"match\" where mid = ?";
-		String innerSql = "select * from team_match where mid = ?";
+		String sql = "SELECT * FROM \"match\" WHERE mid = ?";
+		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
 		Team team;
 		Match match = null;
@@ -237,12 +285,12 @@ public class SQLiteMatchDao implements MatchDao {
 	 */
 	@Override
 	public boolean deleteMatch(Match match) {
-		String sql = "delete from \"match\" where mid = ?";
+		String sql = "DELETE FROM \"match\" WHERE mid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, match.getMid());
 			preparedStatement.execute();
-		}  catch (SQLException e) {
+		} catch (SQLException e) {
 			return false;
 		}
 
@@ -250,17 +298,15 @@ public class SQLiteMatchDao implements MatchDao {
 	}
 
 	private Match getLastMatch() {
-		String sql = "select * from \"match\" ORDER BY mid DESC LIMIT 1";
+		String sql = "SELECT * FROM \"match\" ORDER BY mid DESC LIMIT 1";
 
 		Match match;
 		ResultSet resultset;
 
-		try (Statement statement= connection.createStatement()) {
+		try (Statement statement = connection.createStatement()) {
 			resultset = statement.executeQuery(sql);
 			while (resultset.next()) {
-				return getMatchById(
-						resultset.getInt("mid")
-				);
+				return getMatchById(resultset.getInt("mid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

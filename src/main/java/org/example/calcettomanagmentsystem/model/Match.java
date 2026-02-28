@@ -64,6 +64,14 @@ public class Match {
 		return mid;
 	}
 
+	public List<Team> getTeams() {
+		return teams;
+	}
+
+	public Map<Team, Double> getPoints() {
+		return points;
+	}
+
 	private void setRound(int round) {
 		this.round = round;
 	}

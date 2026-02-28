@@ -44,6 +44,8 @@ public interface MatchDao {
 	 */
 	List<Match> getAllMatchesFromTournament(Tournament tournament);
 
+	List<Match> getAllMatchesFromTournamentInRound(Tournament tournament, int round);
+
 	/**
 	 * Loads all matches a given team participated in.
 	 *

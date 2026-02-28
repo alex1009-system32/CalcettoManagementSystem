@@ -1,0 +1,53 @@
+flowchart TD
+  MM[MatchMaker] --> PR{makePreRounds(tournament)}
+  PR -->|current_round != 0| STOP[Return (no-op)]
+  PR -->|current_round == 0| LOAD[SQLiteTeamDao.getAllTeamsFromTournament]
+  LOAD --> LOOP[for i in 0..(preRound-1)]
+  LOOP --> SHUF[shuffleTeamList(teams)\n→ list of pairs (windowFixed(2))]
+  SHUF --> DEC{i == 0 ?}
+  DEC -->|Yes| MK0[createMatches(pairings, tournament)]
+  DEC -->|No| CHECK{hasSameTeam(allTeamLists)}
+  CHECK -->|Yes| RETRY[i--, discard last pairings\nrepeat shuffling]
+  CHECK -->|No| MKI[createMatches(pairings, tournament)]
+  MK0 --> LOOP
+  MKI --> LOOP
+  LOOP --> DONE[after loop]
+  DONE --> BUMP[Increase rounds preRound times\nSQLiteTournamentDao.increaseRound]
+
+  subgraph createMatches
+    CM1[for each pairing] --> AM[SQLiteMatchDao.addMatch(tournament)]
+    AM --> AT1[SQLiteMatchDao.addTeamToMatch(team A, match)]
+    AM --> AT2[SQLiteMatchDao.addTeamToMatch(team B, match)]
+  end
+
+  subgraph shuffleTeamList
+    S1[Collections.shuffle(teams)]
+    S1 --> S2[teams.stream().gather(windowFixed(2))\n→ List<List<Team>>]
+  end
+
+  subgraph hasSameTeam
+    HS1[compareTwo(prevRoundPairings, newPairings)]
+    HS2[Iterate across previous rounds\ncheck any pair {A,B} repeats]
+  end
+
+  subgraph Helpers
+    WPRE[getTheWinnersOfCurrentPreRound]
+    WPRE --> WP1[for each round i in 0..preRound-1\nSQLiteMatchDao.getAllMatchesFromTournamentInRound]
+    WP1 --> WP2[Accumulate team points across rounds]
+    WP2 --> WP3[Sort teams by total points desc\n→ winners list]
+
+    WCUR[getTheWinnersOfCurrentRound]
+    WCUR --> WC1[Get matches for current round]
+    WC1 --> WC2[Pick higher scoring team per match\n→ winners]
+  end
+
+  subgraph Future
+    MR[makeMatchesForRound(tournament)]
+    MR --> TODO[(ToDo: depends on winners from last round)]
+  end
+
+  style STOP fill:#fbe4e6,stroke:#c62828,color:#4e0000
+  style BUMP fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+  style AM fill:#e3f2fd,stroke:#1976d2,color:#0d47a1
+  style AT1 fill:#e3f2fd,stroke:#1976d2,color:#0d47a1
+  style AT2 fill:#e3f2fd,stroke:#1976d2,color:#0d47a1

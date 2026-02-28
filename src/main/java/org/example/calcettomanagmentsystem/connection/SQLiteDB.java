@@ -11,6 +11,7 @@ import java.util.Properties;
 /**
  * <p>
  *     This class is responsible for connecting to the Database.
+ *     It handles the connection lifecycle and database initialization.
  * </p>
  *
  * @author Alex Kerschbamer
@@ -22,6 +23,7 @@ public class SQLiteDB {
 	private static java.sql.Connection connection;
 
 	// OLD DB Schema
+	// TODO: CRITICAL - This setup string is empty. Calling init() will do nothing.
 	private static final String setup = """
     """;
 
@@ -154,6 +156,7 @@ public class SQLiteDB {
 	 *
 	 * <p>Initializes the Databank Structure.</p>
 	 * <p>When Databank file is not given, it makes a file that is named 'calcettomanagmentsystem.db'.</p>
+	 * <p><b>WARNING:</b> The setup script is currently empty, so this method will effectively do nothing.</p>
 	 *
 	 * @throws SQLException when Database schema is falsely written.
 	 */

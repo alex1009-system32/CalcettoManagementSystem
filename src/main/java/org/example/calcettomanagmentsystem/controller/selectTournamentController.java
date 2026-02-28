@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 /**
  * Controller that renders the list of tournaments and handles selection/creation actions.
+ * Initializes the dashboard view with cards for each available tournament.
  */
 public class selectTournamentController implements Initializable {
 	List<Tournament> tournamentList;
@@ -30,6 +31,7 @@ public class selectTournamentController implements Initializable {
 
 	/**
 	 * Refreshes the tournament cards shown in the view.
+	 * Fetches all tournaments from the database and dynamically creates UI elements for them.
 	 */
 	private void updateList() {
 		tournamentList = new SQLiteTournamentDao().getAllTournaments();

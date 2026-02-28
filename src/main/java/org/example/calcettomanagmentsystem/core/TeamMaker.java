@@ -43,11 +43,15 @@ public class TeamMaker {
 		}
 	}
 
+	/**
+	 * Partitions the provided players into windows of the specified team size.
+	 *
+	 * @param players  The list of players to partition.
+	 * @param teamSize The size of each team.
+	 * @return A list of player lists, where each inner list represents a team.
+	 */
 	@NotNull
 	private List<List<Player>> partitionTeams(List<Player> players, int teamSize) {
-		/**
-		 * Partitions the provided players into windows of the specified team size.
-		 */
 		return players.stream()
 				.gather(Gatherers.windowFixed(teamSize))
 				.toList();
