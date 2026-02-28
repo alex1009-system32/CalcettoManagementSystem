@@ -48,18 +48,6 @@ public class Team {
 		return players.contains(player);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Team team = (Team) o;
-		return getTid() == team.getTid() && Objects.equals(getTeamName(), team.getTeamName()) && Objects.equals(players, team.players);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getTid(), getTeamName(), players);
-	}
-
 	/**
 	 * Removes a player from the team roster.
 	 *
@@ -93,6 +81,18 @@ public class Team {
 
 	private void setTeamName(String teamName) {
 		this.teamName = teamName;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Team team = (Team) o;
+		return getTid() == team.getTid() && Objects.equals(getTeamName(), team.getTeamName()) && Objects.equals(players, team.players);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getTid(), getTeamName(), players);
 	}
 
 	@Override

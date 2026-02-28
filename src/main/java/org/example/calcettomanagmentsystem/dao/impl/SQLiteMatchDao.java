@@ -33,12 +33,12 @@ public class SQLiteMatchDao implements MatchDao {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Match addMatch(Tournament tournament, int round) {
+	public Match addMatch(Tournament tournament) {
 		String sql = "insert into \"match\" (round, tid) values (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(2, tournament.getTid());
-			preparedStatement.setInt(1, round);
+			preparedStatement.setInt(1, tournament.getCurrendRound());
 
 			preparedStatement.execute();
 		} catch (SQLException e) {

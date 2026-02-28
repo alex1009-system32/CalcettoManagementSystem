@@ -67,7 +67,13 @@ public class MatchMaker {
 
         for (List<Team> teamList : teams) {
 
-			match = sqliteMatchDao.getAllMatchesFromTournament(tournament);
+			match = sqliteMatchDao.addMatch(tournament);
+
+            for (Team team : teamList) {
+
+                // ToDo : need to update the SQLiteMatchDao.java so that it is useful.
+
+            }
 
         }
 

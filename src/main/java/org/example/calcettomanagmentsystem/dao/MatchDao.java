@@ -14,10 +14,9 @@ public interface MatchDao {
 	 * Persists a new match for the given tournament and round.
 	 *
 	 * @param tournament owning tournament
-	 * @param round round number
 	 * @return created match
 	 */
-	Match addMatch(Tournament tournament, int round);
+	Match addMatch(Tournament tournament);
 
 	/**
 	 * Adds a team to a match and stores its points.
