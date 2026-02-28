@@ -3,6 +3,8 @@ package org.example.calcettomanagmentsystem.dao.impl;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -75,7 +77,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	@Override
-	public boolean increaseRound(Tournament tournament) {
+	public boolean increaseRound(@NotNull Tournament tournament) {
 		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -147,7 +149,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	}
 
 	@Override
-	public boolean deleteTournament(Tournament tournament) {
+	public boolean deleteTournament(@NotNull Tournament tournament) {
 		String sql = "DELETE FROM tounament WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -165,7 +167,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 *
 	 * @return zuletzt gespeichertes Turnier oder {@code null}
 	 */
-	private Tournament getLastTournament() {
+	private @Nullable Tournament getLastTournament() {
 		String sql = "SELECT * FROM tournament ORDER BY tid DESC LIMIT 1";
 
 		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {

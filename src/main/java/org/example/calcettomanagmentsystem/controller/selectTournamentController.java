@@ -101,10 +101,11 @@ public class selectTournamentController implements Initializable {
 		tournamentFlowPane.getChildren().add(tournamentButton);
 
 	}
-	@FXML
+
 	/**
 	 * Opens the selected tournament dashboard.
 	 */
+	@FXML
 	protected void selectTournament(Tournament tournament) {
 
 		App.setTournament(tournament);
@@ -115,10 +116,11 @@ public class selectTournamentController implements Initializable {
 			App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
 		}
 	}
-	@FXML
+
 	/**
 	 * Navigates to the Create Tournament view.
 	 */
+	@FXML
 	protected void addTournament() {
 		App.setRoot(FxmlLocation.CREATE_TOURNAMENT);
 	}

@@ -79,18 +79,18 @@ public class createTournamentController {
 
 	}
 
-	@FXML
 	/**
 	 * Navigates back to the tournament selection screen.
 	 */
+	@FXML
 	protected void cancelTournament() {
 		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
 
-	@FXML
 	/**
 	 * Attempts to create a tournament and navigates on success.
 	 */
+	@FXML
 	protected void createTournament() {
 		if (create()) {
 			App.setRoot(FxmlLocation.SELECT_TOURNAMENT);

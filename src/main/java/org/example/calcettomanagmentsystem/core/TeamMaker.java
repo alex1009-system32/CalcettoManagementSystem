@@ -7,6 +7,7 @@ import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.List;
 import java.util.stream.Gatherers;
@@ -54,7 +55,7 @@ public class TeamMaker {
 	 * @return gruppierte Spielerlisten als Team-Kandidaten
 	 */
 	@NotNull
-	private List<List<Player>> partitionTeams(List<Player> players, int teamSize) {
+	private @Unmodifiable List<List<Player>> partitionTeams(@NotNull List<Player> players, int teamSize) {
 		return players.stream().gather(Gatherers.windowFixed(teamSize)).toList();
 	}
 }

@@ -24,6 +24,7 @@ module org.example.calcettomanagmentsystem {
 	requires java.desktop;
     requires jdk.unsupported;
 	requires javafaker;
+	requires org.jetbrains.annotations;
 
 	exports org.example.calcettomanagmentsystem;
 	exports org.example.calcettomanagmentsystem.controller;

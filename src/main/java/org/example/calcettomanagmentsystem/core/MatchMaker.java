@@ -7,6 +7,7 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class MatchMaker {
 	 * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
 	 * Wiederholung angewiesen, um Dopplungen zu vermeiden.
 	 */
-	public void makePreRounds(Tournament tournament) {
+	public void makePreRounds(@NotNull Tournament tournament) {
 		if (tournament.getCurrendRound() != 0) {
 			return;
 		}
@@ -83,7 +84,7 @@ public class MatchMaker {
 	 * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
 	 * Teams zu mischen.
 	 */
-	public void makeMatchesForRound(Tournament tournament) {
+	public void makeMatchesForRound(@NotNull Tournament tournament) {
 
 		List<Team> teams;
 		SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
@@ -111,7 +112,7 @@ public class MatchMaker {
 	 * @param teams      Team-Paare, optional mit Einzelteam für Freilos
 	 * @param tournament Turnierkontext für Match-Erstellung
 	 */
-	private void createMatches(List<List<Team>> teams, Tournament tournament) {
+	private void createMatches(@NotNull List<List<Team>> teams, Tournament tournament) {
 		if (teams.size() == 0) return;
 
 		SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
@@ -134,6 +135,8 @@ public class MatchMaker {
 	 * @param teams Teams, die für Paarungen berücksichtigt werden
 	 * @return Liste von Team-Paaren, ggf. mit einem Einzelteam
 	 */
+
+	@Unmodifiable
 	@NotNull
 	private List<List<Team>> shuffleTeamList(List<Team> teams) {
 		Collections.shuffle(teams);
@@ -174,7 +177,7 @@ public class MatchMaker {
 	 * @param listB zweite Paarungsliste
 	 * @return {@code true}, wenn identische Paarungen vorhanden sind
 	 */
-	private boolean compareTwo(List<List<Team>> listA, List<List<Team>> listB) {
+	private boolean compareTwo(@NotNull List<List<Team>> listA, List<List<Team>> listB) {
 
 		for (List<Team> teamList1 : listA) {
 
@@ -199,7 +202,8 @@ public class MatchMaker {
 	 * @return sortierte Siegerliste
 	 * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
 	 */
-	private List<Team> getTheWinnersOfCurrentPreRound(Tournament tournament) {
+	@NotNull
+	private List<Team> getTheWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
 		List<Team> winner = new ArrayList<>();
 		Map<Team, Double> teams = new HashMap<>();
 
@@ -245,6 +249,7 @@ public class MatchMaker {
 	 * @param tournament Turnierkontext für die Rundenbewertung
 	 * @return Siegerliste der aktuellen Runde
 	 */
+	@NotNull
 	private List<Team> getTheWinnersOfCurrentRound(Tournament tournament) {
 
 		List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrendRound());

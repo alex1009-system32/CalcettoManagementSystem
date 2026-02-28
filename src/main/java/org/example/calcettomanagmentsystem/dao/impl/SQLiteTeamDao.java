@@ -5,6 +5,8 @@ import org.example.calcettomanagmentsystem.dao.TeamDao;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,7 +69,7 @@ public class SQLiteTeamDao implements TeamDao {
 	 * @return {@code true} bei erfolgreicher Aktualisierung
 	 */
 	@Override
-	public boolean addPlayerToTeam(Player player, Team team) {
+	public boolean addPlayerToTeam(@NotNull Player player, @NotNull Team team) {
 		String sql = "UPDATE player SET player.tid = ? WHERE player.pid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -90,7 +92,7 @@ public class SQLiteTeamDao implements TeamDao {
 	 * @return Teams mit vollständig geladenen Spielern
 	 */
 	@Override
-	public List<Team> getAllTeamsFromTournament(Tournament tournament) {
+	public List<Team> getAllTeamsFromTournament(@NotNull Tournament tournament) {
 		String sql = "SELECT * FROM team WHERE tid IN(SELECT tid FROM player WHERE trid = ?)";
 		String innerSql = "SELECT * FROM player WHERE tid = ?";
 
@@ -193,7 +195,7 @@ public class SQLiteTeamDao implements TeamDao {
 	}
 
 	@Override
-	public boolean deleteTeam(Team team) {
+	public boolean deleteTeam(@NotNull Team team) {
 		String sql = "DELETE FROM team WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -211,7 +213,7 @@ public class SQLiteTeamDao implements TeamDao {
 	 *
 	 * @return zuletzt persistiertes Team oder {@code null}
 	 */
-	private Team getLastTeam() {
+	private @Nullable Team getLastTeam() {
 		String sql = "SELECT * FROM team ORDER BY tid DESC LIMIT 1";
 
 		ResultSet resultset;

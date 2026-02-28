@@ -5,6 +5,8 @@ import org.example.calcettomanagmentsystem.dao.PlayerDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 *           Spieler im Turnier sofort auffindbar sind.
 	 */
 	@Override
-	public Player addPlayer(String pname, String pemail, Tournament tournament) {
+	public Player addPlayer(String pname, String pemail, @NotNull Tournament tournament) {
 		String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -91,7 +93,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 * @implNote Filterung über {@code trid} hält die Ergebnisse turnierspezifisch.
 	 */
 	@Override
-	public List<Player> getAllPlayersFromTournament(Tournament tournament) {
+	public List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament) {
 		String sql = "SELECT * FROM player WHERE trid=?";
 
 		List<Player> players = new ArrayList<>();
@@ -143,7 +145,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deletePlayer(Player player) {
+	public boolean deletePlayer(@NotNull Player player) {
 		String sql = "DELETE FROM player WHERE mid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -161,7 +163,7 @@ public class SQLitePlayerDao implements PlayerDao {
 	 *
 	 * @return zuletzt gespeicherter Spieler oder {@code null}
 	 */
-	private Player getLastPlayer() {
+	private @Nullable Player getLastPlayer() {
 		String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
 
 		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {

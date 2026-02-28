@@ -101,7 +101,7 @@ public class App extends Application {
 	 * @throws IOException if the initial FXML cannot be loaded
 	 */
 	@Override
-	public void start(Stage stage) throws IOException {
+	public void start(@NotNull Stage stage) throws IOException {
 
 		scene = new Scene(
 				loadFXML(root),

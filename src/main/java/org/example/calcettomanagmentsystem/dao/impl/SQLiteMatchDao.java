@@ -6,6 +6,7 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 *           Folgeabfragen über {@code round} konsistent bleiben.
 	 */
 	@Override
-	public Match addMatch(Tournament tournament) {
+	public Match addMatch(@NotNull Tournament tournament) {
 		String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -60,7 +61,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean addTeamToMatch(@NotNull Team team, Match match) {
+	public boolean addTeamToMatch(@NotNull Team team, @NotNull Match match) {
 		String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -82,7 +83,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 *           nicht die Match-Zuordnung beeinflussen.
 	 */
 	@Override
-	public boolean addAddPointToTeamInMatch(Team team, Match match, double point) {
+	public boolean addAddPointToTeamInMatch(@NotNull Team team, @NotNull Match match, double point) {
 		String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -105,7 +106,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 *           vollständige Match-Objekte zu liefern.
 	 */
 	@Override
-	public List<Match> getAllMatchesFromTournament(Tournament tournament) {
+	public List<Match> getAllMatchesFromTournament(@NotNull Tournament tournament) {
 		String sql = "SELECT * FROM \"match\" WHERE tid = ?";
 		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
@@ -151,7 +152,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 * @implNote Der Rundenfilter reduziert bewusst die Datenmenge für die UI.
 	 */
 	@Override
-	public List<Match> getAllMatchesFromTournamentInRound(Tournament tournament, int round) {
+	public List<Match> getAllMatchesFromTournamentInRound(@NotNull Tournament tournament, int round) {
 		String sql = "SELECT * FROM \"match\" WHERE tid = ? AND round = ?";
 		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
@@ -199,7 +200,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 *           auch Ergebnisse pro Team laden zu können.
 	 */
 	@Override
-	public List<Match> getAllMatchesFromTeam(Team team) {
+	public List<Match> getAllMatchesFromTeam(@NotNull Team team) {
 		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
 		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
 
@@ -287,7 +288,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean deleteMatch(Match match) {
+	public boolean deleteMatch(@NotNull Match match) {
 		String sql = "DELETE FROM \"match\" WHERE mid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -305,7 +306,7 @@ public class SQLiteMatchDao implements MatchDao {
 	 *
 	 * @return zuletzt gespeichertes Match oder {@code null}
 	 */
-	private Match getLastMatch() {
+	private @Nullable Match getLastMatch() {
 		String sql = "SELECT * FROM \"match\" ORDER BY mid DESC LIMIT 1";
 
 		Match match;

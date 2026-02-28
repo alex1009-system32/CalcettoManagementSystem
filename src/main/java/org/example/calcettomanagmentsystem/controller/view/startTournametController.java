@@ -204,17 +204,19 @@ public class startTournametController implements Initializable {
 		modalStage.setResizable(false);
 		modalStage.showAndWait();
 	}
-	@FXML
+
 	/**
 	 * Opens the "Add Player" modal dialog.
 	 */
+	@FXML
 	protected void openModal() {
 		displayModal((Stage) tournamentNameLabel.getScene().getWindow());
 	}
-	@FXML
+
 	/**
 	 * Navigates back to the selection screen.
 	 */
+	@FXML
 	protected void goBack() {
 		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
