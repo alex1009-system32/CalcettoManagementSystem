@@ -20,8 +20,7 @@ public class Test {
 	/**
 	 * Initializes the test database schema and sample data.
 	 */
-	static void main() throws InterruptedException, SQLException {
-
+	public static void main(String[] args) throws SQLException {
 		/*
 		List<String> deck = new ArrayList<>();
 		deck.add("Ace");
@@ -36,7 +35,6 @@ public class Test {
 		 */
 
 		SQLiteDB.initTest();
-
 	}
 
 }
