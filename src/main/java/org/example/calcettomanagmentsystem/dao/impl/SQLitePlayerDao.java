@@ -58,8 +58,8 @@ public class SQLitePlayerDao implements PlayerDao {
 
 		List<Player> players = new ArrayList<>();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			ResultSet resultSet = preparedStatement.executeQuery();
+		try (Statement statement = connection.createStatement()) {
+			ResultSet resultSet = statement.executeQuery(sql);
 
 			while (resultSet.next()) {
 				players.add(new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid"))));

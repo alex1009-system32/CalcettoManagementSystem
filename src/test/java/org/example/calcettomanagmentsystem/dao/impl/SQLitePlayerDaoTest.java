@@ -5,10 +5,7 @@ import org.example.calcettomanagmentsystem.model.Player;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,11 +51,11 @@ public class SQLitePlayerDaoTest {
 	@Test
 	void getAllPlayers_emptyResult_boundary() throws Exception {
 		Connection connection = mock(Connection.class);
-		PreparedStatement ps = mock(PreparedStatement.class);
+		Statement ps = mock(Statement.class);
 		ResultSet rs = mock(ResultSet.class);
 
-		when(connection.prepareStatement("SELECT * FROM player")).thenReturn(ps);
-		when(ps.executeQuery()).thenReturn(rs);
+		when(connection.createStatement()).thenReturn(ps);
+		when(ps.executeQuery("SELECT * FROM player")).thenReturn(rs);
 		when(rs.next()).thenReturn(false);
 
 		SQLitePlayerDao dao = createDao(connection);
@@ -73,7 +70,7 @@ public class SQLitePlayerDaoTest {
 	void getAllPlayers_sqlException_returnsEmpty() throws Exception {
 		Connection connection = mock(Connection.class);
 
-		when(connection.prepareStatement(anyString())).thenThrow(new SQLException("fail"));
+		when(connection.createStatement()).thenThrow(new SQLException("fail"));
 
 		SQLitePlayerDao dao = createDao(connection);
 
