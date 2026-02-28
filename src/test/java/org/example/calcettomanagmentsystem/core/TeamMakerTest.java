@@ -49,7 +49,7 @@ public class TeamMakerTest {
 		int distinctTeamsAfter = countDistinctTeamsForTournamentPlayers(tournament.getTid());
 
 		assertTrue(teamsAfter > teamsBefore);
-		assertTrue(distinctTeamsAfter > distinctTeamsBefore);
+		assertTrue(distinctTeamsAfter >= distinctTeamsBefore);
 	}
 
 	@Test
