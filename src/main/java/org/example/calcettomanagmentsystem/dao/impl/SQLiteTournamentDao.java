@@ -192,15 +192,12 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @return last created tournament or null if none
 	 */
 	private Tournament getLastTournament() {
-		String sql = "select * from tournament ORDER BY mid DESC LIMIT 1";
-		ResultSet resultset;
+		String sql = "select * from tournament ORDER BY tid DESC LIMIT 1";
 
-		try (Statement statement= connection.createStatement()) {
-			resultset = statement.executeQuery(sql);
-			while (resultset.next()) {
-				return getTournamentById(
-						resultset.getInt("tid")
-				);
+		try (Statement statement = connection.createStatement();
+		     ResultSet resultset = statement.executeQuery(sql)) {
+			if (resultset.next()) {
+				return getTournamentById(resultset.getInt("tid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

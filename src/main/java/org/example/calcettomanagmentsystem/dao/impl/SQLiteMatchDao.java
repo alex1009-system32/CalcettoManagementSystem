@@ -97,35 +97,29 @@ public class SQLiteMatchDao implements MatchDao {
 		Match match;
 		List<Match> matches = new ArrayList<>();
 
-		PreparedStatement innerPreparedStatement;
-		ResultSet innerResultSet;
-
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, tournament.getTid());
 
-			ResultSet resultset = preparedStatement.executeQuery();
+			try (ResultSet resultset = preparedStatement.executeQuery()) {
+				while (resultset.next()) {
+					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
 
-			while (resultset.next()) {
-				match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
+					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
 
-				innerPreparedStatement = connection.prepareStatement(innerSql);
-				innerPreparedStatement.setInt(1, resultset.getInt("mid"));
+					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
+						while (innerResultSet.next()) {
+							SQLiteTeamDao teamDao = new SQLiteTeamDao();
 
-				innerResultSet = innerPreparedStatement.executeQuery();
+							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
 
-				while (innerResultSet.next()) {
-					SQLiteTeamDao teamDao = new SQLiteTeamDao();
+							match.addTeam(team);
+							match.addPoints(team, innerResultSet.getDouble("points"));
+						}
+					}
 
-					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-					match.addTeam(team);
-					match.addPoints(team, innerResultSet.getDouble("points"));
-
+					matches.add(match);
 				}
-
-				matches.add(match);
-
 			}
 
 		} catch (SQLException e) {
@@ -144,36 +138,30 @@ public class SQLiteMatchDao implements MatchDao {
 		Match match;
 		List<Match> matches = new ArrayList<>();
 
-		PreparedStatement innerPreparedStatement;
-		ResultSet innerResultSet;
-
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, tournament.getTid());
 			preparedStatement.setInt(2, round);
 
-			ResultSet resultset = preparedStatement.executeQuery();
+			try (ResultSet resultset = preparedStatement.executeQuery()) {
+				while (resultset.next()) {
+					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
 
-			while (resultset.next()) {
-				match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
+					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
 
-				innerPreparedStatement = connection.prepareStatement(innerSql);
-				innerPreparedStatement.setInt(1, resultset.getInt("mid"));
+					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
+						while (innerResultSet.next()) {
+							SQLiteTeamDao teamDao = new SQLiteTeamDao();
 
-				innerResultSet = innerPreparedStatement.executeQuery();
+							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
 
-				while (innerResultSet.next()) {
-					SQLiteTeamDao teamDao = new SQLiteTeamDao();
+							match.addTeam(team);
+							match.addPoints(team, innerResultSet.getDouble("points"));
+						}
+					}
 
-					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-					match.addTeam(team);
-					match.addPoints(team, innerResultSet.getDouble("points"));
-
+					matches.add(match);
 				}
-
-				matches.add(match);
-
 			}
 
 		} catch (SQLException e) {
@@ -194,35 +182,29 @@ public class SQLiteMatchDao implements MatchDao {
 		Match match;
 		List<Match> matches = new ArrayList<>();
 
-		PreparedStatement innerPreparedStatement;
-		ResultSet innerResultSet;
-
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, team.getTid());
 
-			ResultSet resultset = preparedStatement.executeQuery();
+			try (ResultSet resultset = preparedStatement.executeQuery()) {
+				while (resultset.next()) {
+					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
 
-			while (resultset.next()) {
-				match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
+					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
 
-				innerPreparedStatement = connection.prepareStatement(innerSql);
-				innerPreparedStatement.setInt(1, resultset.getInt("mid"));
+					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
+						while (innerResultSet.next()) {
+							SQLiteTeamDao teamDao = new SQLiteTeamDao();
 
-				innerResultSet = innerPreparedStatement.executeQuery();
+							Team teamObj = teamDao.getTeamById(innerResultSet.getInt("tid"));
 
-				while (innerResultSet.next()) {
-					SQLiteTeamDao teamDao = new SQLiteTeamDao();
+							match.addTeam(teamObj);
+							match.addPoints(teamObj, innerResultSet.getDouble("points"));
+						}
+					}
 
-					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-					match.addTeam(team);
-					match.addPoints(team, innerResultSet.getDouble("points"));
-
+					matches.add(match);
 				}
-
-				matches.add(match);
-
 			}
 
 		} catch (SQLException e) {
@@ -243,33 +225,27 @@ public class SQLiteMatchDao implements MatchDao {
 		Team team;
 		Match match = null;
 
-		PreparedStatement innerPreparedStatement;
-		ResultSet innerResultSet;
-
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
 			preparedStatement.setInt(1, mid);
 
-			ResultSet resultset = preparedStatement.executeQuery();
+			try (ResultSet resultset = preparedStatement.executeQuery()) {
+				while (resultset.next()) {
+					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
 
-			while (resultset.next()) {
-				match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
+					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
 
-				innerPreparedStatement = connection.prepareStatement(innerSql);
-				innerPreparedStatement.setInt(1, resultset.getInt("mid"));
+					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
+						while (innerResultSet.next()) {
+							SQLiteTeamDao teamDao = new SQLiteTeamDao();
 
-				innerResultSet = innerPreparedStatement.executeQuery();
+							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
 
-				while (innerResultSet.next()) {
-					SQLiteTeamDao teamDao = new SQLiteTeamDao();
-
-					team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-					match.addTeam(team);
-					match.addPoints(team, innerResultSet.getDouble("points"));
-
+							match.addTeam(team);
+							match.addPoints(team, innerResultSet.getDouble("points"));
+						}
+					}
 				}
-
 			}
 
 		} catch (SQLException e) {

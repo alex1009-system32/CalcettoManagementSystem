@@ -159,17 +159,12 @@ public class SQLitePlayerDao implements PlayerDao {
 	}
 
 	private Player getLastPlayer() {
-		String sql = "select * from player ORDER BY mid DESC LIMIT 1";
+		String sql = "select * from player ORDER BY pid DESC LIMIT 1";
 
-		Match match;
-		ResultSet resultset;
-
-		try (Statement statement= connection.createStatement()) {
-			resultset = statement.executeQuery(sql);
-			while (resultset.next()) {
-				return getPlayerById(
-						resultset.getInt("mid")
-				);
+		try (Statement statement = connection.createStatement();
+		     ResultSet resultset = statement.executeQuery(sql)) {
+			if (resultset.next()) {
+				return getPlayerById(resultset.getInt("pid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
