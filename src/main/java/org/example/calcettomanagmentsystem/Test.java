@@ -2,9 +2,11 @@ package org.example.calcettomanagmentsystem;
 
 import com.github.javafaker.Faker;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.sql.SQLException;
@@ -41,11 +43,8 @@ public class Test {
 		System.out.println(deck);
 		 */
 
-		List<Tournament> tournaments = new SQLiteTournamentDao().getAllTournaments();
-
-		for (Tournament tournament : tournaments) {
-			System.out.println(tournament);
-		}
+		//new SQLiteTeamDao().getAllTeamsFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
+		new SQLiteMatchDao().getAllMatchesFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
 
 	}
 

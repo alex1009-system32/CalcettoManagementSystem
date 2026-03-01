@@ -11,67 +11,80 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../../css/view/startTournamet-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.view.startTournametController">
+<HBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container"
+      stylesheets="@../../css/view/startTournament-styles.css" xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.calcettomanagmentsystem.controller.view.startTournamentController">
 
     <children>
-        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="200.0"
+              HBox.hgrow="ALWAYS">
             <children>
                 <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="550.0" styleClass="info-pane">
                     <children>
                         <VBox layoutX="3.0" layoutY="60.0" prefWidth="420.0" spacing="25.0">
                             <children>
                                 <VBox alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
-                                    <Label fx:id="tournamentNameLabel" styleClass="header-text" text="Emerald Cup" />
-                                    <Region maxWidth="80.0" minHeight="4.0" styleClass="emerald-line" />
+                                    <Label fx:id="tournamentNameLabel" styleClass="header-text" text="Emerald Cup"/>
+                                    <Region maxWidth="80.0" minHeight="4.0" styleClass="emerald-line"/>
                                 </VBox>
 
                                 <VBox spacing="15.0" styleClass="stats-card">
                                     <children>
                                         <VBox styleClass="stat-item" VBox.vgrow="ALWAYS">
-                                            <Label styleClass="label-minor" text="PRE ROUND" />
-                                            <Label fx:id="preRoundLabel" styleClass="label-major" text="Group Stage" />
+                                            <Label styleClass="label-minor" text="PRE ROUND"/>
+                                            <Label fx:id="preRoundLabel" styleClass="label-major" text="Group Stage"/>
                                         </VBox>
                                         <VBox styleClass="stat-item" VBox.vgrow="ALWAYS">
-                                            <Label styleClass="label-minor" text="CURRENT ROUND" />
-                                            <Label fx:id="currentRoundLabel" styleClass="label-major-emerald" text="Semi-Finals" />
+                                            <Label styleClass="label-minor" text="CURRENT ROUND"/>
+                                            <Label fx:id="currentRoundLabel" styleClass="label-major-emerald"
+                                                   text="Semi-Finals"/>
                                         </VBox>
                                         <VBox styleClass="stat-item" VBox.vgrow="ALWAYS">
-                                            <Label styleClass="label-minor" text="MAX TEAM SIZE" />
-                                            <Label fx:id="maxTeamSizeLabel" styleClass="label-major" text="5 vs 5" />
+                                            <Label styleClass="label-minor" text="MAX TEAM SIZE"/>
+                                            <Label fx:id="maxTeamSizeLabel" styleClass="label-major" text="5 vs 5"/>
                                         </VBox>
                                     </children>
                                 </VBox>
 
                                 <VBox>
-                                    <Button maxWidth="1.7976931348623157E308" onAction="#openModal" styleClass="submit-button" text="+ Add Player" />
-                                    <Button maxWidth="1.7976931348623157E308" onAction="#goBack" styleClass="cancel-button" text="go Back" />
+                                    <Button maxWidth="1.7976931348623157E308" onAction="#openModal"
+                                            styleClass="submit-button" text="+ Add Player"/>
+                                    <Button maxWidth="1.7976931348623157E308" onAction="#goBack"
+                                            styleClass="cancel-button" text="go Back"/>
                                 </VBox>
                             </children>
                             <padding>
-                                <Insets left="20.0" right="20.0" />
+                                <Insets left="20.0" right="20.0"/>
                             </padding>
                         </VBox>
                     </children>
                 </Pane>
             </children>
         </VBox>
-      <VBox HBox.hgrow="ALWAYS">
-         <children>
-      
-              <ScrollPane fitToWidth="true" hbarPolicy="NEVER" minWidth="400.0" styleClass="custom-scroll-pane" VBox.vgrow="ALWAYS">
-                  <content>
-                      <FlowPane fx:id="playerFlowPane" alignment="TOP_CENTER" orientation="VERTICAL" styleClass="tournament-grid" />
-                  </content>
-                  <padding>
-                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                  </padding>
-              </ScrollPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
-               <center>
-                  <Button mnemonicParsing="false" text="Start Tounament" textAlignment="CENTER" BorderPane.alignment="CENTER" />
-               </center>
-            </BorderPane>
-         </children>
-      </VBox>
+        <VBox HBox.hgrow="ALWAYS">
+            <children>
+
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" minWidth="400.0" styleClass="custom-scroll-pane"
+                            VBox.vgrow="ALWAYS">
+                    <content>
+                        <FlowPane fx:id="playerFlowPane" alignment="TOP_CENTER" styleClass="tournament-grid"/>
+                    </content>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </ScrollPane>
+                <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                    <center>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="500.0" styleClass="submit-button"
+                                text="Start Tournament" textAlignment="CENTER" BorderPane.alignment="CENTER" onAction="#startTournament">
+                            <BorderPane.margin>
+                                <Insets/>
+                            </BorderPane.margin>
+                        </Button>
+                    </center>
+                </BorderPane>
+            </children>
+        </VBox>
     </children>
 </HBox>

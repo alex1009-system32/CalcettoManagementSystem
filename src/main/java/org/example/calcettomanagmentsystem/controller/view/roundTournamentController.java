@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * Ergebnisdarstellung zentral zu bündeln.
  * </p>
  */
-public class roundTournametController implements Initializable {
+public class roundTournamentController implements Initializable {
 	/**
 	 * Initialisiert den Controller mit Ressourcenbezug.
 	 *

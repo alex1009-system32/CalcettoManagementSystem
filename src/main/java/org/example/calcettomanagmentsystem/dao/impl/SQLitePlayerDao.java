@@ -23,157 +23,166 @@ import java.util.List;
  */
 public class SQLitePlayerDao implements PlayerDao {
 
-	/**
-	 * Geteilte Verbindung zur Sicherstellung konsistenter Abfragen.
-	 */
-	private Connection connection;
+    /**
+     * Geteilte Verbindung zur Sicherstellung konsistenter Abfragen.
+     */
+    private Connection connection;
 
-	/**
-	 * Initializes the DAO with a shared database connection.
-	 */
-	public SQLitePlayerDao() {
-		try {
-			this.connection = SQLiteDB.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Initializes the DAO with a shared database connection.
+     */
+    public SQLitePlayerDao() {
+        try {
+            this.connection = SQLiteDB.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Der Turnierbezug wird direkt beim Einfügen gesetzt, damit
-	 *           Spieler im Turnier sofort auffindbar sind.
-	 */
-	@Override
-	public Player addPlayer(String pname, String pemail, @NotNull Tournament tournament) {
-		String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote Der Turnierbezug wird direkt beim Einfügen gesetzt, damit
+     * Spieler im Turnier sofort auffindbar sind.
+     */
+    @Override
+    public Player addPlayer(String pname, String pemail, @NotNull Tournament tournament) {
+        String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setString(1, pname);
-			preparedStatement.setString(2, pemail);
-			preparedStatement.setInt(3, tournament.getTid());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, pname);
+            preparedStatement.setString(2, pemail);
+            preparedStatement.setInt(3, tournament.getTid());
 
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return getLastPlayer();
-	}
+        return getLastPlayer();
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Die Turnierverknüpfung wird nachgeladen, damit die
-	 *           Rückgabeobjekte sofort navigierbar sind.
-	 */
-	@Override
-	public List<Player> getAllPlayers() {
-		String sql = "SELECT * FROM player";
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote Die Turnierverknüpfung wird nachgeladen, damit die
+     * Rückgabeobjekte sofort navigierbar sind.
+     */
+    @Override
+    public List<Player> getAllPlayers() {
+        String sql = "SELECT * FROM player";
 
-		List<Player> players = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
 
-		try (Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(sql);
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
 
-			while (resultSet.next()) {
-				players.add(new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid"))));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            while (resultSet.next()) {
+                players.add(new Player(resultSet.getInt("pid"),
+                                       resultSet.getString("pname"),
+                                       resultSet.getString("pemail"),
+                                       new SQLiteTournamentDao().getTournamentById(resultSet.getInt("trid"))));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return players;
-	}
+        return players;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Filterung über {@code trid} hält die Ergebnisse turnierspezifisch.
-	 */
-	@Override
-	public List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament) {
-		String sql = "SELECT * FROM player WHERE trid=?";
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote Filterung über {@code trid} hält die Ergebnisse turnierspezifisch.
+     */
+    @Override
+    public List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament) {
+        String sql = "SELECT * FROM player WHERE trid=?";
 
-		List<Player> players = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tournament.getTid());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, tournament.getTid());
 
-			ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-			while (resultSet.next()) {
-				players.add(new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid"))));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            while (resultSet.next()) {
+                players.add(new Player(resultSet.getInt("pid"),
+                                       resultSet.getString("pname"),
+                                       resultSet.getString("pemail"),
+                                       tournament));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return players;
-	}
+        return players;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Das Turnier wird nachgeladen, um eine vollständige
-	 *           Spieleransicht bereitzustellen.
-	 */
-	@Override
-	public Player getPlayerById(int pid) {
-		String sql = "SELECT * FROM player WHERE pid = ?";
+    /**
+     * {@inheritDoc}
+     *
+     * @implNote Das Turnier wird nachgeladen, um eine vollständige
+     * Spieleransicht bereitzustellen.
+     */
+    @Override
+    public Player getPlayerById(int pid) {
+        String sql = "SELECT * FROM player WHERE pid = ?";
 
-		Player player = null;
+        Player player = null;
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, pid);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, pid);
 
-			ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-			while (resultSet.next()) {
-				player = new Player(resultSet.getInt("pid"), resultSet.getString("pname"), resultSet.getString("pemail"), new SQLiteTournamentDao().getTournamentById(resultSet.getInt("tid")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            while (resultSet.next()) {
+                player = new Player(resultSet.getInt("pid"),
+                                    resultSet.getString("pname"),
+                                    resultSet.getString("pemail"),
+                                    new SQLiteTournamentDao().getTournamentById(resultSet.getInt("trid")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return player;
+        return player;
 
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean deletePlayer(@NotNull Player player) {
-		String sql = "DELETE FROM player WHERE mid = ?";
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean deletePlayer(@NotNull Player player) {
+        String sql = "DELETE FROM player WHERE pid = ?";
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, player.pid());
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			return false;
-		}
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, player.pid());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Liefert den zuletzt persistierten Spieler zur Bestätigung der Anlage.
-	 *
-	 * @return zuletzt gespeicherter Spieler oder {@code null}
-	 */
-	private @Nullable Player getLastPlayer() {
-		String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
+    /**
+     * Liefert den zuletzt persistierten Spieler zur Bestätigung der Anlage.
+     *
+     * @return zuletzt gespeicherter Spieler oder {@code null}
+     */
+    private @Nullable Player getLastPlayer() {
+        String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
 
-		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
-			if (resultset.next()) {
-				return getPlayerById(resultset.getInt("pid"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
+            if (resultset.next()) {
+                return getPlayerById(resultset.getInt("pid"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

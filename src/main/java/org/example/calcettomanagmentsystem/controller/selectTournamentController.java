@@ -124,7 +124,7 @@ public class selectTournamentController implements Initializable {
 
 		App.setTournament(tournament);
 
-		if (tournament.getCurrendRound() <= 0.0) {
+		if (tournament.getCurrendRound() <= 0) {
 			App.setRoot(FxmlLocation.START_TOURNAMENT);
 		} else {
 			App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
