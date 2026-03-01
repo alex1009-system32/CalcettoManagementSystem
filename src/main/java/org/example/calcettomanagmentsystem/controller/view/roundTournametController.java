@@ -6,16 +6,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the round-based tournament view.
- * Currently a placeholder for future round management UI.
- * This controller is intended to handle the display and interaction of tournament rounds.
+ * Controller für die Rundenansicht eines Turniers.
+ * <p>
+ * Die Klasse dient als Platzhalter, um später Rundensteuerung und
+ * Ergebnisdarstellung zentral zu bündeln.
+ * </p>
  */
 public class roundTournametController implements Initializable {
 	/**
-	 * Initializes the controller class.
+	 * Initialisiert den Controller mit Ressourcenbezug.
 	 *
-	 * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
-	 * @param resources The resources used to localize the root object, or null if the root object was not localized.
+	 * @param location  Ressourcenbasis der FXML
+	 * @param resources Lokalisierungsbundle, sofern vorhanden
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

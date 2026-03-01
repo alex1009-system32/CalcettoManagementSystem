@@ -9,13 +9,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Prüft die öffentliche API des {@link MatchDao}.
+ */
 public class MatchDaoTest {
 
+	/**
+	 * Stellt sicher, dass {@link MatchDao} als Interface definiert ist.
+	 */
 	@Test
 	void isInterface() {
 		assertTrue(MatchDao.class.isInterface());
 	}
 
+	/**
+	 * Validiert die erwartete Methodensignatur der Schnittstelle.
+	 */
 	@Test
 	void declaresExpectedMethods() {
 		List<String> methodNames = Arrays.stream(MatchDao.class.getDeclaredMethods())

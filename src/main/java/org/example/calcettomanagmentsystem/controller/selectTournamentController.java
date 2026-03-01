@@ -21,17 +21,31 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Controller that renders the list of tournaments and handles selection/creation actions.
- * Initializes the dashboard view with cards for each available tournament.
+ * Controller für die Turnierübersicht und Navigation.
+ * <p>
+ * Die Ansicht dient als zentraler Einstiegspunkt, um bestehende Turniere
+ * auszuwählen oder neue anzulegen.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.App
+ * @see org.example.calcettomanagmentsystem.FxmlLocation
  */
 public class selectTournamentController implements Initializable {
+	/**
+	 * Zwischenspeicher der geladenen Turniere für UI-Rendering.
+	 */
 	List<Tournament> tournamentList;
+	/**
+	 * Container für die dynamisch erzeugten Turnierkarten.
+	 */
 	@FXML
 	private FlowPane tournamentFlowPane;
 
 	/**
-	 * Refreshes the tournament cards shown in the view.
-	 * Fetches all tournaments from the database and dynamically creates UI elements for them.
+	 * Aktualisiert die Turnierkarten basierend auf der aktuellen Datenlage.
+	 *
+	 * @implNote Die UI-Elemente werden vollständig neu erstellt, um eine
+	 *           konsistente Darstellung nach Datenänderungen sicherzustellen.
 	 */
 	private void updateList() {
 		tournamentList = new SQLiteTournamentDao().getAllTournaments();
@@ -103,7 +117,7 @@ public class selectTournamentController implements Initializable {
 	}
 
 	/**
-	 * Opens the selected tournament dashboard.
+	 * Öffnet die passende Turnieransicht basierend auf dem Fortschritt.
 	 */
 	@FXML
 	protected void selectTournament(Tournament tournament) {
@@ -118,12 +132,18 @@ public class selectTournamentController implements Initializable {
 	}
 
 	/**
-	 * Navigates to the Create Tournament view.
+	 * Navigiert zur Maske für das Erstellen eines neuen Turniers.
 	 */
 	@FXML
 	protected void addTournament() {
 		App.setRoot(FxmlLocation.CREATE_TOURNAMENT);
 	}
+	/**
+	 * Initialisiert die Ansicht mit den aktuell verfügbaren Turnieren.
+	 *
+	 * @param location  Ressourcenbasis der FXML
+	 * @param resources Lokalisierungsbundle, sofern vorhanden
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		updateList();

@@ -6,21 +6,35 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a team participating in a tournament.
- * A team has a unique id, a display name, and a roster of players.
+ * Domänenobjekt für ein Team innerhalb eines Turniers.
+ * <p>
+ * Die Klasse hält Teamidentität und Kader zusammen, damit Match-Logik
+ * ohne direkte Datenbankabhängigkeit arbeiten kann.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.model.Player
  */
 public class Team {
 
+	/**
+	 * Primärschlüssel zur eindeutigen Identifikation.
+	 */
 	private int tid;
+	/**
+	 * Anzeigename des Teams für UI und Auswertungen.
+	 */
 	private String teamName;
 
+	/**
+	 * Kaderliste der zugeordneten Spieler.
+	 */
 	private final List<Player> players;
 
 	/**
-	 * Creates a new team with the given id and name.
+	 * Erstellt ein Team mit Identität und Anzeigename.
 	 *
-	 * @param tid unique team identifier
-	 * @param teamName team display name
+	 * @param tid eindeutige Team-ID
+	 * @param teamName Teamname für UI und Berichte
 	 */
 	public Team(int tid, String teamName) {
 		this.players = new ArrayList<Player>();
@@ -30,59 +44,75 @@ public class Team {
 	}
 
 	/**
-	 * Adds a player to the team roster.
+	 * Fügt einen Spieler dem Kader hinzu, um die Teamzugehörigkeit zu spiegeln.
 	 *
-	 * @param player player to add
+	 * @param player Spieler, der dem Team beitritt
 	 */
 	public void addPlayer(Player player) {
 		players.add(player);
 	}
 
 	/**
-	 * Checks whether the team currently contains the given player.
+	 * Prüft, ob der Spieler bereits Teil des Kaders ist.
 	 *
-	 * @param player player to check
-	 * @return true if the player is on the roster, false otherwise
+	 * @param player zu prüfender Spieler
+	 * @return {@code true}, wenn der Spieler im Kader enthalten ist
 	 */
 	public boolean containsPlayer(Player player) {
 		return players.contains(player);
 	}
 
 	/**
-	 * Removes a player from the team roster.
+	 * Entfernt einen Spieler, z. B. bei Teamwechsel.
 	 *
-	 * @param player player to remove
+	 * @param player Spieler, der entfernt werden soll
 	 */
 	public void removePlayer(Player player) {
 		players.remove(player);
 	}
 
 	/**
-	 * Returns the team identifier.
+	 * Liefert die Team-ID für Referenzen.
 	 *
-	 * @return team id
+	 * @return Team-ID
 	 */
 	public int getTid() {
 		return tid;
 	}
 
 	/**
-	 * Returns the team display name.
+	 * Liefert den Teamnamen für die Anzeige.
 	 *
-	 * @return team name
+	 * @return Teamname
 	 */
 	public String getTeamName() {
 		return teamName;
 	}
 
+	/**
+	 * Setzt die Team-ID intern, um Konsistenz zu wahren.
+	 *
+	 * @param tid eindeutige Team-ID
+	 */
 	private void setTid(int tid) {
 		this.tid = tid;
 	}
 
+	/**
+	 * Setzt den Teamnamen intern, um Konsistenz zu wahren.
+	 *
+	 * @param teamName neuer Teamname
+	 */
 	private void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
 
+	/**
+	 * Vergleicht Teams anhand Identität und Kader.
+	 *
+	 * @param o Vergleichsobjekt
+	 * @return {@code true}, wenn die relevanten Felder übereinstimmen
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
@@ -90,11 +120,21 @@ public class Team {
 		return getTid() == team.getTid() && Objects.equals(getTeamName(), team.getTeamName()) && Objects.equals(players, team.players);
 	}
 
+	/**
+	 * Erzeugt einen Hash für Collections und Caches.
+	 *
+	 * @return Hashcode basierend auf Teamdaten
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(getTid(), getTeamName(), players);
 	}
 
+	/**
+	 * Liefert eine lesbare Darstellung für Logs und Debugging.
+	 *
+	 * @return textuelle Repräsentation des Teams
+	 */
 	@Override
 	public String toString() {
 		return "Team{" + "tid=" + tid + ", teamName='" + teamName + '\'' + ", players=" + Arrays.toString(players.toArray()) + '}';

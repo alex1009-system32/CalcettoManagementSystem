@@ -17,10 +17,21 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Testet die Match-Erstellung unter kontrollierten Datenbankbedingungen.
+ */
 public class MatchMakerTest {
 
+	/**
+	 * In-Memory-Verbindung für reproduzierbare Tests.
+	 */
 	private Connection connection;
 
+	/**
+	 * Initialisiert die Testdatenbank und bindet sie an {@link SQLiteDB}.
+	 *
+	 * @throws Exception bei Fehlern im Setup
+	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		connection = DriverManager.getConnection("jdbc:sqlite::memory:");
@@ -28,6 +39,11 @@ public class MatchMakerTest {
 		SQLiteDB.initTest();
 	}
 
+	/**
+	 * Räumt Ressourcen und statische Verbindungen auf.
+	 *
+	 * @throws Exception bei Fehlern im Teardown
+	 */
 	@AfterEach
 	void tearDown() throws Exception {
 		if (connection != null) {
@@ -36,6 +52,9 @@ public class MatchMakerTest {
 		setStaticConnection(null);
 	}
 
+	/**
+	 * Prüft, dass bei bereits gestarteten Turnieren keine Vorrunden erzeugt werden.
+	 */
 	@Test
 	void makePreRounds_returnsImmediatelyWhenCurrentRoundNotZero() {
 		Tournament tournament = mock(Tournament.class);
@@ -47,6 +66,11 @@ public class MatchMakerTest {
 		verifyNoMoreInteractions(tournament);
 	}
 
+	/**
+	 * Prüft, dass Matches erstellt und die Runde fortgeschrieben wird.
+	 *
+	 * @throws Exception bei Datenbankfehlern
+	 */
 	@Test
 	void makeMatchesForRound_increasesRoundAndAddsMatches() throws Exception {
 		SQLiteTournamentDao tournamentDao = new SQLiteTournamentDao();
@@ -64,6 +88,11 @@ public class MatchMakerTest {
 		assertTrue(updatedMatchCount >= initialMatchCount);
 	}
 
+	/**
+	 * Prüft das Verhalten bei Turnieren ohne Matches als Grenzfall.
+	 *
+	 * @throws Exception bei Datenbankfehlern
+	 */
 	@Test
 	void makeMatchesForRound_noMatchesBoundaryStillIncreasesRound() throws Exception {
 		SQLiteTournamentDao tournamentDao = new SQLiteTournamentDao();
@@ -81,6 +110,13 @@ public class MatchMakerTest {
 		assertEquals(initialMatchCount, updatedMatchCount);
 	}
 
+	/**
+	 * Zählt Matches eines Turniers zur Fortschrittsprüfung.
+	 *
+	 * @param tournamentId Turnier-ID
+	 * @return Anzahl der Matches
+	 * @throws Exception bei Datenbankfehlern
+	 */
 	private int countMatchesForTournament(int tournamentId) throws Exception {
 		try (Statement statement = connection.createStatement();
 		     ResultSet rs = statement.executeQuery("SELECT COUNT(*) AS c FROM \"match\" WHERE tid = " + tournamentId)) {
@@ -91,6 +127,13 @@ public class MatchMakerTest {
 		return 0;
 	}
 
+	/**
+	 * Liest die aktuelle Runde eines Turniers aus der Datenbank.
+	 *
+	 * @param tournamentId Turnier-ID
+	 * @return aktuelle Runde
+	 * @throws Exception bei Datenbankfehlern
+	 */
 	private int getTournamentCurrentRound(int tournamentId) throws Exception {
 		try (Statement statement = connection.createStatement();
 		     ResultSet rs = statement.executeQuery("SELECT current_round FROM tournament WHERE tid = " + tournamentId)) {
@@ -101,6 +144,12 @@ public class MatchMakerTest {
 		return 0;
 	}
 
+	/**
+	 * Überschreibt die statische Verbindung von {@link SQLiteDB} für Tests.
+	 *
+	 * @param conn Testverbindung
+	 * @throws Exception bei Reflektionsfehlern
+	 */
 	private void setStaticConnection(Connection conn) throws Exception {
 		Field field = SQLiteDB.class.getDeclaredField("connection");
 		field.setAccessible(true);

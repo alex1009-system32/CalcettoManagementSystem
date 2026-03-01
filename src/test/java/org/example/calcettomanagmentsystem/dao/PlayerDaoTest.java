@@ -9,13 +9,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Prüft die öffentliche API des {@link PlayerDao}.
+ */
 public class PlayerDaoTest {
 
+	/**
+	 * Stellt sicher, dass {@link PlayerDao} als Interface definiert ist.
+	 */
 	@Test
 	void isInterface() {
 		assertTrue(PlayerDao.class.isInterface());
 	}
 
+	/**
+	 * Validiert die erwarteten Methodensignaturen der Schnittstelle.
+	 */
 	@Test
 	void declaresExpectedMethods() {
 		List<String> methodNames = Arrays.stream(PlayerDao.class.getDeclaredMethods())

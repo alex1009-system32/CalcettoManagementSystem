@@ -11,8 +11,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Verifiziert die SQL-Zugriffe der Player-DAO-Implementierung.
+ */
 public class SQLitePlayerDaoTest {
 
+	/**
+	 * Erstellt eine DAO mit gemockter {@link SQLiteDB}-Verbindung.
+	 *
+	 * @param connection Mock-Verbindung
+	 * @return DAO-Instanz für Tests
+	 */
 	private SQLitePlayerDao createDao(Connection connection) {
 		try (MockedStatic<SQLiteDB> mocked = mockStatic(SQLiteDB.class)) {
 			mocked.when(SQLiteDB::getConnection).thenReturn(connection);
@@ -20,6 +29,11 @@ public class SQLitePlayerDaoTest {
 		}
 	}
 
+	/**
+	 * Prüft den Erfolgsfall bei der Löschung eines Spielers.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void deletePlayer_success() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -35,6 +49,11 @@ public class SQLitePlayerDaoTest {
 		verify(ps).execute();
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung bei SQL-Ausnahme während der Löschung.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void deletePlayer_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -48,6 +67,11 @@ public class SQLitePlayerDaoTest {
 		assertFalse(result);
 	}
 
+	/**
+	 * Prüft leere Ergebnislisten als Grenzfall.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void getAllPlayers_emptyResult_boundary() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -66,6 +90,11 @@ public class SQLitePlayerDaoTest {
 		assertTrue(players.isEmpty());
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung bei SQL-Ausnahme beim Lesen.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void getAllPlayers_sqlException_returnsEmpty() throws Exception {
 		Connection connection = mock(Connection.class);

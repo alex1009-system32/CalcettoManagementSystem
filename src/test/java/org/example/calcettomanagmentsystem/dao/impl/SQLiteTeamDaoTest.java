@@ -16,8 +16,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Verifiziert die SQL-Zugriffe der Team-DAO-Implementierung.
+ */
 public class SQLiteTeamDaoTest {
 
+	/**
+	 * Erstellt eine DAO mit gemockter {@link SQLiteDB}-Verbindung.
+	 *
+	 * @param connection Mock-Verbindung
+	 * @return DAO-Instanz für Tests
+	 */
 	private SQLiteTeamDao createDao(Connection connection) {
 		try (MockedStatic<SQLiteDB> mocked = mockStatic(SQLiteDB.class)) {
 			mocked.when(SQLiteDB::getConnection).thenReturn(connection);
@@ -25,6 +34,11 @@ public class SQLiteTeamDaoTest {
 		}
 	}
 
+	/**
+	 * Prüft den Erfolgsfall beim Zuordnen eines Spielers zu einem Team.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void addPlayerToTeam_success() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -43,6 +57,11 @@ public class SQLiteTeamDaoTest {
 		verify(ps).executeUpdate();
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung bei SQL-Ausnahme während der Zuordnung.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void addPlayerToTeam_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -60,6 +79,11 @@ public class SQLiteTeamDaoTest {
 		assertFalse(team.containsPlayer(player));
 	}
 
+	/**
+	 * Prüft leere Ergebnislisten als Grenzfall.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void getAllTeamsFromTournament_emptyResult_boundary() throws Exception {
 		Connection connection = mock(Connection.class);

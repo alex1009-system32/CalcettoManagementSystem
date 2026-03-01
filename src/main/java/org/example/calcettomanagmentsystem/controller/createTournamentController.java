@@ -7,28 +7,48 @@ import org.example.calcettomanagmentsystem.FxmlLocation;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 
 /**
- * Controller responsible for creating new tournaments through the form UI.
- * Handles input validation and database persistence for new tournament entities.
+ * Verantwortet die Turniererstellung über die Eingabemaske.
+ * <p>
+ * Ziel ist eine zentrale Validierung und Persistenz, damit die UI
+ * keine Datenbankkenntnisse besitzen muss.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao
  */
 public class createTournamentController {
 
+	/**
+	 * Feld für den Anzeigenamen des Turniers.
+	 */
 	@FXML
 	private TextField nameField;
 
+	/**
+	 * Feld für die geplante Turnierdauer in Tagen.
+	 */
 	@FXML
 	private TextField durationField;
 
+	/**
+	 * Feld für die Anzahl der Vorrunden.
+	 */
 	@FXML
 	private TextField preRoundField;
 
+	/**
+	 * Feld für die Teamgröße; aktuell im UI deaktiviert.
+	 */
 	@FXML
 	private TextField teamSizeField;
 
 	/**
-	 * Validates form fields and persists a new tournament if valid.
-	 * Checks for empty fields and highlights them with error styling if necessary.
+	 * Validiert Eingaben und persistiert das Turnier, falls alle Pflichtwerte vorhanden sind.
+	 * <p>
+	 * Die Intention ist eine frühe Rückmeldung im UI, bevor Persistenz ausgelöst wird.
+	 * </p>
 	 *
-	 * @return true if creation succeeded and data was valid, false otherwise.
+	 * @return {@code true} bei erfolgreicher Erstellung
+	 * @throws NumberFormatException wenn numerische Felder nicht parsebar sind
 	 */
 	private boolean create() {
 		boolean result = true;
@@ -80,7 +100,7 @@ public class createTournamentController {
 	}
 
 	/**
-	 * Navigates back to the tournament selection screen.
+	 * Kehrt zur Turnierauswahl zurück, ohne Änderungen zu persistieren.
 	 */
 	@FXML
 	protected void cancelTournament() {
@@ -88,7 +108,7 @@ public class createTournamentController {
 	}
 
 	/**
-	 * Attempts to create a tournament and navigates on success.
+	 * Erstellt das Turnier und navigiert anschließend zur Auswahlansicht.
 	 */
 	@FXML
 	protected void createTournament() {

@@ -13,16 +13,19 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Ad-hoc test harness for local experiments and database initialization.
- * Used primarily for setting up the test database environment.
+ * Lokaler Einstiegspunkt für manuelle Experimente und Datenbankchecks.
+ * <p>
+ * Die Klasse ist bewusst nicht Teil der Produktivlogik und dient
+ * zur schnellen Validierung während der Entwicklung.
+ * </p>
  */
 public class Test {
 
 	/**
-	 * Initializes the test database schema and sample data.
+	 * Führt einfache Laufzeitprüfungen gegen die Datenbank aus.
 	 *
-	 * @param args Command line arguments (unused).
-	 * @throws SQLException If a database access error occurs.
+	 * @param args Prozessargumente, derzeit ohne Auswertung
+	 * @throws SQLException wenn der Datenbankzugriff fehlschlägt
 	 */
 	public static void main(String[] args) throws SQLException {
 		/*

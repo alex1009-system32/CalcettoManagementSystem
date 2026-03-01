@@ -15,8 +15,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Verifiziert die SQL-Zugriffe der Turnier-DAO-Implementierung.
+ */
 public class SQLiteTournamentDaoTest {
 
+	/**
+	 * Erstellt eine DAO mit gemockter {@link SQLiteDB}-Verbindung.
+	 *
+	 * @param connection Mock-Verbindung
+	 * @return DAO-Instanz für Tests
+	 */
 	private SQLiteTournamentDao createDao(Connection connection) {
 		try (MockedStatic<SQLiteDB> mocked = mockStatic(SQLiteDB.class)) {
 			mocked.when(SQLiteDB::getConnection).thenReturn(connection);
@@ -24,6 +33,11 @@ public class SQLiteTournamentDaoTest {
 		}
 	}
 
+	/**
+	 * Prüft den Erfolgsfall beim Fortschreiben der Runde.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void increaseRound_success() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -39,6 +53,11 @@ public class SQLiteTournamentDaoTest {
 		verify(ps).executeUpdate();
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung bei SQL-Ausnahme während des Updates.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void increaseRound_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -52,6 +71,11 @@ public class SQLiteTournamentDaoTest {
 		assertFalse(result);
 	}
 
+	/**
+	 * Prüft leere Ergebnislisten als Grenzfall.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void getAllTournaments_emptyResult_boundary() throws Exception {
 		Connection connection = mock(Connection.class);

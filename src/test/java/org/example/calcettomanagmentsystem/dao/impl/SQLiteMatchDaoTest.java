@@ -16,8 +16,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Verifiziert die SQL-Zugriffe der Match-DAO-Implementierung.
+ */
 public class SQLiteMatchDaoTest {
 
+	/**
+	 * Erstellt eine DAO mit gemockter {@link SQLiteDB}-Verbindung.
+	 *
+	 * @param connection Mock-Verbindung
+	 * @return DAO-Instanz für Tests
+	 */
 	private SQLiteMatchDao createDao(Connection connection) {
 		try (MockedStatic<SQLiteDB> mocked = mockStatic(SQLiteDB.class)) {
 			mocked.when(SQLiteDB::getConnection).thenReturn(connection);
@@ -25,6 +34,11 @@ public class SQLiteMatchDaoTest {
 		}
 	}
 
+	/**
+	 * Prüft den Erfolgsfall beim Zuordnen eines Teams zu einem Match.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void addTeamToMatch_success() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -42,6 +56,11 @@ public class SQLiteMatchDaoTest {
 		verify(ps).execute();
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung bei SQL-Ausnahme während der Zuordnung.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void addTeamToMatch_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -56,6 +75,11 @@ public class SQLiteMatchDaoTest {
 		assertFalse(result);
 	}
 
+	/**
+	 * Prüft leere Ergebnislisten als Grenzfall.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void getAllMatchesFromTournament_emptyResult_boundary() throws Exception {
 		Connection connection = mock(Connection.class);
@@ -76,6 +100,11 @@ public class SQLiteMatchDaoTest {
 		assertTrue(matches.isEmpty());
 	}
 
+	/**
+	 * Prüft Fehlerbehandlung beim Setzen von Punkten.
+	 *
+	 * @throws Exception bei Mock-Fehlern
+	 */
 	@Test
 	void addAddPointToTeamInMatch_sqlException_returnsFalse() throws Exception {
 		Connection connection = mock(Connection.class);

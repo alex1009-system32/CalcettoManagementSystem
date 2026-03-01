@@ -19,7 +19,6 @@ module org.example.calcettomanagmentsystem {
 	requires eu.hansolo.tilesfx;
 	requires com.almasb.fxgl.all;
 	requires java.sql;
-	requires annotations;
 	requires org.xerial.sqlitejdbc;
 	requires java.desktop;
     requires jdk.unsupported;

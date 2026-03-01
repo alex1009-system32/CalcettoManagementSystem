@@ -25,26 +25,51 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the "Start Tournament" view.
- * Displays tournament metadata and allows adding players to the tournament.
- * Manages the transition to the active tournament phase.
+ * Controller für den Turnierstart und die Spielererfassung.
+ * <p>
+ * Die Ansicht stellt die aktuellen Turnierdaten bereit und erlaubt
+ * die Pflege der Teilnehmer, bevor das Turnier fortgesetzt wird.
+ * </p>
+ *
+ * @see org.example.calcettomanagmentsystem.App
+ * @see org.example.calcettomanagmentsystem.FxmlLocation
  */
 public class startTournametController implements Initializable {
+	/**
+	 * Aktueller Turnierkontext, der in der Ansicht angezeigt wird.
+	 */
 	Tournament tournament = null;
+	/**
+	 * Label für den Turniernamen.
+	 */
 	@FXML
 	private Label tournamentNameLabel;
+	/**
+	 * Label für die Anzahl der Vorrunden.
+	 */
 	@FXML
 	private Label preRoundLabel;
+	/**
+	 * Label für die aktuell gespeicherte Runde.
+	 */
 	@FXML
 	private Label currentRoundLabel;
+	/**
+	 * Label für die maximale Teamgröße.
+	 */
 	@FXML
 	private Label maxTeamSizeLabel;
+	/**
+	 * Container für die dynamisch erzeugte Spielerliste.
+	 */
 	@FXML
 	private FlowPane playerFlowPane;
 
 	/**
-	 * Updates the view with the latest tournament data and player list.
-	 * Rebuilds the player list UI from the database.
+	 * Synchronisiert Turnierdaten und Spielerliste mit dem UI.
+	 *
+	 * @implNote Die Spielerliste wird neu aufgebaut, um inkonsistente
+	 *           UI-Zustände nach Datenänderungen zu vermeiden.
 	 */
 	private void updateList() {
 		tournamentNameLabel.setText(tournament.getTournamentName());
@@ -86,12 +111,12 @@ public class startTournametController implements Initializable {
 	}
 
 	/**
-	 * Creates a new player and adds them to the current tournament.
+	 * Persistiert einen neuen Spieler und aktualisiert die Darstellung.
 	 *
-	 * @param stage      The modal stage to close upon success.
-	 * @param nameField  The text field containing the player's name.
-	 * @param emailField The text field containing the player's email.
-	 * @return true if the player was successfully created, false otherwise.
+	 * @param stage Modalfenster, das nach erfolgreicher Erstellung geschlossen wird
+	 * @param nameField Eingabefeld für den Spielernamen
+	 * @param emailField Eingabefeld für die E-Mail-Adresse
+	 * @return {@code true} bei erfolgreicher Anlage
 	 */
 	private boolean create(Stage stage, @NotNull TextField nameField, TextField emailField) {
 		boolean result = true;
@@ -119,18 +144,20 @@ public class startTournametController implements Initializable {
 	}
 
 	/**
-	 * Cancels the player creation process and closes the modal.
+	 * Schließt die Spieleranlage ohne Persistenz.
 	 *
-	 * @param stage The modal stage to close.
+	 * @param stage Modalfenster, das geschlossen wird
 	 */
 	private void cancel(@NotNull Stage stage) {
 		stage.close();
 	}
 
 	/**
-	 * Displays the modal dialog for adding a new player.
+	 * Öffnet ein modales Formular zur Spieleranlage.
 	 *
-	 * @param stage The parent stage.
+	 * @param stage Elternfenster für den Modaldialog
+	 * @implNote Der Dialog nutzt eine transparente Stage, um die
+	 *           visuelle Einbettung in das UI zu optimieren.
 	 */
 	private void displayModal(Stage stage) {
 		Stage modalStage = new Stage();
@@ -206,7 +233,7 @@ public class startTournametController implements Initializable {
 	}
 
 	/**
-	 * Opens the "Add Player" modal dialog.
+	 * Öffnet den Dialog zur Spieleranlage.
 	 */
 	@FXML
 	protected void openModal() {
@@ -214,12 +241,18 @@ public class startTournametController implements Initializable {
 	}
 
 	/**
-	 * Navigates back to the selection screen.
+	 * Navigiert zurück zur Turnierauswahl.
 	 */
 	@FXML
 	protected void goBack() {
 		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
 	}
+	/**
+	 * Initialisiert den Controller und erzwingt gültigen Turnierkontext.
+	 *
+	 * @param location  Ressourcenbasis der FXML
+	 * @param resources Lokalisierungsbundle, sofern vorhanden
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if (App.getTournament() == null) {
