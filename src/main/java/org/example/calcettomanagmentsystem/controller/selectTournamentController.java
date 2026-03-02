@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.FxmlLocation;
+import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  * </p>
  *
  * @see org.example.calcettomanagmentsystem.App
- * @see org.example.calcettomanagmentsystem.FxmlLocation
+ * @see FxmlNavigation
  */
 public class selectTournamentController implements Initializable {
 	/**
@@ -125,9 +125,9 @@ public class selectTournamentController implements Initializable {
 		App.setTournament(tournament);
 
 		if (tournament.getCurrendRound() <= 0) {
-			App.setRoot(FxmlLocation.START_TOURNAMENT);
+			App.setRoot(FxmlNavigation.START_TOURNAMENT);
 		} else {
-			App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
+			App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
 		}
 	}
 
@@ -136,7 +136,7 @@ public class selectTournamentController implements Initializable {
 	 */
 	@FXML
 	protected void addTournament() {
-		App.setRoot(FxmlLocation.CREATE_TOURNAMENT);
+		App.setRoot(FxmlNavigation.CREATE_TOURNAMENT);
 	}
 	/**
 	 * Initialisiert die Ansicht mit den aktuell verfügbaren Turnieren.

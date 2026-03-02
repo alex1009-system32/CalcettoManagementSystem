@@ -3,7 +3,7 @@ package org.example.calcettomanagmentsystem.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.FxmlLocation;
+import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 
 /**
@@ -104,7 +104,7 @@ public class createTournamentController {
 	 */
 	@FXML
 	protected void cancelTournament() {
-		App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
+		App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class createTournamentController {
 	@FXML
 	protected void createTournament() {
 		if (create()) {
-			App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
+			App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
 		}
 	}
 

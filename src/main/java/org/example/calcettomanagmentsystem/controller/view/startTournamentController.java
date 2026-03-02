@@ -14,16 +14,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.FxmlLocation;
-import org.example.calcettomanagmentsystem.core.MatchMaker;
-import org.example.calcettomanagmentsystem.core.TeamMaker;
+import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
-import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.TournamentService;
 import org.example.calcettomanagmentsystem.service.impl.DefaultTournamentService;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +34,7 @@ import java.util.ResourceBundle;
  * </p>
  *
  * @see org.example.calcettomanagmentsystem.App
- * @see org.example.calcettomanagmentsystem.FxmlLocation
+ * @see FxmlNavigation
  */
 public class startTournamentController implements Initializable {
     Tournament tournament;
@@ -263,7 +258,7 @@ public class startTournamentController implements Initializable {
 
         new SQLiteMatchDao().getAllMatchesFromTournament(tournament).forEach(System.out::println);
 
-        App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
+        App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
     }
 
     /**
@@ -279,7 +274,7 @@ public class startTournamentController implements Initializable {
      */
     @FXML
     private void goBack() {
-        App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
+        App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
     }
 
     /**
@@ -290,8 +285,8 @@ public class startTournamentController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (App.getTournament() == null) App.setRoot(FxmlLocation.SELECT_TOURNAMENT);
-        if (App.getTournament().getCurrendRound() != -1) App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
+        if (App.getTournament() == null) App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
+        if (App.getTournament().getCurrendRound() != -1) App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
 
         tournament = App.getTournament();
         defaultTournamentService = new DefaultTournamentService(tournament);

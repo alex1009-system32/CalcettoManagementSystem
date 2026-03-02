@@ -32,4 +32,6 @@ module org.example.calcettomanagmentsystem {
 	opens org.example.calcettomanagmentsystem to javafx.fxml;
 	opens org.example.calcettomanagmentsystem.controller to javafx.fxml;
 	opens org.example.calcettomanagmentsystem.controller.view to javafx.fxml;
+    exports org.example.calcettomanagmentsystem.navigation;
+    opens org.example.calcettomanagmentsystem.navigation to javafx.fxml;
 }

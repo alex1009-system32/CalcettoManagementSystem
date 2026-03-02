@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.connection;
 
+import org.example.calcettomanagmentsystem.navigation.SQLScheamNavigation;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -67,7 +69,7 @@ public class SQLiteDB {
      */
     public static void init(){
         try (Statement statement = getConnection().createStatement()) {
-            statement.executeUpdate(SQLReader.readFile("setup.sql"));
+            statement.executeUpdate(SQLReader.readFile(SQLScheamNavigation.SETUP));
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +82,7 @@ public class SQLiteDB {
      */
     public static void initTest(){
         try (Statement statement = getConnection().createStatement()) {
-            statement.executeUpdate(SQLReader.readFile("testDB.sql"));
+            statement.executeUpdate(SQLReader.readFile(SQLScheamNavigation.TEST_DB));
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }

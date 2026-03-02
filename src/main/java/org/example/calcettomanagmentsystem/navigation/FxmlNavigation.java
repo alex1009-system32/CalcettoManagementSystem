@@ -1,4 +1,6 @@
-package org.example.calcettomanagmentsystem;
+package org.example.calcettomanagmentsystem.navigation;
+
+import org.example.calcettomanagmentsystem.App;
 
 /**
  * Central registry for FXML resources to avoid scattered literal paths.
@@ -7,7 +9,7 @@ package org.example.calcettomanagmentsystem;
  * all view identifiers in one place.
  * </p>
  */
-public enum FxmlLocation {
+public enum FxmlNavigation {
 
 	ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
 	START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
@@ -25,7 +27,7 @@ public enum FxmlLocation {
 	 *
 	 * @param fxmlPath classpath-relative resource path
 	 */
-	FxmlLocation(String fxmlPath) {
+	FxmlNavigation(String fxmlPath) {
 		this.fxmlPath = fxmlPath;
 	}
 
