@@ -9,6 +9,8 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
+import java.io.File;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +47,8 @@ public class Test {
 
 		//new SQLiteTeamDao().getAllTeamsFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
 
-		SQLiteDB.initTest();
 
+		IO.
 	}
 
 }

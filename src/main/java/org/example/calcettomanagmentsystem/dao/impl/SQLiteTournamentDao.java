@@ -182,6 +182,4 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 		return null;
 	}
-
-
 }
