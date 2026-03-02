@@ -44,7 +44,8 @@ public class Test {
 		 */
 
 		//new SQLiteTeamDao().getAllTeamsFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
-		new SQLiteMatchDao().getAllMatchesFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
+
+		SQLiteDB.initTest();
 
 	}
 

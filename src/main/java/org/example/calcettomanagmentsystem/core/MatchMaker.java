@@ -68,12 +68,8 @@ public class MatchMaker {
 
             }
 
+
         }
-
-        // Updates the tournaments current round to the Preround.
-        for (int i = tournament.getCurrendRound(); i <= tournament.getPreRound(); i++)
-            sqliteTournamentDao.increaseRound(tournament);
-
 
     }
 
@@ -96,13 +92,9 @@ public class MatchMaker {
             teams = getTheWinnersOfCurrentRound(tournament);
         }
 
-        List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2)
-                                             .mapToObj(i -> Arrays.asList(teams.get(i),
-                                                                          teams.get(teams.size() - 1 - i)))
-                                             .collect(Collectors.toList());
+        List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2).mapToObj(i -> Arrays.asList(teams.get(i), teams.get(teams.size() - 1 - i))).collect(Collectors.toList());
 
         createMatches(newTeams, tournament);
-        new SQLiteTournamentDao().increaseRound(tournament);
 
     }
 
@@ -126,6 +118,9 @@ public class MatchMaker {
             }
 
         }
+
+        new SQLiteTournamentDao().increaseRound(tournament);
+
 
     }
 
@@ -223,13 +218,7 @@ public class MatchMaker {
 
         }
 
-        Map<Team, Double> sortedMap = teams.entrySet()
-                                           .stream()
-                                           .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
-                                           .collect(Collectors.toMap(Map.Entry::getKey,
-                                                                     Map.Entry::getValue,
-                                                                     (e1, e2) -> e1,
-                                                                     LinkedHashMap::new));
+        Map<Team, Double> sortedMap = teams.entrySet().stream().sorted(Map.Entry.<Team, Double>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         sortingOut:
         {
@@ -254,8 +243,7 @@ public class MatchMaker {
     @NotNull
     private List<Team> getTheWinnersOfCurrentRound(Tournament tournament) {
 
-        List<Match> matches =
-                new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrendRound());
+        List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrendRound());
         List<Team> winners = new ArrayList<>();
 
         for (Match match : matches) {

@@ -23,6 +23,8 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.service.TournamentService;
+import org.example.calcettomanagmentsystem.service.impl.DefaultTournamentService;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -40,10 +42,8 @@ import java.util.ResourceBundle;
  * @see org.example.calcettomanagmentsystem.FxmlLocation
  */
 public class startTournamentController implements Initializable {
-    /**
-     * Aktueller Turnierkontext, der in der Ansicht angezeigt wird.
-     */
-    Tournament tournament = null;
+    Tournament tournament;
+    DefaultTournamentService defaultTournamentService;
     /**
      * Label für den Turniernamen.
      */
@@ -257,14 +257,11 @@ public class startTournamentController implements Initializable {
 
     @FXML
     private void startTournament() {
-        new TeamMaker().makeTeams(tournament);
-        new MatchMaker().makeMatchesForRound(tournament);
 
-        App.setTournament(new SQLiteTournamentDao().getTournamentById(tournament.getTid()));
+        defaultTournamentService.generateTeams();
+        defaultTournamentService.generatePreRoundMatches();
 
-        // Test pursosases
-
-
+        new SQLiteMatchDao().getAllMatchesFromTournament(tournament).forEach(System.out::println);
 
         App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
     }
@@ -297,6 +294,8 @@ public class startTournamentController implements Initializable {
         if (App.getTournament().getCurrendRound() != -1) App.setRoot(FxmlLocation.ROUND_TOURNAMENT);
 
         tournament = App.getTournament();
+        defaultTournamentService = new DefaultTournamentService(tournament);
+
         updateList();
 
     }

@@ -84,6 +84,8 @@ public class SQLiteTournamentDao implements TournamentDao {
 			preparedStatement.setInt(1, tournament.getCurrendRound() + 1);
 			preparedStatement.setInt(2, tournament.getTid());
 
+			tournament.setCurrendRound(tournament.getCurrendRound() + 1);
+
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			return false;
