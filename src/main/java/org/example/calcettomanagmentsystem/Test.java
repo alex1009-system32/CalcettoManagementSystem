@@ -1,6 +1,7 @@
 package org.example.calcettomanagmentsystem;
 
 import com.github.javafaker.Faker;
+import org.example.calcettomanagmentsystem.connection.SQLReader;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
@@ -8,6 +9,7 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.sqlite.core.DB;
 
 import java.io.File;
 import java.net.URI;
@@ -25,13 +27,13 @@ import java.util.List;
  */
 public class Test {
 
-	/**
-	 * Führt einfache Laufzeitprüfungen gegen die Datenbank aus.
-	 *
-	 * @param args Prozessargumente, derzeit ohne Auswertung
-	 * @throws SQLException wenn der Datenbankzugriff fehlschlägt
-	 */
-	public static void main(String[] args) throws SQLException {
+    /**
+     * Führt einfache Laufzeitprüfungen gegen die Datenbank aus.
+     *
+     * @param args Prozessargumente, derzeit ohne Auswertung
+     * @throws SQLException wenn der Datenbankzugriff fehlschlägt
+     */
+    public static void main(String[] args) throws Exception {
 		/*
 		List<String> deck = new ArrayList<>();
 		deck.add("Ace");
@@ -45,10 +47,8 @@ public class Test {
 		System.out.println(deck);
 		 */
 
-		//new SQLiteTeamDao().getAllTeamsFromTournament(new SQLiteTournamentDao().getTournamentById(11)).forEach(System.out::println);
+        SQLiteDB.initTest();
 
-
-		IO.
-	}
+    }
 
 }
