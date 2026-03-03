@@ -3,9 +3,6 @@ package org.example.calcettomanagmentsystem.service;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
-import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
-import org.example.calcettomanagmentsystem.service.repo.PlayerRepository;
-import org.example.calcettomanagmentsystem.service.repo.TeamRepository;
 import org.example.calcettomanagmentsystem.service.repo.TournamentRepository;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,22 +12,15 @@ public class TournamentService {
     TournamentRepository tournamentRepository;
     MakerRepository makerRepository;
 
-    public TournamentService(TournamentRepository tournamentRepository,
-                             MakerRepository makerRepository) {
+    public TournamentService(TournamentRepository tournamentRepository, MakerRepository makerRepository) {
         this.tournamentRepository = tournamentRepository;
         this.makerRepository = makerRepository;
     }
 
     public Tournament createTournament(@NotNull String name, long duration, int preRound, int maxTeamSize) {
-        if (name == "") throw new ValidationException("Tournament name cannot be empty");
-        if (name.matches(" ")) throw new ValidationException("Tournament name cannot contain spaces");
-        if (name.matches("!\"#$%&'()*+,-./:;<=>?@[\\]^_{|}~")) throw new ValidationException("Tournament name cannot contain Special Characters");
-
-        if (duration < 1) throw new ValidationException("Tournament duration cannot be less than 1");
-        if (preRound < 1) throw new ValidationException("Tournament preRound cannot be less than 1");
-        if (maxTeamSize < 1) throw new ValidationException("Tournament maxTeamSize cannot be less than 1");
-
-        if (maxTeamSize > 11) throw new ValidationException("Tournament maxTeamSize cannot be greater than 11");
+        if (name == null || name.isBlank()) throw new ValidationException("Name darf nicht leer sein");
+        if (!name.matches("^[a-zA-Z0-9]*$")) throw new ValidationException("Name enthält ungültige Sonderzeichen");
+        if (maxTeamSize < 1) throw new ValidationException("Ein Team braucht mindestens 2 Spieler");
 
         return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize));
     }
@@ -46,7 +36,7 @@ public class TournamentService {
     }
 
     public boolean startTournament(@NotNull Tournament tournament) {
-        if (tournament.getCurrendRound() != 0) throw new ValidationException("Invalid current round");
+        if (tournament.getCurrentRound() != 0) throw new ValidationException("Invalid current round");
 
         makerRepository.generateTeams(tournament);
 
@@ -54,8 +44,9 @@ public class TournamentService {
     }
 
     public boolean nextRound(@NotNull Tournament tournament) {
-        if (tournament.getCurrendRound() < 0) throw new ValidationException("Invalid current round");
-        if (tournament.getCurrendRound() < tournament.getPreRound()) throw new ValidationException("Invalid current round");
+        if (tournament.getCurrentRound() < 0) throw new ValidationException("Invalid current round");
+        if (tournament.getCurrentRound() < tournament.getPreRound())
+            throw new ValidationException("Invalid current round");
 
         return makerRepository.generateRoundMatches(tournament);
     }

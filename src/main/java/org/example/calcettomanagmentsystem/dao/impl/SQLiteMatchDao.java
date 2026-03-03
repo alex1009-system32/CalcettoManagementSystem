@@ -47,7 +47,7 @@ public class SQLiteMatchDao implements MatchDao {
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(2, tournament.getTid());
-			preparedStatement.setInt(1, tournament.getCurrendRound());
+			preparedStatement.setInt(1, tournament.getCurrentRound());
 
 			preparedStatement.execute();
 		} catch (SQLException e) {

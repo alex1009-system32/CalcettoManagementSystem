@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(tournament.getDate()));
 			preparedStatement.setLong(3, tournament.getDuration());
 			preparedStatement.setInt(4, tournament.getPreRound());
-			preparedStatement.setInt(5, tournament.getCurrendRound());
+			preparedStatement.setInt(5, tournament.getCurrentRound());
 			preparedStatement.setInt(6, tournament.getMaxTeamSize());
 
 			preparedStatement.executeUpdate();
@@ -81,10 +80,10 @@ public class SQLiteTournamentDao implements TournamentDao {
 		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tournament.getCurrendRound() + 1);
+			preparedStatement.setInt(1, tournament.getCurrentRound() + 1);
 			preparedStatement.setInt(2, tournament.getTid());
 
-			tournament.setCurrendRound(tournament.getCurrendRound() + 1);
+			tournament.setCurrentRound(tournament.getCurrentRound() + 1);
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import javafx.geometry.Insets;
@@ -18,7 +17,6 @@ import javafx.scene.DepthTest;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -121,7 +119,7 @@ public class selectTournamentController implements Initializable {
 
 		ServiceManager.setTournament(tournament);
 
-		if (tournament.getCurrendRound() <= 0) {
+		if (tournament.getCurrentRound() <= 0) {
 			App.setRoot(FxmlNavigation.START_TOURNAMENT);
 		} else {
 			App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);

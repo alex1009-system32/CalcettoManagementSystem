@@ -68,7 +68,7 @@ public class startTournamentController implements Initializable {
     private void updateList() {
         tournamentNameLabel.setText(ServiceManager.getTournament().getTournamentName());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getPreRound()));
-        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getCurrendRound()));
+        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getCurrentRound()));
         maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().getMaxTeamSize()));
 
         playerFlowPane.getChildren().clear();

@@ -1,8 +1,6 @@
 package org.example.calcettomanagmentsystem.model;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -39,7 +37,7 @@ public class Tournament {
 	/**
 	 * Aktuelle Runde, die den Fortschritt markiert.
 	 */
-	private int currendRound;
+	private int currentRound;
 	/**
 	 * Maximale Teamgröße zur Team-Erzeugung.
 	 */
@@ -53,16 +51,16 @@ public class Tournament {
 	 * @param date Startdatum für die zeitliche Einordnung
 	 * @param duration geplante Dauer in Tagen
 	 * @param preRound Anzahl der Vorrunden
-	 * @param currendRound aktuelle Runde für Fortschritt
+	 * @param currentRound aktuelle Runde für Fortschritt
 	 * @param maxTeamSize maximale Teamgröße
 	 */
-	public Tournament(int tid, String tournamentName, LocalDate date, long duration, int preRound, int currendRound, int maxTeamSize) {
+	public Tournament(int tid, String tournamentName, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
 		this.tid = tid;
 		this.tournamentName = tournamentName;
 		this.date = date;
 		this.duration = duration;
 		this.preRound = preRound;
-		this.currendRound = currendRound;
+		this.currentRound = currentRound;
 		this.maxTeamSize = maxTeamSize;
 	}
 
@@ -72,7 +70,7 @@ public class Tournament {
         this.date = LocalDate.now();
         this.duration = duration;
         this.preRound = preRound;
-        this.currendRound = 0;
+        this.currentRound = 0;
         this.maxTeamSize = maxTeamSize;
     }
 
@@ -82,7 +80,7 @@ public class Tournament {
         this.date = LocalDate.now();
         this.duration = duration;
         this.preRound = preRound;
-        this.currendRound = 0;
+        this.currentRound = 0;
         this.maxTeamSize = maxTeamSize;
     }
 
@@ -181,17 +179,17 @@ public class Tournament {
 	 *
 	 * @return aktuelle Runde
 	 */
-	public int getCurrendRound() {
-		return currendRound;
+	public int getCurrentRound() {
+		return currentRound;
 	}
 
 	/**
 	 * Setzt die aktuelle Runde, um Fortschritt zu persistieren.
 	 *
-	 * @param currendRound neue aktuelle Runde
+	 * @param currentRound neue aktuelle Runde
 	 */
-	public void setCurrendRound(int currendRound) {
-		this.currendRound = currendRound;
+	public void setCurrentRound(int currentRound) {
+		this.currentRound = currentRound;
 	}
 
 	/**
@@ -222,7 +220,7 @@ public class Tournament {
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
 		Tournament that = (Tournament) o;
-		return getTid() == that.getTid() && getDuration() == that.getDuration() && getPreRound() == that.getPreRound() && getCurrendRound() == that.getCurrendRound() && getMaxTeamSize() == that.getMaxTeamSize() && Objects.equals(getTournamentName(), that.getTournamentName()) && Objects.equals(getDate(), that.getDate());
+		return getTid() == that.getTid() && getDuration() == that.getDuration() && getPreRound() == that.getPreRound() && getCurrentRound() == that.getCurrentRound() && getMaxTeamSize() == that.getMaxTeamSize() && Objects.equals(getTournamentName(), that.getTournamentName()) && Objects.equals(getDate(), that.getDate());
 	}
 
 	/**
@@ -232,7 +230,7 @@ public class Tournament {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(getTid(), getTournamentName(), getDate(), getDuration(), getPreRound(), getCurrendRound(), getMaxTeamSize());
+		return Objects.hash(getTid(), getTournamentName(), getDate(), getDuration(), getPreRound(), getCurrentRound(), getMaxTeamSize());
 	}
 
 	/**
@@ -248,7 +246,7 @@ public class Tournament {
 				", date=" + date +
 				", duration=" + duration +
 				", preRound=" + preRound +
-				", currendRound=" + currendRound +
+				", currendRound=" + currentRound +
 				", maxTeamSize=" + maxTeamSize +
 				'}';
 	}

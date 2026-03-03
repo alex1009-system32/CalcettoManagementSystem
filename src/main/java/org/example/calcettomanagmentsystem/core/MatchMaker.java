@@ -34,7 +34,7 @@ public class MatchMaker {
      * Wiederholung angewiesen, um Dopplungen zu vermeiden.
      */
     public boolean makePreRounds(@NotNull Tournament tournament) {
-        if (tournament.getCurrendRound() != 0) {
+        if (tournament.getCurrentRound() != 0) {
             return false;
         }
 
@@ -88,7 +88,7 @@ public class MatchMaker {
         SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
         Match match;
 
-        if (tournament.getCurrendRound() == tournament.getPreRound()) {
+        if (tournament.getCurrentRound() == tournament.getPreRound()) {
             teams = getTheWinnersOfCurrentPreRound(tournament);
         } else {
             teams = getTheWinnersOfCurrentRound(tournament);
@@ -247,7 +247,7 @@ public class MatchMaker {
     @NotNull
     private List<Team> getTheWinnersOfCurrentRound(Tournament tournament) {
 
-        List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrendRound());
+        List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrentRound());
         List<Team> winners = new ArrayList<>();
 
         for (Match match : matches) {
