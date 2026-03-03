@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.DepthTest;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
 import java.util.List;
@@ -32,10 +33,6 @@ import java.util.ResourceBundle;
  */
 public class selectTournamentController implements Initializable {
 	/**
-	 * Zwischenspeicher der geladenen Turniere für UI-Rendering.
-	 */
-	List<Tournament> tournamentList;
-	/**
 	 * Container für die dynamisch erzeugten Turnierkarten.
 	 */
 	@FXML
@@ -48,9 +45,9 @@ public class selectTournamentController implements Initializable {
 	 *           konsistente Darstellung nach Datenänderungen sicherzustellen.
 	 */
 	private void updateList() {
-		tournamentList = new SQLiteTournamentDao().getAllTournaments();
 
-		for (Tournament tournament : tournamentList) {
+
+		for (Tournament tournament : ServiceManager.getTournamentService().getAllTournaments()) {
 			Label tournamentLabel = new Label(tournament.getTournamentName());
 			tournamentLabel.setPadding(new Insets(0, 100, 0, 100));
 			HBox.setHgrow(tournamentLabel, Priority.ALWAYS);
@@ -122,7 +119,7 @@ public class selectTournamentController implements Initializable {
 	@FXML
 	protected void selectTournament(Tournament tournament) {
 
-		App.setTournament(tournament);
+		ServiceManager.setTournament(tournament);
 
 		if (tournament.getCurrendRound() <= 0) {
 			App.setRoot(FxmlNavigation.START_TOURNAMENT);

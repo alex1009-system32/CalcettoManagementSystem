@@ -33,9 +33,9 @@ public class MatchMaker {
      * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
      * Wiederholung angewiesen, um Dopplungen zu vermeiden.
      */
-    public void makePreRounds(@NotNull Tournament tournament) {
+    public boolean makePreRounds(@NotNull Tournament tournament) {
         if (tournament.getCurrendRound() != 0) {
-            return;
+            return false;
         }
 
         SQLiteTournamentDao sqliteTournamentDao = new SQLiteTournamentDao();
@@ -71,6 +71,8 @@ public class MatchMaker {
 
         }
 
+        return true;
+
     }
 
     /**
@@ -80,7 +82,7 @@ public class MatchMaker {
      * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
      * Teams zu mischen.
      */
-    public void makeMatchesForRound(@NotNull Tournament tournament) {
+    public boolean makeMatchesForRound(@NotNull Tournament tournament) {
 
         List<Team> teams;
         SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
@@ -95,6 +97,8 @@ public class MatchMaker {
         List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2).mapToObj(i -> Arrays.asList(teams.get(i), teams.get(teams.size() - 1 - i))).collect(Collectors.toList());
 
         createMatches(newTeams, tournament);
+
+        return true;
 
     }
 

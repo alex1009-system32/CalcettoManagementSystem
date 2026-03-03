@@ -89,7 +89,7 @@ public class SQLiteMatchDao implements MatchDao {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setDouble(1, point);
 			preparedStatement.setInt(2, team.getTid());
-			preparedStatement.setInt(2, match.getMid());
+			preparedStatement.setInt(3, match.getMid());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

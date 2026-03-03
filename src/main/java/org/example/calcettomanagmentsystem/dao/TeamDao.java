@@ -40,6 +40,8 @@ public interface TeamDao {
 	 */
 	List<Team> getAllTeamsFromTournament(Tournament tournament);
 
+	List<Team> getAllTeams();
+
 	/**
 	 * Sucht ein Team für Detailansichten oder Beziehungen.
 	 *

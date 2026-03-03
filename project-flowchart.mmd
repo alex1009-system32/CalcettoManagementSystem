@@ -1,52 +1,68 @@
 flowchart TD
-  A[App.start] --> B[Load SELECTTOURNAMENT FXML]
-  B --> C{User Action}
-  C -->|Select Tournament| D[App.setTournament → STARTTOURNAMET]
-  C -->|Add Tournament| E[CREATETOURNAMENT]
-  E --> E1[createTournamentController.validate]
-  E1 -->|Valid| E2[SQLiteTournamentDao.addTournament]
-  E2 --> B
-  E1 -->|Invalid| E
-  D --> D1[startTournametController.initialize]
-  D1 -->|current_round != -1| F[ROUNDTOURNAMET]
-  D1 -->|current_round == -1| G[Show Tournament & Players]
-  G --> G1[+ Add Player Modal]
-  G1 --> G2[SQLitePlayerDao.addPlayer]
-  G --> H[go Back → SELECTTOURNAMENT]
-  F --> F1[roundTournametController]
+  A[App.start] --> B[Load SELECT_TOURNAMENT.fxml]
+  B --> STC[selectTournamentController]
+  STC -->|load list| DAO_T_GET[SQLiteTournamentDao.getAllTournaments]
+  STC -->|Add Tournament| CTC[createTournamentController]
+  STC -->|Select Tournament| ROUTE{current_round}
+  ROUTE -->|<= 0| SVC[startTournamentController]
+  ROUTE -->|> 0| RTC[roundTournamentController]
 
-  subgraph UI_Navigation[UI Navigation]
-    B
-    E
-    D
-    F
+  CTC --> VAL{valid input?}
+  VAL -->|Yes| DAO_T_ADD[SQLiteTournamentDao.addTournament]
+  VAL -->|No| CTC
+  DAO_T_ADD --> STC
+
+  SVC -->|init| DAO_P_GET[SQLitePlayerDao.getAllPlayersFromTournament]
+  SVC -->|Add Player| DAO_P_ADD[SQLitePlayerDao.addPlayer]
+  SVC -->|Delete Player| DAO_P_DEL[SQLitePlayerDao.deletePlayer]
+  SVC -->|Start Tournament| SRV_MKR[MakerRepository]
+
+  subgraph Service_&_Core
+    SRV_MKR
+    CORE_TM[TeamMaker.makeTeams]
+    CORE_MM[MatchMaker.makePreRounds]
   end
 
-  subgraph Data_Access[Data Access]
-    T[SQLiteTournamentDao]
-    P[SQLitePlayerDao]
-    Te[SQLiteTeamDao]
-    M[SQLiteMatchDao]
-    DB[[SQLiteDB.getConnection → sqlite file]]
-    T --> DB
-    P --> DB
-    Te --> DB
-    M --> DB
-    M --> Te
-    P --> T
+  SRV_MKR --> CORE_TM
+  SRV_MKR --> CORE_MM
+
+  CORE_TM --> DAO_TEAM[SQLiteTeamDao]
+  CORE_TM --> DAO_PLY[SQLitePlayerDao]
+  CORE_MM --> DAO_MATCH[SQLiteMatchDao]
+  CORE_MM --> DAO_T_INC[SQLiteTournamentDao.increaseRound]
+  CORE_MM --> DAO_TEAM
+
+  RTC -->|show round| DAO_MATCH_R[SQLiteMatchDao.getAllMatches...]
+
+  subgraph Data_Access
+    DAO_T_GET
+    DAO_T_ADD
+    DAO_T_INC
+    DAO_P_GET
+    DAO_P_ADD
+    DAO_P_DEL
+    DAO_TEAM
+    DAO_MATCH
+    DAO_MATCH_R
+    DB[(SQLiteDB.getConnection)]
+    DAO_T_GET --> DB
+    DAO_T_ADD --> DB
+    DAO_T_INC --> DB
+    DAO_P_GET --> DB
+    DAO_P_ADD --> DB
+    DAO_P_DEL --> DB
+    DAO_TEAM --> DB
+    DAO_MATCH --> DB
+    DAO_MATCH_R --> DB
   end
 
-  subgraph Domain[Domain Model]
-    To[(Tournament)]
-    TeM[(Team)]
-    Pl[(Player)]
-    Ma[(Match)]
-    To --- Pl
-    To --- TeM
-    Ma --- TeM
+  subgraph Domain
+    Tournament
+    Team
+    Player
+    Match
   end
 
-  E2 -. creates .-> To
-  G2 -. inserts .-> Pl
-  D1 -. reads .-> Pl
-  F1 -. reads .-> Ma
+  DAO_T_ADD -. creates .-> Tournament
+  DAO_P_ADD -. inserts .-> Player
+  DAO_MATCH -. creates .-> Match

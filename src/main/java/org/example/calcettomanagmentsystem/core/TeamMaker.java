@@ -28,7 +28,7 @@ public class TeamMaker {
      * @param tournament Turnierkontext für Teamgröße und Spielerliste
      * @implNote Teamnamen werden zufällig erzeugt, um Eingaben zu vermeiden.
      */
-    public void makeTeams(Tournament tournament) {
+    public boolean makeTeams(Tournament tournament) {
         String teamName;
         Team team;
         SQLiteTeamDao teamDao = new SQLiteTeamDao();
@@ -45,6 +45,8 @@ public class TeamMaker {
                 teamDao.addPlayerToTeam(player, team);
             }
         }
+
+        return true;
     }
 
     /**

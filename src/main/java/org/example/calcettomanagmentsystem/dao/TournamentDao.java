@@ -22,7 +22,7 @@ public interface TournamentDao {
 	 * @param maxTeamSize Maximale Teamgröße zur Team-Bildung
 	 * @return erstelltes Turnier mit ID
 	 */
-	Tournament addTournament(String tournament_name, int duration, int preRound, int maxTeamSize);
+	Tournament addTournament(Tournament tournament);
 
 	/**
 	 * Erhöht die aktuelle Runde, um den Turnierfortschritt zu persistieren.

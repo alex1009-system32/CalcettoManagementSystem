@@ -62,6 +62,10 @@ public class Team {
 		return players.contains(player);
 	}
 
+    public Player getPlayer(int index) {
+        return players.get(index);
+    }
+
 	/**
 	 * Entfernt einen Spieler, z. B. bei Teamwechsel.
 	 *

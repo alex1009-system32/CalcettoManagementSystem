@@ -15,6 +15,12 @@ import java.util.Objects;
  * @param tournament Turnierkontext zur Zuordnung
  */
 public record Player(int pid, String pname, String pemail, Tournament tournament) {
+
+    public Player(String pname, String pemail, Tournament tournament) {
+        this(-1, pname, pemail, tournament);
+    }
+
+
 	/**
 	 * Liefert eine lesbare Darstellung für Logs und Debugging.
 	 *

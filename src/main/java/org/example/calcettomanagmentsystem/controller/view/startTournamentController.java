@@ -14,16 +14,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
-import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.impl.DefaultTournamentService;
+import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -37,8 +33,6 @@ import java.util.ResourceBundle;
  * @see FxmlNavigation
  */
 public class startTournamentController implements Initializable {
-    Tournament tournament;
-    DefaultTournamentService defaultTournamentService;
     /**
      * Label für den Turniernamen.
      */
@@ -72,15 +66,15 @@ public class startTournamentController implements Initializable {
      * UI-Zustände nach Datenänderungen zu vermeiden.
      */
     private void updateList() {
-        tournamentNameLabel.setText(tournament.getTournamentName());
-        preRoundLabel.setText(String.valueOf(tournament.getPreRound()));
-        currentRoundLabel.setText(String.valueOf(tournament.getCurrendRound()));
-        maxTeamSizeLabel.setText(String.valueOf(tournament.getMaxTeamSize()));
+        tournamentNameLabel.setText(ServiceManager.getTournament().getTournamentName());
+        preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getPreRound()));
+        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getCurrendRound()));
+        maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().getMaxTeamSize()));
 
         playerFlowPane.getChildren().clear();
-        List<Player> players = new SQLitePlayerDao().getAllPlayersFromTournament(tournament);
 
-        for (Player player : players) {
+        for (Player player : ServiceManager.getPlayerService()
+                                           .getAllPlayerFromTournament(ServiceManager.getTournament())) {
 
             Label pnameLabel = new Label(player.pname());
             pnameLabel.setAlignment(Pos.CENTER);
@@ -150,14 +144,15 @@ public class startTournamentController implements Initializable {
             return;
         }
 
-        new SQLitePlayerDao().addPlayer(nameField.getText(), emailField.getText(), tournament);
+        ServiceManager.getPlayerService()
+                      .createPlayer(nameField.getText(), emailField.getText(), ServiceManager.getTournament());
 
         updateList();
         stage.close();
     }
 
     private void delete(Player player) {
-        new SQLitePlayerDao().deletePlayer(player);
+        ServiceManager.getPlayerService().deletePlayer(player);
         updateList();
     }
 
@@ -252,12 +247,6 @@ public class startTournamentController implements Initializable {
 
     @FXML
     private void startTournament() {
-
-        defaultTournamentService.generateTeams();
-        defaultTournamentService.generatePreRoundMatches();
-
-        new SQLiteMatchDao().getAllMatchesFromTournament(tournament).forEach(System.out::println);
-
         App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
     }
 
@@ -285,13 +274,7 @@ public class startTournamentController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (App.getTournament() == null) App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
-        if (App.getTournament().getCurrendRound() != -1) App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
-
-        tournament = App.getTournament();
-        defaultTournamentService = new DefaultTournamentService(tournament);
-
+        if (ServiceManager.getTournament() == null) App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
         updateList();
-
     }
 }

@@ -51,16 +51,16 @@ public class SQLiteTournamentDao implements TournamentDao {
 	 * @return neu erstelltes Turnier
 	 */
 	@Override
-	public Tournament addTournament(String tournament_name, int duration, int preRound, int maxTeamSize) {
+	public Tournament addTournament(Tournament tournament) {
 		String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setString(1, tournament_name);
-			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDateTime.now()));
-			preparedStatement.setInt(3, duration);
-			preparedStatement.setInt(4, preRound);
-			preparedStatement.setInt(5, 0);
-			preparedStatement.setInt(6, maxTeamSize);
+			preparedStatement.setString(1, tournament.getTournamentName());
+			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(tournament.getDate()));
+			preparedStatement.setLong(3, tournament.getDuration());
+			preparedStatement.setInt(4, tournament.getPreRound());
+			preparedStatement.setInt(5, tournament.getCurrendRound());
+			preparedStatement.setInt(6, tournament.getMaxTeamSize());
 
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -152,7 +152,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 
 	@Override
 	public boolean deleteTournament(@NotNull Tournament tournament) {
-		String sql = "DELETE FROM tounament WHERE tid = ?";
+		String sql = "DELETE FROM tournament WHERE tid = ?";
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setInt(1, tournament.getTid());

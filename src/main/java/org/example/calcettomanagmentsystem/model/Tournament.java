@@ -66,6 +66,26 @@ public class Tournament {
 		this.maxTeamSize = maxTeamSize;
 	}
 
+    public Tournament(int tid, String tournamentName, long duration, int preRound, int maxTeamSize) {
+        this.tid = tid;
+        this.tournamentName = tournamentName;
+        this.date = LocalDate.now();
+        this.duration = duration;
+        this.preRound = preRound;
+        this.currendRound = 0;
+        this.maxTeamSize = maxTeamSize;
+    }
+
+    public Tournament(String tournamentName, long duration, int preRound, int maxTeamSize) {
+        this.tid = -1;
+        this.tournamentName = tournamentName;
+        this.date = LocalDate.now();
+        this.duration = duration;
+        this.preRound = preRound;
+        this.currendRound = 0;
+        this.maxTeamSize = maxTeamSize;
+    }
+
 	/**
 	 * Liefert die Turnier-ID für Referenzen.
 	 *
