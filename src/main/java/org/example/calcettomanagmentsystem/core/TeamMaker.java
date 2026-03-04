@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -29,12 +30,12 @@ public class TeamMaker {
         Team team;
         Faker faker = new Faker();
 
-        List<List<Player>> teams = partitionTeams(new SQLitePlayerDao().getAllPlayersFromTournament(tournament),
-                                                  tournament.getMaxTeamSize());
+        List<List<Player>> teams =
+                partitionTeams(new SQLitePlayerDao().getAllPlayersFromTournament(tournament), tournament.maxTeamSize());
 
         for (List<Player> teamList : teams) {
             teamName = faker.funnyName().name();
-            team = teamDao.save(new Team(teamName));
+            team = teamDao.save(new Team(teamName)).orElseThrow(() -> new DataAccessException("Couldn't find team"));
 
             for (Player player : teamList) {
                 teamDao.addPlayer(team, player);

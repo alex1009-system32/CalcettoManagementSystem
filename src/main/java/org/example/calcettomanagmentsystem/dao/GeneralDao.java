@@ -1,10 +1,11 @@
 package org.example.calcettomanagmentsystem.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GeneralDao<T> {
-        T save(T obj);
+        Optional<T> save(T obj);
         boolean delete(T obj);
         List<T> findAll();
-        T findById(int id);
+        Optional<T> findById(int id);
 }

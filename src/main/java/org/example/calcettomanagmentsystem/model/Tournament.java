@@ -12,242 +12,39 @@ import java.util.Objects;
  *
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
  */
-public class Tournament {
-
-	/**
-	 * Primärschlüssel zur eindeutigen Identifikation.
-	 */
-	private int tid;
-	/**
-	 * Anzeigename, der in der UI verwendet wird.
-	 */
-	private String tournamentName;
-	/**
-	 * Startdatum zur zeitlichen Einordnung.
-	 */
-	private LocalDate date;
-	/**
-	 * Geplante Dauer in Tagen für Scheduling.
-	 */
-	private long duration;
-	/**
-	 * Anzahl der Vorrunden für die Match-Planung.
-	 */
-	private int preRound;
-	/**
-	 * Aktuelle Runde, die den Fortschritt markiert.
-	 */
-	private int currentRound;
-	/**
-	 * Maximale Teamgröße zur Team-Erzeugung.
-	 */
-	private int maxTeamSize;
-
-	/**
-	 * Erstellt ein Turnier mit allen Planungsparametern.
-	 *
-	 * @param tid eindeutige ID zur Persistenz
-	 * @param tournamentName Anzeigename für UI und Berichte
-	 * @param date Startdatum für die zeitliche Einordnung
-	 * @param duration geplante Dauer in Tagen
-	 * @param preRound Anzahl der Vorrunden
-	 * @param currentRound aktuelle Runde für Fortschritt
-	 * @param maxTeamSize maximale Teamgröße
-	 */
-	public Tournament(int tid, String tournamentName, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
-		this.tid = tid;
-		this.tournamentName = tournamentName;
-		this.date = date;
-		this.duration = duration;
-		this.preRound = preRound;
-		this.currentRound = currentRound;
-		this.maxTeamSize = maxTeamSize;
-	}
-
+public record Tournament(int tid, String tournamentName, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
     public Tournament(int tid, String tournamentName, long duration, int preRound, int maxTeamSize) {
-        this.tid = tid;
-        this.tournamentName = tournamentName;
-        this.date = LocalDate.now();
-        this.duration = duration;
-        this.preRound = preRound;
-        this.currentRound = 0;
-        this.maxTeamSize = maxTeamSize;
+        this(tid, tournamentName, LocalDate.now(), duration, preRound, 0, maxTeamSize);
     }
 
     public Tournament(String tournamentName, long duration, int preRound, int maxTeamSize) {
-        this.tid = -1;
-        this.tournamentName = tournamentName;
-        this.date = LocalDate.now();
-        this.duration = duration;
-        this.preRound = preRound;
-        this.currentRound = 0;
-        this.maxTeamSize = maxTeamSize;
+        this(-1, tournamentName, LocalDate.now(), duration, preRound, 0, maxTeamSize);
     }
 
-	/**
-	 * Liefert die Turnier-ID für Referenzen.
-	 *
-	 * @return Turnier-ID
-	 */
-	public int getTid() {
-		return tid;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Tournament that = (Tournament) o;
+        return tid == that.tid && preRound == that.preRound && duration == that.duration && maxTeamSize == that.maxTeamSize && currentRound == that.currentRound && Objects.equals(
+                date,
+                that.date) && Objects.equals(tournamentName, that.tournamentName);
+    }
 
-	/**
-	 * Setzt die Turnier-ID, z. B. nach Persistenz.
-	 *
-	 * @param tid eindeutige Turnier-ID
-	 */
-	public void setTid(int tid) {
-		this.tid = tid;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(tid, tournamentName, date, duration, preRound, currentRound, maxTeamSize);
+    }
 
-	/**
-	 * Liefert den Anzeigenamen des Turniers.
-	 *
-	 * @return Turniername
-	 */
-	public String getTournamentName() {
-		return tournamentName;
-	}
-
-	/**
-	 * Setzt den Anzeigenamen für UI und Berichte.
-	 *
-	 * @param tournamentName neuer Turniername
-	 */
-	public void setTournamentName(String tournamentName) {
-		this.tournamentName = tournamentName;
-	}
-
-	/**
-	 * Liefert das Startdatum des Turniers.
-	 *
-	 * @return Startdatum
-	 */
-	public LocalDate getDate() {
-		return date;
-	}
-
-	/**
-	 * Setzt das Startdatum für Planung und Anzeige.
-	 *
-	 * @param date neues Startdatum
-	 */
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	/**
-	 * Liefert die geplante Dauer in Tagen.
-	 *
-	 * @return Dauer in Tagen
-	 */
-	public long getDuration() {
-		return duration;
-	}
-
-	/**
-	 * Setzt die geplante Dauer in Tagen.
-	 *
-	 * @param duration neue Dauer in Tagen
-	 */
-	public void setDuration(long duration) {
-		this.duration = duration;
-	}
-
-	/**
-	 * Liefert die Anzahl der Vorrunden.
-	 *
-	 * @return Vorrundenanzahl
-	 */
-	public int getPreRound() {
-		return preRound;
-	}
-
-	/**
-	 * Setzt die Anzahl der Vorrunden.
-	 *
-	 * @param preRound neue Vorrundenanzahl
-	 */
-	public void setPreRound(int preRound) {
-		this.preRound = preRound;
-	}
-
-	/**
-	 * Liefert die aktuelle Runde für Fortschrittslogik.
-	 *
-	 * @return aktuelle Runde
-	 */
-	public int getCurrentRound() {
-		return currentRound;
-	}
-
-	/**
-	 * Setzt die aktuelle Runde, um Fortschritt zu persistieren.
-	 *
-	 * @param currentRound neue aktuelle Runde
-	 */
-	public void setCurrentRound(int currentRound) {
-		this.currentRound = currentRound;
-	}
-
-	/**
-	 * Liefert die maximale Teamgröße.
-	 *
-	 * @return maximale Teamgröße
-	 */
-	public int getMaxTeamSize() {
-		return maxTeamSize;
-	}
-
-	/**
-	 * Setzt die maximale Teamgröße für Teamgenerierung.
-	 *
-	 * @param maxTeamSize neue maximale Teamgröße
-	 */
-	public void setMaxTeamSize(int maxTeamSize) {
-		this.maxTeamSize = maxTeamSize;
-	}
-
-	/**
-	 * Vergleicht Turniere anhand ihrer strukturellen Eigenschaften.
-	 *
-	 * @param o Vergleichsobjekt
-	 * @return {@code true}, wenn alle relevanten Felder übereinstimmen
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Tournament that = (Tournament) o;
-		return getTid() == that.getTid() && getDuration() == that.getDuration() && getPreRound() == that.getPreRound() && getCurrentRound() == that.getCurrentRound() && getMaxTeamSize() == that.getMaxTeamSize() && Objects.equals(getTournamentName(), that.getTournamentName()) && Objects.equals(getDate(), that.getDate());
-	}
-
-	/**
-	 * Liefert einen Hash zur konsistenten Nutzung in Collections.
-	 *
-	 * @return Hashcode basierend auf Turnierfeldern
-	 */
-	@Override
-	public int hashCode() {
-		return Objects.hash(getTid(), getTournamentName(), getDate(), getDuration(), getPreRound(), getCurrentRound(), getMaxTeamSize());
-	}
-
-	/**
-	 * Liefert eine lesbare Darstellung für Logs und Debugging.
-	 *
-	 * @return textuelle Repräsentation des Turniers
-	 */
-	@Override
-	public String toString() {
-		return "Tournament{" +
-				"tid=" + tid +
-				", tournamentName='" + tournamentName + '\'' +
-				", date=" + date +
-				", duration=" + duration +
-				", preRound=" + preRound +
-				", currendRound=" + currentRound +
-				", maxTeamSize=" + maxTeamSize +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "Tournament{" +
+                "tid=" + tid +
+                ", tournamentName='" + tournamentName + '\'' +
+                ", date=" + date +
+                ", duration=" + duration +
+                ", preRound=" + preRound +
+                ", currentRound=" + currentRound +
+                ", maxTeamSize=" + maxTeamSize +
+                '}';
+    }
 }

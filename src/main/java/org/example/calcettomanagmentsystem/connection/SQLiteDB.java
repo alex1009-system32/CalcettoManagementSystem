@@ -52,8 +52,11 @@ public class SQLiteDB {
      * @return aktive Verbindung zur Datenbank
      * @throws SQLException wenn der Verbindungsaufbau fehlschlägt
      */
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
+    public static synchronized Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            return DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
+        }
+        return connection;
     }
 
     /**

@@ -11,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * SQLite-spezifischer Zugriff auf Spieler.
@@ -37,14 +38,14 @@ public class SQLitePlayerDao implements PlayerDao {
     }
 
     @Override
-    public Player save(Player obj) {
+    public Optional<Player> save(Player obj) {
         String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setString(1, obj.pname());
             preparedStatement.setString(2, obj.pemail());
-            preparedStatement.setInt(3, obj.tournament().getTid());
+            preparedStatement.setInt(3, obj.tournament().tid());
 
             preparedStatement.executeUpdate();
 
@@ -56,7 +57,7 @@ public class SQLitePlayerDao implements PlayerDao {
             throw new DataAccessException("Error Inserting Into Player form the database", e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -98,7 +99,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, tournament.getTid());
+            preparedStatement.setInt(1, tournament.tid());
             ResultSet resultSet = preparedStatement.executeQuery(sql);
 
             while (resultSet.next()) {
@@ -112,7 +113,7 @@ public class SQLitePlayerDao implements PlayerDao {
     }
 
     @Override
-    public Player findById(int id) {
+    public Optional<Player> findById(int id) {
         String sql = "SELECT * FROM player JOIN tournament ON tournament.tid = player.tid WHERE player.pid = ?";
         Player player = null;
 
@@ -129,7 +130,7 @@ public class SQLitePlayerDao implements PlayerDao {
             throw new DataAccessException("Error Finding Player from the database", e);
         }
 
-        return player;
+        return Optional.ofNullable(player);
 
     }
 }

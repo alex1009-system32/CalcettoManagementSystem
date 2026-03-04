@@ -5,6 +5,7 @@ import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MatchRepository implements org.example.calcettomanagmentsystem.service.interfaces.MatchRepository {
     private MatchDao matchDao;
@@ -14,7 +15,7 @@ public class MatchRepository implements org.example.calcettomanagmentsystem.serv
     }
 
     @Override
-    public Match save(Match obj) {
+    public Optional<Match> save(Match obj) {
         return matchDao.save(obj);
     }
 
@@ -29,7 +30,7 @@ public class MatchRepository implements org.example.calcettomanagmentsystem.serv
     }
 
     @Override
-    public Match findById(int id) {
+    public Optional<Match> findById(int id) {
         return matchDao.findById(id);
     }
 

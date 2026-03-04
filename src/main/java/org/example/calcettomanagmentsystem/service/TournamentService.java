@@ -1,5 +1,6 @@
 package org.example.calcettomanagmentsystem.service;
 
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
@@ -22,11 +23,12 @@ public class TournamentService {
         if (!name.matches("^[a-zA-Z0-9]*$")) throw new ValidationException("Name enthält ungültige Sonderzeichen");
         if (maxTeamSize < 1) throw new ValidationException("Ein Team braucht mindestens 2 Spieler");
 
-        return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize));
+        return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize))
+                                   .orElseThrow(() -> new DataAccessException("Could not save tournament"));
     }
 
     public boolean delete(@NotNull Tournament tournament) {
-        if (tournament.getTid() < 0) throw new ValidationException("Tournament id cannot be less than 0");
+        if (tournament.tid() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
         return tournamentRepository.delete(tournament);
     }
@@ -36,7 +38,7 @@ public class TournamentService {
     }
 
     public boolean start(@NotNull Tournament tournament) {
-        if (tournament.getCurrentRound() != 0) throw new ValidationException("Invalid current round");
+        if (tournament.currentRound() != 0) throw new ValidationException("Invalid current round");
 
         makerRepository.generateTeams(tournament);
 
@@ -44,9 +46,8 @@ public class TournamentService {
     }
 
     public boolean nextRound(@NotNull Tournament tournament) {
-        if (tournament.getCurrentRound() < 0) throw new ValidationException("Invalid current round");
-        if (tournament.getCurrentRound() < tournament.getPreRound())
-            throw new ValidationException("Invalid current round");
+        if (tournament.currentRound() < 0) throw new ValidationException("Invalid current round");
+        if (tournament.currentRound() < tournament.preRound()) throw new ValidationException("Invalid current round");
 
         return makerRepository.generateRoundMatches(tournament);
     }

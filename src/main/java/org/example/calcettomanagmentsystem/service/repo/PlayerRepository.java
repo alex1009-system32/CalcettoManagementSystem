@@ -5,6 +5,7 @@ import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlayerRepository implements Repository<Player> {
     private PlayerDao playerDao;
@@ -14,7 +15,7 @@ public class PlayerRepository implements Repository<Player> {
     }
 
     @Override
-    public Player save(Player obj) {
+    public Optional<Player> save(Player obj) {
         return playerDao.save(obj);
     }
 
@@ -29,7 +30,7 @@ public class PlayerRepository implements Repository<Player> {
     }
 
     @Override
-    public Player findById(int id) {
+    public Optional<Player> findById(int id) {
         return playerDao.findById(id);
     }
 }

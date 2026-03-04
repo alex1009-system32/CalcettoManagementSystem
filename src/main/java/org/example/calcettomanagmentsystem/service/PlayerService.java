@@ -1,5 +1,6 @@
 package org.example.calcettomanagmentsystem.service;
 
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -26,7 +27,8 @@ public class PlayerService {
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"))
             throw new ValidationException("Player name cannot contain Special Characters"); // Note is not configed right
 
-        return playerRepository.save(new Player(name, email, tournament));
+        return playerRepository.save(new Player(name, email, tournament))
+                               .orElseThrow(() -> new DataAccessException("Couldn't save the player"));
     }
 
     public boolean delete(@NotNull Player player) {
@@ -40,6 +42,9 @@ public class PlayerService {
     }
 
     public List<Player> findAllOfTournament(Tournament tournament) {
-        return playerRepository.findAll().stream().filter(player -> player.tournament().getTid() == tournament.getTid()).toList();
+        return playerRepository.findAll()
+                               .stream()
+                               .filter(player -> player.tournament().tid() == tournament.tid())
+                               .toList();
     }
 }

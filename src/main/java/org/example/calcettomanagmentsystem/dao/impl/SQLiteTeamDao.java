@@ -46,11 +46,11 @@ public class SQLiteTeamDao implements TeamDao {
 
         int playerId = rs.getInt("pid");
         if (playerId > 0) {
-            boolean alreadyAdded = team.getPlayers().stream().anyMatch(p -> p.pid() == playerId);
+            boolean alreadyAdded = team.players().stream().anyMatch(p -> p.pid() == playerId);
 
             if (!alreadyAdded) {
                 Player player = new Player(playerId, rs.getString("pname"), rs.getString("pemail"), tournament);
-                team.addPlayer(player);
+                team.players().add(player);
             }
         }
 
@@ -58,25 +58,26 @@ public class SQLiteTeamDao implements TeamDao {
     }
 
     @Override
-    public Team save(Team obj) {
+    public Optional<Team> save(Team obj) {
         String sql = "INSERT INTO team (team_name) VALUES (?)";
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setString(1, obj.getTeamName());
+            preparedStatement.setString(1, obj.teamName());
 
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
-                return findById(resultSet.getInt(1));
+                return Optional.ofNullable(findById(resultSet.getInt(1)))
+                               .orElseThrow(() -> new DataAccessException("Team not found"));
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error while Saving Team", e);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -86,13 +87,13 @@ public class SQLiteTeamDao implements TeamDao {
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, player.pid());
-            preparedStatement.setInt(2, team.getTid());
+            preparedStatement.setInt(2, team.tid());
 
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");
 
-            if (!team.getPlayers().contains(player)) {
-                team.addPlayer(player);
+            if (!team.players().contains(player)) {
+                team.players().add(player);
             }
 
             return team;
@@ -148,7 +149,7 @@ public class SQLiteTeamDao implements TeamDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, tournament.getTid());
+            preparedStatement.setInt(1, tournament.tid());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -175,7 +176,7 @@ public class SQLiteTeamDao implements TeamDao {
     }
 
     @Override
-    public Team findById(int id) {
+    public Optional<Team> findById(int id) {
         String sql = """
                 SELECT t.tid, t.team_name,
                            p.pid, p.pname, p.pemail,
@@ -203,6 +204,6 @@ public class SQLiteTeamDao implements TeamDao {
             throw new DataAccessException("Error while loading Team with ID " + id, e);
         }
 
-        return teamMap.get(id);
+        return Optional.ofNullable(teamMap.get(id));
     }
 }

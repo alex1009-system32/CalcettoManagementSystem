@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 /**
@@ -10,70 +12,13 @@ import java.util.*;
  *
  * @see org.example.calcettomanagmentsystem.model.Team
  */
-public class Match {
-    private final int mid;
-    private final int round;
-    private final Tournament tournament;
-
-    private final Map<Team, Double> teamResults;
-
+public record Match (int mid, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
     public Match(int mid, int round, Tournament tournament) {
-        this.mid = mid;
-        this.round = round;
-        this.tournament = Objects.requireNonNull(tournament, "Tournament cannot be null");
-        this.teamResults = new LinkedHashMap<>(); // LinkedHashMap bewahrt die Reihenfolge (Team 1 vs Team 2)
+        this (mid, round, tournament, new LinkedHashMap<>());
     }
 
     public Match(int round, Tournament tournament) {
-        this.mid = -1;
-        this.round = round;
-        this.tournament = Objects.requireNonNull(tournament, "Tournament cannot be null");
-        this.teamResults = new LinkedHashMap<>(); // LinkedHashMap bewahrt die Reihenfolge (Team 1 vs Team 2)
-    }
-
-    public void addTeamResult(Team team, double points) {
-        this.teamResults.put(team, points);
-    }
-
-
-
-	/**
-	 * Setzt den Punktestand eines Teams für dieses Match.
-	 *
-	 * @param team Team mit Ergebnis
-	 * @param points Punktestand für das Team
-	 */
-	public void addPoints(Team team, double points) {
-		this.teamResults.put(team, points);
-	}
-
-	/**
-	 * Liefert die Runde, zu der das Match gehört.
-	 *
-	 * @return Rundennummer
-	 */
-	public int getRound() {
-		return round;
-	}
-
-	/**
-	/**
-	 * Liefert die Match-ID für Referenzen.
-	 *
-	 * @return Match-ID
-	 */
-	public int getMid() {
-		return mid;
-	}
-
-    @Override
-    public String toString() {
-        return "Match{" +
-                "mid=" + mid +
-                ", round=" + round +
-                ", tournament=" + tournament +
-                ", teamResults=" + teamResults +
-                '}';
+        this(-1, round, tournament, new LinkedHashMap<>());
     }
 
     @Override
@@ -91,11 +36,13 @@ public class Match {
         return Objects.hash(mid, round, tournament, teamResults);
     }
 
-    public Tournament getTournament() {
-        return tournament;
-    }
-
-    public Map<Team, Double> getTeamResults() {
-        return teamResults;
+    @Override
+    public String toString() {
+        return "Match{" +
+                "mid=" + mid +
+                ", round=" + round +
+                ", tournament=" + tournament +
+                ", teamResults=" + teamResults +
+                '}';
     }
 }

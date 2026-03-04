@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface MatchRepository extends Repository<Match> {
     List<Match> findMatchesByTournament(Tournament tournament);
-
     List<Match> findMatchesByTournament(Tournament tournament, int round);
 }

@@ -66,15 +66,15 @@ public class startTournamentController implements Initializable {
      * UI-Zustände nach Datenänderungen zu vermeiden.
      */
     private void updateList() {
-        tournamentNameLabel.setText(ServiceManager.getTournament().getTournamentName());
-        preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getPreRound()));
-        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().getCurrentRound()));
-        maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().getMaxTeamSize()));
+        tournamentNameLabel.setText(ServiceManager.getTournament().tournamentName());
+        preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
+        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
+        maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().maxTeamSize()));
 
         playerFlowPane.getChildren().clear();
 
         for (Player player : ServiceManager.getPlayerService()
-                                           .getAllPlayerFromTournament(ServiceManager.getTournament())) {
+                                           .findAllOfTournament(ServiceManager.getTournament())) {
 
             Label pnameLabel = new Label(player.pname());
             pnameLabel.setAlignment(Pos.CENTER);
@@ -145,14 +145,14 @@ public class startTournamentController implements Initializable {
         }
 
         ServiceManager.getPlayerService()
-                      .createPlayer(nameField.getText(), emailField.getText(), ServiceManager.getTournament());
+                      .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament());
 
         updateList();
         stage.close();
     }
 
     private void delete(Player player) {
-        ServiceManager.getPlayerService().deletePlayer(player);
+        ServiceManager.getPlayerService().delete(player);
         updateList();
     }
 

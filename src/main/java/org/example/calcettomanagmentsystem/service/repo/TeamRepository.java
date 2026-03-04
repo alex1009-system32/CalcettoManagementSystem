@@ -5,6 +5,7 @@ import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TeamRepository implements Repository<Team> {
     private TeamDao teamDao;
@@ -14,7 +15,7 @@ public class TeamRepository implements Repository<Team> {
     }
 
     @Override
-    public Team save(Team obj) {
+    public Optional<Team> save(Team obj) {
         return teamDao.save(obj);
     }
 
@@ -29,7 +30,7 @@ public class TeamRepository implements Repository<Team> {
     }
 
     @Override
-    public Team findById(int id) {
+    public Optional<Team> findById(int id) {
         return teamDao.findById(id);
     }
 }

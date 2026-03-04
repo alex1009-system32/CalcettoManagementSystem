@@ -5,6 +5,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TournamentRepository implements Repository<Tournament> {
     private TournamentDao tournamentDao;
@@ -14,7 +15,7 @@ public class TournamentRepository implements Repository<Tournament> {
     }
 
     @Override
-    public Tournament save(Tournament tournament) {
+    public Optional<Tournament> save(Tournament tournament) {
         return tournamentDao.save(tournament);
     }
 
@@ -29,7 +30,7 @@ public class TournamentRepository implements Repository<Tournament> {
     }
 
     @Override
-    public Tournament findById(int id) {
+    public Optional<Tournament> findById(int id) {
         return tournamentDao.findById(id);
     }
 }

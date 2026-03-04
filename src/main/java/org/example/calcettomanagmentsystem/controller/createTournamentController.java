@@ -71,7 +71,7 @@ public class createTournamentController {
         }
 
         return ServiceManager.getTournamentService()
-                             .startTournament(new Tournament(nameField.getText(),
+                             .start(new Tournament(nameField.getText(),
                                                              Long.parseLong(durationField.getText()),
                                                              Integer.parseInt(preRoundField.getText()),
                                                              2));

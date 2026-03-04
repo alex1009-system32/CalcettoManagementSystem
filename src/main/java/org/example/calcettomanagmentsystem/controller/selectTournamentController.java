@@ -45,16 +45,16 @@ public class selectTournamentController implements Initializable {
 	private void updateList() {
 
 
-		for (Tournament tournament : ServiceManager.getTournamentService().getAllTournaments()) {
-			Label tournamentLabel = new Label(tournament.getTournamentName());
+		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
+			Label tournamentLabel = new Label(tournament.tournamentName());
 			tournamentLabel.setPadding(new Insets(0, 100, 0, 100));
 			HBox.setHgrow(tournamentLabel, Priority.ALWAYS);
 
-			Label startDateLabel = new Label(tournament.getDate().toString());
+			Label startDateLabel = new Label(tournament.date().toString());
 			startDateLabel.setPadding(new Insets(0, 100, 0, 100));
 			HBox.setHgrow(startDateLabel, Priority.ALWAYS);
 
-			Label durationLabel = new Label(String.valueOf(tournament.getDuration()));
+			Label durationLabel = new Label(String.valueOf(tournament.duration()));
 			durationLabel.setPadding(new Insets(0, 100, 0, 100));
 			HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
@@ -119,7 +119,7 @@ public class selectTournamentController implements Initializable {
 
 		ServiceManager.setTournament(tournament);
 
-		if (tournament.getCurrentRound() <= 0) {
+		if (tournament.currentRound() <= 0) {
 			App.setRoot(FxmlNavigation.START_TOURNAMENT);
 		} else {
 			App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);

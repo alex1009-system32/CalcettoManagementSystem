@@ -20,7 +20,7 @@ public class MatchService {
     }
 
     public List<Match> findMatchesByTournamentInCurrentRound(@NotNull Tournament tournament) {
-        return matchRepository.findMatchesByTournament(tournament, tournament.getCurrentRound());
+        return matchRepository.findMatchesByTournament(tournament, tournament.currentRound());
     }
 
 }
