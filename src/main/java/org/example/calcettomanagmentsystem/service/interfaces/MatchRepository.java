@@ -7,7 +7,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 public interface MatchRepository extends Repository<Match> {
-    List<Match> findAllFromTournament(Tournament tournament);
+    List<Match> findMatchesByTournament(Tournament tournament);
 
-    List<Match> findAllFromTournamentOfRound(Tournament tournament, int round);
+    List<Match> findMatchesByTournament(Tournament tournament, int round);
 }

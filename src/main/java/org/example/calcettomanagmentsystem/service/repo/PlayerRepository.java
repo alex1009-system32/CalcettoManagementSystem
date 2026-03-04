@@ -1,13 +1,13 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.dao.old.PlayerDao;
+import org.example.calcettomanagmentsystem.dao.PlayerDao;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
 
 public class PlayerRepository implements Repository<Player> {
-    PlayerDao playerDao;
+    private PlayerDao playerDao;
 
     public PlayerRepository(PlayerDao playerDao) {
         this.playerDao = playerDao;
@@ -15,21 +15,21 @@ public class PlayerRepository implements Repository<Player> {
 
     @Override
     public Player save(Player obj) {
-        return playerDao.addPlayer(obj.pname(), obj.pemail(), obj.tournament());
+        return playerDao.save(obj);
     }
 
     @Override
     public boolean delete(Player obj) {
-        return playerDao.deletePlayer(obj);
+        return playerDao.delete(obj);
     }
 
     @Override
     public List<Player> findAll() {
-        return playerDao.getAllPlayers();
+        return playerDao.findAll();
     }
 
     @Override
     public Player findById(int id) {
-        return playerDao.getPlayerById(id);
+        return playerDao.findById(id);
     }
 }

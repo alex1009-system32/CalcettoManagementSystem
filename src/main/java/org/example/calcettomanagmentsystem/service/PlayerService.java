@@ -3,11 +3,7 @@ package org.example.calcettomanagmentsystem.service;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
 import org.example.calcettomanagmentsystem.service.repo.PlayerRepository;
-import org.example.calcettomanagmentsystem.service.repo.TeamRepository;
-import org.example.calcettomanagmentsystem.service.repo.TournamentRepository;
-import org.example.calcettomanagmentsystem.service.repo.core.MakerService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

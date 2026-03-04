@@ -16,11 +16,11 @@ public class MatchService {
     }
 
     public List<Match> getAllMatchesFromTournament(@NotNull Tournament tournament) {
-        return matchRepository.findAllFromTournament(tournament);
+        return matchRepository.findMatchesByTournament(tournament);
     }
 
     public List<Match> getAllMatchesFormTournamentOfRound(@NotNull Tournament tournament) {
-        return matchRepository.findAllFromTournamentOfRound(tournament, tournament.getCurrentRound());
+        return matchRepository.findMatchesByTournament(tournament, tournament.getCurrentRound());
     }
 
 }

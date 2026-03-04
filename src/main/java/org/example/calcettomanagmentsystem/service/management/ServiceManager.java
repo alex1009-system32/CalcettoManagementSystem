@@ -1,9 +1,11 @@
 package org.example.calcettomanagmentsystem.service.management;
 
-import org.example.calcettomanagmentsystem.dao.old.MatchDao;
-import org.example.calcettomanagmentsystem.dao.old.PlayerDao;
-import org.example.calcettomanagmentsystem.dao.old.TeamDao;
-import org.example.calcettomanagmentsystem.dao.old.TournamentDao;
+import org.example.calcettomanagmentsystem.core.MatchMaker;
+import org.example.calcettomanagmentsystem.core.TeamMaker;
+import org.example.calcettomanagmentsystem.dao.MatchDao;
+import org.example.calcettomanagmentsystem.dao.PlayerDao;
+import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
@@ -17,7 +19,7 @@ import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
 import org.example.calcettomanagmentsystem.service.repo.PlayerRepository;
 import org.example.calcettomanagmentsystem.service.repo.TeamRepository;
 import org.example.calcettomanagmentsystem.service.repo.TournamentRepository;
-import org.example.calcettomanagmentsystem.service.repo.core.MakerService;
+import org.example.calcettomanagmentsystem.service.repo.MakerService;
 
 public class ServiceManager {
     private static final TournamentDao TOURNAMENT_DAO = new SQLiteTournamentDao();
@@ -32,7 +34,10 @@ public class ServiceManager {
     private static final TeamRepository TEAM_REPOSITORY = new TeamRepository(TEAM_DAO);
     private static final PlayerRepository PLAYER_REPOSITORY = new PlayerRepository(PLAYER_DAO);
 
-    private static final MakerService MAKER_REPOSITORY = new MakerService();
+    private static final TeamMaker TEAM_MAKER = new TeamMaker();
+    private static final MatchMaker MATCH_MAKER = new MatchMaker();
+
+    private static final MakerService MAKER_REPOSITORY = new MakerService(TEAM_MAKER, MATCH_MAKER, TOURNAMENT_DAO, MATCH_DAO, TEAM_DAO);
 
     private static final TournamentService TOURNAMENT_SERVICE =
             new TournamentService(TOURNAMENT_REPOSITORY, MAKER_REPOSITORY);

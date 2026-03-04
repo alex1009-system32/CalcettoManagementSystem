@@ -1,13 +1,13 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.dao.old.TournamentDao;
+import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
 
 public class TournamentRepository implements Repository<Tournament> {
-    TournamentDao tournamentDao;
+    private TournamentDao tournamentDao;
 
     public TournamentRepository(TournamentDao tournamentDao) {
         this.tournamentDao = tournamentDao;
@@ -15,21 +15,21 @@ public class TournamentRepository implements Repository<Tournament> {
 
     @Override
     public Tournament save(Tournament tournament) {
-        return tournamentDao.addTournament(tournament);
+        return tournamentDao.save(tournament);
     }
 
     @Override
     public boolean delete(Tournament tournament) {
-        return tournamentDao.deleteTournament(tournament);
+        return tournamentDao.delete(tournament);
     }
 
     @Override
     public List<Tournament> findAll() {
-        return tournamentDao.getAllTournaments();
+        return tournamentDao.findAll();
     }
 
     @Override
     public Tournament findById(int id) {
-        return tournamentDao.getTournamentById(id);
+        return tournamentDao.findById(id);
     }
 }
