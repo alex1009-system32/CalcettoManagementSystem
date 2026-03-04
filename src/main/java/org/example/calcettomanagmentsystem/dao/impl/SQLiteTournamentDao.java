@@ -2,9 +2,9 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,173 +12,114 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * SQLite-Implementierung für Turnier-Persistenz.
- * <p>
- * Ziel ist eine stabile CRUD-Schnittstelle für Turnierdaten,
- * damit UI und Logik keine SQL-Details kennen müssen.
- * </p>
- *
- * @see org.example.calcettomanagmentsystem.dao.TournamentDao
- */
-
 public class SQLiteTournamentDao implements TournamentDao {
 
-	/**
-	 * Geteilte Verbindung für konsistente Lese- und Schreibzugriffe.
-	 */
-	private Connection connection;
+    private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
+        return new Tournament(rs.getInt("tid"),
+                              rs.getString("tournament_name"),
+                              LocalDate.parse(rs.getString("start_date")),
+                              rs.getInt("duration"),
+                              rs.getInt("pre_round"),
+                              rs.getInt("current_round"),
+                              rs.getInt("max_team_size"));
+    }
 
-	/**
-	 * Initializes the DAO with a shared database connection.
-	 */
-	public SQLiteTournamentDao() {
-		try {
-			this.connection = SQLiteDB.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public Tournament save(@NotNull Tournament obj) {
+        String sql =
+                "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
-	/**
-	 * Persistiert ein Turnier mit allen Startparametern.
-	 *
-	 * @param tournament_name Anzeigename, der in der UI verwendet wird
-	 * @param duration Dauer in Tagen für die Turnierplanung
-	 * @param preRound Anzahl der Vorrunden für die Match-Logik
-	 * @param maxTeamSize maximale Teamgröße für Team-Matching
-	 * @return neu erstelltes Turnier
-	 */
-	@Override
-	public Tournament addTournament(Tournament tournament) {
-		String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setString(1, obj.getTournamentName());
+            preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(obj.getDate()));
+            preparedStatement.setLong(3, obj.getDuration());
+            preparedStatement.setInt(4, obj.getPreRound());
+            preparedStatement.setInt(5, obj.getCurrentRound());
+            preparedStatement.setInt(6, obj.getMaxTeamSize());
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setString(1, tournament.getTournamentName());
-			preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(tournament.getDate()));
-			preparedStatement.setLong(3, tournament.getDuration());
-			preparedStatement.setInt(4, tournament.getPreRound());
-			preparedStatement.setInt(5, tournament.getCurrentRound());
-			preparedStatement.setInt(6, tournament.getMaxTeamSize());
+            preparedStatement.executeUpdate();
 
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            while (resultSet.next()) {
+                return findById(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Inserting Into tournament from the database", e);
+        }
 
-		return getLastTournament();
-	}
+        return null;
+    }
 
-	/**
-	 * Aktualisiert den Fortschritt, damit Folgerunden konsistent bleiben.
-	 *
-	 * @param tournament Turnier, dessen Runde erhöht wird
-	 * @return {@code true} bei erfolgreicher Aktualisierung
-	 */
-	@Override
-	public boolean increaseRound(@NotNull Tournament tournament) {
-		String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
+    @Override
+    public List<Tournament> findAll() {
+        String sql = "SELECT * FROM tournament";
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tournament.getCurrentRound() + 1);
-			preparedStatement.setInt(2, tournament.getTid());
+        List<Tournament> tournaments = new ArrayList<>();
 
-			tournament.setCurrentRound(tournament.getCurrentRound() + 1);
+        try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(
+                sql)) {
+            while (resultSet.next()) {
+                tournaments.add(mapResultSetToTournament(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Finding All Tournament from the database", e);
+        }
 
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			return false;
-		}
+        return tournaments;
+    }
 
-		return true;
-	}
+    @Override
+    public boolean delete(Tournament obj) {
+        String sql = "DELETE FROM tournament WHERE tid = ?";
 
-	/**
-	 * Lädt alle Turniere für Auswahl und Übersicht.
-	 *
-	 * @return Liste der Turniere
-	 */
-	@Override
-	public List<Tournament> getAllTournaments() {
-		String sql = "SELECT * FROM tournament";
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, obj.getTid());
+            int affected = preparedStatement.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Deleting Tournament from the database", e);
+        }
+    }
 
-		List<Tournament> tournaments = new ArrayList<>();
+    @Override
+    public Tournament findById(int id) {
+        String sql = "SELECT * FROM tournament WHERE tid = ?";
 
-		try (Statement statement = connection.createStatement();){
-			ResultSet resultSet = statement.executeQuery(sql);
-			while (resultSet.next()) {
-				tournaments.add(new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), LocalDate.parse(resultSet.getString("start_date")), resultSet.getInt("duration"), resultSet.getInt("pre_round"), resultSet.getInt("current_round"), resultSet.getInt("max_team_size")));
-			}
+        Tournament tournament = null;
 
-			resultSet.close();
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+            while (resultSet.next()) {
+                tournament = mapResultSetToTournament(resultSet);
+            }
 
-		return tournaments;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Finding Tournament from the database", e);
+        }
 
-	}
+        return tournament;
+    }
 
-	/**
-	 * Liefert ein Turnier anhand seiner ID für Detailansichten.
-	 *
-	 * @param tid Turnier-ID
-	 * @return Turnier oder {@code null}, wenn nicht vorhanden
-	 */
-	@Override
-	public Tournament getTournamentById(int tid) {
-		String sql = "SELECT * FROM tournament WHERE tid = ?";
+    @Override
+    public Tournament increaseRound(Tournament tournament) {
+        String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
-		Tournament tournament = null;
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, tournament.getCurrentRound() + 1);
+            preparedStatement.setInt(2, tournament.getTid());
+            preparedStatement.executeUpdate();
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tid);
-			ResultSet resultSet = preparedStatement.executeQuery();
+            tournament.setCurrentRound(tournament.getCurrentRound() + 1);
+            return tournament;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Inserting Into tournament from the database", e);
+        }
 
-			while (resultSet.next()) {
-				tournament = new Tournament(resultSet.getInt("tid"), resultSet.getString("tournament_name"), LocalDate.parse(resultSet.getString("start_date")), resultSet.getInt("duration"), resultSet.getInt("pre_round"), resultSet.getInt("current_round"), resultSet.getInt("max_team_size"));
-			}
-
-			resultSet.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return tournament;
-	}
-
-	@Override
-	public boolean deleteTournament(@NotNull Tournament tournament) {
-		String sql = "DELETE FROM tournament WHERE tid = ?";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, tournament.getTid());
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Liefert das zuletzt persistierte Turnier für Folgeoperationen.
-	 *
-	 * @return zuletzt gespeichertes Turnier oder {@code null}
-	 */
-	private @Nullable Tournament getLastTournament() {
-		String sql = "SELECT * FROM tournament ORDER BY tid DESC LIMIT 1";
-
-		try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
-			if (resultset.next()) {
-				return getTournamentById(resultset.getInt("tid"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+    }
 }

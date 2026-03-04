@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.dao.PlayerDao;
+import org.example.calcettomanagmentsystem.dao.old.PlayerDao;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 

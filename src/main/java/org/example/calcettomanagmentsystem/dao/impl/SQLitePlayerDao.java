@@ -2,13 +2,13 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.PlayerDao;
-import org.example.calcettomanagmentsystem.model.Match;
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,170 +19,117 @@ import java.util.List;
  * ausschließlich mit Domänenobjekten arbeiten.
  * </p>
  *
- * @see org.example.calcettomanagmentsystem.dao.PlayerDao
+ * @see PlayerDao
  */
 public class SQLitePlayerDao implements PlayerDao {
 
-    /**
-     * Geteilte Verbindung zur Sicherstellung konsistenter Abfragen.
-     */
-    private Connection connection;
+    private Player mapResultSetToPlayer(ResultSet rs) throws SQLException {
+        Tournament tournament = new Tournament(rs.getInt("tid"),
+                                               rs.getString("tournament_name"),
+                                               LocalDate.parse(rs.getString("start_date")),
+                                               rs.getInt("duration"),
+                                               rs.getInt("pre_round"),
+                                               rs.getInt("current_round"),
+                                               rs.getInt("max_team_size"));
 
-    /**
-     * Initializes the DAO with a shared database connection.
-     */
-    public SQLitePlayerDao() {
-        try {
-            this.connection = SQLiteDB.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return new Player(rs.getInt("pid"), rs.getString("player_name"), rs.getString("player_email"), tournament);
+
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote Der Turnierbezug wird direkt beim Einfügen gesetzt, damit
-     * Spieler im Turnier sofort auffindbar sind.
-     */
     @Override
-    public Player addPlayer(String pname, String pemail, @NotNull Tournament tournament) {
+    public Player save(Player obj) {
         String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, pname);
-            preparedStatement.setString(2, pemail);
-            preparedStatement.setInt(3, tournament.getTid());
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setString(1, obj.pname());
+            preparedStatement.setString(2, obj.pemail());
+            preparedStatement.setInt(3, obj.tournament().getTid());
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            while (resultSet.next()) {
+                return findById(resultSet.getInt(1));
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error Inserting Into Player form the database", e);
         }
 
-        return getLastPlayer();
+        return null;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote Die Turnierverknüpfung wird nachgeladen, damit die
-     * Rückgabeobjekte sofort navigierbar sind.
-     */
     @Override
-    public List<Player> getAllPlayers() {
-        String sql = "SELECT * FROM player";
+    public boolean delete(Player obj) {
+        String sql = "DELETE FROM player WHERE pid = ?";
 
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, obj.pid());
+            int affected = preparedStatement.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error Deleting Player from the database", e);
+        }
+    }
+
+    @Override
+    public List<Player> findAll() {
+        String sql = "SELECT * FROM player JOIN tournament ON tournament.tid = player.tid";
         List<Player> players = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement()) {
+        try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                players.add(new Player(resultSet.getInt("pid"),
-                                       resultSet.getString("pname"),
-                                       resultSet.getString("pemail"),
-                                       new SQLiteTournamentDao().getTournamentById(resultSet.getInt("trid"))));
+                players.add(mapResultSetToPlayer(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error Finding Player from the database");
         }
 
         return players;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote Filterung über {@code trid} hält die Ergebnisse turnierspezifisch.
-     */
     @Override
     public List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament) {
-        String sql = "SELECT * FROM player WHERE trid=?";
-
+        String sql = "SELECT * FROM player JOIN tournament ON tournament.tid = player.tid WHERE player.tid = ?";
         List<Player> players = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
             preparedStatement.setInt(1, tournament.getTid());
-
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
 
             while (resultSet.next()) {
-                players.add(new Player(resultSet.getInt("pid"),
-                                       resultSet.getString("pname"),
-                                       resultSet.getString("pemail"),
-                                       tournament));
+                players.add(mapResultSetToPlayer(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error Finding Player from the database");
         }
 
         return players;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote Das Turnier wird nachgeladen, um eine vollständige
-     * Spieleransicht bereitzustellen.
-     */
     @Override
-    public Player getPlayerById(int pid) {
-        String sql = "SELECT * FROM player WHERE pid = ?";
-
+    public Player findById(int id) {
+        String sql = "SELECT * FROM player JOIN tournament ON tournament.tid = player.tid WHERE player.pid = ?";
         Player player = null;
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, pid);
-
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                player = new Player(resultSet.getInt("pid"),
-                                    resultSet.getString("pname"),
-                                    resultSet.getString("pemail"),
-                                    new SQLiteTournamentDao().getTournamentById(resultSet.getInt("trid")));
+                player = mapResultSetToPlayer(resultSet);
             }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataAccessException("Error Finding Player from the database", e);
         }
 
         return player;
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean deletePlayer(@NotNull Player player) {
-        String sql = "DELETE FROM player WHERE pid = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, player.pid());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Liefert den zuletzt persistierten Spieler zur Bestätigung der Anlage.
-     *
-     * @return zuletzt gespeicherter Spieler oder {@code null}
-     */
-    private @Nullable Player getLastPlayer() {
-        String sql = "SELECT * FROM player ORDER BY pid DESC LIMIT 1";
-
-        try (Statement statement = connection.createStatement(); ResultSet resultset = statement.executeQuery(sql)) {
-            if (resultset.next()) {
-                return getPlayerById(resultset.getInt("pid"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }

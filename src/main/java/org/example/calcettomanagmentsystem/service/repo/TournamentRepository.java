@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.dao.old.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 

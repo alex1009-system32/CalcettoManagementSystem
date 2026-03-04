@@ -11,46 +11,31 @@ import java.util.*;
  * @see org.example.calcettomanagmentsystem.model.Team
  */
 public class Match {
-	/**
-	 * Punkte pro Team zur Ergebnisberechnung.
-	 */
-	private final Map<Team, Double> points;
-	/**
-	 * Teilnehmende Teams für die Rundenlogik.
-	 */
-	private final List<Team> teams;
+    private final int mid;
+    private final int round;
+    private final Tournament tournament;
 
-	/**
-	 * Primärschlüssel zur eindeutigen Identifikation.
-	 */
-	private int mid;
-	/**
-	 * Runde, zu der das Match gehört.
-	 */
-	private int round;
+    private final Map<Team, Double> teamResults;
 
-	/**
-	 * Erstellt ein Match mit Identität und Rundenbezug.
-	 *
-	 * @param mid eindeutige Match-ID
-	 * @param round Runde, zu der das Match gehört
-	 */
-	public Match(int mid, int round) {
-		this.points = new HashMap<>();
-		this.teams = new ArrayList<>();
+    public Match(int mid, int round, Tournament tournament) {
+        this.mid = mid;
+        this.round = round;
+        this.tournament = Objects.requireNonNull(tournament, "Tournament cannot be null");
+        this.teamResults = new LinkedHashMap<>(); // LinkedHashMap bewahrt die Reihenfolge (Team 1 vs Team 2)
+    }
 
-		setMid(mid);
-		setRound(round);
-	}
+    public Match(int round, Tournament tournament) {
+        this.mid = -1;
+        this.round = round;
+        this.tournament = Objects.requireNonNull(tournament, "Tournament cannot be null");
+        this.teamResults = new LinkedHashMap<>(); // LinkedHashMap bewahrt die Reihenfolge (Team 1 vs Team 2)
+    }
 
-	/**
-	 * Fügt ein Team zum Match hinzu, um die Paarung zu definieren.
-	 *
-	 * @param team teilnehmendes Team
-	 */
-	public void addTeam(Team team) {
-		this.teams.add(team);
-	}
+    public void addTeamResult(Team team, double points) {
+        this.teamResults.put(team, points);
+    }
+
+
 
 	/**
 	 * Setzt den Punktestand eines Teams für dieses Match.
@@ -59,7 +44,7 @@ public class Match {
 	 * @param points Punktestand für das Team
 	 */
 	public void addPoints(Team team, double points) {
-		this.points.put(team, points);
+		this.teamResults.put(team, points);
 	}
 
 	/**
@@ -81,77 +66,36 @@ public class Match {
 		return mid;
 	}
 
-	/**
-	 * Liefert die Teamliste für Darstellung und Auswertung.
-	 *
-	 * @return Teams im Match
-	 */
-	public List<Team> getTeams() {
-		return teams;
-	}
+    @Override
+    public String toString() {
+        return "Match{" +
+                "mid=" + mid +
+                ", round=" + round +
+                ", tournament=" + tournament +
+                ", teamResults=" + teamResults +
+                '}';
+    }
 
-	/**
-	 * Liefert die Punktverteilung für Auswertungen.
-	 *
-	 * @return Map der Team-Punkte
-	 */
-	public Map<Team, Double> getPoints() {
-		return points;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Match match = (Match) o;
+        return mid == match.mid && round == match.round && Objects.equals(tournament,
+                                                                          match.tournament) && Objects.equals(
+                teamResults,
+                match.teamResults);
+    }
 
-	/**
-	 * Setzt die Runde intern, um Konsistenz zu wahren.
-	 *
-	 * @param round Rundennummer
-	 */
-	private void setRound(int round) {
-		this.round = round;
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(mid, round, tournament, teamResults);
+    }
 
-	/**
-	 * Setzt die Match-ID intern, um Konsistenz zu wahren.
-	 *
-	 * @param mid Match-ID
-	 */
-	private void setMid(int mid) {
-		this.mid = mid;
-	}
+    public Tournament getTournament() {
+        return tournament;
+    }
 
-	/**
-	 * Vergleicht Matches anhand Identität, Runde und Ergebnisdaten.
-	 *
-	 * @param o Vergleichsobjekt
-	 * @return {@code true}, wenn die relevanten Felder übereinstimmen
-	 */
-	@Override
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass()) return false;
-		Match match = (Match) o;
-		return getMid() == match.getMid() && getRound() == match.getRound() && Objects.equals(points, match.points) && Objects.equals(teams, match.teams);
-	}
-
-	/**
-	 * Erzeugt einen Hash für Collections und Caches.
-	 *
-	 * @return Hashcode basierend auf Matchdaten
-	 */
-	@Override
-	public int hashCode() {
-		return Objects.hash(points, teams, getMid(), getRound());
-	}
-
-	/**
-	 * Liefert eine lesbare Darstellung für Logs und Debugging.
-	 *
-	 * @return textuelle Repräsentation des Matches
-	 */
-	@Override
-	public String toString() {
-		return "Match{" +
-				"points=" + points +
-				", teams=" + teams +
-				", mid=" + mid +
-				", round=" + round +
-				'}';
-	}
+    public Map<Team, Double> getTeamResults() {
+        return teamResults;
+    }
 }

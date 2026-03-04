@@ -1,8 +1,8 @@
 package org.example.calcettomanagmentsystem.core;
 
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
+import org.example.calcettomanagmentsystem.dao.MatchDao;
+import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -21,8 +21,6 @@ import java.util.stream.IntStream;
  * Match-Historie über Vorrunden und Hauptrunden zu gewährleisten.
  * </p>
  *
- * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao
- * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao
  */
 public class MatchMaker {
 
@@ -33,15 +31,12 @@ public class MatchMaker {
      * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
      * Wiederholung angewiesen, um Dopplungen zu vermeiden.
      */
-    public boolean makePreRounds(@NotNull Tournament tournament) {
+    public boolean makePreRounds(@NotNull Tournament tournament, TournamentDao tournamentDao, MatchDao matchDao, TeamDao teamDao) {
         if (tournament.getCurrentRound() != 0) {
             return false;
         }
 
-        SQLiteTournamentDao sqliteTournamentDao = new SQLiteTournamentDao();
-        SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
-
-        List<Team> teams = new SQLiteTeamDao().getAllTeamsFromTournament(tournament);
+        List<Team> teams = teamDao.getTeams(tournament);
         List<List<List<Team>>> allTeamLists = new ArrayList<>();
 
         for (int i = 0; i < tournament.getPreRound(); i++) {
@@ -51,7 +46,7 @@ public class MatchMaker {
 
             if (i == 0) {
 
-                createMatches(teamList, tournament);
+                createMatches(teamList, tournament, tournamentDao, matchDao);
 
             } else {
 
@@ -62,7 +57,7 @@ public class MatchMaker {
 
                 } else {
 
-                    createMatches(teamList, tournament);
+                    createMatches(teamList, tournament, tournamentDao, matchDao);
 
                 }
 
@@ -82,21 +77,22 @@ public class MatchMaker {
      * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
      * Teams zu mischen.
      */
-    public boolean makeMatchesForRound(@NotNull Tournament tournament) {
-
+    public boolean makeMatchesForRound(@NotNull Tournament tournament,TournamentDao tournamentDao, MatchDao matchDao, TeamDao teamDao) {
         List<Team> teams;
-        SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
         Match match;
 
         if (tournament.getCurrentRound() == tournament.getPreRound()) {
-            teams = getTheWinnersOfCurrentPreRound(tournament);
+            teams = getTheWinnersOfCurrentPreRound(tournament, matchDao);
         } else {
-            teams = getTheWinnersOfCurrentRound(tournament);
+            teams = getTheWinnersOfCurrentRound(tournament, matchDao);
         }
 
-        List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2).mapToObj(i -> Arrays.asList(teams.get(i), teams.get(teams.size() - 1 - i))).collect(Collectors.toList());
+        List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2)
+                                             .mapToObj(i -> Arrays.asList(teams.get(i),
+                                                                          teams.get(teams.size() - 1 - i)))
+                                             .collect(Collectors.toList());
 
-        createMatches(newTeams, tournament);
+        createMatches(newTeams, tournament, tournamentDao, matchDao);
 
         return true;
 
@@ -108,24 +104,16 @@ public class MatchMaker {
      * @param teams      Team-Paare, optional mit Einzelteam für Freilos
      * @param tournament Turnierkontext für Match-Erstellung
      */
-    private void createMatches(@NotNull List<List<Team>> teams, Tournament tournament) {
+    private void createMatches(@NotNull List<List<Team>> teams, Tournament tournament,TournamentDao tournamentDao, MatchDao matchDao) {
         if (teams.size() == 0) return;
-
-        SQLiteMatchDao sqliteMatchDao = new SQLiteMatchDao();
         Match match;
-
         for (List<Team> teamList : teams) {
-            match = sqliteMatchDao.addMatch(tournament);
-
+            match = matchDao.save(new Match(tournament.getCurrentRound(), tournament));
             for (Team team : teamList) {
-                sqliteMatchDao.addTeamToMatch(team, match);
+                matchDao.registerTeam(team, match);
             }
-
         }
-
-        new SQLiteTournamentDao().increaseRound(tournament);
-
-
+        tournamentDao.increaseRound(tournament);
     }
 
     /**
@@ -202,14 +190,14 @@ public class MatchMaker {
      * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
      */
     @NotNull
-    private List<Team> getTheWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
+    private List<Team> getTheWinnersOfCurrentPreRound(@NotNull Tournament tournament, MatchDao matchDao) {
         List<Team> winner = new ArrayList<>();
         Map<Team, Double> teams = new HashMap<>();
 
         for (int i = 0; i < tournament.getPreRound(); i++) {
-            List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, i);
+            List<Match> matches = matchDao.findMatchesByTournament(tournament);
             for (Match match : matches) {
-                match.getPoints().forEach((key, value) -> {
+                match.getTeamResults().forEach((key, value) -> {
                     if (teams.containsKey(key)) {
                         teams.replace(key, teams.get(key) + value);
                     } else {
@@ -222,7 +210,13 @@ public class MatchMaker {
 
         }
 
-        Map<Team, Double> sortedMap = teams.entrySet().stream().sorted(Map.Entry.<Team, Double>comparingByValue().reversed()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        Map<Team, Double> sortedMap = teams.entrySet()
+                                           .stream()
+                                           .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
+                                           .collect(Collectors.toMap(Map.Entry::getKey,
+                                                                     Map.Entry::getValue,
+                                                                     (e1, e2) -> e1,
+                                                                     LinkedHashMap::new));
 
         sortingOut:
         {
@@ -245,18 +239,19 @@ public class MatchMaker {
      * @return Siegerliste der aktuellen Runde
      */
     @NotNull
-    private List<Team> getTheWinnersOfCurrentRound(Tournament tournament) {
+    private List<Team> getTheWinnersOfCurrentRound(Tournament tournament, MatchDao matchDao) {
 
-        List<Match> matches = new SQLiteMatchDao().getAllMatchesFromTournamentInRound(tournament, tournament.getCurrentRound());
+        List<Match> matches =
+                matchDao.findMatchesByTournament(tournament);
         List<Team> winners = new ArrayList<>();
 
         for (Match match : matches) {
 
             Team winner = null;
-            for (Map.Entry<Team, Double> entry : match.getPoints().entrySet()) {
+            for (Map.Entry<Team, Double> entry : match.getTeamResults().entrySet()) {
                 if (winner == null) {
                     winner = entry.getKey();
-                } else if (entry.getValue() > match.getPoints().get(winner)) {
+                } else if (entry.getValue() > match.getTeamResults().get(winner)) {
                     winner = entry.getKey();
                 }
             }

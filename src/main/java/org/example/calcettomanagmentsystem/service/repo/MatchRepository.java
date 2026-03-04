@@ -1,15 +1,12 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.dao.MatchDao;
+import org.example.calcettomanagmentsystem.dao.old.MatchDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.interfaces.MatchServiceRepository;
-import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
 
-public class MatchRepository implements Repository<Match>,
-                                        MatchServiceRepository {
+public class MatchRepository implements org.example.calcettomanagmentsystem.service.interfaces.MatchRepository {
     MatchDao matchDao;
 
     public MatchRepository(MatchDao matchDao) {

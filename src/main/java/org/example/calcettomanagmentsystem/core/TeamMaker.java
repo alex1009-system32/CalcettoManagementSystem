@@ -1,6 +1,7 @@
 package org.example.calcettomanagmentsystem.core;
 
 import com.github.javafaker.Faker;
+import org.example.calcettomanagmentsystem.dao.TeamDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.model.Player;
@@ -19,19 +20,13 @@ import java.util.stream.Gatherers;
  * damit Turnierlogik nicht mit Gruppierungsdetails belastet wird.
  * </p>
  *
- * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao
+ * @see SQLiteTeamDao
  */
 public class TeamMaker {
-    /**
-     * Erzeugt Teams für ein Turnier basierend auf der maximalen Teamgröße.
-     *
-     * @param tournament Turnierkontext für Teamgröße und Spielerliste
-     * @implNote Teamnamen werden zufällig erzeugt, um Eingaben zu vermeiden.
-     */
-    public boolean makeTeams(Tournament tournament) {
+
+    public boolean makeTeams(Tournament tournament, TeamDao teamDao) {
         String teamName;
         Team team;
-        SQLiteTeamDao teamDao = new SQLiteTeamDao();
         Faker faker = new Faker();
 
         List<List<Player>> teams = partitionTeams(new SQLitePlayerDao().getAllPlayersFromTournament(tournament),
@@ -39,10 +34,10 @@ public class TeamMaker {
 
         for (List<Player> teamList : teams) {
             teamName = faker.funnyName().name();
-            team = teamDao.addTeam(teamName);
+            team = teamDao.save(new Team(teamName));
 
             for (Player player : teamList) {
-                teamDao.addPlayerToTeam(player, team);
+                teamDao.addPlayer(team, player);
             }
         }
 

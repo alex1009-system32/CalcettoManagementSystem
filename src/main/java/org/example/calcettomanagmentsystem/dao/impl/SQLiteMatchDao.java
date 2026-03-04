@@ -2,326 +2,304 @@ package org.example.calcettomanagmentsystem.dao.impl;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.MatchDao;
+import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.*;
 
-/**
- * SQLite-spezifische Implementierung für Match-Persistenz.
- * <p>
- * Die Klasse kapselt die SQL-Details, damit die Domänenlogik
- * keine Datenbankkenntnisse benötigt.
- * </p>
- *
- * @see org.example.calcettomanagmentsystem.dao.MatchDao
- */
 public class SQLiteMatchDao implements MatchDao {
-	private Connection connection;
-
-	/**
-	 * Geteilte Verbindung, um konsistente Transaktionen zu ermöglichen.
-	 */
-	public SQLiteMatchDao() {
-		try {
-			this.connection = SQLiteDB.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Das Match wird mit der aktuellen Turnierrunde angelegt, damit
-	 *           Folgeabfragen über {@code round} konsistent bleiben.
-	 */
-	@Override
-	public Match addMatch(@NotNull Tournament tournament) {
-		String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(2, tournament.getTid());
-			preparedStatement.setInt(1, tournament.getCurrentRound());
-
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return getLastMatch();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean addTeamToMatch(@NotNull Team team, @NotNull Match match) {
-		String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, team.getTid());
-			preparedStatement.setInt(2, match.getMid());
-
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Punkte werden separat aktualisiert, damit Ergebnisänderungen
-	 *           nicht die Match-Zuordnung beeinflussen.
-	 */
-	@Override
-	public boolean addAddPointToTeamInMatch(@NotNull Team team, @NotNull Match match, double point) {
-		String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setDouble(1, point);
-			preparedStatement.setInt(2, team.getTid());
-			preparedStatement.setInt(3, match.getMid());
-
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Für jedes Match werden Team-Informationen nachgeladen, um
-	 *           vollständige Match-Objekte zu liefern.
-	 */
-	@Override
-	public List<Match> getAllMatchesFromTournament(@NotNull Tournament tournament) {
-		String sql = "SELECT * FROM \"match\" WHERE tid = ?";
-		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
-
-		Team team;
-		Match match;
-		List<Match> matches = new ArrayList<>();
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
-			preparedStatement.setInt(1, tournament.getTid());
-
-			try (ResultSet resultset = preparedStatement.executeQuery()) {
-				while (resultset.next()) {
-					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
-
-					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
-
-					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
-						while (innerResultSet.next()) {
-							SQLiteTeamDao teamDao = new SQLiteTeamDao();
-
-							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-							match.addTeam(team);
-							match.addPoints(team, innerResultSet.getDouble("points"));
-						}
-					}
-
-					matches.add(match);
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return matches;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Der Rundenfilter reduziert bewusst die Datenmenge für die UI.
-	 */
-	@Override
-	public List<Match> getAllMatchesFromTournamentInRound(@NotNull Tournament tournament, int round) {
-		String sql = "SELECT * FROM \"match\" WHERE tid = ? AND round = ?";
-		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
-
-		Team team;
-		Match match;
-		List<Match> matches = new ArrayList<>();
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
-			preparedStatement.setInt(1, tournament.getTid());
-			preparedStatement.setInt(2, round);
-
-			try (ResultSet resultset = preparedStatement.executeQuery()) {
-				while (resultset.next()) {
-					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
-
-					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
-
-					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
-						while (innerResultSet.next()) {
-							SQLiteTeamDao teamDao = new SQLiteTeamDao();
-
-							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-							match.addTeam(team);
-							match.addPoints(team, innerResultSet.getDouble("points"));
-						}
-					}
-
-					matches.add(match);
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return matches;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Die Relation wird über {@code team_match} aufgelöst, um
-	 *           auch Ergebnisse pro Team laden zu können.
-	 */
-	@Override
-	public List<Match> getAllMatchesFromTeam(@NotNull Team team) {
-		String sql = "SELECT * FROM \"match\" WHERE mid IN (SELECT mid FROM team_match WHERE team_match.tid = ?)";
-		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
-
-		Match match;
-		List<Match> matches = new ArrayList<>();
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
-			preparedStatement.setInt(1, team.getTid());
-
-			try (ResultSet resultset = preparedStatement.executeQuery()) {
-				while (resultset.next()) {
-					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
-
-					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
-
-					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
-						while (innerResultSet.next()) {
-							SQLiteTeamDao teamDao = new SQLiteTeamDao();
-
-							Team teamObj = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-							match.addTeam(teamObj);
-							match.addPoints(teamObj, innerResultSet.getDouble("points"));
-						}
-					}
-
-					matches.add(match);
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return matches;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @implNote Der Match-Lookup lädt zusätzlich die Team-Zuordnung und Punkte,
-	 *           damit die Match-Entität vollständig nutzbar ist.
-	 */
-	@Override
-	public Match getMatchById(int mid) {
-		String sql = "SELECT * FROM \"match\" WHERE mid = ?";
-		String innerSql = "SELECT * FROM team_match WHERE mid = ?";
-
-		Team team;
-		Match match = null;
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
-		     PreparedStatement innerPreparedStatement = connection.prepareStatement(innerSql)) {
-			preparedStatement.setInt(1, mid);
-
-			try (ResultSet resultset = preparedStatement.executeQuery()) {
-				while (resultset.next()) {
-					match = new Match(resultset.getInt("mid"), resultset.getInt("round"));
-
-					innerPreparedStatement.setInt(1, resultset.getInt("mid"));
-
-					try (ResultSet innerResultSet = innerPreparedStatement.executeQuery()) {
-						while (innerResultSet.next()) {
-							SQLiteTeamDao teamDao = new SQLiteTeamDao();
-
-							team = teamDao.getTeamById(innerResultSet.getInt("tid"));
-
-							match.addTeam(team);
-							match.addPoints(team, innerResultSet.getDouble("points"));
-						}
-					}
-				}
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return match;
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean deleteMatch(@NotNull Match match) {
-		String sql = "DELETE FROM \"match\" WHERE mid = ?";
-
-		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-			preparedStatement.setInt(1, match.getMid());
-			preparedStatement.execute();
-		} catch (SQLException e) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Liefert das zuletzt angelegte Match für Folgeoperationen.
-	 *
-	 * @return zuletzt gespeichertes Match oder {@code null}
-	 */
-	private @Nullable Match getLastMatch() {
-		String sql = "SELECT * FROM \"match\" ORDER BY mid DESC LIMIT 1";
-
-		Match match;
-		ResultSet resultset;
-
-		try (Statement statement = connection.createStatement()) {
-			resultset = statement.executeQuery(sql);
-			while (resultset.next()) {
-				return getMatchById(resultset.getInt("mid"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 
+    private void mapResultSetToMatch(ResultSet rs,
+                                     Map<Integer, Match> matchMap,
+                                     Map<Integer, Tournament> tournamentCache,
+                                     Map<Integer, Team> teamCache) throws SQLException {
+
+        int matchId = rs.getInt("mid");
+
+        Match match = matchMap.computeIfAbsent(matchId, id -> {
+            try {
+                int trid = rs.getInt("trid");
+                Tournament tournament = tournamentCache.computeIfAbsent(trid, tId -> {
+                    try {
+                        return new Tournament(tId,
+                                              rs.getString("tournament_name"),
+                                              LocalDate.parse(rs.getString("start_date")),
+                                              rs.getInt("duration"),
+                                              rs.getInt("pre_round"),
+                                              rs.getInt("current_round"),
+                                              rs.getInt("max_team_size"));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                return new Match(id, rs.getInt("round"), tournament);
+            } catch (SQLException e) {
+                throw new DataAccessException("Mapping-Fehler bei Match ID: " + id, e);
+            }
+        });
+
+        int teamId = rs.getInt("team_id");
+        if (teamId > 0) {
+            Team team = teamCache.computeIfAbsent(teamId, tId -> {
+                try {
+                    return new Team(tId, rs.getString("team_name"));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            double points = rs.getDouble("points");
+
+            match.addTeamResult(team, points);
+        }
+    }
+
+    @Override
+    public Match save(Match obj) {
+        String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
+        
+        try (Connection connection = SQLiteDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, obj.getTournament().getCurrentRound());
+            preparedStatement.setInt(2, obj.getTournament().getTid());
+
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            while (resultSet.next()) {
+                return findById(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error while Inserting Into Database", e);
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean registerTeam(Team team, Match match) {
+        String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
+
+        try (Connection connection = SQLiteDB.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, team.getTid());
+            preparedStatement.setInt(2, match.getMid());
+
+            int affected = preparedStatement.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error while Inserting Into Database", e);
+        }
+    }
+
+    @Override
+    public boolean assignPoints(Team team, double point, Match match) {
+        String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
+
+        try (Connection connection = SQLiteDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setDouble(1, point);
+            preparedStatement.setInt(2, team.getTid());
+            preparedStatement.setInt(3, match.getMid());
+
+            int affected = preparedStatement.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Error while Updating Database", e);
+        }
+    }
+
+    @Override
+    public List<Match> findMatchesByTournament(@NotNull Tournament tournament) {
+        String sql = """
+                SELECT m.mid, m.round, 
+                       t.tid AS team_id, t.team_name,
+                       tm.points
+                FROM "match" m
+                LEFT JOIN team_match tm ON m.mid = tm.mid
+                LEFT JOIN team t ON tm.tid = t.tid
+                WHERE m.tid = ?
+                ORDER BY m.round, m.mid
+                """;
+
+        Map<Integer, Match> matchMap = new LinkedHashMap<>();
+        Map<Integer, Team> teamCache = new HashMap<>();
+
+        try (Connection connection= SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+
+            prepareStatement.setInt(1, tournament.getTid());
+
+            try (ResultSet rs = prepareStatement.executeQuery()) {
+                while (rs.next()) {
+                    int matchId = rs.getInt("mid");
+
+                    Match match = matchMap.computeIfAbsent(matchId, id -> {
+                        try {
+                            return new Match(id, rs.getInt("round"), tournament);
+                        } catch (SQLException e) {
+                            throw new DataAccessException("Fehler beim Mapping des Matches", e);
+                        }
+                    });
+
+                    int teamId = rs.getInt("team_id");
+                    if (teamId > 0) {
+                        Team team = teamCache.computeIfAbsent(teamId, tId -> {
+                            try {
+                                return new Team(tId, rs.getString("team_name"));
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+
+                        match.addTeamResult(team, rs.getDouble("points"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Fehler beim Laden der Turnier-Matches", e);
+        }
+
+        return new ArrayList<>(matchMap.values());
+    }
+
+    @Override
+    public List<Match> findMatchesByTournament(@NotNull Tournament tournament, int round) {
+        String sql = """
+                SELECT m.mid, m.round,\s
+                                       t.tid AS team_id, t.team_name,
+                                       tm.points
+                                FROM "match" m
+                                LEFT JOIN team_match tm ON m.mid = tm.mid
+                                LEFT JOIN team t ON tm.tid = t.tid
+                                WHERE m.tid = ? and m.round = ?
+                                ORDER BY m.round, m.mid
+                """;
+
+        Map<Integer, Match> matchMap = new LinkedHashMap<>();
+        Map<Integer, Team> teamCache = new HashMap<>();
+
+        try (Connection connection= SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+            prepareStatement.setInt(1, tournament.getTid());
+            prepareStatement.setInt(2, round);
+
+            try (ResultSet rs = prepareStatement.executeQuery()) {
+                while (rs.next()) {
+                    int matchId = rs.getInt("mid");
+
+                    Match match = matchMap.computeIfAbsent(matchId, id -> {
+                        try {
+                            return new Match(id, rs.getInt("round"), tournament);
+                        } catch (SQLException e) {
+                            throw new DataAccessException("Fehler beim Mapping des Matches", e);
+                        }
+                    });
+
+                    int teamId = rs.getInt("team_id");
+                    if (teamId > 0) {
+                        Team team = teamCache.computeIfAbsent(teamId, tId -> {
+                            try {
+                                return new Team(tId, rs.getString("team_name"));
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+
+                        match.addTeamResult(team, rs.getDouble("points"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Fehler beim Laden der Turnier-Matches", e);
+        }
+
+        return new ArrayList<>(matchMap.values());
+    }
+
+    @Override
+    public List<Match> findAll() {
+        String sql = """
+                SELECT m.mid, m.round, 
+                       tr.tid AS trid, tr.tournament_name, tr.start_date, tr.duration, tr.pre_round, tr.current_round, tr.max_team_size,
+                       t.tid AS team_id, t.team_name,
+                       tm.points
+                FROM "match" m
+                JOIN tournament tr ON m.tid = tr.tid
+                LEFT JOIN team_match tm ON m.mid = tm.mid
+                LEFT JOIN team t ON tm.tid = t.tid
+                ORDER BY m.mid
+                """;
+
+        Map<Integer, Match> matchMap = new LinkedHashMap<>();
+        Map<Integer, Tournament> tournamentCache = new HashMap<>();
+        Map<Integer, Team> teamCache = new HashMap<>();
+
+        try (Connection connection= SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql); ResultSet rs = prepareStatement.executeQuery()) {
+
+            while (rs.next()) {
+                mapResultSetToMatch(rs, matchMap, tournamentCache, teamCache);
+            }
+
+        } catch (SQLException e) {
+            throw new DataAccessException("Fehler beim Laden der Matches aus der Datenbank", e);
+        }
+
+        return new ArrayList<>(matchMap.values());
+    }
+
+    @Override
+    public boolean delete(Match obj) {
+        String sql = "DELETE FROM \"match\" WHERE mid = ?";
+
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
+            preparedStatement.setInt(1, obj.getMid());
+
+            int affected = preparedStatement.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            throw new DataAccessException("Failed to delete match.", e);
+        }
+    }
+
+    @Override
+    public Match findById(int id) {
+        String sql = """
+                SELECT m.mid, m.round, 
+                       tr.tid AS trid, tr.tournament_name, tr.start_date, tr.duration, tr.pre_round, tr.current_round, tr.max_team_size,
+                       t.tid AS team_id, t.team_name,
+                       tm.points
+                FROM "match" m
+                JOIN tournament tr ON m.tid = tr.tid
+                LEFT JOIN team_match tm ON m.mid = tm.mid
+                LEFT JOIN team t ON tm.tid = t.tid
+                WHERE m.mid = ?
+                """;
+
+        Map<Integer, Match> matchMap = new HashMap<>();
+        Map<Integer, Tournament> tournamentCache = new HashMap<>();
+        Map<Integer, Team> teamCache = new HashMap<>();
+
+        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
+
+            prepareStatement.setInt(1, id);
+
+            try (ResultSet rs = prepareStatement.executeQuery()) {
+                while (rs.next()) {
+                    mapResultSetToMatch(rs, matchMap, tournamentCache, teamCache);
+                }
+            }
+            return matchMap.get(1);
+        } catch (SQLException e) {
+            throw new DataAccessException("Fehler beim Suchen des Matches mit ID " + id, e);
+        }
+    }
 }

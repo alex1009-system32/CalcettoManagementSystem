@@ -30,18 +30,25 @@ public class Team {
 	 */
 	private final List<Player> players;
 
-	/**
-	 * Erstellt ein Team mit Identität und Anzeigename.
-	 *
-	 * @param tid eindeutige Team-ID
-	 * @param teamName Teamname für UI und Berichte
-	 */
-	public Team(int tid, String teamName) {
-		this.players = new ArrayList<Player>();
+    /**
+     * Erstellt ein Team mit Identität und Anzeigename.
+     *
+     * @param tid eindeutige Team-ID
+     * @param teamName Teamname für UI und Berichte
+     */
+    public Team(int tid, String teamName) {
+        this.players = new ArrayList<Player>();
 
-		setTid(tid);
-		setTeamName(teamName);
-	}
+        setTid(tid);
+        setTeamName(teamName);
+    }
+
+    public Team( String teamName) {
+        this.players = new ArrayList<Player>();
+
+        setTid(-1);
+        setTeamName(teamName);
+    }
 
 	/**
 	 * Fügt einen Spieler dem Kader hinzu, um die Teamzugehörigkeit zu spiegeln.
@@ -143,4 +150,8 @@ public class Team {
 	public String toString() {
 		return "Team{" + "tid=" + tid + ", teamName='" + teamName + '\'' + ", players=" + Arrays.toString(players.toArray()) + '}';
 	}
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 }

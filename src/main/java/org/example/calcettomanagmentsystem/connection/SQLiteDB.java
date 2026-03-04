@@ -53,10 +53,7 @@ public class SQLiteDB {
      * @throws SQLException wenn der Verbindungsaufbau fehlschlägt
      */
     public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
-        }
-        return connection;
+        return DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
     }
 
     /**

@@ -3,6 +3,7 @@ package org.example.calcettomanagmentsystem.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.dao.old.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
@@ -14,7 +15,7 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
  * keine Datenbankkenntnisse besitzen muss.
  * </p>
  *
- * @see org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao
+ * @see SQLiteTournamentDao
  */
 public class createTournamentController {
 

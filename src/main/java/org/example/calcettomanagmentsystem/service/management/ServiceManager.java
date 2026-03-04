@@ -1,9 +1,9 @@
 package org.example.calcettomanagmentsystem.service.management;
 
-import org.example.calcettomanagmentsystem.dao.MatchDao;
-import org.example.calcettomanagmentsystem.dao.PlayerDao;
-import org.example.calcettomanagmentsystem.dao.TeamDao;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.dao.old.MatchDao;
+import org.example.calcettomanagmentsystem.dao.old.PlayerDao;
+import org.example.calcettomanagmentsystem.dao.old.TeamDao;
+import org.example.calcettomanagmentsystem.dao.old.TournamentDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteMatchDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;

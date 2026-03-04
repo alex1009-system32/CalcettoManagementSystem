@@ -1,6 +1,8 @@
 pragma foreign_keys = ON
 ;
 
+PRAGMA table_info(team);
+
 DROP TABLE IF EXISTS team_match
 ;
 

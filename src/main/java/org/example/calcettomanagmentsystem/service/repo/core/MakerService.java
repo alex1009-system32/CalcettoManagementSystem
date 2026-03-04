@@ -6,6 +6,13 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
 
 public class MakerService implements MakerRepository {
+    TeamMaker teamMaker;
+    MatchMaker matchMaker;
+
+    public MakerService(TeamMaker teamMaker, MatchMaker matchMaker) {
+        this.teamMaker = teamMaker;
+        this.matchMaker = matchMaker;
+    }
 
     @Override
     public boolean generateTeams(Tournament tournament) {
