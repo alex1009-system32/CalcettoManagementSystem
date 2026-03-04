@@ -66,7 +66,7 @@ public class startTournamentController implements Initializable {
      * UI-Zustände nach Datenänderungen zu vermeiden.
      */
     private void updateList() {
-        tournamentNameLabel.setText(ServiceManager.getTournament().tournamentName());
+        tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
         currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
         maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().maxTeamSize()));
@@ -76,13 +76,13 @@ public class startTournamentController implements Initializable {
         for (Player player : ServiceManager.getPlayerService()
                                            .findAllOfTournament(ServiceManager.getTournament())) {
 
-            Label pnameLabel = new Label(player.pname());
+            Label pnameLabel = new Label(player.name());
             pnameLabel.setAlignment(Pos.CENTER);
             pnameLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             pnameLabel.getStyleClass().add("label-major");
             HBox.setHgrow(pnameLabel, Priority.ALWAYS);
 
-            Label pemailLabel = new Label(player.pemail());
+            Label pemailLabel = new Label(player.email());
             pemailLabel.setAlignment(Pos.CENTER);
             pemailLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             pemailLabel.getStyleClass().add("label-major");

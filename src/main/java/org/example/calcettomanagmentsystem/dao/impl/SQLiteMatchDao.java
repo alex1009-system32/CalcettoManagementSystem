@@ -19,7 +19,7 @@ public class SQLiteMatchDao implements MatchDao {
                                      Map<Integer, Tournament> tournamentCache,
                                      Map<Integer, Team> teamCache) throws SQLException {
 
-        int matchId = rs.getInt("mid");
+        int matchId = rs.getInt("id");
 
         Match match = matchMap.computeIfAbsent(matchId, id -> {
             try {
@@ -67,7 +67,7 @@ public class SQLiteMatchDao implements MatchDao {
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, obj.tournament().currentRound());
-            preparedStatement.setInt(2, obj.tournament().tid());
+            preparedStatement.setInt(2, obj.tournament().id());
 
             preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -88,8 +88,8 @@ public class SQLiteMatchDao implements MatchDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, team.tid());
-            preparedStatement.setInt(2, match.mid());
+            preparedStatement.setInt(1, team.id());
+            preparedStatement.setInt(2, match.id());
 
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
@@ -105,8 +105,8 @@ public class SQLiteMatchDao implements MatchDao {
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setDouble(1, point);
-            preparedStatement.setInt(2, team.tid());
-            preparedStatement.setInt(3, match.mid());
+            preparedStatement.setInt(2, team.id());
+            preparedStatement.setInt(3, match.id());
 
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
@@ -134,11 +134,11 @@ public class SQLiteMatchDao implements MatchDao {
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
                 sql)) {
 
-            prepareStatement.setInt(1, tournament.tid());
+            prepareStatement.setInt(1, tournament.id());
 
             try (ResultSet rs = prepareStatement.executeQuery()) {
                 while (rs.next()) {
-                    int matchId = rs.getInt("mid");
+                    int matchId = rs.getInt("id");
 
                     Match match = matchMap.computeIfAbsent(matchId, id -> {
                         try {
@@ -187,12 +187,12 @@ public class SQLiteMatchDao implements MatchDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
                 sql)) {
-            prepareStatement.setInt(1, tournament.tid());
+            prepareStatement.setInt(1, tournament.id());
             prepareStatement.setInt(2, round);
 
             try (ResultSet rs = prepareStatement.executeQuery()) {
                 while (rs.next()) {
-                    int matchId = rs.getInt("mid");
+                    int matchId = rs.getInt("id");
 
                     Match match = matchMap.computeIfAbsent(matchId, id -> {
                         try {
@@ -261,7 +261,7 @@ public class SQLiteMatchDao implements MatchDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, obj.mid());
+            preparedStatement.setInt(1, obj.id());
 
             int affected = preparedStatement.executeUpdate();
             return affected > 0;

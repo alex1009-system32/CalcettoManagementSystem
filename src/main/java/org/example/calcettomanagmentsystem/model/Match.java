@@ -12,11 +12,10 @@ import java.util.*;
  *
  * @see org.example.calcettomanagmentsystem.model.Team
  */
-public record Match (int mid, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
+public record Match (int id, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
     public Match(int mid, int round, Tournament tournament) {
         this (mid, round, tournament, new LinkedHashMap<>());
     }
-
     public Match(int round, Tournament tournament) {
         this(-1, round, tournament, new LinkedHashMap<>());
     }
@@ -25,21 +24,21 @@ public record Match (int mid, int round, @NotNull Tournament tournament, Map<Tea
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Match match = (Match) o;
-        return mid == match.mid && round == match.round && Objects.equals(tournament,
-                                                                          match.tournament) && Objects.equals(
+        return id == match.id && round == match.round && Objects.equals(tournament,
+                                                                        match.tournament) && Objects.equals(
                 teamResults,
                 match.teamResults);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mid, round, tournament, teamResults);
+        return Objects.hash(id, round, tournament, teamResults);
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "Match{" +
-                "mid=" + mid +
+                "id=" + id +
                 ", round=" + round +
                 ", tournament=" + tournament +
                 ", teamResults=" + teamResults +

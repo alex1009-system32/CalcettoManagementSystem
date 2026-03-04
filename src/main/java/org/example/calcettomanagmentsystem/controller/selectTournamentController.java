@@ -46,7 +46,7 @@ public class selectTournamentController implements Initializable {
 
 
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
-			Label tournamentLabel = new Label(tournament.tournamentName());
+			Label tournamentLabel = new Label(tournament.name());
 			tournamentLabel.setPadding(new Insets(0, 100, 0, 100));
 			HBox.setHgrow(tournamentLabel, Priority.ALWAYS);
 

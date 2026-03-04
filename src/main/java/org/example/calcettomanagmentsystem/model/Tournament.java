@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,34 +14,33 @@ import java.util.Objects;
  *
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
  */
-public record Tournament(int tid, String tournamentName, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
-    public Tournament(int tid, String tournamentName, long duration, int preRound, int maxTeamSize) {
-        this(tid, tournamentName, LocalDate.now(), duration, preRound, 0, maxTeamSize);
+public record Tournament(int id, String name, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
+    public Tournament(int id, String name, long duration, int preRound, int maxTeamSize) {
+        this(id, name, LocalDate.now(), duration, preRound, 0, maxTeamSize);
     }
-
-    public Tournament(String tournamentName, long duration, int preRound, int maxTeamSize) {
-        this(-1, tournamentName, LocalDate.now(), duration, preRound, 0, maxTeamSize);
+    public Tournament(String name, long duration, int preRound, int maxTeamSize) {
+        this(-1, name, LocalDate.now(), duration, preRound, 0, maxTeamSize);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Tournament that = (Tournament) o;
-        return tid == that.tid && preRound == that.preRound && duration == that.duration && maxTeamSize == that.maxTeamSize && currentRound == that.currentRound && Objects.equals(
+        return id == that.id && preRound == that.preRound && duration == that.duration && maxTeamSize == that.maxTeamSize && currentRound == that.currentRound && Objects.equals(
                 date,
-                that.date) && Objects.equals(tournamentName, that.tournamentName);
+                that.date) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tid, tournamentName, date, duration, preRound, currentRound, maxTeamSize);
+        return Objects.hash(id, name, date, duration, preRound, currentRound, maxTeamSize);
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "Tournament{" +
-                "tid=" + tid +
-                ", tournamentName='" + tournamentName + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", date=" + date +
                 ", duration=" + duration +
                 ", preRound=" + preRound +

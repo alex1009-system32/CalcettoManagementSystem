@@ -32,7 +32,7 @@ public class PlayerService {
     }
 
     public boolean delete(@NotNull Player player) {
-        if (player.pid() < 0) throw new ValidationException("Player pid cannot be less than 0");
+        if (player.id() < 0) throw new ValidationException("Player id cannot be less than 0");
 
         return playerRepository.delete(player);
     }
@@ -44,7 +44,7 @@ public class PlayerService {
     public List<Player> findAllOfTournament(Tournament tournament) {
         return playerRepository.findAll()
                                .stream()
-                               .filter(player -> player.tournament().tid() == tournament.tid())
+                               .filter(player -> player.tournament().id() == tournament.id())
                                .toList();
     }
 }

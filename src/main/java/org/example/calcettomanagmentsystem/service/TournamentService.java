@@ -28,7 +28,7 @@ public class TournamentService {
     }
 
     public boolean delete(@NotNull Tournament tournament) {
-        if (tournament.tid() < 0) throw new ValidationException("Tournament id cannot be less than 0");
+        if (tournament.id() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
         return tournamentRepository.delete(tournament);
     }

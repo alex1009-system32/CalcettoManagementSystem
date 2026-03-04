@@ -19,7 +19,7 @@ public class SQLiteTeamDao implements TeamDao {
     private Team mapResultSetToTeam(ResultSet rs,
                                     Map<Integer, Team> teamMap,
                                     Map<Integer, Tournament> tournamentCache) throws SQLException {
-        int teamId = rs.getInt("tid");
+        int teamId = rs.getInt("id");
 
         Team team = teamMap.computeIfAbsent(teamId, id -> {
             try {
@@ -44,12 +44,12 @@ public class SQLiteTeamDao implements TeamDao {
             }
         });
 
-        int playerId = rs.getInt("pid");
+        int playerId = rs.getInt("id");
         if (playerId > 0) {
-            boolean alreadyAdded = team.players().stream().anyMatch(p -> p.pid() == playerId);
+            boolean alreadyAdded = team.players().stream().anyMatch(p -> p.id() == playerId);
 
             if (!alreadyAdded) {
-                Player player = new Player(playerId, rs.getString("pname"), rs.getString("pemail"), tournament);
+                Player player = new Player(playerId, rs.getString("name"), rs.getString("email"), tournament);
                 team.players().add(player);
             }
         }
@@ -63,7 +63,7 @@ public class SQLiteTeamDao implements TeamDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setString(1, obj.teamName());
+            preparedStatement.setString(1, obj.name());
 
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");
@@ -86,8 +86,8 @@ public class SQLiteTeamDao implements TeamDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, player.pid());
-            preparedStatement.setInt(2, team.tid());
+            preparedStatement.setInt(1, player.id());
+            preparedStatement.setInt(2, team.id());
 
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");
@@ -149,7 +149,7 @@ public class SQLiteTeamDao implements TeamDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, tournament.tid());
+            preparedStatement.setInt(1, tournament.id());
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {

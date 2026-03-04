@@ -25,7 +25,7 @@ import java.util.Optional;
 public class SQLitePlayerDao implements PlayerDao {
 
     private Player mapResultSetToPlayer(ResultSet rs) throws SQLException {
-        Tournament tournament = new Tournament(rs.getInt("tid"),
+        Tournament tournament = new Tournament(rs.getInt("id"),
                                                rs.getString("tournament_name"),
                                                LocalDate.parse(rs.getString("start_date")),
                                                rs.getInt("duration"),
@@ -33,7 +33,7 @@ public class SQLitePlayerDao implements PlayerDao {
                                                rs.getInt("current_round"),
                                                rs.getInt("max_team_size"));
 
-        return new Player(rs.getInt("pid"), rs.getString("player_name"), rs.getString("player_email"), tournament);
+        return new Player(rs.getInt("id"), rs.getString("player_name"), rs.getString("player_email"), tournament);
 
     }
 
@@ -43,9 +43,9 @@ public class SQLitePlayerDao implements PlayerDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setString(1, obj.pname());
-            preparedStatement.setString(2, obj.pemail());
-            preparedStatement.setInt(3, obj.tournament().tid());
+            preparedStatement.setString(1, obj.name());
+            preparedStatement.setString(2, obj.email());
+            preparedStatement.setInt(3, obj.tournament().id());
 
             preparedStatement.executeUpdate();
 
@@ -66,7 +66,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, obj.pid());
+            preparedStatement.setInt(1, obj.id());
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
         } catch (SQLException e) {
@@ -99,7 +99,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, tournament.tid());
+            preparedStatement.setInt(1, tournament.id());
             ResultSet resultSet = preparedStatement.executeQuery(sql);
 
             while (resultSet.next()) {

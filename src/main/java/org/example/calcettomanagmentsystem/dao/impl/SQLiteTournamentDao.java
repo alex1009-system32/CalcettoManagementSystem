@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SQLiteTournamentDao implements TournamentDao {
 
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
-        return new Tournament(rs.getInt("tid"),
+        return new Tournament(rs.getInt("id"),
                               rs.getString("tournament_name"),
                               LocalDate.parse(rs.getString("start_date")),
                               rs.getInt("duration"),
@@ -32,7 +32,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setString(1, obj.tournamentName());
+            preparedStatement.setString(1, obj.name());
             preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(obj.date()));
             preparedStatement.setLong(3, obj.duration());
             preparedStatement.setInt(4, obj.preRound());
@@ -44,7 +44,7 @@ public class SQLiteTournamentDao implements TournamentDao {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 return Optional.of(new Tournament(resultSet.getInt(1),
-                                                  obj.tournamentName(),
+                                                  obj.name(),
                                                   obj.date(),
                                                   obj.duration(),
                                                   obj.preRound(),
@@ -82,7 +82,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, obj.tid());
+            preparedStatement.setInt(1, obj.id());
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
         } catch (SQLException e) {
@@ -119,10 +119,10 @@ public class SQLiteTournamentDao implements TournamentDao {
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, tournament.currentRound() + 1);
-            preparedStatement.setInt(2, tournament.tid());
+            preparedStatement.setInt(2, tournament.id());
             preparedStatement.executeUpdate();
 
-            return findById(tournament.tid());
+            return findById(tournament.id());
         } catch (SQLException e) {
             throw new DataAccessException("Error Inserting Into tournament from the database", e);
         }

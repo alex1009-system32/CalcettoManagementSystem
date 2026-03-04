@@ -1,5 +1,7 @@
 package org.example.calcettomanagmentsystem.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 
@@ -9,32 +11,15 @@ import java.util.Objects;
  * Dient als leichtgewichtiges Transportobjekt zwischen UI und Persistenz.
  * </p>
  *
- * @param pid eindeutige Spieler-ID
- * @param pname Anzeigename des Spielers
- * @param pemail Kontaktadresse für Identifikation
+ * @param id eindeutige Spieler-ID
+ * @param name Anzeigename des Spielers
+ * @param email Kontaktadresse für Identifikation
  * @param tournament Turnierkontext zur Zuordnung
  */
-public record Player(int pid, String pname, String pemail, Tournament tournament) {
-
-    public Player(String pname, String pemail, Tournament tournament) {
-        this(-1, pname, pemail, tournament);
+public record Player(int id, String name, String email, Tournament tournament) {
+    public Player(String name, String email, Tournament tournament) {
+        this(-1, name, email, tournament);
     }
-
-
-	/**
-	 * Liefert eine lesbare Darstellung für Logs und Debugging.
-	 *
-	 * @return textuelle Repräsentation des Spielers
-	 */
-	@Override
-	public String toString() {
-		return "Player{" +
-				"pid=" + pid +
-				", pname='" + pname + '\'' +
-				", pemail='" + pemail + '\'' +
-				", tournament=" + tournament +
-				'}';
-	}
 
 	/**
 	 * Vergleicht Spieler anhand ihrer zentralen Eigenschaften.
@@ -46,7 +31,7 @@ public record Player(int pid, String pname, String pemail, Tournament tournament
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
 		Player player = (Player) o;
-		return pid() == player.pid() && Objects.equals(pname(), player.pname()) && Objects.equals(pemail(), player.pemail()) && Objects.equals(tournament(), player.tournament());
+		return id() == player.id() && Objects.equals(name(), player.name()) && Objects.equals(email(), player.email()) && Objects.equals(tournament(), player.tournament());
 	}
 
 	/**
@@ -56,6 +41,21 @@ public record Player(int pid, String pname, String pemail, Tournament tournament
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(pid(), pname(), pemail(), tournament());
+		return Objects.hash(id(), name(), email(), tournament());
 	}
+
+    /**
+     * Liefert eine lesbare Darstellung für Logs und Debugging.
+     *
+     * @return textuelle Repräsentation des Spielers
+     */
+    @Override
+    public @NotNull String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", tournament=" + tournament +
+                '}';
+    }
 }
