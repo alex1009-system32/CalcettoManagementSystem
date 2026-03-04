@@ -1,6 +1,7 @@
 package org.example.calcettomanagmentsystem;
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.sql.SQLException;
 
@@ -33,7 +34,7 @@ public class Test {
 		System.out.println(deck);
 		 */
 
-        SQLiteDB.initTest();
+        ServiceManager.getTournamentService().getAllTournaments().forEach(System.out::println);
 
     }
 

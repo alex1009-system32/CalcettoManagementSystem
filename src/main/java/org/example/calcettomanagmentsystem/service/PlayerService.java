@@ -15,7 +15,7 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    public Player createPlayer(@NotNull String name, @NotNull String email, @NotNull Tournament tournament) {
+    public Player create(@NotNull String name, @NotNull String email, @NotNull Tournament tournament) {
         if (name == "") throw new ValidationException("Player name cannot be empty");
         if (name.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces");
         if (name.matches(".*[!\"#$%...].*"))
@@ -29,17 +29,17 @@ public class PlayerService {
         return playerRepository.save(new Player(name, email, tournament));
     }
 
-    public boolean deletePlayer(@NotNull Player player) {
+    public boolean delete(@NotNull Player player) {
         if (player.pid() < 0) throw new ValidationException("Player pid cannot be less than 0");
 
         return playerRepository.delete(player);
     }
 
-    public List<Player> getAllPlayers() {
+    public List<Player> findAll() {
         return playerRepository.findAll();
     }
 
-    public List<Player> getAllPlayerFromTournament(Tournament tournament) {
+    public List<Player> findAllOfTournament(Tournament tournament) {
         return playerRepository.findAll().stream().filter(player -> player.tournament().getTid() == tournament.getTid()).toList();
     }
 }

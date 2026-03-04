@@ -15,11 +15,11 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
-    public List<Match> getAllMatchesFromTournament(@NotNull Tournament tournament) {
+    public List<Match> findMatchesByTournament(@NotNull Tournament tournament) {
         return matchRepository.findMatchesByTournament(tournament);
     }
 
-    public List<Match> getAllMatchesFormTournamentOfRound(@NotNull Tournament tournament) {
+    public List<Match> findMatchesByTournamentInCurrentRound(@NotNull Tournament tournament) {
         return matchRepository.findMatchesByTournament(tournament, tournament.getCurrentRound());
     }
 

@@ -17,7 +17,7 @@ public class TournamentService {
         this.makerRepository = makerRepository;
     }
 
-    public Tournament createTournament(@NotNull String name, long duration, int preRound, int maxTeamSize) {
+    public Tournament create(@NotNull String name, long duration, int preRound, int maxTeamSize) {
         if (name == null || name.isBlank()) throw new ValidationException("Name darf nicht leer sein");
         if (!name.matches("^[a-zA-Z0-9]*$")) throw new ValidationException("Name enthält ungültige Sonderzeichen");
         if (maxTeamSize < 1) throw new ValidationException("Ein Team braucht mindestens 2 Spieler");
@@ -25,17 +25,17 @@ public class TournamentService {
         return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize));
     }
 
-    public boolean deleteTournament(@NotNull Tournament tournament) {
+    public boolean delete(@NotNull Tournament tournament) {
         if (tournament.getTid() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
         return tournamentRepository.delete(tournament);
     }
 
-    public List<Tournament> getAllTournaments() {
+    public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }
 
-    public boolean startTournament(@NotNull Tournament tournament) {
+    public boolean start(@NotNull Tournament tournament) {
         if (tournament.getCurrentRound() != 0) throw new ValidationException("Invalid current round");
 
         makerRepository.generateTeams(tournament);
