@@ -1,68 +1,110 @@
 flowchart TD
-  A[App.start] --> B[Load SELECT_TOURNAMENT.fxml]
-  B --> STC[selectTournamentController]
-  STC -->|load list| DAO_T_GET[SQLiteTournamentDao.getAllTournaments]
-  STC -->|Add Tournament| CTC[createTournamentController]
-  STC -->|Select Tournament| ROUTE{current_round}
-  ROUTE -->|<= 0| SVC[startTournamentController]
-  ROUTE -->|> 0| RTC[roundTournamentController]
+    %% Subgraph: UI / View Layer
+    subgraph UI_Layer ["**UI / View Layer (JavaFX)**"]
+        APP[App.java]
+        FXML_SELECT[selectTournament-view.fxml]
+        FXML_CREATE[createTournament-view.fxml]
+        FXML_START[startTournament-view.fxml]
+        FXML_ROUND[roundTournament-view.fxml]
+        
+        CTRL_SELECT[selectTournamentController]
+        CTRL_CREATE[createTournamentController]
+        CTRL_START[startTournamentController]
+        CTRL_ROUND[roundTournamentController]
+        
+        NAV[FxmlNavigation.java]
+    end
 
-  CTC --> VAL{valid input?}
-  VAL -->|Yes| DAO_T_ADD[SQLiteTournamentDao.addTournament]
-  VAL -->|No| CTC
-  DAO_T_ADD --> STC
+    %% Subgraph: Service & Logic Layer
+    subgraph Service_Layer ["**Service & Business Logic Layer**"]
+        MGR[ServiceManager.java]
+        SVC_T[TournamentService]
+        SVC_P[PlayerService]
+        SVC_TM[TeamService]
+        SVC_M[MatchService]
+        
+        CORE_TM[TeamMaker.java]
+        CORE_MM[MatchMaker.java]
+        SVC_MKR[MakerService.java]
+    end
 
-  SVC -->|init| DAO_P_GET[SQLitePlayerDao.getAllPlayersFromTournament]
-  SVC -->|Add Player| DAO_P_ADD[SQLitePlayerDao.addPlayer]
-  SVC -->|Delete Player| DAO_P_DEL[SQLitePlayerDao.deletePlayer]
-  SVC -->|Start Tournament| SRV_MKR[MakerRepository]
+    %% Subgraph: Data Access Layer
+    subgraph Data_Layer ["**Data Access Layer (DAO & Repo)**"]
+        REPO_T[TournamentRepository]
+        REPO_P[PlayerRepository]
+        REPO_TM[TeamRepository]
+        REPO_M[MatchRepository]
+        
+        DAO_T[SQLiteTournamentDao]
+        DAO_P[SQLitePlayerDao]
+        DAO_TM[SQLiteTeamDao]
+        DAO_M[SQLiteMatchDao]
+        
+        DB_CONN[SQLiteDB.java]
+        SQL_R[SQLReader.java]
+    end
 
-  subgraph Service_&_Core
-    SRV_MKR
-    CORE_TM[TeamMaker.makeTeams]
-    CORE_MM[MatchMaker.makePreRounds]
-  end
+    %% Subgraph: Domain Models
+    subgraph Domain_Layer ["**Domain Models (Records/Classes)**"]
+        MODEL_T[(Tournament)]
+        MODEL_P[(Player)]
+        MODEL_TM[(Team)]
+        MODEL_M[(Match)]
+    end
 
-  SRV_MKR --> CORE_TM
-  SRV_MKR --> CORE_MM
+    %% Relationships: UI to Service
+    APP -->|Initial Load| NAV
+    NAV --> FXML_SELECT
+    FXML_SELECT --> CTRL_SELECT
+    
+    CTRL_SELECT -->|getServices| MGR
+    CTRL_CREATE -->|getServices| MGR
+    CTRL_START -->|getServices| MGR
+    CTRL_ROUND -->|getServices| MGR
+    
+    MGR --> SVC_T
+    MGR --> SVC_P
+    MGR --> SVC_TM
+    MGR --> SVC_M
+    MGR --> SVC_MKR
 
-  CORE_TM --> DAO_TEAM[SQLiteTeamDao]
-  CORE_TM --> DAO_PLY[SQLitePlayerDao]
-  CORE_MM --> DAO_MATCH[SQLiteMatchDao]
-  CORE_MM --> DAO_T_INC[SQLiteTournamentDao.increaseRound]
-  CORE_MM --> DAO_TEAM
+    %% Relationships: Service to Data/Core
+    SVC_T --> REPO_T
+    SVC_P --> REPO_P
+    SVC_TM --> REPO_TM
+    SVC_M --> REPO_M
+    
+    SVC_MKR --> CORE_TM
+    SVC_MKR --> CORE_MM
+    
+    CORE_TM --> DAO_TM
+    CORE_MM --> DAO_M
+    
+    %% Relationships: Repo to DAO
+    REPO_T --> DAO_T
+    REPO_P --> DAO_P
+    REPO_TM --> DAO_TM
+    REPO_M --> DAO_M
+    
+    %% Relationships: DAO to Database
+    DAO_T --> DB_CONN
+    DAO_P --> DB_CONN
+    DAO_TM --> DB_CONN
+    DAO_M --> DB_CONN
+    
+    DB_CONN -->|init| SQL_R
+    DB_CONN -->|SQL Execution| SQLITE[(sqlite file)]
 
-  RTC -->|show round| DAO_MATCH_R[SQLiteMatchDao.getAllMatches...]
+    %% Data Flow Examples
+    CTRL_CREATE -.->|create Tournament| SVC_T
+    SVC_T -.->|save| REPO_T
+    REPO_T -.->|INSERT| DAO_T
+    DAO_T -.->|return| MODEL_T
 
-  subgraph Data_Access
-    DAO_T_GET
-    DAO_T_ADD
-    DAO_T_INC
-    DAO_P_GET
-    DAO_P_ADD
-    DAO_P_DEL
-    DAO_TEAM
-    DAO_MATCH
-    DAO_MATCH_R
-    DB[(SQLiteDB.getConnection)]
-    DAO_T_GET --> DB
-    DAO_T_ADD --> DB
-    DAO_T_INC --> DB
-    DAO_P_GET --> DB
-    DAO_P_ADD --> DB
-    DAO_P_DEL --> DB
-    DAO_TEAM --> DB
-    DAO_MATCH --> DB
-    DAO_MATCH_R --> DB
-  end
-
-  subgraph Domain
-    Tournament
-    Team
-    Player
-    Match
-  end
-
-  DAO_T_ADD -. creates .-> Tournament
-  DAO_P_ADD -. inserts .-> Player
-  DAO_MATCH -. creates .-> Match
+    %% Styling
+    style APP fill:#f9f,stroke:#333,stroke-width:2px
+    style SQLITE fill:#00f,stroke:#fff,stroke-width:2px,color:#fff
+    style MODEL_T fill:#fff,stroke:#333,stroke-dasharray: 5 5
+    style MODEL_P fill:#fff,stroke:#333,stroke-dasharray: 5 5
+    style MODEL_TM fill:#fff,stroke:#333,stroke-dasharray: 5 5
+    style MODEL_M fill:#fff,stroke:#333,stroke-dasharray: 5 5
