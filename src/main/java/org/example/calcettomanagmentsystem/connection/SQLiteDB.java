@@ -42,7 +42,7 @@ public class SQLiteDB {
 
             properties.load(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
