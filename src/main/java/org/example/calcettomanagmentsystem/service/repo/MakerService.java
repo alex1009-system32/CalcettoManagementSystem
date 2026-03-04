@@ -36,6 +36,6 @@ public class MakerService implements MakerRepository {
 
     @Override
     public boolean generateRoundMatches(Tournament tournament) {
-        return matchMaker.makeMatchesForRound(tournament, tournamentDao, matchDao, teamDao);
+        return matchMaker.makeMatchesForRound(tournament, tournamentDao, matchDao);
     }
 }

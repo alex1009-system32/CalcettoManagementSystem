@@ -15,6 +15,10 @@ public class MatchService {
         this.matchRepository = matchRepository;
     }
 
+    public List<Match> findAll() {
+        return matchRepository.findAll();
+    }
+
     public List<Match> findMatchesByTournament(@NotNull Tournament tournament) {
         return matchRepository.findMatchesByTournament(tournament);
     }

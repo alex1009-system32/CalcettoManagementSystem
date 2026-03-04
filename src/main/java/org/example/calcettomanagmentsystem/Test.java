@@ -33,8 +33,10 @@ public class Test {
 
 		System.out.println(deck);
 		 */
-
-        ServiceManager.getTournamentService().getAllTournaments().forEach(System.out::println);
+        ServiceManager.getTournamentService().findAll().forEach(System.out::println);
+        ServiceManager.getMatchService().findAll().forEach(System.out::println);
+        ServiceManager.getTeamService().findAll().forEach(System.out::println);
+        ServiceManager.getPlayerService().findAll().forEach(System.out::println);
 
     }
 

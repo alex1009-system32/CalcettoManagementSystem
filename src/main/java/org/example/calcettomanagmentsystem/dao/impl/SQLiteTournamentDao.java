@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SQLiteTournamentDao implements TournamentDao {
 
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
-        return new Tournament(rs.getInt("id"),
+        return new Tournament(rs.getInt("tid"),
                               rs.getString("tournament_name"),
                               LocalDate.parse(rs.getString("start_date")),
                               rs.getInt("duration"),

@@ -15,46 +15,45 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class SQLiteTeamDao implements TeamDao {
-
-    private Team mapResultSetToTeam(ResultSet rs,
+    private void mapResultSetToTeam(ResultSet rs,
                                     Map<Integer, Team> teamMap,
                                     Map<Integer, Tournament> tournamentCache) throws SQLException {
-        int teamId = rs.getInt("id");
 
+        int teamId = rs.getInt("tid");
         Team team = teamMap.computeIfAbsent(teamId, id -> {
             try {
                 return new Team(id, rs.getString("team_name"));
-            } catch (SQLException e) {
-                throw new DataAccessException("Error while Mapping Team", e);
-            }
+            } catch (SQLException e) { throw new RuntimeException(e); }
         });
 
         int tournamentId = rs.getInt("trid");
-        Tournament tournament = tournamentCache.computeIfAbsent(tournamentId, id -> {
-            try {
-                return new Tournament(id,
-                                      rs.getString("tournament_name"),
-                                      LocalDate.parse(rs.getString("start_date")),
-                                      rs.getInt("duration"),
-                                      rs.getInt("pre_round"),
-                                      rs.getInt("current_round"),
-                                      rs.getInt("max_team_size"));
-            } catch (SQLException e) {
-                throw new DataAccessException("Error while Mapping Tournament", e);
-            }
-        });
-
-        int playerId = rs.getInt("id");
-        if (playerId > 0) {
-            boolean alreadyAdded = team.players().stream().anyMatch(p -> p.id() == playerId);
-
-            if (!alreadyAdded) {
-                Player player = new Player(playerId, rs.getString("name"), rs.getString("email"), tournament);
-                team.players().add(player);
-            }
+        Tournament tournament = null;
+        if (tournamentId > 0) {
+            tournament = tournamentCache.computeIfAbsent(tournamentId, id -> {
+                try {
+                    return new Tournament(
+                            id,
+                            rs.getString("tournament_name"),
+                            java.time.LocalDate.parse(rs.getString("start_date")),
+                            rs.getInt("duration"),
+                            rs.getInt("pre_round"),
+                            rs.getInt("current_round"),
+                            rs.getInt("max_team_size")
+                    );
+                } catch (SQLException e) { throw new RuntimeException(e); }
+            });
         }
 
-        return team;
+        int playerId = rs.getInt("pid");
+        if (playerId > 0) {
+            Player player = new Player(
+                    playerId,
+                    rs.getString("pname"),
+                    rs.getString("pemail"),
+                    tournament
+            );
+            team.players().add(player);
+        }
     }
 
     @Override

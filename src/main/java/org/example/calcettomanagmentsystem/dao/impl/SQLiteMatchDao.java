@@ -19,7 +19,7 @@ public class SQLiteMatchDao implements MatchDao {
                                      Map<Integer, Tournament> tournamentCache,
                                      Map<Integer, Team> teamCache) throws SQLException {
 
-        int matchId = rs.getInt("id");
+        int matchId = rs.getInt("mid");
 
         Match match = matchMap.computeIfAbsent(matchId, id -> {
             try {
@@ -40,7 +40,7 @@ public class SQLiteMatchDao implements MatchDao {
 
                 return new Match(id, rs.getInt("round"), tournament);
             } catch (SQLException e) {
-                throw new DataAccessException("Mapping-Fehler bei Match ID: " + id, e);
+                throw new RuntimeException("Mapping error for match ID " + id, e);
             }
         });
 
@@ -53,10 +53,7 @@ public class SQLiteMatchDao implements MatchDao {
                     throw new RuntimeException(e);
                 }
             });
-
-            double points = rs.getDouble("points");
-
-            match.teamResults().put(team, points);
+            match.teamResults().put(team, rs.getDouble("points"));
         }
     }
 
