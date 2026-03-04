@@ -24,10 +24,6 @@ public class App extends Application {
 	 * Shared scene instance to allow root swaps without recreating the window.
 	 */
 	private static Scene scene;
-	/**
-	 * Currently selected tournament to be reused across views.
-	 */
-	private static Tournament tournament = null;
 
 	/**
 	 * Default initial width chosen to match the target layout baseline.
@@ -76,25 +72,6 @@ public class App extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
 		return fxmlLoader.load();
 	}
-
-	/**
-	 * Exposes the currently selected tournament for downstream screens.
-	 *
-	 * @return current tournament or {@code null} if no selection exists
-	 */
-	public static Tournament getTournament() {
-		return tournament;
-	}
-
-	/**
-	 * Captures the tournament choice so other views can access it consistently.
-	 *
-	 * @param tournament tournament chosen in the selection flow
-	 */
-	public static void setTournament(Tournament tournament) {
-		App.tournament = tournament;
-	}
-
 	/**
 	 * Bootstraps the primary stage with the initial view and window constraints.
 	 *
