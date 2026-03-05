@@ -28,16 +28,16 @@ public class App extends Application {
 	/**
 	 * Default initial width chosen to match the target layout baseline.
 	 */
-	private final int WIDTH = 1300;
+	private final int WIDTH = 1500;
 	/**
 	 * Default initial height chosen to match the target layout baseline.
 	 */
-	private final int HEIGHT = 800;
+	private final int HEIGHT = 900;
 
 	/**
 	 * Minimum width to avoid layout breakage in core views.
 	 */
-	private final int MIN_WIDTH = 1300;
+	private final int MIN_WIDTH = 1500;
 	/**
 	 * Minimum height to avoid layout breakage in core views.
 	 */
@@ -83,13 +83,13 @@ public class App extends Application {
 
 		scene = new Scene(
 				loadFXML(root),
-				HEIGHT,
-				WIDTH);
+				WIDTH,
+				HEIGHT);
 
-		stage.setMinHeight(MIN_HEIGHT);
-		stage.setMinWidth(MIN_WIDTH);
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
 
-		stage.setMaximized(true);
+		stage.setMaximized(false);
 		stage.setScene(scene);
 		stage.show();
 	}

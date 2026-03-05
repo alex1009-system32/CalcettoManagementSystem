@@ -116,10 +116,9 @@ public class selectTournamentController implements Initializable {
 	 */
 	@FXML
 	protected void selectTournament(Tournament tournament) {
-
 		ServiceManager.setTournament(tournament);
 
-		if (tournament.currentRound() <= 0) {
+		if (tournament.currentRound() == 0) {
 			App.setRoot(FxmlNavigation.START_TOURNAMENT);
 		} else {
 			App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);

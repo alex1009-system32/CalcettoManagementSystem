@@ -74,7 +74,8 @@ INSERT INTO
     max_team_size
 )
 VALUES
-    (1, 'Winter Open 2024', '2024-01-15', 7, 2, 0, 2),
+    (0, 'Winter Open 2024', '2024-01-15', 7, 2, 0, 2),
+    (1, 'Winter Closen 2024', '2024-01-15', 7, 2, 0, 2),
     (
         2,
         'Spring Invitational',
@@ -108,6 +109,7 @@ VALUES
 INSERT INTO
     team (tid, team_name)
 VALUES
+    (0,  'Cldf Knights'),
     (1, 'Cyber Knights'),
     (2, 'Data Wizards'),
     (3, 'SQL Stars'),
@@ -123,6 +125,7 @@ VALUES
 INSERT INTO
     player (pid, pname, pemail, tid, trid)
 VALUES
+    (0, 'Alice Der Neger', 'alice@example.com', 1, 1),
     (1, 'Alice Smith', 'alice@example.com', 1, 1),
     (2, 'Bob Jones', 'bob@example.com', 1, 1),
     (3, 'Charlie Brown', 'charlie@example.com', 2, 1),

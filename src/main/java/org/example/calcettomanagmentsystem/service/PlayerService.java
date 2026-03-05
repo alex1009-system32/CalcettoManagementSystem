@@ -17,18 +17,18 @@ public class PlayerService {
     }
 
     public Player create(@NotNull String name, @NotNull String email, @NotNull Tournament tournament) {
-        if (!name.isEmpty()) throw new ValidationException("Player name cannot be empty");
-        if (!name.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces");
-        if (!name.matches(".*[!\"#$%...].*"))
+        if (name.isEmpty()) throw new ValidationException("Player name cannot be empty");
+        if (name.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces");
+        if (name.matches(".*[!\"#$%...].*"))
             throw new ValidationException("Player name cannot contain Special Characters");
 
         if (email.isEmpty()) throw new ValidationException("Player name cannot be empty");
-        if (!email.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces");
+        if (email.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces");
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"))
             throw new ValidationException("Player name cannot contain Special Characters");
 
         return playerRepository.save(new Player(name, email, tournament))
-                               .orElseThrow(() -> new DataAccessException("Couldn't save the player"));
+                               .orElse(null);
     }
 
     public boolean delete(@NotNull Player player) {

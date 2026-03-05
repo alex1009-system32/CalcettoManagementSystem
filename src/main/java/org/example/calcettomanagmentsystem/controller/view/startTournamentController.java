@@ -144,8 +144,8 @@ public class startTournamentController implements Initializable {
             return;
         }
 
-        ServiceManager.getPlayerService()
-                      .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament());
+        System.out.println(ServiceManager.getPlayerService()
+                                         .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament()));
 
         updateList();
         stage.close();

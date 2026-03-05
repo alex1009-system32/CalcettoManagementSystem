@@ -1,11 +1,11 @@
 package org.example.calcettomanagmentsystem;
 
-import org.example.calcettomanagmentsystem.connection.SQLReader;
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
-import org.example.calcettomanagmentsystem.navigation.SQLScheamNavigation;
-import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
+import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Lokaler Einstiegspunkt für manuelle Experimente und Datenbankchecks.
@@ -35,12 +35,12 @@ public class Test {
 
 		System.out.println(deck);
 		 */
-        ServiceManager.getTournamentService().findAll().forEach(System.out::println);
-        ServiceManager.getMatchService().findAll().forEach(System.out::println);
-        ServiceManager.getTeamService().findAll().forEach(System.out::println);
-        ServiceManager.getPlayerService().findAll().forEach(System.out::println);
 
-        System.out.println(SQLReader.readFile(SQLScheamNavigation.SETUP));
+        SQLiteDB.initTest();
+
+        List<Tournament> tournaments = ServiceManager.getTournamentService().findAll();
+        tournaments.forEach(System.out::println);
+
 
     }
 

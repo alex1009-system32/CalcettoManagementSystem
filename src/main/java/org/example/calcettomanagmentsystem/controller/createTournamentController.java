@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
+import org.example.calcettomanagmentsystem.service.TournamentService;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 public class createTournamentController {
@@ -70,12 +71,8 @@ public class createTournamentController {
             return false;
         }
 
-        return ServiceManager.getTournamentService()
-                             .start(new Tournament(nameField.getText(),
-                                                             Long.parseLong(durationField.getText()),
-                                                             Integer.parseInt(preRoundField.getText()),
-                                                             2));
-
+        ServiceManager.getTournamentService().create(nameField.getText(), Integer.parseInt(durationField.getText()), Integer.parseInt(preRoundField.getText()), 2);
+        return true;
     }
 
     /**
