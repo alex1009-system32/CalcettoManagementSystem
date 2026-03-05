@@ -24,14 +24,14 @@ import java.util.stream.IntStream;
  *
  */
 public class MatchMaker {
+    TeamShuffler teamShuffler;
+    WinnerExtractor winnerExtractor;
 
-    /**
-     * Erzeugt Vorrunden, sofern das Turnier noch nicht gestartet wurde.
-     *
-     * @param tournament Turnierkontext für Paarungen und Persistenz
-     * @implNote Die Paarungen werden zufällig erzeugt; die Strategie ist auf
-     * Wiederholung angewiesen, um Dopplungen zu vermeiden.
-     */
+    public MatchMaker(TeamShuffler teamShuffler, WinnerExtractor winnerExtractor) {
+        this.teamShuffler = teamShuffler;
+        this.winnerExtractor = winnerExtractor;
+    }
+
     public boolean makePreRounds(@NotNull Tournament tournament,
                                  TournamentDao tournamentDao,
                                  MatchDao matchDao,
@@ -45,7 +45,7 @@ public class MatchMaker {
 
         for (int i = 0; i < tournament.preRound(); i++) {
 
-            List<List<Team>> teamList = shuffleTeamList(teams);
+            List<List<Team>> teamList = teamShuffler.shuffleTeamList(teams, tournament.maxTeamSize());
             allTeamLists.add(teamList);
 
             if (i == 0) {
@@ -76,9 +76,9 @@ public class MatchMaker {
         List<Team> teams;
 
         if (tournament.currentRound() == tournament.preRound()) {
-            teams = getTheWinnersOfCurrentPreRound(tournament, matchDao);
+            teams = winnerExtractor.getWinnersOfCurrentPreRound(tournament, matchDao);
         } else {
-            teams = getTheWinnersOfCurrentRound(tournament, matchDao);
+            teams = winnerExtractor.getWinnersOfCurrentRound(tournament, matchDao);
         }
 
         List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2)
@@ -115,19 +115,8 @@ public class MatchMaker {
         tournamentDao.increaseRound(tournament);
     }
 
-    /**
-     * Erzeugt zufällige Team-Paare für eine Runde.
-     *
-     * @param teams Teams, die für Paarungen berücksichtigt werden
-     * @return Liste von Team-Paaren, ggf. mit einem Einzelteam
-     */
 
-    @Unmodifiable
-    @NotNull
-    private List<List<Team>> shuffleTeamList(List<Team> teams) {
-        Collections.shuffle(teams);
-        return teams.stream().gather(Gatherers.windowFixed(2)).toList();
-    }
+
 
     /**
      * Prüft, ob eine Paarungskombination bereits verwendet wurde.
@@ -168,75 +157,4 @@ public class MatchMaker {
         return false;
     }
 
-    /**
-     * Ermittelt Siegerteams der Vorrunden basierend auf kumulierten Punkten.
-     *
-     * @param tournament Turnierkontext für die Vorrundenbewertung
-     * @return sortierte Siegerliste
-     * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
-     */
-    @NotNull
-    private List<Team> getTheWinnersOfCurrentPreRound(@NotNull Tournament tournament, MatchDao matchDao) {
-        List<Team> winner = new ArrayList<>();
-        Map<Team, Double> teams = new HashMap<>();
-
-        for (int i = 0; i < tournament.preRound(); i++) {
-            List<Match> matches = matchDao.findMatchesByTournament(tournament);
-            for (Match match : matches) {
-                match.teamResults().forEach((key, value) -> {
-                    if (teams.containsKey(key)) {
-                        teams.replace(key, teams.get(key) + value);
-                    } else {
-                        teams.put(key, value);
-                    }
-                });
-            }
-        }
-
-        Map<Team, Double> sortedMap = teams.entrySet()
-                                           .stream()
-                                           .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
-                                           .collect(Collectors.toMap(Map.Entry::getKey,
-                                                                     Map.Entry::getValue,
-                                                                     (e1, e2) -> e1,
-                                                                     LinkedHashMap::new));
-
-        sortingOut:
-        {
-            int counter = 0;
-            for (Map.Entry<Team, Double> entry : sortedMap.entrySet()) {
-                if (counter > sortedMap.size()) break sortingOut;
-                counter++;
-                winner.add(entry.getKey());
-            }
-        }
-
-        return winner;
-    }
-
-    /**
-     * Ermittelt Siegerteams der aktuellen Runde basierend auf Match-Punkten.
-     *
-     * @param tournament Turnierkontext für die Rundenbewertung
-     * @return Siegerliste der aktuellen Runde
-     */
-    @NotNull
-    private List<Team> getTheWinnersOfCurrentRound(Tournament tournament, MatchDao matchDao) {
-        List<Match> matches = matchDao.findMatchesByTournament(tournament);
-        List<Team> winners = new ArrayList<>();
-
-        for (Match match : matches) {
-            Team winner = null;
-            for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-                if (winner == null) {
-                    winner = entry.getKey();
-                } else if (entry.getValue() > match.teamResults().get(winner)) {
-                    winner = entry.getKey();
-                }
-            }
-            winners.add(winner);
-        }
-
-        return winners;
-    }
 }

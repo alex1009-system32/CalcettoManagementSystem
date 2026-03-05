@@ -61,7 +61,6 @@ public class SQLiteTournamentDao implements TournamentDao {
     @Override
     public List<Tournament> findAll() {
         String sql = "SELECT * FROM tournament";
-
         List<Tournament> tournaments = new ArrayList<>();
 
         try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(

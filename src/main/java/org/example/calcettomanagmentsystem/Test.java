@@ -1,6 +1,8 @@
 package org.example.calcettomanagmentsystem;
 
+import org.example.calcettomanagmentsystem.connection.SQLReader;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.navigation.SQLScheamNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.sql.SQLException;
@@ -37,6 +39,8 @@ public class Test {
         ServiceManager.getMatchService().findAll().forEach(System.out::println);
         ServiceManager.getTeamService().findAll().forEach(System.out::println);
         ServiceManager.getPlayerService().findAll().forEach(System.out::println);
+
+        System.out.println(SQLReader.readFile(SQLScheamNavigation.SETUP));
 
     }
 
