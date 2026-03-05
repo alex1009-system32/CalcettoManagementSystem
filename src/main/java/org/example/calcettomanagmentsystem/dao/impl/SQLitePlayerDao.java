@@ -78,19 +78,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
     @Override
     public List<Player> findAll() {
-        String sql = "SELECT \n" +
-                "    p.pid, \n" +
-                "    p.pname, \n" +
-                "    p.pemail, \n" +
-                "    t.tid, \n" +
-                "    t.tournament_name, \n" +
-                "    t.start_date, \n" +
-                "    t.duration, \n" +
-                "    t.pre_round, \n" +
-                "    t.current_round, \n" +
-                "    t.max_team_size\n" +
-                "FROM player p\n" +
-                "JOIN tournament t ON t.tid = p.trid";
+        String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid";
         List<Player> players = new ArrayList<>();
 
         try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement()) {
@@ -108,20 +96,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
     @Override
     public List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament) {
-        String sql = "SELECT \n" +
-                "    p.pid, \n" +
-                "    p.pname, \n" +
-                "    p.pemail, \n" +
-                "    t.tid, \n" +
-                "    t.tournament_name, \n" +
-                "    t.start_date, \n" +
-                "    t.duration, \n" +
-                "    t.pre_round, \n" +
-                "    t.current_round, \n" +
-                "    t.max_team_size\n" +
-                "FROM player p\n" +
-                "JOIN tournament t ON t.tid = p.trid\n" +
-                "WHERE t.tid = ?";
+        String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid WHERE t.tid = ?";
         List<Player> players = new ArrayList<>();
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
@@ -141,20 +116,7 @@ public class SQLitePlayerDao implements PlayerDao {
 
     @Override
     public Optional<Player> findById(int id) {
-        String sql = "SELECT \n" +
-                "    p.pid, \n" +
-                "    p.pname, \n" +
-                "    p.pemail, \n" +
-                "    t.tid, \n" +
-                "    t.tournament_name, \n" +
-                "    t.start_date, \n" +
-                "    t.duration, \n" +
-                "    t.pre_round, \n" +
-                "    t.current_round, \n" +
-                "    t.max_team_size\n" +
-                "FROM player p\n" +
-                "JOIN tournament t ON t.tid = p.trid\n" +
-                "WHERE p.pid = ?";
+        String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid WHERE p.pid = ?";
         Player player = null;
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(

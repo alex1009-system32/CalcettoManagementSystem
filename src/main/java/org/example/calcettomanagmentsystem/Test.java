@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem;
 
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import java.sql.SQLException;
@@ -36,10 +37,11 @@ public class Test {
 		System.out.println(deck);
 		 */
 
-        SQLiteDB.initTest();
-
         List<Tournament> tournaments = ServiceManager.getTournamentService().findAll();
+        List<Player> players = ServiceManager.getPlayerService().findAllOfTournament(tournaments.getLast());
+
         tournaments.forEach(System.out::println);
+        players.forEach(System.out::println);
 
 
     }

@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
@@ -247,7 +248,9 @@ public class startTournamentController implements Initializable {
 
     @FXML
     private void startTournament() {
-        App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
+        if (ServiceManager.getTournamentService().start(ServiceManager.getTournament())) {
+            App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
+        }
     }
 
     /**

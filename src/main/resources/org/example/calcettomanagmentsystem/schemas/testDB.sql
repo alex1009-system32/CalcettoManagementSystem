@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS tournament (
     start_date TEXT,
     duration INTEGER NOT NULL,
     pre_round INTEGER NOT NULL DEFAULT 3,
-    current_round INTEGER NOT NULL DEFAULT 1,
+    current_round INTEGER NOT NULL DEFAULT 0,
     max_team_size INTEGER DEFAULT 2
 )
 ;
