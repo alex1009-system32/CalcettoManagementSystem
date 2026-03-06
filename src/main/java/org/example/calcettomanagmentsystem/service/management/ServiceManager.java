@@ -42,7 +42,7 @@ public class ServiceManager {
     private static final TeamRepository TEAM_REPOSITORY = new TeamRepository(TEAM_DAO);
     private static final PlayerRepository PLAYER_REPOSITORY = new PlayerRepository(PLAYER_DAO);
 
-    private static final MakerService MAKER_REPOSITORY = new MakerService(TEAM_MAKER, MATCH_MAKER, TOURNAMENT_DAO, MATCH_DAO, TEAM_DAO);
+    private static final MakerService MAKER_REPOSITORY = new MakerService(TEAM_MAKER, MATCH_MAKER);
 
     private static final TournamentService TOURNAMENT_SERVICE = new TournamentService(TOURNAMENT_REPOSITORY, MAKER_REPOSITORY);
     private static final MatchService MATCH_SERVICE = new MatchService(TOURNAMENT_REPOSITORY, MATCH_REPOSITORY);

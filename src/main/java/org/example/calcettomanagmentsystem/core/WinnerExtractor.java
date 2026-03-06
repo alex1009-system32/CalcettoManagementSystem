@@ -4,6 +4,7 @@ import org.example.calcettomanagmentsystem.dao.MatchDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -18,12 +19,12 @@ public class WinnerExtractor {
      * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
      */
     @NotNull
-    public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament, MatchDao matchDao) {
+    public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
         List<Team> winner = new ArrayList<>();
         Map<Team, Double> teams = new HashMap<>();
 
         for (int i = 0; i < tournament.preRound(); i++) {
-            List<Match> matches = matchDao.findMatchesByTournament(tournament);
+            List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
             for (Match match : matches) {
                 match.teamResults().forEach((key, value) -> {
                     if (teams.containsKey(key)) {
@@ -63,8 +64,8 @@ public class WinnerExtractor {
      * @return Siegerliste der aktuellen Runde
      */
     @NotNull
-    public List<Team> getWinnersOfCurrentRound(Tournament tournament, MatchDao matchDao) {
-        List<Match> matches = matchDao.findMatchesByTournament(tournament);
+    public List<Team> getWinnersOfCurrentRound(Tournament tournament) {
+        List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
         List<Team> winners = new ArrayList<>();
 
         for (Match match : matches) {

@@ -1,13 +1,13 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
 import org.example.calcettomanagmentsystem.dao.TeamDao;
+import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.service.interfaces.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class TeamRepository implements Repository<Team> {
+public class TeamRepository implements org.example.calcettomanagmentsystem.service.interfaces.TeamRepository {
     private TeamDao teamDao;
 
     public TeamRepository(TeamDao teamDao) {
@@ -17,6 +17,11 @@ public class TeamRepository implements Repository<Team> {
     @Override
     public Optional<Team> save(Team obj) {
         return teamDao.save(obj);
+    }
+
+    @Override
+    public Team addPlayer(Player player, Team team) {
+        return teamDao.addPlayer(team, player);
     }
 
     @Override

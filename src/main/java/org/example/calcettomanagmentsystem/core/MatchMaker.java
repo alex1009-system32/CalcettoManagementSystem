@@ -1,18 +1,15 @@
 package org.example.calcettomanagmentsystem.core;
 
-import org.example.calcettomanagmentsystem.dao.MatchDao;
-import org.example.calcettomanagmentsystem.dao.TeamDao;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Gatherers;
 import java.util.stream.IntStream;
 
 /**
@@ -32,15 +29,12 @@ public class MatchMaker {
         this.winnerExtractor = winnerExtractor;
     }
 
-    public boolean makePreRounds(@NotNull Tournament tournament,
-                                 TournamentDao tournamentDao,
-                                 MatchDao matchDao,
-                                 TeamDao teamDao) {
+    public boolean makePreRounds(@NotNull Tournament tournament) {
         if (tournament.currentRound() != 0) {
             return false;
         }
 
-        List<Team> teams = teamDao.getTeams(tournament);
+        List<Team> teams = ServiceManager.getTeamService().findAllByTournament(tournament);
         List<List<List<Team>>> allTeamLists = new ArrayList<>();
 
         for (int i = 0; i < tournament.preRound(); i++) {
@@ -49,13 +43,13 @@ public class MatchMaker {
             allTeamLists.add(teamList);
 
             if (i == 0) {
-                createMatches(teamList, tournament, tournamentDao, matchDao);
+                createMatches(teamList, tournament);
             } else {
                 if (hasSameTeam(allTeamLists)) {
                     i--;
                     allTeamLists.removeLast();
                 } else {
-                    createMatches(teamList, tournament, tournamentDao, matchDao);
+                    createMatches(teamList, tournament);
                 }
             }
         }
@@ -70,23 +64,20 @@ public class MatchMaker {
      * @implNote Es wird ein Spiegel-Pairing erzeugt, um starke und schwächere
      * Teams zu mischen.
      */
-    public boolean makeMatchesForRound(@NotNull Tournament tournament,
-                                       TournamentDao tournamentDao,
-                                       MatchDao matchDao) {
+    public boolean makeMatchesForRound(@NotNull Tournament tournament) {
         List<Team> teams;
 
         if (tournament.currentRound() == tournament.preRound()) {
-            teams = winnerExtractor.getWinnersOfCurrentPreRound(tournament, matchDao);
+            teams = winnerExtractor.getWinnersOfCurrentPreRound(tournament);
         } else {
-            teams = winnerExtractor.getWinnersOfCurrentRound(tournament, matchDao);
+            teams = winnerExtractor.getWinnersOfCurrentRound(tournament);
         }
 
         List<List<Team>> newTeams = IntStream.range(0, teams.size() / 2)
-                                             .mapToObj(i -> Arrays.asList(teams.get(i),
-                                                                          teams.get(teams.size() - 1 - i)))
-                                             .collect(Collectors.toList());
+                .mapToObj(i -> Arrays.asList(teams.get(i), teams.get(teams.size() - 1 - i)))
+                .collect(Collectors.toList());
 
-        createMatches(newTeams, tournament, tournamentDao, matchDao);
+        createMatches(newTeams, tournament);
         return true;
     }
 
@@ -96,26 +87,20 @@ public class MatchMaker {
      * @param teams      Team-Paare, optional mit Einzelteam für Freilos
      * @param tournament Turnierkontext für Match-Erstellung
      */
-    private void createMatches(@NotNull List<List<Team>> teams,
-                               Tournament tournament,
-                               TournamentDao tournamentDao,
-                               MatchDao matchDao) {
+    private void createMatches(@NotNull List<List<Team>> teams, Tournament tournament) {
 
         if (teams.isEmpty()) return;
 
         Match match;
         for (List<Team> teamList : teams) {
-            match = matchDao.save(new Match(tournament.currentRound(), tournament))
-                            .orElseThrow(() -> new DataAccessException("Couldn't find match"));
+            match = ServiceManager.getMatchService().save(tournament.currentRound(), tournament);
             for (Team team : teamList) {
-                matchDao.registerTeam(team, match);
+                ServiceManager.getMatchService().addTeam(team, match);
             }
         }
 
-        tournamentDao.increaseRound(tournament);
+        ServiceManager.getTournamentService().increaseRound(tournament);
     }
-
-
 
 
     /**

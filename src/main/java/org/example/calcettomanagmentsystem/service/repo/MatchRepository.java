@@ -2,6 +2,7 @@ package org.example.calcettomanagmentsystem.service.repo;
 
 import org.example.calcettomanagmentsystem.dao.MatchDao;
 import org.example.calcettomanagmentsystem.model.Match;
+import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class MatchRepository implements org.example.calcettomanagmentsystem.serv
     @Override
     public Optional<Match> save(Match obj) {
         return matchDao.save(obj);
+    }
+
+    @Override
+    public boolean addTeam(Team team, Match match) {
+        return matchDao.registerTeam(team, match);
     }
 
     @Override

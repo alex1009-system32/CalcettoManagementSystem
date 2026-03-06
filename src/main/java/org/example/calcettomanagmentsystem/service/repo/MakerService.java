@@ -12,30 +12,23 @@ public class MakerService implements MakerRepository {
     private TeamMaker teamMaker;
     private MatchMaker matchMaker;
 
-    private TournamentDao tournamentDao;
-    private MatchDao matchDao;
-    private TeamDao teamDao;
-
-    public MakerService(TeamMaker teamMaker, MatchMaker matchMaker, TournamentDao tournamentDao, MatchDao matchDao, TeamDao teamDao) {
+    public MakerService(TeamMaker teamMaker, MatchMaker matchMaker) {
         this.teamMaker = teamMaker;
         this.matchMaker = matchMaker;
-        this.tournamentDao = tournamentDao;
-        this.matchDao = matchDao;
-        this.teamDao = teamDao;
     }
 
     @Override
     public boolean generateTeams(Tournament tournament) {
-        return teamMaker.makeTeams(tournament, teamDao);
+        return teamMaker.makeTeams(tournament);
     }
 
     @Override
     public boolean generatePreRoundMatches(Tournament tournament) {
-        return matchMaker.makePreRounds(tournament, tournamentDao, matchDao, teamDao);
+        return matchMaker.makePreRounds(tournament);
     }
 
     @Override
     public boolean generateRoundMatches(Tournament tournament) {
-        return matchMaker.makeMatchesForRound(tournament, tournamentDao, matchDao);
+        return matchMaker.makeMatchesForRound(tournament);
     }
 }

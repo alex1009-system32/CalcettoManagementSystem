@@ -2,12 +2,10 @@ package org.example.calcettomanagmentsystem.service.repo;
 
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.interfaces.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
-public class TournamentRepository implements Repository<Tournament> {
+public class TournamentRepository implements org.example.calcettomanagmentsystem.service.interfaces.TournamentRepository {
     private TournamentDao tournamentDao;
 
     public TournamentRepository(TournamentDao tournamentDao) {
@@ -17,6 +15,11 @@ public class TournamentRepository implements Repository<Tournament> {
     @Override
     public Optional<Tournament> save(Tournament tournament) {
         return tournamentDao.save(tournament);
+    }
+
+    @Override
+    public Optional<Tournament> increaseRound(Tournament tournament) {
+        return tournamentDao.increaseRound(tournament);
     }
 
     @Override

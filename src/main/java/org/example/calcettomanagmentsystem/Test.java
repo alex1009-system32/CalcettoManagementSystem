@@ -38,11 +38,9 @@ public class Test {
 		 */
 
         List<Tournament> tournaments = ServiceManager.getTournamentService().findAll();
-        List<Player> players = ServiceManager.getPlayerService().findAllOfTournament(tournaments.getLast());
+        List<Player> players = ServiceManager.getPlayerService().findAllOfTournament(tournaments.get(3));
 
-        tournaments.forEach(System.out::println);
         players.forEach(System.out::println);
-
 
     }
 

@@ -8,6 +8,7 @@ import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -25,20 +26,20 @@ import java.util.stream.Gatherers;
  */
 public class TeamMaker {
 
-    public boolean makeTeams(Tournament tournament, TeamDao teamDao) {
+    public boolean makeTeams(Tournament tournament) {
         String teamName;
         Team team;
         Faker faker = new Faker();
 
-        List<List<Player>> teams =
-                partitionTeams(new SQLitePlayerDao().getAllPlayersFromTournament(tournament), tournament.maxTeamSize());
+        List<List<Player>> teams = partitionTeams(ServiceManager.getPlayerService().findAllOfTournament(tournament),
+                                                  tournament.maxTeamSize());
 
         for (List<Player> teamList : teams) {
             teamName = faker.funnyName().name();
-            team = teamDao.save(new Team(teamName)).orElseThrow(() -> new DataAccessException("Couldn't find team"));
+            team = ServiceManager.getTeamService().save(teamName);
 
             for (Player player : teamList) {
-                teamDao.addPlayer(team, player);
+                ServiceManager.getTeamService().save(player, team);
             }
         }
 
