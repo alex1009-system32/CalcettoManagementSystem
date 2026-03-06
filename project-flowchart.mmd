@@ -1,110 +1,117 @@
+---
+config:
+  layout: elk
+---
 flowchart TD
-    %% Subgraph: UI / View Layer
-    subgraph UI_Layer ["**UI / View Layer (JavaFX)**"]
-        APP[App.java]
-        FXML_SELECT[selectTournament-view.fxml]
-        FXML_CREATE[createTournament-view.fxml]
-        FXML_START[startTournament-view.fxml]
-        FXML_ROUND[roundTournament-view.fxml]
-        
-        CTRL_SELECT[selectTournamentController]
-        CTRL_CREATE[createTournamentController]
-        CTRL_START[startTournamentController]
-        CTRL_ROUND[roundTournamentController]
-        
-        NAV[FxmlNavigation.java]
-    end
+subgraph UI_Layer ["UI / View Layer (JavaFX)"]
+APP[App.java]
+NAV_FXML[FxmlNavigation.java]
 
-    %% Subgraph: Service & Logic Layer
-    subgraph Service_Layer ["**Service & Business Logic Layer**"]
-        MGR[ServiceManager.java]
-        SVC_T[TournamentService]
-        SVC_P[PlayerService]
-        SVC_TM[TeamService]
-        SVC_M[MatchService]
-        
-        CORE_TM[TeamMaker.java]
-        CORE_MM[MatchMaker.java]
-        SVC_MKR[MakerService.java]
-    end
+```
+FXML_SELECT[selectTournament-view.fxml]
+FXML_CREATE[createTournament-view.fxml]
+FXML_START[startTournament-view.fxml]
 
-    %% Subgraph: Data Access Layer
-    subgraph Data_Layer ["**Data Access Layer (DAO & Repo)**"]
-        REPO_T[TournamentRepository]
-        REPO_P[PlayerRepository]
-        REPO_TM[TeamRepository]
-        REPO_M[MatchRepository]
-        
-        DAO_T[SQLiteTournamentDao]
-        DAO_P[SQLitePlayerDao]
-        DAO_TM[SQLiteTeamDao]
-        DAO_M[SQLiteMatchDao]
-        
-        DB_CONN[SQLiteDB.java]
-        SQL_R[SQLReader.java]
-    end
+CTRL_SELECT[selectTournamentController]
+CTRL_CREATE[createTournamentController]
+CTRL_START[startTournamentController]
+```
+end
+subgraph Service_Layer ["Service & Business Logic"]
+MGR[ServiceManager.java]
 
-    %% Subgraph: Domain Models
-    subgraph Domain_Layer ["**Domain Models (Records/Classes)**"]
-        MODEL_T[(Tournament)]
-        MODEL_P[(Player)]
-        MODEL_TM[(Team)]
-        MODEL_M[(Match)]
-    end
+```
+SVC_T[TournamentService]
+SVC_P[PlayerService]
+SVC_TM[TeamService]
+SVC_M[MatchService]
 
-    %% Relationships: UI to Service
-    APP -->|Initial Load| NAV
-    NAV --> FXML_SELECT
-    FXML_SELECT --> CTRL_SELECT
-    
-    CTRL_SELECT -->|getServices| MGR
-    CTRL_CREATE -->|getServices| MGR
-    CTRL_START -->|getServices| MGR
-    CTRL_ROUND -->|getServices| MGR
-    
-    MGR --> SVC_T
-    MGR --> SVC_P
-    MGR --> SVC_TM
-    MGR --> SVC_M
-    MGR --> SVC_MKR
+REPO_MKR[MakerService]
+```
+end
+subgraph Core_Layer ["Core Logic (Pairing, Winners)"]
+CORE_TM[TeamMaker.java]
+CORE_MM[MatchMaker.java]
+CORE_SHUFFLER[TeamShuffler.java]
+CORE_WINNER[WinnerExtractor.java]
+end
+subgraph Repository_Layer ["Repositories"]
+REPO_T[TournamentRepository]
+REPO_P[PlayerRepository]
+REPO_TM[TeamRepository]
+REPO_M[MatchRepository]
+end
+subgraph Data_Layer ["Data Access (DAO)"]
+DAO_T[SQLiteTournamentDao]
+DAO_P[SQLitePlayerDao]
+DAO_TM[SQLiteTeamDao]
+DAO_M[SQLiteMatchDao]
+DB_CONN[SQLiteDB.java]
+SQL_R[SQLReader.java]
+SQLITE[(SQLite file)]
+end
+subgraph Domain_Layer ["Domain Models"]
+MODEL_T[(Tournament)]
+MODEL_P[(Player)]
+MODEL_TM[(Team)]
+MODEL_M[(Match)]
+end
+APP --> NAV_FXML
+NAV_FXML --> FXML_SELECT
+NAV_FXML --> FXML_CREATE
+NAV_FXML --> FXML_START
 
-    %% Relationships: Service to Data/Core
-    SVC_T --> REPO_T
-    SVC_P --> REPO_P
-    SVC_TM --> REPO_TM
-    SVC_M --> REPO_M
-    
-    SVC_MKR --> CORE_TM
-    SVC_MKR --> CORE_MM
-    
-    CORE_TM --> DAO_TM
-    CORE_MM --> DAO_M
-    
-    %% Relationships: Repo to DAO
-    REPO_T --> DAO_T
-    REPO_P --> DAO_P
-    REPO_TM --> DAO_TM
-    REPO_M --> DAO_M
-    
-    %% Relationships: DAO to Database
-    DAO_T --> DB_CONN
-    DAO_P --> DB_CONN
-    DAO_TM --> DB_CONN
-    DAO_M --> DB_CONN
-    
-    DB_CONN -->|init| SQL_R
-    DB_CONN -->|SQL Execution| SQLITE[(sqlite file)]
+FXML_SELECT --> CTRL_SELECT
+FXML_CREATE --> CTRL_CREATE
+FXML_START --> CTRL_START
+CTRL_SELECT --> MGR
+CTRL_CREATE --> MGR
+CTRL_START --> MGR
+MGR --> SVC_T
+MGR --> SVC_P
+MGR --> SVC_TM
+MGR --> SVC_M
+MGR --> REPO_MKR
+SVC_T --> REPO_T
+SVC_P --> REPO_P
+SVC_TM --> REPO_TM
+SVC_M --> REPO_M
+SVC_M -. uses .-> REPO_T
+REPO_MKR --> CORE_TM
+REPO_MKR --> CORE_MM
+CORE_MM --> CORE_SHUFFLER
+CORE_MM --> CORE_WINNER
+REPO_T --> DAO_T
+REPO_P --> DAO_P
+REPO_TM --> DAO_TM
+REPO_M --> DAO_M
+DAO_T --> DB_CONN
+DAO_P --> DB_CONN
+DAO_TM --> DB_CONN
+DAO_M --> DB_CONN
+DB_CONN --> SQL_R
+DB_CONN --> SQLITE
+DAO_T -. maps .-> MODEL_T
+DAO_P -. maps .-> MODEL_P
+DAO_TM -. maps .-> MODEL_TM
+DAO_M -. maps .-> MODEL_M
+CTRL_CREATE -. create tournament .-> SVC_T
+SVC_T -. save .-> REPO_T
+REPO_T -. insert .-> DAO_T
+DAO_T -. returns .-> MODEL_T
 
-    %% Data Flow Examples
-    CTRL_CREATE -.->|create Tournament| SVC_T
-    SVC_T -.->|save| REPO_T
-    REPO_T -.->|INSERT| DAO_T
-    DAO_T -.->|return| MODEL_T
+CTRL_SELECT -. generate teams .-> REPO_MKR
+REPO_MKR -. TeamMaker .-> CORE_TM
+CORE_TM -. uses .-> DAO_TM
 
-    %% Styling
-    style APP fill:#f9f,stroke:#333,stroke-width:2px
-    style SQLITE fill:#00f,stroke:#fff,stroke-width:2px,color:#fff
-    style MODEL_T fill:#fff,stroke:#333,stroke-dasharray: 5 5
-    style MODEL_P fill:#fff,stroke:#333,stroke-dasharray: 5 5
-    style MODEL_TM fill:#fff,stroke:#333,stroke-dasharray: 5 5
-    style MODEL_M fill:#fff,stroke:#333,stroke-dasharray: 5 5
+CTRL_SELECT -. generate pre-round matches .-> REPO_MKR
+REPO_MKR -. MatchMaker .-> CORE_MM
+CORE_MM -. uses .-> DAO_M
+CORE_MM -. winners/shuffle .-> CORE_WINNER
+CORE_MM -. shuffle .-> CORE_SHUFFLER
+classDef model fill:#fff,stroke:#333,stroke-dasharray: 5 5
+class MODEL_T,MODEL_P,MODEL_TM,MODEL_M model
+classDef db fill:#0af,color:#fff,stroke:#036
+class SQLITE db
+classDef ui fill:#f9f,stroke:#333
+class APP,NAV_FXML,CTRL_SELECT,CTRL_CREATE,CTRL_START ui
