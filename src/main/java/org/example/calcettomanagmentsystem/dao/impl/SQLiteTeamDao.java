@@ -81,12 +81,12 @@ public class SQLiteTeamDao implements TeamDao {
 
     @Override
     public Team addPlayer(Team team, Player player) {
-        String sql = "Update player set pid = ? where tid = ?";
+        String sql = "Update player set tid = ? where pid = ?";
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, player.id());
-            preparedStatement.setInt(2, team.id());
+            preparedStatement.setInt(1, team.id());
+            preparedStatement.setInt(2, player.id());
 
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");

@@ -40,6 +40,7 @@ public class TeamMaker {
 
             for (Player player : teamList) {
                 ServiceManager.getTeamService().save(player, team);
+                System.out.println(teamList);
             }
         }
 
