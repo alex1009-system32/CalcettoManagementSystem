@@ -63,7 +63,7 @@ public class SQLiteMatchDao implements MatchDao {
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, obj.tournament().currentRound());
+            preparedStatement.setInt(1, obj.round());
             preparedStatement.setInt(2, obj.tournament().id());
 
             preparedStatement.executeUpdate();
@@ -99,7 +99,7 @@ public class SQLiteMatchDao implements MatchDao {
     }
 
     @Override
-    public boolean assignPoints(Team team, double point, Match match) {
+    public Match assignPoints(Team team, double point, Match match) {
         String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
@@ -108,8 +108,8 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(2, team.id());
             preparedStatement.setInt(3, match.id());
 
-            int affected = preparedStatement.executeUpdate();
-            return affected > 0;
+            match.teamResults().put(team, point);
+            return match;
         } catch (SQLException e) {
             throw new DataAccessException("Error while Updating Database", e);
         }
@@ -138,7 +138,7 @@ public class SQLiteMatchDao implements MatchDao {
 
             try (ResultSet rs = prepareStatement.executeQuery()) {
                 while (rs.next()) {
-                    int matchId = rs.getInt("id");
+                    int matchId = rs.getInt("mid");
 
                     Match match = matchMap.computeIfAbsent(matchId, id -> {
                         try {

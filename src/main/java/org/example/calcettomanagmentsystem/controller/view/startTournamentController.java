@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
@@ -74,8 +73,7 @@ public class startTournamentController implements Initializable {
 
         playerFlowPane.getChildren().clear();
 
-        for (Player player : ServiceManager.getPlayerService()
-                                           .findAllOfTournament(ServiceManager.getTournament())) {
+        for (Player player : ServiceManager.getPlayerService().findAllOfTournament(ServiceManager.getTournament())) {
 
             Label pnameLabel = new Label(player.name());
             pnameLabel.setAlignment(Pos.CENTER);
@@ -146,7 +144,9 @@ public class startTournamentController implements Initializable {
         }
 
         System.out.println(ServiceManager.getPlayerService()
-                                         .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament()));
+                                         .create(nameField.getText(),
+                                                 emailField.getText(),
+                                                 ServiceManager.getTournament()));
 
         updateList();
         stage.close();
@@ -248,9 +248,9 @@ public class startTournamentController implements Initializable {
 
     @FXML
     private void startTournament() {
-        if (ServiceManager.getTournamentService().start(ServiceManager.getTournament())) {
-            App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
-        }
+        ServiceManager.getMakerService().generateTeams(ServiceManager.getTournament());
+        ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
+        App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
     }
 
     /**

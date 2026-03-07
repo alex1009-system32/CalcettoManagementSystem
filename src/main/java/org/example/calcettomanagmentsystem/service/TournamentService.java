@@ -42,8 +42,4 @@ public class TournamentService {
         return tournamentRepository.findAll();
     }
 
-    public boolean start(@NotNull Tournament tournament) {
-        return false;
-    }
-
 }

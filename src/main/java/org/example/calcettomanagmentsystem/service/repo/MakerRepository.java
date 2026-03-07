@@ -37,12 +37,40 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
         this.matchDao = matchDao;
     }
 
+    @Override
+    public List<Team> generateTeams(List<Player> players, int teamSize) {
+        List<Team> finalTeams = new ArrayList<>();
+        List<Team> teams = teamMaker.makeTeams(players, teamSize);
+
+        try (Connection connection = SQLiteDB.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                for (Team team : teams) {
+                    Team finalTeam =
+                            teamDao.save(team).orElseThrow(() -> new DataAccessException("Team could not be saved"));
+                    for (Player player : team.players()) {
+                        finalTeam = teamDao.addPlayer(finalTeam, player);
+                    }
+                    finalTeams.add(finalTeam);
+                }
+                connection.commit();
+                return finalTeams;
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new DataAccessException("Something went wrong while trying to save the teams", e);
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Something went wrong while trying to save the teams", e);
+        }
+    }
+
     private List<Match> generateMatches(Tournament tournament, List<Match> newMatches) {
         List<Match> finalMatches = new ArrayList<>();
         try (Connection connection = SQLiteDB.getConnection()) {
             connection.setAutoCommit(false);
             for (int i = 0; i < tournament.preRound(); i++) {
                 tournamentDao.increaseRound(tournament);
+                System.out.println(tournament);
             }
             try {
                 for (Match match : newMatches) {
@@ -61,33 +89,6 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
             }
         } catch (SQLException e) {
             throw new DataAccessException("Something went wrong while trying to save the matches", e);
-        }
-    }
-
-    @Override
-    public List<Team> generateTeams(List<Player> players, int teamSize) {
-        List<Team> finalTeams = new ArrayList<>();
-        List<Team> teams = teamMaker.makeTeams(players, teamSize);
-
-        try (Connection connection = SQLiteDB.getConnection()) {
-            connection.setAutoCommit(false);
-            try {
-                for (Team team : teams) {
-                    Team finalTeam =
-                            teamDao.save(team).orElseThrow(() -> new DataAccessException("Team could not be saved"));
-                    for (Player player : players) {
-                        finalTeam = teamDao.addPlayer(finalTeam, player);
-                    }
-                    finalTeams.add(finalTeam);
-                }
-                connection.commit();
-                return finalTeams;
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new DataAccessException("Something went wrong while trying to save the teams", e);
-            }
-        } catch (SQLException e) {
-            throw new DataAccessException("Something went wrong while trying to save the teams", e);
         }
     }
 

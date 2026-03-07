@@ -26,6 +26,11 @@ public class MatchRepository implements org.example.calcettomanagmentsystem.serv
     }
 
     @Override
+    public Match addPoints(Team team, Match match, int points) {
+        return matchDao.assignPoints(team, points, match);
+    }
+
+    @Override
     public boolean delete(Match obj) {
         return delete(obj);
     }

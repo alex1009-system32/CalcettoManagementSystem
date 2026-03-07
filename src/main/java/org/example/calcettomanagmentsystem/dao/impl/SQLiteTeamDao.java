@@ -15,44 +15,45 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class SQLiteTeamDao implements TeamDao {
-    private void mapResultSetToTeam(ResultSet rs,
-                                    Map<Integer, Team> teamMap,
-                                    Map<Integer, Tournament> tournamentCache) throws SQLException {
-
+    private void mapResultSetToTeam(ResultSet rs, Map<Integer, Team> teamMap, Map<Integer, Tournament> tournamentCache) throws SQLException {
         int teamId = rs.getInt("tid");
         Team team = teamMap.computeIfAbsent(teamId, id -> {
             try {
-                return new Team(id, rs.getString("team_name"));
-            } catch (SQLException e) { throw new RuntimeException(e); }
+                return new Team(id, rs.getString("team_name"), new ArrayList<>());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
 
-        int tournamentId = rs.getInt("trid");
+        int tourneyId = rs.getInt("trid");
         Tournament tournament = null;
-        if (tournamentId > 0) {
-            tournament = tournamentCache.computeIfAbsent(tournamentId, id -> {
+
+        if (!rs.wasNull()) {
+            tournament = tournamentCache.computeIfAbsent(tourneyId, id -> {
                 try {
                     return new Tournament(
                             id,
                             rs.getString("tournament_name"),
-                            java.time.LocalDate.parse(rs.getString("start_date")),
+                            LocalDate.parse(rs.getString("start_date")),
                             rs.getInt("duration"),
                             rs.getInt("pre_round"),
                             rs.getInt("current_round"),
                             rs.getInt("max_team_size")
                     );
-                } catch (SQLException e) { throw new RuntimeException(e); }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             });
         }
 
         int playerId = rs.getInt("pid");
-        if (playerId > 0) {
-            Player player = new Player(
-                    playerId,
-                    rs.getString("pname"),
-                    rs.getString("pemail"),
-                    tournament
-            );
-            team.players().add(player);
+        Player player;
+
+        if (!rs.wasNull()) {
+             player = new Player(playerId, rs.getString("pname"), rs.getString("pemail"), tournament);
+            if (!team.players().contains(player)) {
+                team.players().add(player);
+            }
         }
     }
 

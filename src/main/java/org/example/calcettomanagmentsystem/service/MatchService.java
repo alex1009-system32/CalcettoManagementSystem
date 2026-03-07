@@ -34,6 +34,13 @@ public class MatchService {
         return matchRepository.addTeam(team, match);
     }
 
+    public Match setPoints(Team team, Match match, int points) {
+        if (team.id() < 0) throw new ValidationException("Team id must be greater than 0.");
+        if (match.id() < 0) throw new ValidationException("Match id must be greater than 0.");
+
+        return matchRepository.addPoints(team, match, points);
+    }
+
     public List<Match> findAll() {
         return matchRepository.findAll();
     }

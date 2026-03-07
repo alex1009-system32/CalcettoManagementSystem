@@ -2,17 +2,15 @@ package org.example.calcettomanagmentsystem;
 
 
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
-import org.example.calcettomanagmentsystem.core.MatchMaker;
-import org.example.calcettomanagmentsystem.core.TeamShuffler;
-import org.example.calcettomanagmentsystem.core.WinnerExtractor;
+import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
+import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
+import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
-import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,13 +43,9 @@ public class Test {
 
 		 */
 
-        SQLiteDB.initTest();
+        //SQLiteDB.initTest();
 
-        Tournament tournament = ServiceManager.getTournamentService().findAll().getLast();
-        List<Team> team = ServiceManager.getTeamService().findAllByTournament(tournament);
-        //new MatchMaker(new TeamShuffler(), new WinnerExtractor()).makePreRounds(tournament, team).forEach(System.out::println);
-
-        ServiceManager.getMakerService().generateNextMatches(tournament);
+        ServiceManager.getMatchService().findMatchesByTournament(new SQLiteTournamentDao().findAll().get(0)).forEach(System.out::println);
 
     }
 
