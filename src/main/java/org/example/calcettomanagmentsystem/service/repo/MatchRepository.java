@@ -21,7 +21,7 @@ public class MatchRepository implements org.example.calcettomanagmentsystem.serv
     }
 
     @Override
-    public boolean addTeam(Team team, Match match) {
+    public Match addTeam(Team team, Match match) {
         return matchDao.registerTeam(team, match);
     }
 

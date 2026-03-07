@@ -1,6 +1,5 @@
 package org.example.calcettomanagmentsystem.core;
 
-import org.example.calcettomanagmentsystem.dao.MatchDao;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -18,6 +17,7 @@ public class WinnerExtractor {
      * @return sortierte Siegerliste
      * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
      */
+    @Deprecated
     @NotNull
     public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
         List<Team> winner = new ArrayList<>();
@@ -48,7 +48,7 @@ public class WinnerExtractor {
         {
             int counter = 0;
             for (Map.Entry<Team, Double> entry : sortedMap.entrySet()) {
-                if (counter > sortedMap.size()/2) break sortingOut;
+                if (counter > sortedMap.size() / 2) break sortingOut;
                 counter++;
                 winner.add(entry.getKey());
             }
@@ -57,29 +57,55 @@ public class WinnerExtractor {
         return winner;
     }
 
-    /**
-     * Ermittelt Siegerteams der aktuellen Runde basierend auf Match-Punkten.
-     *
-     * @param tournament Turnierkontext für die Rundenbewertung
-     * @return Siegerliste der aktuellen Runde
-     */
-    @NotNull
-    public List<Team> getWinnersOfCurrentRound(Tournament tournament) {
-        List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
-        List<Team> winners = new ArrayList<>();
+    public List<Team> getAllWinners(List<Match> matches) {
+        List<Team> list = new LinkedList<>();
+        Map<Team, Double> teams = matches.stream()
+                                         .map(match -> match.teamResults()
+                                                            .entrySet()
+                                                            .stream()
+                                                            .max(Map.Entry.comparingByValue()))
+                                         .flatMap(Optional::stream)
+                                         .collect(Collectors.toMap(Map.Entry::getKey,
+                                                                   Map.Entry::getValue,
+                                                                   Double::max));
 
-        for (Match match : matches) {
-            Team winner = null;
-            for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-                if (winner == null) {
-                    winner = entry.getKey();
-                } else if (entry.getValue() > match.teamResults().get(winner)) {
-                    winner = entry.getKey();
-                }
-            }
-            winners.add(winner);
+        for (Team team : orderByPoints(teams).keySet()) {
+            list.add(team);
         }
 
-        return winners;
+        return list;
+
+    }
+
+    public List<Team> getAllWinnersAfterPreRounds(List<Match> matches) {
+        List<Team> list = new LinkedList<>();
+        Map<Team, Double> teams = new HashMap<>();
+        for (Match match : matches) {
+            for(Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
+                if (teams.containsKey(entry.getKey())) {
+                    teams.put(entry.getKey(), teams.get(entry.getKey()) + entry.getValue());
+                } else {
+                    teams.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        for (Team team : orderByPoints(teams).keySet()) {
+            list.add(team);
+        }
+
+        return list;
+
+
+    }
+
+    public Map<Team, Double> orderByPoints(Map<Team, Double> teams) {
+        return teams.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
+                    .collect(Collectors.toMap(Map.Entry::getKey,
+                                              Map.Entry::getValue,
+                                              (e1, e2) -> e1,
+                                              LinkedHashMap::new));
     }
 }

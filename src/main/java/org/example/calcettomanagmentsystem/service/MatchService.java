@@ -13,7 +13,7 @@ import java.util.List;
 public class MatchService {
     MatchRepository matchRepository;
 
-    public MatchService(TournamentRepository tournamentRepository, MatchRepository matchRepository) {
+    public MatchService(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;
     }
 
@@ -25,7 +25,7 @@ public class MatchService {
         return matchRepository.save(new Match(round, tournament)).orElseThrow(() -> new  ValidationException("Can't get out of the Database"));
     }
 
-    public boolean addTeam(Team team, Match match) {
+    public Match addTeam(Team team, Match match) {
         if (team.id() < 0) throw new ValidationException("Team id must be greater than 0.");
         if (match.id() < 0) throw new ValidationException("Match id must be greater than 0.");
 

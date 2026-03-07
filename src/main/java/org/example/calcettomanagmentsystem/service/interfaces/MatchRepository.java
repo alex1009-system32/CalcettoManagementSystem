@@ -8,7 +8,7 @@ import org.example.calcettomanagmentsystem.model.Tournament;
 import java.util.List;
 
 public interface MatchRepository extends Repository<Match> {
-    boolean addTeam(Team team, Match match);
+    Match addTeam(Team team, Match match);
     List<Match> findMatchesByTournament(Tournament tournament);
     List<Match> findMatchesByTournament(Tournament tournament, int round);
 }

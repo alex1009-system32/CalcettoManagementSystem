@@ -13,15 +13,12 @@ import org.example.calcettomanagmentsystem.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.MatchService;
-import org.example.calcettomanagmentsystem.service.PlayerService;
-import org.example.calcettomanagmentsystem.service.TeamService;
-import org.example.calcettomanagmentsystem.service.TournamentService;
+import org.example.calcettomanagmentsystem.service.*;
 import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
 import org.example.calcettomanagmentsystem.service.repo.PlayerRepository;
 import org.example.calcettomanagmentsystem.service.repo.TeamRepository;
 import org.example.calcettomanagmentsystem.service.repo.TournamentRepository;
-import org.example.calcettomanagmentsystem.service.repo.MakerService;
+import org.example.calcettomanagmentsystem.service.repo.MakerRepository;
 
 public class ServiceManager {
     private static final TournamentDao TOURNAMENT_DAO = new SQLiteTournamentDao();
@@ -41,13 +38,13 @@ public class ServiceManager {
     private static final MatchRepository MATCH_REPOSITORY = new MatchRepository(MATCH_DAO);
     private static final TeamRepository TEAM_REPOSITORY = new TeamRepository(TEAM_DAO);
     private static final PlayerRepository PLAYER_REPOSITORY = new PlayerRepository(PLAYER_DAO);
-
-    private static final MakerService MAKER_REPOSITORY = new MakerService(TEAM_MAKER, MATCH_MAKER);
+    private static final MakerRepository MAKER_REPOSITORY = new MakerRepository(TEAM_MAKER, MATCH_MAKER, TEAM_DAO, MATCH_DAO, TOURNAMENT_DAO);
 
     private static final TournamentService TOURNAMENT_SERVICE = new TournamentService(TOURNAMENT_REPOSITORY, MAKER_REPOSITORY);
-    private static final MatchService MATCH_SERVICE = new MatchService(TOURNAMENT_REPOSITORY, MATCH_REPOSITORY);
+    private static final MatchService MATCH_SERVICE = new MatchService(MATCH_REPOSITORY);
     private static final TeamService TEAM_SERVICE = new TeamService(TEAM_REPOSITORY);
     private static final PlayerService PLAYER_SERVICE = new PlayerService(PLAYER_REPOSITORY);
+    private static final MakerService MAKER_SERVICE = new MakerService(MAKER_REPOSITORY);
 
     private ServiceManager() {
     }
@@ -66,6 +63,7 @@ public class ServiceManager {
     public static PlayerService getPlayerService() {
         return PLAYER_SERVICE;
     }
+    public static MakerService getMakerService() { return MAKER_SERVICE; }
     public static Tournament getTournament() {
         return ServiceManager.tournament;
     }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public interface MatchDao extends GeneralDao<Match> {
-    boolean registerTeam(Team team, Match match);
+    Match registerTeam(Team team, Match match);
     boolean assignPoints(Team team, double point, Match match);
     List<Match> findMatchesByTournament(@NotNull Tournament tournament);
     List<Match> findMatchesByTournament(@NotNull Tournament tournament, int round);

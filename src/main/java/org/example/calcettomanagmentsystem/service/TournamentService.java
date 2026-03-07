@@ -43,18 +43,7 @@ public class TournamentService {
     }
 
     public boolean start(@NotNull Tournament tournament) {
-        if (tournament.currentRound() != 0) throw new ValidationException("Invalid current round");
-
-        makerRepository.generateTeams(tournament);
-
-        return makerRepository.generatePreRoundMatches(tournament);
-    }
-
-    public boolean nextRound(@NotNull Tournament tournament) {
-        if (tournament.currentRound() < 0) throw new ValidationException("Invalid current round");
-        if (tournament.currentRound() < tournament.preRound()) throw new ValidationException("Invalid current round");
-
-        return makerRepository.generateRoundMatches(tournament);
+        return false;
     }
 
 }

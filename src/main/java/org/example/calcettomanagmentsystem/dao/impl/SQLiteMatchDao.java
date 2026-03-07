@@ -80,7 +80,7 @@ public class SQLiteMatchDao implements MatchDao {
     }
 
     @Override
-    public boolean registerTeam(Team team, Match match) {
+    public Match registerTeam(Team team, Match match) {
         String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
 
         try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
@@ -88,8 +88,11 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(1, team.id());
             preparedStatement.setInt(2, match.id());
 
-            int affected = preparedStatement.executeUpdate();
-            return affected > 0;
+            if (!match.teamResults().containsKey(team)) {
+                match.teamResults().put(team, -1.0);
+            }
+
+            return match;
         } catch (SQLException e) {
             throw new DataAccessException("Error while Inserting Into Database", e);
         }
