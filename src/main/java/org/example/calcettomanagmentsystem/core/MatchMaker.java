@@ -7,14 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-/**
- * Orchestriert die Match-Erstellung für Turniere.
- * <p>
- * Die Klasse bündelt Turnierlogik und Persistenzzugriffe, um eine konsistente
- * Match-Historie über Vorrunden und Hauptrunden zu gewährleisten.
- * </p>
- *
- */
+
 public class MatchMaker {
     TeamShuffler teamShuffler;
     WinnerExtractor winnerExtractor;

@@ -28,13 +28,7 @@ import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-/**
- * Controller für die Rundenansicht eines Turniers.
- * <p>
- * Die Klasse dient als Platzhalter, um später Rundensteuerung und
- * Ergebnisdarstellung zentral zu bündeln.
- * </p>
- */
+
 public class roundTournamentController implements Initializable {
 
     @FXML
@@ -196,12 +190,7 @@ public class roundTournamentController implements Initializable {
         App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
     }
 
-    /**
-     * Initialisiert den Controller mit Ressourcenbezug.
-     *
-     * @param location  Ressourcenbasis der FXML
-     * @param resources Lokalisierungsbundle, sofern vorhanden
-     */
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         update();
