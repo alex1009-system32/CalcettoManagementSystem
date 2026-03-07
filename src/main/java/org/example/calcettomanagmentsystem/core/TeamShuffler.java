@@ -11,12 +11,7 @@ import java.util.List;
 import java.util.stream.Gatherers;
 
 public class TeamShuffler {
-    /**
-     * Erzeugt zufällige Team-Paare für eine Runde.
-     *
-     * @param teams Teams, die für Paarungen berücksichtigt werden
-     * @return Liste von Team-Paaren, ggf. mit einem Einzelteam
-     */
+    
     @Unmodifiable
     @NotNull
     public List<List<Team>> shuffleTeamList(List<Team> teams, int teamSize) {

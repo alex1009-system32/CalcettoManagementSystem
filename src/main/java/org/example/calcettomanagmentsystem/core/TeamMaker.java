@@ -16,15 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Gatherers;
 
-/**
- * Verantwortet die Team-Erzeugung aus Spielerdaten.
- * <p>
- * Die Idee ist, dass Team-Zuschnitt und Persistenz in einer Stelle liegen,
- * damit Turnierlogik nicht mit Gruppierungsdetails belastet wird.
- * </p>
- *
- * @see SQLiteTeamDao
- */
+
 public class TeamMaker {
 
     public List<Team> makeTeams(List<Player> players, int teamSize) {
@@ -48,13 +40,7 @@ public class TeamMaker {
         return returnList;
     }
 
-    /**
-     * Teilt Spieler in Gruppen der gewünschten Größe.
-     *
-     * @param players  Liste der Spieler, die verteilt werden sollen
-     * @param teamSize Zielgröße je Team
-     * @return gruppierte Spielerlisten als Team-Kandidaten
-     */
+    
     @NotNull
     private @Unmodifiable List<List<Player>> partitionTeams(@NotNull List<Player> players, int teamSize) {
         return players.stream().gather(Gatherers.windowFixed(teamSize)).toList();

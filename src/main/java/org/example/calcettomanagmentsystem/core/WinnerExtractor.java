@@ -10,13 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WinnerExtractor {
-    /**
-     * Ermittelt Siegerteams der Vorrunden basierend auf kumulierten Punkten.
-     *
-     * @param tournament Turnierkontext für die Vorrundenbewertung
-     * @return sortierte Siegerliste
-     * @implNote Die Punkte werden pro Team aggregiert und absteigend sortiert.
-     */
+    
     @Deprecated
     @NotNull
     public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
