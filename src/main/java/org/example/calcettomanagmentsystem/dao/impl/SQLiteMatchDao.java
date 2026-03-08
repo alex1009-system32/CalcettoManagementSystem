@@ -88,6 +88,9 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(1, team.id());
             preparedStatement.setInt(2, match.id());
 
+            int affected =  preparedStatement.executeUpdate();
+            if (affected == 0) throw new DataAccessException("Match could not be saved");
+
             if (!match.teamResults().containsKey(team)) {
                 match.teamResults().put(team, -1.0);
             }
@@ -107,6 +110,9 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setDouble(1, point);
             preparedStatement.setInt(2, team.id());
             preparedStatement.setInt(3, match.id());
+
+            int affected = preparedStatement.executeUpdate();
+            if (affected == 0) throw new DataAccessException("Match could not be saved");
 
             match.teamResults().put(team, point);
             return match;

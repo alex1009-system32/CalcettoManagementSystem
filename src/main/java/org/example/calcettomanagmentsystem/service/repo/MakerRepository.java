@@ -70,7 +70,6 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
             connection.setAutoCommit(false);
             for (int i = 0; i < tournament.preRound(); i++) {
                 tournamentDao.increaseRound(tournament);
-                System.out.println(tournament);
             }
             try {
                 for (Match match : newMatches) {

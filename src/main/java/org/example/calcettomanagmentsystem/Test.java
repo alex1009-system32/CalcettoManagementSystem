@@ -34,7 +34,15 @@ public class Test {
 
         //SQLiteDB.initTest();
 
-        ServiceManager.getMatchService().findMatchesByTournament(new SQLiteTournamentDao().findAll().get(0)).forEach(System.out::println);
+        SQLiteDB.initTest();
+
+        List<Tournament> torunaments = ServiceManager.getTournamentService().findAll();
+        List<Player> players = ServiceManager.getPlayerService().findAllOfTournament(torunaments.getFirst());
+
+        ServiceManager.getMakerService().generateTeams(torunaments.getFirst());
+        ServiceManager.getMakerService().generateNextMatches(torunaments.getFirst());
+
+        ServiceManager.getMatchService().findMatchesByTournament(torunaments.getFirst()).forEach(System.out::println);
 
     }
 
