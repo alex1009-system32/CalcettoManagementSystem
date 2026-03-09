@@ -64,9 +64,6 @@ public class MakerService {
     private boolean checkMatches(List<Match> matches) {
         for (Match match : matches) {
             for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-                System.out.println(entry.getKey());
-                System.out.println(entry.getValue());
-                System.out.println(entry.getValue() < 0);
                 if (entry.getValue() < 0) {
                     return false;
                 }

@@ -68,7 +68,7 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
         List<Match> finalMatches = new ArrayList<>();
         try (Connection connection = SQLiteDB.getConnection()) {
             connection.setAutoCommit(false);
-            for (int i = 0; i < tournament.preRound(); i++) {
+            for (int i = 0; i <= tournament.preRound(); i++) {
                 tournamentDao.increaseRound(tournament);
             }
             try {
