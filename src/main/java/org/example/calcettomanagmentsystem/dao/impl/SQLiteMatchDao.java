@@ -178,9 +178,7 @@ public class SQLiteMatchDao implements MatchDao {
     @Override
     public List<Match> findMatchesByTournament(@NotNull Tournament tournament, int round) {
         String sql = """
-                SELECT m.mid, m.round,\s
-                                       t.tid AS team_id, t.team_name,
-                                       tm.points
+                SELECT m.mid, m.round, t.tid AS team_id, t.team_name, tm.points
                                 FROM "match" m
                                 LEFT JOIN team_match tm ON m.mid = tm.mid
                                 LEFT JOIN team t ON tm.tid = t.tid
@@ -198,7 +196,7 @@ public class SQLiteMatchDao implements MatchDao {
 
             try (ResultSet rs = prepareStatement.executeQuery()) {
                 while (rs.next()) {
-                    int matchId = rs.getInt("id");
+                    int matchId = rs.getInt("mid");
 
                     Match match = matchMap.computeIfAbsent(matchId, id -> {
                         try {

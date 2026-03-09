@@ -8,11 +8,12 @@ import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MakerService {
     MakerRepository makerRepository;
-
 
     public MakerService(MakerRepository makerRepository) {
         this.makerRepository = makerRepository;
@@ -28,22 +29,49 @@ public class MakerService {
 
         switch (tournament) {
             case Tournament t when t.currentRound() == 0 -> {
-                return makerRepository.generatePreRoundMatches(tournament,
-                                                               ServiceManager.getTeamService()
-                                                                             .findAllByTournament(tournament));
+                return generatePreRoundMatches(tournament);
             }
             case Tournament t when t.preRound() == t.currentRound() -> {
-                return makerRepository.gerateRoundMatchesAfterPreRounds(tournament,
-                                                                        ServiceManager.getMatchService()
-                                                                                      .findMatchesByTournament(
-                                                                                              tournament));
+                return generateRoundMatchesAfterPreRounds(tournament);
             }
             default -> {
-                return makerRepository.gerateRoundMatches(tournament,
-                                                          ServiceManager.getMatchService()
-                                                                        .findMatchesByTournamentInCurrentRound(
-                                                                                tournament));
+                return generateRoundMatches(tournament);
             }
         }
+    }
+
+    private List<Match> generatePreRoundMatches(@NotNull Tournament tournament) {
+        List<Team> teams = ServiceManager.getTeamService().findAllByTournament(tournament);
+        return makerRepository.generatePreRoundMatches(tournament, teams);
+    }
+
+    private List<Match> generateRoundMatchesAfterPreRounds(@NotNull Tournament tournament) {
+        List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
+
+        if (checkMatches(matches)) throw new ValidationException("matches not finished");
+
+        return makerRepository.gerateRoundMatchesAfterPreRounds(tournament, matches);
+    }
+
+    private List<Match> generateRoundMatches(@NotNull Tournament tournament) {
+        List<Match> matches = ServiceManager.getMatchService().findMatchesByTournamentInCurrentRound(tournament);
+
+        if (checkMatches(matches)) throw new ValidationException("matches not finished");
+
+        return makerRepository.gerateRoundMatches(tournament, matches);
+    }
+
+    private boolean checkMatches(List<Match> matches) {
+        for (Match match : matches) {
+            for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println(entry.getValue());
+                System.out.println(entry.getValue() < 0);
+                if (entry.getValue() < 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

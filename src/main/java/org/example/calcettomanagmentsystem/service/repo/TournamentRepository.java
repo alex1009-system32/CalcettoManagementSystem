@@ -1,7 +1,11 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
+import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.model.Tournament;
+import org.sqlite.SQLiteConnection;
+
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 

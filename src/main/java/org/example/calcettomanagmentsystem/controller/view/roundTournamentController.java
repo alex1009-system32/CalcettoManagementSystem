@@ -182,7 +182,7 @@ public class roundTournamentController implements Initializable {
 
     @FXML
     private void nextRound() {
-        System.out.println("Leck eier");
+        ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
     }
 
     @FXML
@@ -190,7 +190,6 @@ public class roundTournamentController implements Initializable {
         App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
     }
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         update();
