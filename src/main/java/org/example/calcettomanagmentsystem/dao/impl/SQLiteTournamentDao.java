@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.connection.DataBaseSource;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class SQLiteTournamentDao implements TournamentDao {
+    DataBaseSource dataBaseSource;
+
+    public SQLiteTournamentDao(DataBaseSource dataBaseSource) {
+        this.dataBaseSource = dataBaseSource;
+    }
 
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
         return new Tournament(rs.getInt("tid"),
@@ -30,7 +35,7 @@ public class SQLiteTournamentDao implements TournamentDao {
         String sql =
                 "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setString(1, obj.name());
             preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(obj.date()));
@@ -63,7 +68,7 @@ public class SQLiteTournamentDao implements TournamentDao {
         String sql = "SELECT * FROM tournament";
         List<Tournament> tournaments = new ArrayList<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(
+        try (Connection connection = dataBaseSource.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(
                 sql)) {
             while (resultSet.next()) {
                 tournaments.add(mapResultSetToTournament(resultSet));
@@ -79,7 +84,7 @@ public class SQLiteTournamentDao implements TournamentDao {
     public boolean delete(Tournament obj) {
         String sql = "DELETE FROM tournament WHERE tid = ?";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, obj.id());
             int affected = preparedStatement.executeUpdate();
@@ -95,7 +100,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 
         Tournament tournament = null;
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -115,7 +120,7 @@ public class SQLiteTournamentDao implements TournamentDao {
     public Optional<Tournament> increaseRound(Tournament tournament) {
         String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, tournament.currentRound() + 1);
             preparedStatement.setInt(2, tournament.id());

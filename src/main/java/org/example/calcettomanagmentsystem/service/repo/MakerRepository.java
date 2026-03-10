@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.connection.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.MatchMaker;
 import org.example.calcettomanagmentsystem.core.TeamMaker;
 import org.example.calcettomanagmentsystem.dao.MatchDao;
@@ -22,19 +22,23 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
     private MatchDao matchDao;
     private TeamDao teamDao;
 
+    private DataBaseSource dataBaseSource;
+
     private TeamMaker teamMaker;
     private MatchMaker matchMaker;
 
-    public MakerRepository(TeamMaker teamMaker,
-                           MatchMaker matchMaker,
-                           TeamDao teamDao,
+    public MakerRepository(TournamentDao tournamentDao,
                            MatchDao matchDao,
-                           TournamentDao tournamentDao) {
+                           TeamDao teamDao,
+                           DataBaseSource dataBaseSource,
+                           TeamMaker teamMaker,
+                           MatchMaker matchMaker) {
+        this.tournamentDao = tournamentDao;
+        this.matchDao = matchDao;
+        this.teamDao = teamDao;
+        this.dataBaseSource = dataBaseSource;
         this.teamMaker = teamMaker;
         this.matchMaker = matchMaker;
-        this.tournamentDao = tournamentDao;
-        this.teamDao = teamDao;
-        this.matchDao = matchDao;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
         List<Team> finalTeams = new ArrayList<>();
         List<Team> teams = teamMaker.makeTeams(players, teamSize);
 
-        try (Connection connection = SQLiteDB.getConnection()) {
+        try (Connection connection = dataBaseSource.getConnection()) {
             connection.setAutoCommit(false);
             try {
                 for (Team team : teams) {
@@ -66,7 +70,7 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
 
     private List<Match> generateMatches(Tournament tournament, List<Match> newMatches) {
         List<Match> finalMatches = new ArrayList<>();
-        try (Connection connection = SQLiteDB.getConnection()) {
+        try (Connection connection = dataBaseSource.getConnection()) {
             connection.setAutoCommit(false);
             for (int i = 0; i <= tournament.preRound(); i++) {
                 tournamentDao.increaseRound(tournament);

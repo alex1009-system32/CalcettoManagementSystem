@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.connection.DataBaseSource;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
 import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Player;
@@ -15,6 +15,12 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class SQLiteTeamDao implements TeamDao {
+    DataBaseSource dataBaseSource;
+
+    public SQLiteTeamDao(DataBaseSource dataBaseSource) {
+        this.dataBaseSource = dataBaseSource;
+    }
+
     private void mapResultSetToTeam(ResultSet rs, Map<Integer, Team> teamMap, Map<Integer, Tournament> tournamentCache) throws SQLException {
         int teamId = rs.getInt("tid");
         Team team = teamMap.computeIfAbsent(teamId, id -> {
@@ -61,7 +67,7 @@ public class SQLiteTeamDao implements TeamDao {
     public Optional<Team> save(Team obj) {
         String sql = "INSERT INTO team (team_name) VALUES (?)";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setString(1, obj.name());
 
@@ -84,7 +90,7 @@ public class SQLiteTeamDao implements TeamDao {
     public Team addPlayer(Team team, Player player) {
         String sql = "Update player set tid = ? where pid = ?";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, team.id());
             preparedStatement.setInt(2, player.id());
@@ -118,7 +124,7 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamMap = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql); ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -147,7 +153,7 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamMap = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, tournament.id());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -166,7 +172,7 @@ public class SQLiteTeamDao implements TeamDao {
     public boolean delete(Team obj) {
         String sql = "DELETE FROM team WHERE tid = ?";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
@@ -191,7 +197,7 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamMap = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, id);
 

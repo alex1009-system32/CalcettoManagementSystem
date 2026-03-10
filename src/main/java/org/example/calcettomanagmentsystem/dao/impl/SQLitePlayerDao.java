@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
+import org.example.calcettomanagmentsystem.connection.DataBaseSource;
 import org.example.calcettomanagmentsystem.dao.PlayerDao;
 import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Player;
@@ -23,6 +23,11 @@ import java.util.Optional;
  * @see PlayerDao
  */
 public class SQLitePlayerDao implements PlayerDao {
+    DataBaseSource dataBaseSource;
+
+    public SQLitePlayerDao(DataBaseSource dataBaseSource) {
+        this.dataBaseSource = dataBaseSource;
+    }
 
     private Player mapResultSetToPlayer(ResultSet rs) throws SQLException {
         Tournament tournament = new Tournament(rs.getInt("tid"),
@@ -41,7 +46,7 @@ public class SQLitePlayerDao implements PlayerDao {
     public Optional<Player> save(Player obj) {
         String sql = "INSERT INTO player (pname, pemail, trid) VALUES (?, ?, ?)";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setString(1, obj.name());
             preparedStatement.setString(2, obj.email());
@@ -66,7 +71,7 @@ public class SQLitePlayerDao implements PlayerDao {
     public boolean delete(Player obj) {
         String sql = "DELETE FROM player WHERE pid = ?";
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, obj.id());
             int affected = preparedStatement.executeUpdate();
@@ -81,7 +86,7 @@ public class SQLitePlayerDao implements PlayerDao {
         String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid";
         List<Player> players = new ArrayList<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); Statement statement = connection.createStatement()) {
+        try (Connection connection = dataBaseSource.getConnection(); Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
@@ -99,7 +104,7 @@ public class SQLitePlayerDao implements PlayerDao {
         String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid WHERE t.tid = ?";
         List<Player> players = new ArrayList<>();
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, tournament.id());
             ResultSet resultSet = preparedStatement.executeQuery(sql);
@@ -119,7 +124,7 @@ public class SQLitePlayerDao implements PlayerDao {
         String sql = "SELECT p.pid, p.pname, p.pemail, t.tid, t.tournament_name, t.start_date, t.duration, t.pre_round, t.current_round, t.max_team_size FROM player p JOIN tournament t ON t.tid = p.trid WHERE p.pid = ?";
         Player player = null;
 
-        try (Connection connection = SQLiteDB.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

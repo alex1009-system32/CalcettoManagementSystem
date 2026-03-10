@@ -20,7 +20,7 @@ import java.util.Properties;
  * @author Alex Kerschbamer
  * @version 0
  */
-public class SQLiteDB {
+public class SQLiteDB implements DataBaseSource {
     /**
      * Konfiguration aus {@code db.properties}, damit die URL austauschbar bleibt.
      */
@@ -29,9 +29,6 @@ public class SQLiteDB {
      * Singleton-Verbindung, um eine einheitliche Datenbank-Session zu nutzen.
      */
     private static java.sql.Connection connection;
-
-    private SQLiteDB() {
-    }
 
     static {
         try (InputStream inputStream = SQLiteDB.class.getResourceAsStream("/org/example/calcettomanagmentsystem/config/db.properties")) {
@@ -52,7 +49,7 @@ public class SQLiteDB {
      * @return aktive Verbindung zur Datenbank
      * @throws SQLException wenn der Verbindungsaufbau fehlschlägt
      */
-    public static synchronized Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             return DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
         }
@@ -67,8 +64,8 @@ public class SQLiteDB {
      *
      * @throws SQLException wenn das Schema nicht ausgeführt werden kann
      */
-    public static void init(){
-        try (Statement statement = getConnection().createStatement()) {
+    public void init() {
+        try (Statement statement = this.getConnection().createStatement()) {
             statement.executeUpdate(SQLReader.readFile(SQLScheamNavigation.SETUP));
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
@@ -80,7 +77,7 @@ public class SQLiteDB {
      *
      * @throws SQLException wenn das Test-Schema nicht ausgeführt werden kann
      */
-    public static void initTest(){
+    public void initTest(){
         try (Statement statement = getConnection().createStatement()) {
             statement.executeUpdate(SQLReader.readFile(SQLScheamNavigation.TEST_DB));
         } catch (SQLException | IOException e) {
