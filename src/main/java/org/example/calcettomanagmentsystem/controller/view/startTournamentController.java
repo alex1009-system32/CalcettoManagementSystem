@@ -125,7 +125,6 @@ public class startTournamentController implements Initializable {
         ServiceManager.getPlayerService().delete(player);
         updateList();
     }
-
     
     private void displayModal(Stage stage) {
         Stage modalStage = new Stage();
@@ -136,11 +135,11 @@ public class startTournamentController implements Initializable {
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(40));
 
-        VBox formCard = new VBox(25);
-        formCard.setMaxWidth(400);
-        formCard.getStyleClass().add("info-pane");
-        formCard.setPadding(new Insets(40));
-        formCard.setAlignment(Pos.TOP_LEFT);
+        VBox infoPane = new VBox(25);
+        infoPane.setMaxWidth(400);
+        infoPane.getStyleClass().add("info-pane");
+        infoPane.setAlignment(Pos.TOP_LEFT);
+        infoPane.setPadding(new Insets(40));
 
         Label title = new Label("Add New Player");
         title.getStyleClass().add("header-text");
@@ -185,11 +184,11 @@ public class startTournamentController implements Initializable {
             closeModal(modalStage);
         });
 
-        formCard.getChildren().addAll(header, nameGroup, emailGroup, addPlayerBtn, cancelBtn);
-        root.getChildren().add(formCard);
+        infoPane.getChildren().addAll(header, nameGroup, emailGroup, addPlayerBtn, cancelBtn);
+        root.getChildren().add(infoPane);
 
-        Scene scene = new Scene(root, 400, 500);
-        scene.getStylesheets().add(App.class.getResource("css/view/modal.css").toExternalForm());
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(App.class.getResource("css/modal/addPlayer.css").toExternalForm());
 
         modalStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);

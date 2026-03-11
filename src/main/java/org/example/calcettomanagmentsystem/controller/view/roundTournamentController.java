@@ -2,7 +2,6 @@ package org.example.calcettomanagmentsystem.controller.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -11,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,10 +20,7 @@ import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -50,36 +45,37 @@ public class roundTournamentController implements Initializable {
 
         for (List<Match> list : gorupedByMatchList) {
             FlowPane flowPane = new FlowPane();
-            flowPane.setOrientation(Orientation.VERTICAL);
+            flowPane.setOrientation(Orientation.HORIZONTAL);
             flowPane.setAlignment(Pos.TOP_CENTER);
-            flowPane.setColumnHalignment(HPos.CENTER);
+            flowPane.setHgap(20);
+            flowPane.setVgap(20);
+            flowPane.setPadding(new Insets(30));
+            flowPane.getStyleClass().add("main-container");
 
             for (Match match : list) {
-                Button button = new Button(match.toString());
-                button.setAlignment(Pos.CENTER);
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                button.setFont(new Font(13.0));
-                HBox.setHgrow(button, Priority.ALWAYS);
+                Button matchButton = new Button();
+                matchButton.setPrefSize(350, 80);
+                matchButton.getStyleClass().add("tournament-list-button");
 
-                button.setOnAction(e -> {
-                    openModal(match);
-                });
+                HBox matchContent = new HBox();
+                matchContent.setAlignment(Pos.CENTER);
+                matchContent.setSpacing(15);
+                matchContent.setPrefWidth(330);
 
-                HBox hbox = new HBox();
-                hbox.setPrefSize(300.0, 50.0);
-                hbox.getChildren().add(button);
+                Label matchInfo = new Label(createMatchName(match));
+                matchInfo.getStyleClass().add("label-major");
+                matchInfo.setFont(new Font("Segoe UI Semibold", 14));
 
-                Pane pane = new Pane();
-                pane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                pane.setMinSize(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-                pane.setPrefSize(300.0, 50.0);
-                pane.getChildren().add(hbox);
+                matchContent.getChildren().add(matchInfo);
+                matchButton.setGraphic(matchContent);
 
-                flowPane.getChildren().add(pane);
+                matchButton.setOnAction(e -> openModal(match));
+
+                flowPane.getChildren().add(matchButton);
             }
 
             Tab tab = new Tab();
-            tab.setText("Round: " + list.getFirst().round());
+            tab.setText("Round " + list.getFirst().round());
             tab.setContent(flowPane);
 
             matchOfRoundPane.getTabs().add(tab);
@@ -92,30 +88,32 @@ public class roundTournamentController implements Initializable {
     }
 
     private void openModal(Match match) {
-        displayModal((Stage) matchOfRoundPane.getScene().getWindow(),  match);
+        displayModal((Stage) matchOfRoundPane.getScene().getWindow(), match);
     }
 
     private void displayModal(Stage stage, Match match) {
         Stage modalStage = new Stage();
 
         VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
         root.setPrefSize(500.0, 700.0);
-        root.setPadding(new Insets(40.0));
         root.getStyleClass().add("main-container");
+        root.setAlignment(Pos.CENTER);
+        root.setPadding(new Insets(40.0));
 
         VBox infoPane = new VBox(25.0);
-        infoPane.setAlignment(Pos.TOP_LEFT);
         infoPane.setMaxWidth(400.0);
-        infoPane.setPadding(new Insets(40.0));
         infoPane.getStyleClass().add("info-pane");
+        infoPane.setAlignment(Pos.TOP_LEFT);
+        infoPane.setPadding(new Insets(40.0));
 
         VBox headerBox = new VBox(5.0);
         Label headerLabel = new Label("Update Match Scores");
+
         headerLabel.getStyleClass().add("header-text");
         Region emeraldLine = new Region();
         emeraldLine.setPrefSize(60.0, 4.0);
         emeraldLine.getStyleClass().add("emerald-line");
+
         headerBox.getChildren().addAll(headerLabel, emeraldLine);
 
         VBox teamsBox = new VBox(8.0);
@@ -132,8 +130,10 @@ public class roundTournamentController implements Initializable {
             Label label = new Label(entry.getKey().name());
             label.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(label, Priority.ALWAYS);
+            label.getStyleClass().add("label-major");
 
             TextField textField = new TextField();
+            textField.getStyleClass().add("custom-text-field");
             textField.setPromptText("points");
             textField.setPrefWidth(80.0);
             if (entry.getValue() != 0) {
@@ -166,6 +166,10 @@ public class roundTournamentController implements Initializable {
         root.getChildren().add(infoPane);
 
         Scene scene = new Scene(root);
+
+        scene.getStylesheets().add(App.class.getResource("css/modal/openMatch.css").toExternalForm());
+
+        modalStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
 
         modalStage.initStyle(StageStyle.TRANSPARENT);
@@ -175,9 +179,18 @@ public class roundTournamentController implements Initializable {
         modalStage.showAndWait();
     }
 
-
     private void closeModal(Stage stage) {
         stage.close();
+    }
+
+    private String createMatchName(Match match) {
+        List<String> names = new ArrayList<>();
+
+        for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
+            names.add(entry.getKey().name());
+        }
+
+        return String.join(" vs. ", names);
     }
 
     @FXML
