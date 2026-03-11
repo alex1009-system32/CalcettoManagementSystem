@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<VBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" stylesheets="@../../css/view/roundTournament-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.view.roundTournamentController">
+    <children>
+        <TabPane fx:id="matchOfRoundPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" styleClass="custom-tab-pane" />
 
-<VBox prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/view/roundTournamet-styles.css" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.calcettomanagmentsystem.controller.view.roundTournamentController">
-   <children>
-       <TabPane fx:id="matchOfRoundPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES" />
-      <GridPane alignment="CENTER" gridLinesVisible="true" prefHeight="200.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goBack" text="return" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#nextRound" text="nexRound" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-         </children>
-      </GridPane>
-   </children>
+        <HBox alignment="CENTER" spacing="30.0" prefHeight="120.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#goBack" text="Return" styleClass="btn-cancel" prefWidth="200.0" />
+                <Button mnemonicParsing="false" onAction="#nextRound" text="Next Round" styleClass="btn-emerald" prefWidth="200.0" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" top="20.0" />
+            </padding>
+        </HBox>
+    </children>
 </VBox>

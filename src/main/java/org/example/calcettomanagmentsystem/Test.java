@@ -34,7 +34,7 @@ public class Test {
 
         //SQLiteDB.initTest();
 
-        new SQLiteDB().initTest();
+        new SQLiteTeamDao(new SQLiteDB()).findAll().forEach(System.out::println);
 
     }
 
