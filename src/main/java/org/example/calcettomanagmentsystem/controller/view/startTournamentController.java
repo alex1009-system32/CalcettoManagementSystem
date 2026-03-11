@@ -52,28 +52,18 @@ public class startTournamentController implements Initializable {
         for (Player player : ServiceManager.getPlayerService().findAllOfTournament(ServiceManager.getTournament())) {
 
             Label pnameLabel = new Label(player.name());
-            pnameLabel.setAlignment(Pos.CENTER);
-            pnameLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            pnameLabel.getStyleClass().add("label-major");
+            pnameLabel.getStyleClass().addAll("label-major", "player-list-label");
             HBox.setHgrow(pnameLabel, Priority.ALWAYS);
 
             Label pemailLabel = new Label(player.email());
-            pemailLabel.setAlignment(Pos.CENTER);
-            pemailLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            pemailLabel.getStyleClass().add("label-major");
+            pemailLabel.getStyleClass().addAll("label-major", "player-list-label");
             HBox.setHgrow(pemailLabel, Priority.ALWAYS);
 
             Button deleteBtn = new Button("delete");
-            deleteBtn.setAlignment(Pos.CENTER);
-            deleteBtn.setMaxSize(50.0, 50.0);
-            deleteBtn.getStyleClass().add("cancel-button");
-            HBox.setHgrow(pemailLabel, Priority.ALWAYS);
+            deleteBtn.getStyleClass().addAll("btn-base", "btn-danger-outline", "player-list-delete-btn");
 
-            HBox hBox = new HBox();
-            hBox.setAlignment(Pos.CENTER);
-            hBox.setPrefHeight(50.0);
-            hBox.setPrefWidth(700.0);
-            hBox.getChildren().addAll(pnameLabel, pemailLabel, deleteBtn);
+            HBox hBox = new HBox(pnameLabel, pemailLabel, deleteBtn);
+            hBox.getStyleClass().add("player-list-hbox");
 
             Button playerButton = new Button();
             playerButton.getStyleClass().add("player-list-row");
@@ -98,15 +88,9 @@ public class startTournamentController implements Initializable {
         boolean result = true;
 
         if (nameField.getText().isEmpty()) {
-            nameField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
+            nameField.getStyleClass().add("text-field-error");
             result = false;
         }
-
-		/* Is Disabled
-		if (emailField.getText().isEmpty()) {
-			nameField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
-			result = false;
-		} */
 
         if (!result) {
             return;
@@ -130,61 +114,57 @@ public class startTournamentController implements Initializable {
         Stage modalStage = new Stage();
 
         VBox root = new VBox();
-        root.setPrefSize(500, 700);
-        root.getStyleClass().add("main-container");
-        root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(40));
+        root.getStyleClass().addAll("main-container", "modal-root");
 
-        VBox infoPane = new VBox(25);
-        infoPane.setMaxWidth(400);
-        infoPane.getStyleClass().add("info-pane");
-        infoPane.setAlignment(Pos.TOP_LEFT);
-        infoPane.setPadding(new Insets(40));
+        VBox infoPane = new VBox();
+        infoPane.getStyleClass().addAll("info-pane", "modal-info-pane");
 
         Label title = new Label("Add New Player");
         title.getStyleClass().add("header-text");
 
         Region accentLine = new Region();
-        accentLine.setMinWidth(60);
-        accentLine.setMaxWidth(60);
-        accentLine.setMinHeight(4);
         accentLine.getStyleClass().add("emerald-line");
 
-        VBox header = new VBox(5, title, accentLine);
+        VBox header = new VBox(title, accentLine);
+        header.getStyleClass().add("header-area");
 
-        VBox nameGroup = new VBox(8);
+        VBox nameGroup = new VBox();
+        nameGroup.getStyleClass().add("input-group");
         Label nameLabel = new Label("PLAYER NAME");
         nameLabel.getStyleClass().add("label-minor");
         TextField nameField = new TextField();
         nameField.setPromptText("Enter full name");
-        nameField.getStyleClass().add("custom-text-field");
+        nameField.getStyleClass().add("text-field-custom");
         nameGroup.getChildren().addAll(nameLabel, nameField);
 
-        VBox emailGroup = new VBox(8);
+        VBox emailGroup = new VBox();
+        emailGroup.getStyleClass().add("input-group");
         Label emailLabel = new Label("EMAIL ADDRESS");
         emailLabel.getStyleClass().add("label-minor");
         TextField emailField = new TextField("player@example.com");
         emailField.setDisable(true);
-        emailField.getStyleClass().add("custom-text-field");
+        emailField.getStyleClass().add("text-field-custom");
         emailGroup.getChildren().addAll(emailLabel, emailField);
 
         Button addPlayerBtn = new Button("Add Player");
-        addPlayerBtn.setMaxWidth(Double.MAX_VALUE);
-        addPlayerBtn.getStyleClass().add("btn-emerald");
+        addPlayerBtn.getStyleClass().addAll("btn-base", "btn-primary");
+        HBox.setHgrow(addPlayerBtn, Priority.ALWAYS);
 
         addPlayerBtn.setOnAction(e -> {
             create(modalStage, nameField, emailField);
         });
 
         Button cancelBtn = new Button("Cancel");
-        cancelBtn.setMaxWidth(Double.MAX_VALUE);
-        cancelBtn.getStyleClass().add("btn-cancel");
+        cancelBtn.getStyleClass().addAll("btn-base", "btn-outline");
+        HBox.setHgrow(cancelBtn, Priority.ALWAYS);
 
         cancelBtn.setOnAction(e -> {
             closeModal(modalStage);
         });
 
-        infoPane.getChildren().addAll(header, nameGroup, emailGroup, addPlayerBtn, cancelBtn);
+        VBox buttonBox = new VBox(15, addPlayerBtn, cancelBtn);
+
+        infoPane.getChildren().addAll(header, nameGroup, emailGroup, buttonBox);
         root.getChildren().add(infoPane);
 
         Scene scene = new Scene(root);

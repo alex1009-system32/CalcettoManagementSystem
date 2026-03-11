@@ -47,25 +47,19 @@ public class createTournamentController {
         boolean result = true;
 
         if (nameField.getText().isEmpty()) {
-            nameField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
+            nameField.getStyleClass().add("text-field-error");
             result = false;
         }
 
         if (durationField.getText().isEmpty()) {
-            durationField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
+            durationField.getStyleClass().add("text-field-error");
             result = false;
         }
 
         if (preRoundField.getText().isEmpty()) {
-            preRoundField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
+            preRoundField.getStyleClass().add("text-field-error");
             result = false;
         }
-
-		/* Is Disabled
-		if (teamSizeField.getText().isEmpty()) {
-			teamSizeField.setStyle("-fx-background-color: #fffafb; " + "-fx-border-color: #d63031;");
-			result = false;
-		} */
 
         if (!result) {
             return false;

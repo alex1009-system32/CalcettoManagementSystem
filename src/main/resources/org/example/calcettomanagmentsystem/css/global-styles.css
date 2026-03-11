@@ -4,16 +4,16 @@
   -fx-primary-light: #006100;
   -fx-secondary: #1e3d33;
   -fx-accent: #751011;
-  -fx-base: #00301E;
+  -fx-base: #00301e;
   -fx-surface: #ffffff;
   -fx-error: #87000;
   -fx-text-base: #2d3436;
   -fx-text-muted: #7f8c8d;
-  -fx-border-color-default: #004A18;
+  -fx-border-color-default: #004a18;
 
-  -fx-radius-lg: 15px;
-  -fx-radius-md: 10px;
-  -fx-radius-sm: 8px;
+  -fx-radius-lg: 20px;
+  -fx-radius-md: 15px;
+  -fx-radius-sm: 10px;
 
   -fx-font-family:
     "Segoe UI",
@@ -101,6 +101,24 @@
 .text-field-custom:disabled {
   -fx-background-color: #f5f6fa;
   -fx-opacity: 0.6;
+}
+
+.text-field-error {
+  -fx-background-color: #fffafb;
+  -fx-border-color: -fx-error;
+}
+
+/* Modal Styles */
+.modal-root {
+  -fx-pref-width: 500px;
+  -fx-pref-height: 700px;
+  -fx-padding: 40px;
+}
+
+.modal-info-pane {
+  -fx-max-width: 400px;
+  -fx-padding: 40px;
+  -fx-spacing: 25px;
 }
 
 /* Buttons */

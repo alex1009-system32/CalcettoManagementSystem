@@ -49,67 +49,39 @@ public class selectTournamentController implements Initializable {
 
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
             Label nameLabel = new Label(tournament.name());
-            nameLabel.setContentDisplay(ContentDisplay.RIGHT);
-            nameLabel.setMaxHeight(Double.MAX_VALUE);
-            nameLabel.setMaxWidth(Double.MAX_VALUE);
-            nameLabel.setOpaqueInsets(new Insets(10.0, 10.0, 10.0, 10.0));
-            nameLabel.setFont(new Font(15.0));
+            nameLabel.getStyleClass().add("tournament-card-label");
             HBox.setHgrow(nameLabel, Priority.ALWAYS);
 
             Label dateLabel = new Label(tournament.date().toString());
-            dateLabel.setContentDisplay(ContentDisplay.RIGHT);
-            dateLabel.setMaxHeight(Double.MAX_VALUE);
-            dateLabel.setMaxWidth(Double.MAX_VALUE);
-            dateLabel.setOpaqueInsets(new Insets(10.0, 10.0, 10.0, 10.0));
-            dateLabel.setFont(new Font(15.0));
+            dateLabel.getStyleClass().add("tournament-card-label");
             HBox.setHgrow(dateLabel, Priority.ALWAYS);
 
             Label durationLabel = new Label(String.valueOf(tournament.duration()));
-            durationLabel.setContentDisplay(ContentDisplay.RIGHT);
-            durationLabel.setMaxHeight(Double.MAX_VALUE);
-            durationLabel.setMaxWidth(Double.MAX_VALUE);
-            durationLabel.setOpaqueInsets(new Insets(10.0, 10.0, 10.0, 10.0));
-            durationLabel.setFont(new Font(15.0));
+            durationLabel.getStyleClass().add("tournament-card-label");
             HBox.setHgrow(durationLabel, Priority.ALWAYS);
 
-            HBox hbox = new HBox();
-            hbox.setAlignment(Pos.CENTER);
-            hbox.setFillHeight(false);
-            hbox.setMaxHeight(Double.MAX_VALUE);
-            hbox.setMaxWidth(Double.MAX_VALUE);
-            hbox.setStyle("-fx-padding: 10;");
-            hbox.getChildren().addAll(nameLabel, dateLabel, durationLabel);
+            HBox hbox = new HBox(nameLabel, dateLabel, durationLabel);
+            hbox.getStyleClass().add("tournament-card-hbox");
 
             Button tournamentButton = new Button();
-            tournamentButton.setPrefHeight(75.0);
-            tournamentButton.setPrefWidth(800.0);
             tournamentButton.getStyleClass().add("tournament-card");
             tournamentButton.setGraphic(hbox);
+
+            tournamentButton.setOnAction(e -> {
+                selectTournament(tournament);
+            });
 
             tournamentFlowPane.getChildren().add(tournamentButton);
 		}
 
         Label label = new Label("Add Tournament");
-        label.setAlignment(Pos.CENTER);
-        label.setMaxHeight(Double.MAX_VALUE);
-        label.setMaxWidth(Double.MAX_VALUE);
-        label.setFont(new Font(20.0));
         HBox.setHgrow(label, Priority.ALWAYS);
 
         HBox hBox = new HBox(label);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setMaxHeight(Double.MAX_VALUE);
-        hBox.setMaxWidth(Double.MAX_VALUE);
-        hBox.setStyle("-fx-padding: 10;");
+        hBox.getStyleClass().add("tournament-card-hbox");
 
         Button tournamentButton = new Button();
-        tournamentButton.setId("tournamentButton");
-        tournamentButton.setDepthTest(javafx.scene.DepthTest.DISABLE);
-        tournamentButton.setMaxWidth(Double.MAX_VALUE);
-        tournamentButton.setPrefHeight(75.0);
-        tournamentButton.setPrefWidth(700.0);
         tournamentButton.getStyleClass().add("add-tournament-card");
-
         tournamentButton.setGraphic(hBox);
         tournamentButton.setOnAction(event -> addTournament());
 

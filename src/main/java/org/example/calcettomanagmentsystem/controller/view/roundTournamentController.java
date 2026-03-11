@@ -45,26 +45,17 @@ public class roundTournamentController implements Initializable {
 
         for (List<Match> list : gorupedByMatchList) {
             FlowPane flowPane = new FlowPane();
-            flowPane.setOrientation(Orientation.HORIZONTAL);
-            flowPane.setAlignment(Pos.TOP_CENTER);
-            flowPane.setHgap(20);
-            flowPane.setVgap(20);
-            flowPane.setPadding(new Insets(30));
-            flowPane.getStyleClass().add("main-container");
+            flowPane.getStyleClass().addAll("main-container", "match-flow-pane");
 
             for (Match match : list) {
                 Button matchButton = new Button();
-                matchButton.setPrefSize(350, 80);
-                matchButton.getStyleClass().add("tournament-list-button");
+                matchButton.getStyleClass().addAll("tournament-list-button", "match-button");
 
                 HBox matchContent = new HBox();
-                matchContent.setAlignment(Pos.CENTER);
-                matchContent.setSpacing(15);
-                matchContent.setPrefWidth(330);
+                matchContent.getStyleClass().add("match-content-hbox");
 
                 Label matchInfo = new Label(createMatchName(match));
-                matchInfo.getStyleClass().add("label-major");
-                matchInfo.setFont(new Font("Segoe UI Semibold", 14));
+                matchInfo.getStyleClass().addAll("label-major", "match-info-label");
 
                 matchContent.getChildren().add(matchInfo);
                 matchButton.setGraphic(matchContent);
@@ -95,47 +86,38 @@ public class roundTournamentController implements Initializable {
         Stage modalStage = new Stage();
 
         VBox root = new VBox();
-        root.setPrefSize(500.0, 700.0);
-        root.getStyleClass().add("main-container");
-        root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(40.0));
+        root.getStyleClass().addAll("main-container", "modal-root");
 
-        VBox infoPane = new VBox(25.0);
-        infoPane.setMaxWidth(400.0);
-        infoPane.getStyleClass().add("info-pane");
-        infoPane.setAlignment(Pos.TOP_LEFT);
-        infoPane.setPadding(new Insets(40.0));
+        VBox infoPane = new VBox();
+        infoPane.getStyleClass().addAll("info-pane", "modal-info-pane");
 
-        VBox headerBox = new VBox(5.0);
         Label headerLabel = new Label("Update Match Scores");
-
         headerLabel.getStyleClass().add("header-text");
+
         Region emeraldLine = new Region();
-        emeraldLine.setPrefSize(60.0, 4.0);
         emeraldLine.getStyleClass().add("emerald-line");
 
-        headerBox.getChildren().addAll(headerLabel, emeraldLine);
+        VBox headerBox = new VBox(headerLabel, emeraldLine);
+        headerBox.getStyleClass().add("header-area");
 
-        VBox teamsBox = new VBox(8.0);
+        VBox teamsBox = new VBox();
+        teamsBox.getStyleClass().add("input-group");
         Label teamsLabel = new Label("Teams");
         teamsLabel.getStyleClass().add("label-minor");
 
         VBox rowsContainer = new VBox(10.0);
 
         for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-            HBox row = new HBox(10.0);
-            row.setAlignment(Pos.CENTER);
-            row.setPrefHeight(50.0);
+            HBox row = new HBox();
+            row.getStyleClass().add("match-update-row");
 
             Label label = new Label(entry.getKey().name());
-            label.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(label, Priority.ALWAYS);
             label.getStyleClass().add("label-major");
+            HBox.setHgrow(label, Priority.ALWAYS);
 
             TextField textField = new TextField();
-            textField.getStyleClass().add("custom-text-field");
-            textField.setPromptText("points");
-            textField.setPrefWidth(80.0);
+            textField.getStyleClass().addAll("text-field-custom", "match-update-field");
+            textField.setPromptText("pts");
             if (entry.getValue() != 0) {
                 textField.setText(String.valueOf(entry.getValue()));
             }
@@ -158,8 +140,8 @@ public class roundTournamentController implements Initializable {
         teamsBox.getChildren().addAll(teamsLabel, rowsContainer);
 
         Button cancelBtn = new Button("Close");
-        cancelBtn.setMaxWidth(Double.MAX_VALUE);
-        cancelBtn.getStyleClass().add("btn-cancel");
+        cancelBtn.getStyleClass().addAll("btn-base", "btn-outline");
+        HBox.setHgrow(cancelBtn, Priority.ALWAYS);
         cancelBtn.setOnAction(event -> modalStage.close());
 
         infoPane.getChildren().addAll(headerBox, teamsBox, cancelBtn);

@@ -1,49 +1,68 @@
 /* Specific styles for Start Tournament view */
 
 .stats-container {
-    -fx-padding: 20;
-    -fx-background-color: -fx-primary-light;
-    -fx-background-radius: -fx-radius-md;
+  -fx-padding: 20;
+  -fx-background-color: -fx-primary-light;
+  -fx-background-radius: -fx-radius-md;
 }
 
 .stat-item {
-    -fx-spacing: 2;
+  -fx-spacing: 2;
 }
 
 .label-major {
-    -fx-font-size: 16px;
-    -fx-text-fill: -fx-text-base;
-    -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 16px;
+  -fx-text-fill: -fx-text-base;
+  -fx-font-family: "Segoe UI Semibold";
 }
 
 .label-major-primary {
-    -fx-font-size: 16px;
-    -fx-text-fill: -fx-primary-dark;
-    -fx-font-family: "Segoe UI Bold";
+  -fx-font-size: 16px;
+  -fx-text-fill: -fx-primary-dark;
+  -fx-font-family: "Segoe UI Bold";
 }
 
 .player-grid {
-    -fx-alignment: TOP_CENTER;
-    -fx-background-color: transparent;
+  -fx-alignment: TOP_CENTER;
+  -fx-background-color: transparent;
+}
+
+/* Player list row styling */
+.player-list-hbox {
+  -fx-alignment: CENTER;
+  -fx-pref-height: 50;
+  -fx-pref-width: 700;
+}
+
+.player-list-label {
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+  -fx-max-height: infinity;
+}
+
+.player-list-delete-btn {
+  -fx-alignment: CENTER;
+  -fx-max-width: 50;
+  -fx-max-height: 50;
 }
 
 .footer-area {
-    -fx-background-color: -fx-surface;
-    -fx-border-color: #e0e6e4 transparent transparent transparent;
-    -fx-border-width: 1;
+  -fx-background-color: -fx-surface;
+  -fx-border-color: #e0e6e4 transparent transparent transparent;
+  -fx-border-width: 1;
 }
 
 /* Player card styles (if applicable) */
 .player-card {
-    -fx-background-color: -fx-surface;
-    -fx-background-radius: -fx-radius-md;
-    -fx-padding: 15;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.04), 10, 0, 0, 4);
-    -fx-min-width: 150;
+  -fx-background-color: -fx-surface;
+  -fx-background-radius: -fx-radius-md;
+  -fx-padding: 15;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 10, 0, 0, 4);
+  -fx-min-width: 150;
 }
 
 .player-card:hover {
-    -fx-border-color: -fx-primary;
-    -fx-border-radius: -fx-radius-md;
-    -fx-background-color: -fx-primary-light;
+  -fx-border-color: -fx-primary;
+  -fx-border-radius: -fx-radius-md;
+  -fx-background-color: -fx-primary-light;
 }
