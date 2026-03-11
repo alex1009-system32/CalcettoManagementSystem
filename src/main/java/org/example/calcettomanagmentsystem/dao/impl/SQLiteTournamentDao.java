@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.DataBaseSource;
+import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -21,19 +21,14 @@ public class SQLiteTournamentDao implements TournamentDao {
     }
 
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
-        return new Tournament(rs.getInt("tid"),
-                              rs.getString("tournament_name"),
-                              LocalDate.parse(rs.getString("start_date")),
-                              rs.getInt("duration"),
-                              rs.getInt("pre_round"),
-                              rs.getInt("current_round"),
-                              rs.getInt("max_team_size"));
+        return new Tournament(rs.getInt("tid"), rs.getString("tournament_name"),
+                              LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
+                              rs.getInt("pre_round"), rs.getInt("current_round"), rs.getInt("max_team_size"));
     }
 
     @Override
     public Optional<Tournament> save(@NotNull Tournament obj) {
-        String sql =
-                "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
         try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
@@ -48,13 +43,9 @@ public class SQLiteTournamentDao implements TournamentDao {
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
-                return Optional.of(new Tournament(resultSet.getInt(1),
-                                                  obj.name(),
-                                                  obj.date(),
-                                                  obj.duration(),
-                                                  obj.preRound(),
-                                                  obj.currentRound(),
-                                                  obj.maxTeamSize()));
+                return Optional.of(
+                        new Tournament(resultSet.getInt(1), obj.name(), obj.date(), obj.duration(), obj.preRound(),
+                                       obj.currentRound(), obj.maxTeamSize()));
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error Inserting Into tournament from the database", e);
@@ -117,16 +108,19 @@ public class SQLiteTournamentDao implements TournamentDao {
     }
 
     @Override
-    public Optional<Tournament> increaseRound(Tournament tournament) {
+    public Tournament increaseRound(Tournament tournament) {
         String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
 
         try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
-            preparedStatement.setInt(1, tournament.currentRound() + 1);
+            int newCurrentRound = tournament.currentRound() + 1;
+
+            preparedStatement.setInt(1, newCurrentRound);
             preparedStatement.setInt(2, tournament.id());
             preparedStatement.executeUpdate();
 
-            return findById(tournament.id());
+            return new Tournament(tournament.id(), tournament.name(), tournament.date(), tournament.duration(),
+                                  tournament.preRound(), newCurrentRound, tournament.maxTeamSize());
         } catch (SQLException e) {
             throw new DataAccessException("Error Inserting Into tournament from the database", e);
         }

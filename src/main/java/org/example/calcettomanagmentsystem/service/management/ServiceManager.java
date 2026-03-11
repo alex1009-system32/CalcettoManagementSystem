@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.management;
 
-import org.example.calcettomanagmentsystem.connection.DataBaseSource;
+import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.connection.SQLiteDB;
 import org.example.calcettomanagmentsystem.core.MatchMaker;
 import org.example.calcettomanagmentsystem.core.TeamMaker;

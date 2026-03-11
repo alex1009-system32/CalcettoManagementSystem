@@ -23,7 +23,7 @@ public class TournamentRepository implements org.example.calcettomanagmentsystem
 
     @Override
     public Optional<Tournament> increaseRound(Tournament tournament) {
-        return tournamentDao.increaseRound(tournament);
+        return Optional.ofNullable(tournamentDao.increaseRound(tournament));
     }
 
     @Override

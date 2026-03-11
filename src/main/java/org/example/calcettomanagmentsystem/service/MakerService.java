@@ -8,7 +8,6 @@ import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,17 +26,22 @@ public class MakerService {
     public List<Match> generateNextMatches(@NotNull Tournament tournament) {
         if (tournament.id() < 0) throw new ValidationException("tournament id must be greater than 0");
 
+
+        List<Match> matches;
         switch (tournament) {
             case Tournament t when t.currentRound() == 0 -> {
-                return generatePreRoundMatches(tournament);
+                matches = generatePreRoundMatches(tournament);
             }
             case Tournament t when t.preRound() == t.currentRound() -> {
-                return generateRoundMatchesAfterPreRounds(tournament);
+                matches = generateRoundMatchesAfterPreRounds(tournament);
             }
             default -> {
-                return generateRoundMatches(tournament);
+                matches = generateRoundMatches(tournament);
             }
         }
+        matches.forEach(System.out::println);
+
+        return matches;
     }
 
     private List<Match> generatePreRoundMatches(@NotNull Tournament tournament) {
@@ -48,7 +52,7 @@ public class MakerService {
     private List<Match> generateRoundMatchesAfterPreRounds(@NotNull Tournament tournament) {
         List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
 
-        if (checkMatches(matches)) throw new ValidationException("matches not finished");
+        if (!areAllRoundsCompleted(matches)) throw new ValidationException("matches not finished");
 
         return makerRepository.gerateRoundMatchesAfterPreRounds(tournament, matches);
     }
@@ -56,12 +60,12 @@ public class MakerService {
     private List<Match> generateRoundMatches(@NotNull Tournament tournament) {
         List<Match> matches = ServiceManager.getMatchService().findMatchesByTournamentInCurrentRound(tournament);
 
-        if (checkMatches(matches)) throw new ValidationException("matches not finished");
+        if (!areAllRoundsCompleted(matches)) throw new ValidationException("matches not finished");
 
         return makerRepository.gerateRoundMatches(tournament, matches);
     }
 
-    private boolean checkMatches(List<Match> matches) {
+    private boolean areAllRoundsCompleted(List<Match> matches) {
         for (Match match : matches) {
             for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
                 if (entry.getValue() < 0) {

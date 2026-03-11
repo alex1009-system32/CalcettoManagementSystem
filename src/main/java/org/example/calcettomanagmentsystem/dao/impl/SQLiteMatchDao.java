@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.DataBaseSource;
+import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.dao.MatchDao;
 import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.model.Match;

@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.connection;
+package org.example.calcettomanagmentsystem.connection.interfaces;
 
 import java.sql.Connection;
 import java.sql.SQLException;

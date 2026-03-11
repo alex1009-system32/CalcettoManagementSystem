@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.connection.DataBaseSource;
+import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.MatchMaker;
 import org.example.calcettomanagmentsystem.core.TeamMaker;
 import org.example.calcettomanagmentsystem.dao.MatchDao;
@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MakerRepository implements org.example.calcettomanagmentsystem.service.interfaces.MakerRepository {
     private TournamentDao tournamentDao;
@@ -50,8 +51,8 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
             connection.setAutoCommit(false);
             try {
                 for (Team team : teams) {
-                    Team finalTeam =
-                            teamDao.save(team).orElseThrow(() -> new DataAccessException("Team could not be saved"));
+                    Team finalTeam = teamDao.save(team)
+                            .orElseThrow(() -> new DataAccessException("Team could not be saved"));
                     for (Player player : team.players()) {
                         finalTeam = teamDao.addPlayer(finalTeam, player);
                     }
@@ -72,13 +73,19 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.serv
         List<Match> finalMatches = new ArrayList<>();
         try (Connection connection = dataBaseSource.getConnection()) {
             connection.setAutoCommit(false);
-            for (int i = 0; i <= tournament.preRound(); i++) {
-                tournamentDao.increaseRound(tournament);
+
+            if (tournament.currentRound() < tournament.preRound()) {
+                for (int i = 0; i < tournament.preRound(); i++) {
+                    tournament = tournamentDao.increaseRound(tournament);
+                }
+            } else {
+                tournament = tournamentDao.increaseRound(tournament);
             }
+
             try {
                 for (Match match : newMatches) {
-                    Match finalMatch =
-                            matchDao.save(match).orElseThrow(() -> new DataAccessException("Match could not be saved"));
+                    Match finalMatch = matchDao.save(match)
+                            .orElseThrow(() -> new DataAccessException("Match could not be saved"));
                     for (Team team : match.teamResults().keySet()) {
                         finalMatch = matchDao.registerTeam(team, finalMatch);
                     }
