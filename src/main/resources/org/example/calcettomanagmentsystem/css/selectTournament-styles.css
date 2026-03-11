@@ -1,11 +1,8 @@
-/* Specific styles for Select Tournament view */
-
 .tournament-grid {
     -fx-alignment: TOP_CENTER;
     -fx-background-color: transparent;
 }
 
-/* Card for adding a new tournament */
 .add-tournament-card {
     -fx-background-color: -fx-primary-light;
     -fx-border-color: -fx-primary-light;
@@ -17,7 +14,6 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
-/* Existing tournament cards */
 .tournament-card {
     -fx-background-color: -fx-surface;
     -fx-border-color: #e0e6e0;
