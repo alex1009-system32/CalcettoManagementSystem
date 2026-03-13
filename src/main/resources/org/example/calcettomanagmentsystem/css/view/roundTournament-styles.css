@@ -1,19 +1,17 @@
-/* Specific styles for Round Tournament view */
-
 .custom-tab-pane {
   -fx-background-color: transparent;
 }
 
 .custom-tab-pane .tab-header-area {
-  -fx-padding: 0 0 10 0;
+  -fx-padding: 0px 0px 10px 0px;
   -fx-background-color: transparent;
 }
 
 .custom-tab-pane .tab {
   -fx-background-color: -fx-surface;
-  -fx-background-insets: 0 5 0 5;
-  -fx-background-radius: 8 8 0 0;
-  -fx-padding: 10 25 10 25;
+  -fx-background-insets: 0px 5px 0px 5px;
+  -fx-background-radius: 8px 8px 0px 0px;
+  -fx-padding: 10px 25px 10px 25px;
   -fx-cursor: hand;
 }
 
@@ -26,7 +24,7 @@
 .custom-tab-pane .tab:selected {
   -fx-background-color: -fx-surface;
   -fx-border-color: -fx-primary;
-  -fx-border-width: 0 0 3 0;
+  -fx-border-width: 0px 0px 3px 0px;
 }
 
 .custom-tab-pane .tab:selected .tab-label {
@@ -35,27 +33,25 @@
 
 .custom-tab-pane .tab-content-area {
   -fx-background-color: -fx-surface;
-  -fx-background-radius: 0 0 -fx-radius-lg -fx-radius-lg;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 15, 0, 0, 5);
+  -fx-background-radius: 0px 0px 20px 20px;
 }
 
-/* Match list and button styling */
 .match-flow-pane {
-  -fx-hgap: 20;
-  -fx-vgap: 20;
-  -fx-padding: 30;
+  -fx-hgap: 20px;
+  -fx-vgap: 20px;
+  -fx-padding: 30px;
   -fx-alignment: TOP_CENTER;
 }
 
 .match-button {
-  -fx-pref-width: 350;
-  -fx-pref-height: 80;
+  -fx-pref-width: 350px;
+  -fx-pref-height: 80px;
 }
 
 .match-content-hbox {
   -fx-alignment: CENTER;
-  -fx-spacing: 15;
-  -fx-pref-width: 330;
+  -fx-spacing: 15px;
+  -fx-pref-width: 330px;
 }
 
 .match-info-label {
@@ -63,22 +59,21 @@
   -fx-font-size: 14px;
 }
 
-/* Modal specific styles */
 .match-update-row {
   -fx-alignment: CENTER;
-  -fx-pref-height: 50;
-  -fx-spacing: 10;
+  -fx-pref-height: 50px;
+  -fx-spacing: 10px;
 }
 
 .match-update-field {
-  -fx-pref-width: 80;
+  -fx-pref-width: 80px;
 }
 
 .btn-save {
   -fx-background-color: -fx-primary;
   -fx-text-fill: white;
   -fx-background-radius: -fx-radius-sm;
-  -fx-padding: 5 15;
+  -fx-padding: 5px 15px;
   -fx-cursor: hand;
 }
 
@@ -88,17 +83,17 @@
 
 .tournament-list-button {
   -fx-background-color: -fx-surface;
-  -fx-background-radius: -fx-radius-md;
+  -fx-background-radius: 15px;
   -fx-border-color: #d1f2eb;
-  -fx-border-width: 1.5;
-  -fx-border-radius: -fx-radius-md;
+  -fx-border-width: 1.5px;
+  -fx-border-radius: 15px;
   -fx-cursor: hand;
 }
 
 .tournament-list-button:hover {
   -fx-background-color: -fx-primary-light;
   -fx-border-color: -fx-primary;
-  -fx-translate-y: -2;
+  -fx-translate-y: -2px;
   -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.15), 15, 0, 0, 6);
 }
 

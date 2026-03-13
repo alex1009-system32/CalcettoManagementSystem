@@ -15,6 +15,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.12</version>
+        </dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21.0.6</version>
@@ -161,6 +166,9 @@
                             <mainClass>
                                 org.example.calcettomanagmentsystem/org.example.calcettomanagmentsystem.App
                             </mainClass>
+                            <options>
+                                <option>--enable-native-access=javafx.graphics,org.xerial.sqlitejdbc</option>
+                            </options>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

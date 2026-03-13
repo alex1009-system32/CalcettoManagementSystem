@@ -1,13 +1,11 @@
-/* Specific styles for Start Tournament view */
-
 .stats-container {
-  -fx-padding: 20;
+  -fx-padding: 20px;
   -fx-background-color: -fx-primary-light;
-  -fx-background-radius: -fx-radius-md;
+  -fx-background-radius: 15px;
 }
 
 .stat-item {
-  -fx-spacing: 2;
+  -fx-spacing: 2px;
 }
 
 .label-major {
@@ -27,11 +25,10 @@
   -fx-background-color: transparent;
 }
 
-/* Player list row styling */
 .player-list-hbox {
   -fx-alignment: CENTER;
-  -fx-pref-height: 50;
-  -fx-pref-width: 700;
+  -fx-pref-height: 50px;
+  -fx-pref-width: 700px;
 }
 
 .player-list-label {
@@ -42,27 +39,26 @@
 
 .player-list-delete-btn {
   -fx-alignment: CENTER;
-  -fx-max-width: 50;
-  -fx-max-height: 50;
+  -fx-max-width: 50px;
+  -fx-max-height: 50px;
 }
 
 .footer-area {
   -fx-background-color: -fx-surface;
   -fx-border-color: #e0e6e4 transparent transparent transparent;
-  -fx-border-width: 1;
+  -fx-border-width: 1px;
 }
 
-/* Player card styles (if applicable) */
 .player-card {
   -fx-background-color: -fx-surface;
-  -fx-background-radius: -fx-radius-md;
-  -fx-padding: 15;
+  -fx-background-radius: 15px;
+  -fx-padding: 15px;
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 10, 0, 0, 4);
-  -fx-min-width: 150;
+  -fx-min-width: 150px;
 }
 
 .player-card:hover {
   -fx-border-color: -fx-primary;
-  -fx-border-radius: -fx-radius-md;
+  -fx-border-radius: 15px;
   -fx-background-color: -fx-primary-light;
 }

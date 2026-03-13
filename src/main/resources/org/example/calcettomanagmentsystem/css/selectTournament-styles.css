@@ -1,34 +1,29 @@
-/* Specific styles for Select Tournament view */
-
 .tournament-grid {
   -fx-alignment: TOP_CENTER;
   -fx-background-color: transparent;
-  -fx-hgap: 20;
-  -fx-vgap: 20;
+  -fx-hgap: 20px;
+  -fx-vgap: 20px;
 }
 
-/* Card content HBox */
 .tournament-card-hbox {
   -fx-alignment: CENTER;
   -fx-fill-height: false;
-  -fx-padding: 10;
-  -fx-spacing: 15;
+  -fx-padding: 10px;
+  -fx-spacing: 15px;
 }
 
-/* Label for tournament name/date/duration */
 .tournament-card-label {
   -fx-font-size: 15px;
-  -fx-padding: 10;
+  -fx-padding: 10px;
   -fx-max-width: infinity;
   -fx-max-height: infinity;
 }
 
-/* Card for adding a new tournament */
 .add-tournament-card {
   -fx-background-color: -fx-primary-light;
   -fx-border-color: -fx-primary-light;
-  -fx-pref-height: 75;
-  -fx-pref-width: 700;
+  -fx-pref-height: 75px;
+  -fx-pref-width: 650px;
 }
 
 .add-tournament-card .label {
@@ -39,16 +34,15 @@
   -fx-max-width: infinity;
 }
 
-/* Existing tournament cards */
 .tournament-card {
-  -fx-background-color: -fx-surface;
-  -fx-border-color: #e0e6e0;
-  -fx-pref-height: 75;
-  -fx-pref-width: 800;
+  -fx-background-color: -fx-primary-dark;
+  -fx-pref-height: 75px;
+  -fx-pref-width: 650px;
 }
 
 .tournament-card:hover {
   -fx-background-color: -fx-primary-light;
+  -fx-border-color: -fx-secondary;
 }
 
 .tournament-card .label {

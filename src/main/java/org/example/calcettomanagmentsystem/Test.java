@@ -15,27 +15,7 @@ import java.util.List;
 
 
 public class Test {
-
-    
-    public static void main(String[] args) throws Exception {
-		/*
-		List<String> deck = new ArrayList<>();
-		deck.add("Ace");
-		deck.add("King");
-		deck.add("Queen");
-		deck.add("Jack");
-
-		// Shuffle the list
-		Collections.shuffle(deck);
-
-		System.out.println(deck);
-
-		 */
-
-        //SQLiteDB.initTest();
-
-        new SQLiteTeamDao(new SQLiteDB()).findAll().forEach(System.out::println);
-
+    static void main(String[] args) {
+        new SQLiteDB().initTest();
     }
-
 }
