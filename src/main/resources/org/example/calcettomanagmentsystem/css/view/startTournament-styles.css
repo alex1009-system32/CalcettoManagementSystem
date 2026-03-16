@@ -44,9 +44,7 @@
 }
 
 .footer-area {
-  -fx-background-color: -fx-surface;
-  -fx-border-color: #e0e6e4 transparent transparent transparent;
-  -fx-border-width: 1px;
+  -fx-background-color: transparent;
 }
 
 .player-card {

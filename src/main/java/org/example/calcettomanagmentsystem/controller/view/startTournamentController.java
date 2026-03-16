@@ -24,23 +24,21 @@ import java.util.ResourceBundle;
 
 
 public class startTournamentController implements Initializable {
-    
     @FXML
     private Label tournamentNameLabel;
-    
+
     @FXML
     private Label preRoundLabel;
-    
+
     @FXML
     private Label currentRoundLabel;
-    
+
     @FXML
     private Label maxTeamSizeLabel;
-    
+
     @FXML
     private FlowPane playerFlowPane;
 
-    
     private void updateList() {
         tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
@@ -72,6 +70,7 @@ public class startTournamentController implements Initializable {
 
             playerButton.setOnAction(e -> {
                 IO.println(player);
+                playerButton.getStyleClass().forEach(System.out::println);
             });
 
             deleteBtn.setOnAction(e -> {
@@ -83,7 +82,6 @@ public class startTournamentController implements Initializable {
 
     }
 
-    
     private void create(Stage stage, @NotNull TextField nameField, TextField emailField) {
         boolean result = true;
 
@@ -97,9 +95,7 @@ public class startTournamentController implements Initializable {
         }
 
         System.out.println(ServiceManager.getPlayerService()
-                                         .create(nameField.getText(),
-                                                 emailField.getText(),
-                                                 ServiceManager.getTournament()));
+                                   .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament()));
 
         updateList();
         stage.close();
@@ -109,7 +105,7 @@ public class startTournamentController implements Initializable {
         ServiceManager.getPlayerService().delete(player);
         updateList();
     }
-    
+
     private void displayModal(Stage stage) {
         Stage modalStage = new Stage();
 
@@ -179,7 +175,6 @@ public class startTournamentController implements Initializable {
         modalStage.showAndWait();
     }
 
-    
     private void closeModal(@NotNull Stage stage) {
         stage.close();
     }
@@ -191,19 +186,16 @@ public class startTournamentController implements Initializable {
         App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
     }
 
-    
     @FXML
     private void openModal() {
         displayModal((Stage) tournamentNameLabel.getScene().getWindow());
     }
 
-    
     @FXML
     private void goBack() {
         App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
     }
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (ServiceManager.getTournament() == null) App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
