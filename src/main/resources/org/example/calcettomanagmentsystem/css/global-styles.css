@@ -6,7 +6,7 @@
   -fx-accent: #751011;
   -fx-base: #00301e;
   -fx-surface: #ffffff;
-  -fx-error: #870000;
+  -fx-error: #7a0909;
   -fx-text-base: #f7e7ce;
   -fx-text-muted: #f7e7ce;
   -fx-border-color-default: #f7e7ce;
@@ -70,7 +70,7 @@
 }
 
 .text-field-custom {
-  -fx-background-color: -fx-surface;
+  -fx-background-color: -fx-primary;
   -fx-border-color: -fx-border-color-default;
   -fx-border-radius: 10px;
   -fx-background-radius: 10px;
@@ -80,13 +80,12 @@
 }
 
 .text-field-custom:focused {
-  -fx-border-color: -fx-primary;
-  -fx-background-color: -fx-primary-light;
-  -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.15), 8, 0, 0, 0);
+    -fx-background-color: -fx-primary-light;
+    -fx-border-color: -fx-border-color-default;
+    -fx-effect: dropshadow(three-pass-box, rgba(247, 231, 206, 0.4), 8, 0, 0, 0);
 }
 
 .text-field-custom:disabled {
-  -fx-background-color: #f5f6fa;
   -fx-opacity: 0.6;
 }
 
@@ -119,12 +118,14 @@
 }
 
 .btn-primary {
-  -fx-background-color: -fx-primary;
-  -fx-text-fill: white;
+  -fx-background-color: transparent;
+    -fx-border-color: -fx-border-color-default;
+    -fx-border-width: 1px;
+    -fx-text-fill: -fx-text-muted;
 }
 
 .btn-primary:hover {
-  -fx-background-color: -fx-primary-dark;
+  -fx-border-color: #126e39;
   -fx-translate-y: -1px;
   -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.3), 12, 0, 0, 4);
 }
@@ -132,8 +133,14 @@
 .btn-outline {
   -fx-background-color: transparent;
   -fx-border-color: -fx-border-color-default;
-  -fx-border-width: 1.5px;
+  -fx-border-width: 1px;
   -fx-text-fill: -fx-text-muted;
+}
+
+.btn-outline:hover {
+  -fx-border-color: -fx-error;
+  -fx-translate-y: -1px;
+  -fx-effect: dropshadow(three-pass-box, rgba(122, 9, 9, 4), 12, 0, 0, 4);
 }
 
 .btn-danger-outline {
@@ -141,6 +148,10 @@
   -fx-border-color: -fx-error;
   -fx-border-width: 1.5px;
   -fx-text-fill: -fx-error;
+}
+
+.nav-card {
+    -fx-border-radius: 20px , 0, 0, 20px;
 }
 
 /* ScrollPane */

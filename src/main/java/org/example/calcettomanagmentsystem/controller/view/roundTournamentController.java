@@ -69,6 +69,8 @@ public class roundTournamentController implements Initializable {
             tab.setText("Round " + list.getFirst().round());
             tab.setContent(flowPane);
 
+            tab.getStyleClass().addAll("custom-tab-pane");
+
             matchOfRoundPane.getTabs().add(tab);
         }
     }

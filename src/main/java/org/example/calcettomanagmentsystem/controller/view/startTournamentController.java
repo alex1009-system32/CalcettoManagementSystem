@@ -58,13 +58,13 @@ public class startTournamentController implements Initializable {
             HBox.setHgrow(pemailLabel, Priority.ALWAYS);
 
             Button deleteBtn = new Button("delete");
-            deleteBtn.getStyleClass().addAll("btn-base", "btn-danger-outline", "player-list-delete-btn");
+            deleteBtn.getStyleClass().addAll("btn-base", "player-list-delete-btn", "btn-outline");
 
             HBox hBox = new HBox(pnameLabel, pemailLabel, deleteBtn);
             hBox.getStyleClass().add("player-list-hbox");
 
             Button playerButton = new Button();
-            playerButton.getStyleClass().add("player-list-row");
+            playerButton.getStyleClass().add("player-card");
             playerButton.setMnemonicParsing(false);
             playerButton.setGraphic(hBox);
 

@@ -39,8 +39,13 @@
 
 .player-list-delete-btn {
   -fx-alignment: CENTER;
-  -fx-max-width: 50px;
+  -fx-max-width: infinity;
   -fx-max-height: 50px;
+
+  -fx-border-color: -fx-error;
+  -fx-border-width: 1.5px;
+
+  -fx-text-fill: -fx-error;
 }
 
 .footer-area {
@@ -48,15 +53,13 @@
 }
 
 .player-card {
-  -fx-background-color: -fx-surface;
-  -fx-background-radius: 15px;
-  -fx-padding: 15px;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.04), 10, 0, 0, 4);
-  -fx-min-width: 150px;
+    -fx-background-color: -fx-primary-dark;
+    -fx-pref-height: 75px;
+    -fx-pref-width: 650px;
+
 }
 
 .player-card:hover {
-  -fx-border-color: -fx-primary;
-  -fx-border-radius: 15px;
   -fx-background-color: -fx-primary-light;
+    -fx-border-color: -fx-secondary;
 }
