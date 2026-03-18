@@ -11,7 +11,7 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.time.LocalDate;
 
-public class TournamentCartController {
+public class TournamentCartController extends javafx.scene.control.Button {
 
     @FXML
     private Label nameLabel;

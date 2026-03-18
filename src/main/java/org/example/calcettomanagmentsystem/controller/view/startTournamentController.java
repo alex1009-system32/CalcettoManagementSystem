@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.components.PlayerCart;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
@@ -37,7 +38,7 @@ public class startTournamentController implements Initializable {
     @FXML
     private FlowPane playerFlowPane;
 
-    private void updateList() {
+    public void updateList() {
         tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
         currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
@@ -46,36 +47,8 @@ public class startTournamentController implements Initializable {
         playerFlowPane.getChildren().clear();
 
         for (Player player : ServiceManager.getPlayerService().findAllOfTournament(ServiceManager.getTournament())) {
-
-            Label pnameLabel = new Label(player.name());
-            pnameLabel.getStyleClass().addAll("label-major", "player-list-label");
-            HBox.setHgrow(pnameLabel, Priority.ALWAYS);
-
-            Label pemailLabel = new Label(player.email());
-            pemailLabel.getStyleClass().addAll("label-major", "player-list-label");
-            HBox.setHgrow(pemailLabel, Priority.ALWAYS);
-
-            Button deleteBtn = new Button("delete");
-            deleteBtn.getStyleClass().addAll("btn-base", "player-list-delete-btn", "btn-outline");
-
-            HBox hBox = new HBox(pnameLabel, pemailLabel, deleteBtn);
-            hBox.getStyleClass().add("player-list-hbox");
-
-            Button playerButton = new Button();
-            playerButton.getStyleClass().add("player-card");
-            playerButton.setMnemonicParsing(false);
-            playerButton.setGraphic(hBox);
-
-            playerButton.setOnAction(e -> {
-                IO.println(player);
-                playerButton.getStyleClass().forEach(System.out::println);
-            });
-
-            deleteBtn.setOnAction(e -> {
-                delete(player);
-            });
-
-            playerFlowPane.getChildren().add(playerButton);
+            PlayerCart playerCart = new PlayerCart(player, this::updateList);
+            playerFlowPane.getChildren().add(playerCart);
         }
 
     }

@@ -1,0 +1,13 @@
+.add-tournament-card {
+  -fx-background-color: -fx-primary-light;
+  -fx-border-color: -fx-primary-light;
+  -fx-pref-height: 75;
+  -fx-pref-width: 700;
+}
+.add-tournament-card .label {
+  -fx-font-size: 20px;
+  -fx-text-fill: -fx-secondary;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+}

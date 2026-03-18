@@ -1,0 +1,22 @@
+.player-list-hbox {
+  -fx-alignment: CENTER;
+  -fx-pref-height: 50px;
+  -fx-pref-width: 700px;
+}
+
+.player-list-label {
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+  -fx-max-height: infinity;
+}
+
+.player-list-delete-btn {
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+  -fx-max-height: 50px;
+
+  -fx-border-color: -fx-error;
+  -fx-border-width: 1.5px;
+
+  -fx-text-fill: -fx-error;
+}

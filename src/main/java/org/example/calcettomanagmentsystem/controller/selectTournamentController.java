@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.components.AddTournamentCart;
 import org.example.calcettomanagmentsystem.components.TournamentCart;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -42,24 +43,13 @@ public class selectTournamentController implements Initializable {
 	 */
 	private void updateList() {
 
-
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
             TournamentCart tournamentCart = new TournamentCart(tournament);
             tournamentFlowPane.getChildren().add(tournamentCart);
 		}
 
-        Label label = new Label("Add Tournament");
-        HBox.setHgrow(label, Priority.ALWAYS);
-
-        HBox hBox = new HBox(label);
-        hBox.getStyleClass().add("tournament-card-hbox");
-
-        Button tournamentButton = new Button();
-        tournamentButton.getStyleClass().add("add-tournament-card");
-        tournamentButton.setGraphic(hBox);
-        tournamentButton.setOnAction(event -> addTournament());
-
-        tournamentFlowPane.getChildren().add(tournamentButton);
+        AddTournamentCart addTournamentCart = new AddTournamentCart();
+        tournamentFlowPane.getChildren().add(addTournamentCart);
 	}
 
 	/**

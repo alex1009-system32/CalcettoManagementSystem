@@ -12,6 +12,8 @@ import org.example.calcettomanagmentsystem.App;
 public enum FXMLNavigator {
 
     TOURNAMENT_CART("/org/example/calcettomanagmentsystem/fxml/components/tournament-cart-component.fxml"),
+    ADD_TOURNAMENT_CART("/org/example/calcettomanagmentsystem/fxml/components/add-tournament-cart-component.fxml"),
+    PLAYER_CART("/org/example/calcettomanagmentsystem/fxml/components/player-cart-component.fxml"),
 
     ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
 	START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
