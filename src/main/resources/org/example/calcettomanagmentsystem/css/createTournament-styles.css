@@ -4,7 +4,7 @@
 
 .form-card {
     -fx-background-color: #ffffff;
-    -fx-background-radius: 15;
+    -fx-background-radius: 15px;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 20, 0, 0, 10);
 }
 
@@ -16,22 +16,22 @@
 
 .accent-line {
     -fx-background-color: #2ecc71;
-    -fx-background-radius: 5;
+    -fx-background-radius: 5px;
 }
 
 .input-label {
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
     -fx-text-fill: #7f8c8d;
-    -fx-padding: 0 0 5 0;
+    -fx-padding: 0px 0px 5px 0px;
 }
 
 .custom-text-field {
     -fx-background-color: #ffffff;
     -fx-border-color: #dcdde1;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 10;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
     -fx-font-size: 14px;
     -fx-text-fill: #2f3640;
 }
@@ -51,12 +51,11 @@
 
 .submit-button {
     -fx-background-color: #f0fff4;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
     -fx-border-color: #f0fff4;
-    -fx-padding: 12 0;
+    -fx-padding: 12px 0px;
     -fx-cursor: hand;
-    -fx-margin-top: 10;
 
     -fx-font-size: 16px;
     -fx-text-fill: #1e3d33;
@@ -66,7 +65,7 @@
 .submit-button:hover {
     -fx-background-color: #f0fff4;
     -fx-border-color: #2ecc71;
-    -fx-translate-y: -2;
+    -fx-translate-y: -2px;
     -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.2), 15, 0, 0, 6);
 }
 
@@ -78,12 +77,11 @@
 
 .cancel-button {
     -fx-background-color: #fffafb;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
     -fx-border-color: #fcfcfc;
-    -fx-padding: 12 0;
+    -fx-padding: 12px 0px;
     -fx-cursor: hand;
-    -fx-margin-top: 10;
 
     -fx-font-size: 16px;
     -fx-text-fill: #1e3d33;
@@ -93,7 +91,7 @@
 .cancel-button:hover {
     -fx-background-color: #fffafb;
     -fx-border-color: #d63031;
-    -fx-translate-y: -2;
+    -fx-translate-y: -2px;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 71, 87, 0.1), 5, 0, 0, 0);
 }
 

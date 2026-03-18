@@ -2,17 +2,21 @@ package org.example.calcettomanagmentsystem.controller.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
@@ -178,7 +182,7 @@ public class roundTournamentController implements Initializable {
 
     @FXML
     private void goBack() {
-        App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
+        App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
     }
 
     @Override

@@ -22,23 +22,21 @@ import java.util.ResourceBundle;
 
 
 public class startTournamentController implements Initializable {
-    
     @FXML
     private Label tournamentNameLabel;
-    
+
     @FXML
     private Label preRoundLabel;
-    
+
     @FXML
     private Label currentRoundLabel;
-    
+
     @FXML
     private Label maxTeamSizeLabel;
-    
+
     @FXML
     private FlowPane playerFlowPane;
 
-    
     private void updateList() {
         tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
@@ -58,18 +56,19 @@ public class startTournamentController implements Initializable {
             HBox.setHgrow(pemailLabel, Priority.ALWAYS);
 
             Button deleteBtn = new Button("delete");
-            deleteBtn.getStyleClass().addAll("btn-base", "btn-danger-outline", "player-list-delete-btn");
+            deleteBtn.getStyleClass().addAll("btn-base", "player-list-delete-btn", "btn-outline");
 
             HBox hBox = new HBox(pnameLabel, pemailLabel, deleteBtn);
             hBox.getStyleClass().add("player-list-hbox");
 
             Button playerButton = new Button();
-            playerButton.getStyleClass().add("player-list-row");
+            playerButton.getStyleClass().add("player-card");
             playerButton.setMnemonicParsing(false);
             playerButton.setGraphic(hBox);
 
             playerButton.setOnAction(e -> {
                 IO.println(player);
+                playerButton.getStyleClass().forEach(System.out::println);
             });
 
             deleteBtn.setOnAction(e -> {
@@ -81,7 +80,6 @@ public class startTournamentController implements Initializable {
 
     }
 
-    
     private void create(Stage stage, @NotNull TextField nameField, TextField emailField) {
         boolean result = true;
 
@@ -95,9 +93,7 @@ public class startTournamentController implements Initializable {
         }
 
         System.out.println(ServiceManager.getPlayerService()
-                                         .create(nameField.getText(),
-                                                 emailField.getText(),
-                                                 ServiceManager.getTournament()));
+                                   .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament()));
 
         updateList();
         stage.close();
@@ -107,7 +103,7 @@ public class startTournamentController implements Initializable {
         ServiceManager.getPlayerService().delete(player);
         updateList();
     }
-    
+
     private void displayModal(Stage stage) {
         Stage modalStage = new Stage();
 
@@ -177,7 +173,6 @@ public class startTournamentController implements Initializable {
         modalStage.showAndWait();
     }
 
-    
     private void closeModal(@NotNull Stage stage) {
         stage.close();
     }
@@ -189,19 +184,16 @@ public class startTournamentController implements Initializable {
         App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
     }
 
-    
     @FXML
     private void openModal() {
         displayModal((Stage) tournamentNameLabel.getScene().getWindow());
     }
 
-    
     @FXML
     private void goBack() {
         App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
     }
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (ServiceManager.getTournament() == null) App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);

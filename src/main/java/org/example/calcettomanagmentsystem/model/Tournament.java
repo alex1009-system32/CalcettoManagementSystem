@@ -15,6 +15,9 @@ import java.util.Objects;
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
  */
 public record Tournament(int id, String name, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
+    public Tournament(int id, String name, long duration, int preRound, int currentRound, int maxTeamSize) {
+        this(id, name, LocalDate.now(), duration, preRound, currentRound, maxTeamSize);
+    }
     public Tournament(int id, String name, long duration, int preRound, int maxTeamSize) {
         this(id, name, LocalDate.now(), duration, preRound, 0, maxTeamSize);
     }
