@@ -2,8 +2,6 @@ package org.example.calcettomanagmentsystem.controller.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
+import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -188,7 +186,7 @@ public class startTournamentController implements Initializable {
     private void startTournament() {
         ServiceManager.getMakerService().generateTeams(ServiceManager.getTournament());
         ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
-        App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
+        App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
     }
 
     
@@ -200,13 +198,13 @@ public class startTournamentController implements Initializable {
     
     @FXML
     private void goBack() {
-        App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
+        App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
     }
 
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (ServiceManager.getTournament() == null) App.setRoot(FxmlNavigation.SELECT_TOURNAMENT);
+        if (ServiceManager.getTournament() == null) App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
         updateList();
     }
 }

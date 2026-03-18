@@ -5,8 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
+import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class App extends Application {
 	/**
 	 * Initial root view so the app can start without controller-driven navigation.
 	 */
-	private static String root = FxmlNavigation.SELECT_TOURNAMENT.getPath();
+	private static String root = FXMLNavigator.SELECT_TOURNAMENT.getPath();
 
 	/**
 	 * Switches the active scene root to the specified view.
@@ -55,17 +54,17 @@ public class App extends Application {
 	 * changes without owning scene construction details.
 	 * </p>
 	 *
-	 * @param fxmlNavigation logical view identifier for the target screen
+	 * @param FXMLNavigator logical view identifier for the target screen
 	 * @throws RuntimeException if the FXML cannot be loaded
 	 */
-	public static void setRoot(@NotNull FxmlNavigation fxmlNavigation) {
+	public static void setRoot(@NotNull FXMLNavigator FXMLNavigator) {
 		try {
-			scene.setRoot(loadFXML(fxmlNavigation.getPath()));
+			scene.setRoot(loadFXML(FXMLNavigator.getPath()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		root = fxmlNavigation.toString();
+		root = FXMLNavigator.toString();
 	}
 
 	private static Parent loadFXML(String fxml) throws IOException {

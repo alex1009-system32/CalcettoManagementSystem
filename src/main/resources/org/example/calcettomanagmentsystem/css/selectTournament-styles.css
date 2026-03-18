@@ -8,12 +8,7 @@
 }
 
 /* Card content HBox */
-.tournament-card-hbox {
-  -fx-alignment: CENTER;
-  -fx-fill-height: false;
-  -fx-padding: 10;
-  -fx-spacing: 15;
-}
+
 
 /* Label for tournament name/date/duration */
 .tournament-card-label {
@@ -24,12 +19,7 @@
 }
 
 /* Card for adding a new tournament */
-.add-tournament-card {
-  -fx-background-color: -fx-primary-light;
-  -fx-border-color: -fx-primary-light;
-  -fx-pref-height: 75;
-  -fx-pref-width: 700;
-}
+
 
 .add-tournament-card .label {
   -fx-font-size: 20px;
@@ -39,20 +29,4 @@
   -fx-max-width: infinity;
 }
 
-/* Existing tournament cards */
-.tournament-card {
-  -fx-background-color: -fx-surface;
-  -fx-border-color: #e0e6e0;
-  -fx-pref-height: 75;
-  -fx-pref-width: 800;
-}
 
-.tournament-card:hover {
-  -fx-background-color: -fx-primary-light;
-}
-
-.tournament-card .label {
-  -fx-font-size: 18px;
-  -fx-text-fill: -fx-secondary;
-  -fx-font-family: "Segoe UI Semibold";
-}

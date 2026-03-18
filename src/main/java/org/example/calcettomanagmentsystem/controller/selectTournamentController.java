@@ -2,20 +2,16 @@ package org.example.calcettomanagmentsystem.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.navigation.FxmlNavigation;
+import org.example.calcettomanagmentsystem.components.TournamentCart;
+import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.DepthTest;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
@@ -29,7 +25,7 @@ import java.util.ResourceBundle;
  * </p>
  *
  * @see org.example.calcettomanagmentsystem.App
- * @see FxmlNavigation
+ * @see FXMLNavigator
  */
 public class selectTournamentController implements Initializable {
 	/**
@@ -48,30 +44,8 @@ public class selectTournamentController implements Initializable {
 
 
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
-            Label nameLabel = new Label(tournament.name());
-            nameLabel.getStyleClass().add("tournament-card-label");
-            HBox.setHgrow(nameLabel, Priority.ALWAYS);
-
-            Label dateLabel = new Label(tournament.date().toString());
-            dateLabel.getStyleClass().add("tournament-card-label");
-            HBox.setHgrow(dateLabel, Priority.ALWAYS);
-
-            Label durationLabel = new Label(String.valueOf(tournament.duration()));
-            durationLabel.getStyleClass().add("tournament-card-label");
-            HBox.setHgrow(durationLabel, Priority.ALWAYS);
-
-            HBox hbox = new HBox(nameLabel, dateLabel, durationLabel);
-            hbox.getStyleClass().add("tournament-card-hbox");
-
-            Button tournamentButton = new Button();
-            tournamentButton.getStyleClass().add("tournament-card");
-            tournamentButton.setGraphic(hbox);
-
-            tournamentButton.setOnAction(e -> {
-                selectTournament(tournament);
-            });
-
-            tournamentFlowPane.getChildren().add(tournamentButton);
+            TournamentCart tournamentCart = new TournamentCart(tournament);
+            tournamentFlowPane.getChildren().add(tournamentCart);
 		}
 
         Label label = new Label("Add Tournament");
@@ -96,9 +70,9 @@ public class selectTournamentController implements Initializable {
 		ServiceManager.setTournament(tournament);
 
 		if (tournament.currentRound() < 1) {
-			App.setRoot(FxmlNavigation.START_TOURNAMENT);
+			App.setRoot(FXMLNavigator.START_TOURNAMENT);
 		} else {
-			App.setRoot(FxmlNavigation.ROUND_TOURNAMENT);
+			App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
 		}
 	}
 
@@ -107,7 +81,7 @@ public class selectTournamentController implements Initializable {
 	 */
 	@FXML
 	protected void addTournament() {
-		App.setRoot(FxmlNavigation.CREATE_TOURNAMENT);
+		App.setRoot(FXMLNavigator.CREATE_TOURNAMENT);
 	}
 	/**
 	 * Initialisiert die Ansicht mit den aktuell verfügbaren Turnieren.

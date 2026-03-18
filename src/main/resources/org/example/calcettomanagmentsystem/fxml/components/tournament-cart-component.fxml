@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<fx:root type="javafx.scene.control.Button"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.TournamentCartController"
+         styleClass="tournament-card"
+         maxWidth="Infinity"
+        onAction="#click">
+
+    <stylesheets>
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/compounents/tournament-cart-styles.css"/>
+    </stylesheets>
+
+    <graphic>
+        <HBox styleClass="tournament-card-hbox" spacing="10" alignment="CENTER_LEFT">
+            <Label fx:id="nameLabel"
+                   styleClass="tournament-card-label"
+                   HBox.hgrow="ALWAYS"
+                   maxWidth="Infinity"/>
+            <Label fx:id="dateLabel"
+                   styleClass="tournament-card-label"
+                   HBox.hgrow="ALWAYS"
+                   maxWidth="Infinity"/>
+            <Label fx:id="durationLabel"
+                   styleClass="tournament-card-label"
+                   HBox.hgrow="ALWAYS"
+                   maxWidth="Infinity"/>
+        </HBox>
+    </graphic>
+</fx:root>

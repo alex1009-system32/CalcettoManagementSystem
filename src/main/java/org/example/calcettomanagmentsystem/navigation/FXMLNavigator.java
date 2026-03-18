@@ -9,9 +9,11 @@ import org.example.calcettomanagmentsystem.App;
  * all view identifiers in one place.
  * </p>
  */
-public enum FxmlNavigation {
+public enum FXMLNavigator {
 
-	ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
+    TOURNAMENT_CART("/org/example/calcettomanagmentsystem/fxml/components/tournament-cart-component.fxml"),
+
+    ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
 	START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
 
 	CREATE_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
@@ -27,7 +29,7 @@ public enum FxmlNavigation {
 	 *
 	 * @param fxmlPath classpath-relative resource path
 	 */
-	FxmlNavigation(String fxmlPath) {
+	FXMLNavigator(String fxmlPath) {
 		this.fxmlPath = fxmlPath;
 	}
 
