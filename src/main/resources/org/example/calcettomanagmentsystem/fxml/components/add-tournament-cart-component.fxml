@@ -5,9 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
-
-<!-- ToDo: Need to fix this fucking Bug -->
-
 <fx:root
         type="javafx.scene.control.Button"
         xmlns:fx="http://javafx.com/fxml/1"

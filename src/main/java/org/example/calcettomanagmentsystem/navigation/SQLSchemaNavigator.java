@@ -1,13 +1,13 @@
 package org.example.calcettomanagmentsystem.navigation;
 
-public enum SQLScheamNavigation {
+public enum SQLSchemaNavigator {
 
 	SETUP("/org/example/calcettomanagmentsystem/schemas/setup.sql"),
 	TEST_DB("/org/example/calcettomanagmentsystem/schemas/testDB.sql");
 
     private final String schemaPath;
 
-	SQLScheamNavigation(String schemaPath) {
+	SQLSchemaNavigator(String schemaPath) {
 		this.schemaPath = schemaPath;
 	}
 

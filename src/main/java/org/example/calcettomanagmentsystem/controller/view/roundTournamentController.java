@@ -2,14 +2,11 @@ package org.example.calcettomanagmentsystem.controller.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
+
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -163,16 +160,6 @@ public class roundTournamentController implements Initializable {
 
     private void closeModal(Stage stage) {
         stage.close();
-    }
-
-    private String createMatchName(Match match) {
-        List<String> names = new ArrayList<>();
-
-        for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-            names.add(entry.getKey().name());
-        }
-
-        return String.join(" vs. ", names);
     }
 
     @FXML
