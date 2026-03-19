@@ -1,12 +1,11 @@
 package org.example.calcettomanagmentsystem.controller.components;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import javafx.scene.control.Label;
 
 public class PlayerCartController {
     @FXML
