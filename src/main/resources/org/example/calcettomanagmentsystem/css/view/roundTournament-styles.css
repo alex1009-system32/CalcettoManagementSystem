@@ -72,34 +72,6 @@
   -fx-pref-width: 80px;
 }
 
-.btn-save {
-  -fx-background-color: -fx-primary;
-  -fx-text-fill: white;
-  -fx-background-radius: 5px; /* Replaced -fx-radius-sm with direct value if not defined */
-  -fx-padding: 5px 15px;
-  -fx-cursor: hand;
-}
-
-.btn-save:hover {
-  -fx-background-color: -fx-primary-dark;
-}
-
-.tournament-list-button {
-  -fx-background-color: -fx-surface;
-  -fx-background-radius: 15px;
-  -fx-border-color: -rt-border-light;
-  -fx-border-width: 1.5px;
-  -fx-border-radius: 15px;
-  -fx-cursor: hand;
-}
-
-.tournament-list-button:hover {
-  -fx-background-color: -fx-primary-light;
-  -fx-border-color: -fx-primary;
-  -fx-translate-y: -2px;
-  -fx-effect: dropshadow(three-pass-box, -rt-shadow-color, 15, 0, 0, 6);
-}
-
 .label-major {
   -fx-text-fill: -fx-text-base;
 }

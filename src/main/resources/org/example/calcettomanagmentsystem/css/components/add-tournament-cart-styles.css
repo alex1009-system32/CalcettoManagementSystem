@@ -1,9 +1,10 @@
 .add-tournament-card {
   -fx-background-color: -fx-primary-light;
   -fx-border-color: -fx-primary-light;
-  -fx-pref-height: 75;
-  -fx-pref-width: 700;
+  -fx-pref-height: 75px;
+  -fx-pref-width: 660px;
 }
+
 .add-tournament-card .label {
   -fx-font-size: 20px;
   -fx-text-fill: -fx-secondary;
@@ -11,3 +12,4 @@
   -fx-alignment: CENTER;
   -fx-max-width: infinity;
 }
+
