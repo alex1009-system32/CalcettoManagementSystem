@@ -20,8 +20,9 @@ import java.util.List;
 
 public class Test {
     static void main(String[] args) {
-        //new SQLiteDB().initTest();
+        new SQLiteDB().initTest();
 
+        /*
         Tournament tournament = new Tournament(1, "Tournament1", 22, 2, 2);
 
         Player p1 = new Player(1, "Player1", "p1@mail.org", tournament);
@@ -144,6 +145,6 @@ public class Test {
         List<Match> newMatches2 = maker.makeMatchesForRound(tournament2, matches2);
 
         newMatches2.forEach(System.out::println);
-
+        */
     }
 }

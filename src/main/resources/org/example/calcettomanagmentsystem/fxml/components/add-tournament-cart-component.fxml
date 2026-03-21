@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Priority?>
-<fx:root
-        type="javafx.scene.control.Button"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="org.example.calcettomanagmentsystem.controller.components.AddTournamentController"
-        onAction="#selectTournament"
-        styleClass="add-tournament-card">
+
+<fx:root onAction="#selectTournament" styleClass="add-tournament-card" type="javafx.scene.control.Button" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.calcettomanagmentsystem.controller.components.AddTournamentController">
+
     <stylesheets>
-        <String fx:value="@../../css/global-styles.css"/>
-        <String fx:value="@../../css/compounents/add-tournament.css"/>
+        <URL value="@../../css/global-styles.css" />
+        <URL value="@../../css/components/add-tournament-cart-styles.css" />
     </stylesheets>
 
     <graphic>
-        <HBox styleClass="tournament-card-hbox">
+        <HBox alignment="CENTER" styleClass="tournament-card-hbox">
             <children>
-                <Label text="Add Tournament"
-                       HBox.hgrow="ALWAYS"
-                       maxWidth="Infinity"/>
+                <Label maxWidth="Infinity" text="Add Tournament" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
     </graphic>
