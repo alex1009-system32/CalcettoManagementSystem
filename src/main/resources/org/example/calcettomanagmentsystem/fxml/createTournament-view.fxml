@@ -12,7 +12,7 @@
       stylesheets="@../css/global-styles.css"
       xmlns="http://javafx.com/fxml/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.calcettomanagmentsystem.controller.createTournamentController">
+      fx:controller="org.example.calcettomanagmentsystem.controller.CreateTournamentController">
 
     <children>
         <VBox maxWidth="500" spacing="25" styleClass="card">

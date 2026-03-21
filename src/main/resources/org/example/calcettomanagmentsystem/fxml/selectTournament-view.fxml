@@ -9,11 +9,13 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.selectTournamentController">
-   <stylesheets>
+<VBox prefHeight="800.0" prefWidth="1200.0" styleClass="main-container" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.SelectTournamentController">
+
+    <stylesheets>
        <URL value="@../css/global-styles.css" />
        <URL value="@../css/selectTournament-styles.css" />
    </stylesheets>
+
    <children>
       <VBox styleClass="header-area">
          <Label styleClass="header-title" text="Calcetto Management System" />

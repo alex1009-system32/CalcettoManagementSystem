@@ -14,7 +14,6 @@ public class PlayerCart extends Button {
 
     public PlayerCart(Player player, Runnable onActionCallback) {
         FXMLLoader loader = new FXMLLoader(AddTournamentCart.class.getResource(FXMLNavigator.PLAYER_CART.getPath()));
-        System.out.println(AddTournamentCart.class.getResource(FXMLNavigator.PLAYER_CART.getPath()));
         loader.setRoot(this);
 
         try {

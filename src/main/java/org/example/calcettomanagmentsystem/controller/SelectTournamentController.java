@@ -1,0 +1,36 @@
+package org.example.calcettomanagmentsystem.controller;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.FlowPane;
+import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.components.AddTournamentCart;
+import org.example.calcettomanagmentsystem.components.TournamentCart;
+import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.model.Tournament;
+
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class SelectTournamentController implements Initializable {
+
+	@FXML
+	private FlowPane tournamentFlowPane;
+
+	private void updateList() {
+		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
+            TournamentCart tournamentCart = new TournamentCart(tournament);
+            tournamentFlowPane.getChildren().add(tournamentCart);
+		}
+
+        AddTournamentCart addTournamentCart = new AddTournamentCart();
+        tournamentFlowPane.getChildren().add(addTournamentCart);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		updateList();
+	}
+}

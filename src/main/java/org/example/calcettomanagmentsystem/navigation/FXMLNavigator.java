@@ -19,11 +19,15 @@ public enum FXMLNavigator {
     MATCH_TAP("/org/example/calcettomanagmentsystem/fxml/components/match-pane-component.fxml"),
     MATCH_CART("/org/example/calcettomanagmentsystem/fxml/components/match-cart-component.fxml"),
 
-    ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
-	START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
+    ADD_PLAYER("/org/example/calcettomanagmentsystem/fxml/modal/addPlayer.fxml"),
+    MATCH_MODAL("/org/example/calcettomanagmentsystem/fxml/modal/matchModal.fxml"),
+    TEAM_POINT("/org/example/calcettomanagmentsystem/fxml/modal/teamPoint.fxml"),
 
-	CREATE_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
-	SELECT_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml");
+    ROUND_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/roundTournament-view.fxml"),
+    START_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/view/startTournament-view.fxml"),
+
+    CREATE_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/createTournament-view.fxml"),
+    SELECT_TOURNAMENT("/org/example/calcettomanagmentsystem/fxml/selectTournament-view.fxml");
 
 	/**
 	 * Classpath location of the FXML resource.

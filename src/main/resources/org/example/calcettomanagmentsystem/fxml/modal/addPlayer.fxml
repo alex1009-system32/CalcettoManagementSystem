@@ -5,8 +5,8 @@
 <?import java.net.URL?>
 
 <fx:root type="javafx.scene.layout.VBox"
-         fx:id="root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="org.example.calcettomanagmentsystem.controller.modal.addPlayerController"
+         xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.example.calcettomanagmentsystem.controller.modal.AddPlayerController"
          styleClass="main-container, modal-root">
 
     <stylesheets>
@@ -41,11 +41,11 @@
 
                 <VBox spacing="15">
                     <children>
-                        <Button fx:id="addPlayerBtn" text="Add Player" maxWidth="Infinity"
+                        <Button text="Add Player" maxWidth="Infinity"
                                 onAction="#create" styleClass="btn-base, btn-primary"
                                 VBox.vgrow="ALWAYS"/>
 
-                        <Button fx:id="cancelBtn" text="Cancel" maxWidth="Infinity"
+                        <Button text="Cancel" maxWidth="Infinity"
                                 onAction="#cancel" styleClass="btn-base, btn-outline"
                                 VBox.vgrow="ALWAYS"/>
                     </children>

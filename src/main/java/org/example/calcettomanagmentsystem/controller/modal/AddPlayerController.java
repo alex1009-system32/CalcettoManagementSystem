@@ -9,7 +9,7 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.util.function.Consumer;
 
-public class addPlayerController {
+public class AddPlayerController {
     @FXML
     private TextField nameField;
 
@@ -17,27 +17,31 @@ public class addPlayerController {
     private TextField emailField;
 
     private Stage stage;
-    private Consumer<Stage> onEditRequested;
+    private Runnable onSaveCallback;
+
     @FXML
     public void create() {
         try {
             ServiceManager.getPlayerService()
                     .create(nameField.getText(), emailField.getText(), ServiceManager.getTournament());
+
+            if (onSaveCallback != null) {
+                onSaveCallback.run();
+            }
+
             cancel();
         } catch (ValidationException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
         }
     }
 
-    public void setData(Stage stage, Consumer<Stage> onEditRequested) {
+    public void setData(Stage stage, Runnable onSaveCallback) {
         this.stage = stage;
-        this.onEditRequested = onEditRequested;
+        this.onSaveCallback = onSaveCallback;
     }
 
     @FXML
     void cancel() {
-        if(onEditRequested != null) {
-            onEditRequested.accept(this.stage);
-        }
+        stage.close();
     }
 }

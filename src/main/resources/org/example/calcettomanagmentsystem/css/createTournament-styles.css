@@ -37,7 +37,6 @@
 }
 
 .custom-text-field:focused {
-    -fx-border-color: #2ecc71;
     -fx-background-color: #f0fff4;
     -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.1), 5, 0, 0, 0);
 }

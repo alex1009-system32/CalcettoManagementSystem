@@ -6,7 +6,7 @@ import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
-public class createTournamentController {
+public class CreateTournamentController {
 
     /**
      * Feld für den Anzeigenamen des Turniers.

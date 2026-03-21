@@ -21,7 +21,12 @@ public class TournamentCartController extends javafx.scene.control.Button {
     @FXML
     private void click() {
         ServiceManager.setTournament(tournament);
-        App.setRoot(FXMLNavigator.START_TOURNAMENT);
+
+        if (tournament.currentRound() < 1) {
+            App.setRoot(FXMLNavigator.START_TOURNAMENT);
+        } else {
+            App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
+        }
     }
 
     public void setData(Tournament tournament) {

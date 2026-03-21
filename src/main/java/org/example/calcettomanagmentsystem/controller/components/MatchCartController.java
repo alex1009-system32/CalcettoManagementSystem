@@ -1,7 +1,15 @@
 package org.example.calcettomanagmentsystem.controller.components;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.components.MatchCart;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.jetbrains.annotations.NotNull;
@@ -9,18 +17,23 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
-public class MatchCartController {
+public class MatchCartController extends Button {
     @FXML
     private Label matchInfoLabel;
 
     private Match match;
-    private Runnable onActionCallback;
+    private Consumer<Match> onOpenRequested;
 
-    public void setData(@NotNull Match match, Runnable onActionCallback) {
+    public void setData(@NotNull Match match, Consumer<Match> onOpenRequested) {
+        this.match = match;
+        this.onOpenRequested = onOpenRequested;
 
+        matchInfoLabel.setText(createMatchName(match));
     }
 
+    // Dosen't belong here
     private String createMatchName(Match match) {
         List<String> names = new ArrayList<>();
         for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
@@ -31,8 +44,8 @@ public class MatchCartController {
 
     @FXML
     private void openModal() {
-        if (onActionCallback != null) {
-            onActionCallback.run();
+        if (onOpenRequested != null) {
+            onOpenRequested.accept(match);
         }
     }
 }

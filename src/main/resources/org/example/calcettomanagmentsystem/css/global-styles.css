@@ -50,6 +50,12 @@
   -fx-text-fill: -fx-secondary;
 }
 
+.subheader-title {
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 20px;
+  -fx-text-fill: -fx-secondary;
+}
+
 .accent-line {
   -fx-background-color: -fx-accent;
   -fx-background-radius: 15px;
