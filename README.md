@@ -51,7 +51,7 @@ src/main/resources/
 ### Steps
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/CalcettoManagementSystem.git
+   git clone https://github.com/alex1009-system32/CalcettoManagementSystem.git
    cd CalcettoManagementSystem
    ```
 
