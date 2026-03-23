@@ -53,7 +53,7 @@ public class SQLiteDB implements DataBaseSource {
      */
     public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            return DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
+            connection = DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
         }
         return connection;
     }
