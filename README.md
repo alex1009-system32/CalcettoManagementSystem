@@ -2,7 +2,7 @@
 
 A professional JavaFX-based desktop application designed to manage amateur football (calcetto) tournaments efficiently. The system handles everything from tournament creation and player registration to automated team generation and match scheduling.
 
-## 🚀 Features
+## Features
 
 - **Tournament Management**: Create and track multiple tournaments with specific durations and rules.
 - **Player & Team Management**: Register players and automatically generate balanced teams.
@@ -12,7 +12,7 @@ A professional JavaFX-based desktop application designed to manage amateur footb
 - **Persistent Storage**: Robust data management using SQLite and JDBC.
 - **Asynchronous Processing**: Optimized performance for database operations.
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Language**: Java 21+
 - **UI Framework**: JavaFX 21
@@ -25,7 +25,7 @@ A professional JavaFX-based desktop application designed to manage amateur footb
   - `SQLite-JDBC` for database connectivity.
   - `JUnit 5` & `Mockito` for testing.
 
-## 📦 Project Structure
+## Project Structure
 
 ```text
 src/main/java/org/example/calcettomanagmentsystem/
@@ -42,7 +42,7 @@ src/main/resources/
 └── sql/           # Database schema and initialization scripts
 ```
 
-## ⚙️ Installation
+## Installation
 
 ### Prerequisites
 - JDK 21 or higher
@@ -65,13 +65,10 @@ src/main/resources/
    mvn javafx:run
    ```
 
-## 📖 Usage
+## Usage
 
 1. **Start Application**: Launch the app via the main class `App.java`.
 2. **Create Tournament**: Navigate to "Create Tournament", enter the name, start date, and max team size.
 3. **Add Players**: Register players for the active tournament.
 4. **Generate Teams**: Use the automated shuffler to create balanced teams.
 5. **Manage Matches**: Start the tournament to generate the first round of matches and record results.
-
-## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
