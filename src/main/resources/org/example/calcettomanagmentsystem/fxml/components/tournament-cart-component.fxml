@@ -5,18 +5,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root maxWidth="Infinity" onAction="#click" styleClass="tournament-card" type="javafx.scene.control.Button" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.components.TournamentCartController">
+<fx:root maxWidth="Infinity" onAction="#click" styleClass="tournament-card" type="javafx.scene.control.Button"
+         xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.TournamentCartController">
 
     <stylesheets>
-        <URL value="@../../css/global-styles.css" />
-        <URL value="@../../css/components/tournamnet-cart-styles.css" />
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/components/tournamnet-cart-styles.css"/>
     </stylesheets>
 
     <graphic>
         <HBox alignment="CENTER_LEFT" spacing="10" styleClass="tournament-card-hbox">
-            <Label fx:id="nameLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS" />
-            <Label fx:id="dateLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS" />
-            <Label fx:id="durationLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS" />
+            <Label fx:id="nameLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="dateLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="durationLabel" styleClass="tournament-card-label" text="Test" HBox.hgrow="ALWAYS"/>
         </HBox>
     </graphic>
 </fx:root>

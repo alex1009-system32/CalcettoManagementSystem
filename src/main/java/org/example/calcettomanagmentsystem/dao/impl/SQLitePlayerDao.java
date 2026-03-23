@@ -30,12 +30,9 @@ public class SQLitePlayerDao implements PlayerDao {
     }
 
     private Player mapResultSetToPlayer(ResultSet rs) throws SQLException {
-        Tournament tournament = new Tournament(rs.getInt("tid"),
-                                               rs.getString("tournament_name"),
-                                               LocalDate.parse(rs.getString("start_date")),
-                                               rs.getInt("duration"),
-                                               rs.getInt("pre_round"),
-                                               rs.getInt("current_round"),
+        Tournament tournament = new Tournament(rs.getInt("tid"), rs.getString("tournament_name"),
+                                               LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
+                                               rs.getInt("pre_round"), rs.getInt("current_round"),
                                                rs.getInt("max_team_size"));
 
         return new Player(rs.getInt("pid"), rs.getString("pname"), rs.getString("pemail"), tournament);

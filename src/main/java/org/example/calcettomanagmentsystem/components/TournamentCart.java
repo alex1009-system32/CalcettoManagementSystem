@@ -9,7 +9,7 @@ import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import java.io.IOException;
 
 public class TournamentCart extends Button {
-    TournamentCartController tournamentCartController;
+    private final TournamentCartController tournamentCartController;
 
     public TournamentCart(Tournament tournament) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.TOURNAMENT_CART.getPath()));

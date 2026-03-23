@@ -3,9 +3,7 @@ package org.example.calcettomanagmentsystem.controller.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -17,7 +15,6 @@ import org.example.calcettomanagmentsystem.modal.AddPlayer;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,7 +36,7 @@ public class StartTournamentController implements Initializable {
     @FXML
     private FlowPane playerFlowPane;
 
-    public void updateList() {
+    public void update() {
         tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
         currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
@@ -48,7 +45,7 @@ public class StartTournamentController implements Initializable {
         playerFlowPane.getChildren().clear();
 
         for (Player player : ServiceManager.getPlayerService().findAllOfTournament(ServiceManager.getTournament())) {
-            PlayerCart playerCart = new PlayerCart(player, this::updateList);
+            PlayerCart playerCart = new PlayerCart(player, this::update);
             playerFlowPane.getChildren().add(playerCart);
         }
 
@@ -59,7 +56,7 @@ public class StartTournamentController implements Initializable {
 
         modalStage.initOwner(stage);
 
-        AddPlayer root = new AddPlayer(modalStage, this::updateList);
+        AddPlayer root = new AddPlayer(modalStage, this::update);
         Scene scene = new Scene(root);
 
         modalStage.initStyle(StageStyle.TRANSPARENT);
@@ -91,6 +88,6 @@ public class StartTournamentController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (ServiceManager.getTournament() == null) App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
-        updateList();
+        update();
     }
 }

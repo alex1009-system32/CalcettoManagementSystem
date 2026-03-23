@@ -19,77 +19,75 @@ import java.io.IOException;
  * </p>
  */
 public class App extends Application {
-	/**
-	 * Shared scene instance to allow root swaps without recreating the window.
-	 */
-	private static Scene scene;
+    /**
+     * Shared scene instance to allow root swaps without recreating the window.
+     */
+    private static Scene scene;
 
-	/**
-	 * Default initial width chosen to match the target layout baseline.
-	 */
-	private final int WIDTH = 1500;
-	/**
-	 * Default initial height chosen to match the target layout baseline.
-	 */
-	private final int HEIGHT = 900;
+    /**
+     * Default initial width chosen to match the target layout baseline.
+     */
+    private final int WIDTH = 1500;
+    /**
+     * Default initial height chosen to match the target layout baseline.
+     */
+    private final int HEIGHT = 900;
 
-	/**
-	 * Minimum width to avoid layout breakage in core views.
-	 */
-	private final int MIN_WIDTH = 1500;
-	/**
-	 * Minimum height to avoid layout breakage in core views.
-	 */
-	private final int MIN_HEIGHT = 800;
+    /**
+     * Minimum width to avoid layout breakage in core views.
+     */
+    private final int MIN_WIDTH = 1500;
+    /**
+     * Minimum height to avoid layout breakage in core views.
+     */
+    private final int MIN_HEIGHT = 800;
 
-	/**
-	 * Initial root view so the app can start without controller-driven navigation.
-	 */
-	private static String root = FXMLNavigator.SELECT_TOURNAMENT.getPath();
+    /**
+     * Initial root view so the app can start without controller-driven navigation.
+     */
+    private static String root = FXMLNavigator.SELECT_TOURNAMENT.getPath();
 
-	/**
-	 * Switches the active scene root to the specified view.
-	 * <p>
-	 * This keeps navigation consistent and allows controllers to request view
-	 * changes without owning scene construction details.
-	 * </p>
-	 *
-	 * @param FXMLNavigator logical view identifier for the target screen
-	 * @throws RuntimeException if the FXML cannot be loaded
-	 */
-	public static void setRoot(@NotNull FXMLNavigator FXMLNavigator) {
-		try {
-			scene.setRoot(loadFXML(FXMLNavigator.getPath()));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+    /**
+     * Switches the active scene root to the specified view.
+     * <p>
+     * This keeps navigation consistent and allows controllers to request view
+     * changes without owning scene construction details.
+     * </p>
+     *
+     * @param FXMLNavigator logical view identifier for the target screen
+     * @throws RuntimeException if the FXML cannot be loaded
+     */
+    public static void setRoot(@NotNull FXMLNavigator FXMLNavigator) {
+        try {
+            scene.setRoot(loadFXML(FXMLNavigator.getPath()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-		root = FXMLNavigator.toString();
-	}
+        root = FXMLNavigator.toString();
+    }
 
-	private static Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
-		return fxmlLoader.load();
-	}
-	/**
-	 * Bootstraps the primary stage with the initial view and window constraints.
-	 *
-	 * @param stage primary stage created by JavaFX
-	 * @throws IOException if the initial FXML cannot be loaded
-	 */
-	@Override
-	public void start(@NotNull Stage stage) throws IOException {
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
+        return fxmlLoader.load();
+    }
 
-		scene = new Scene(
-				loadFXML(root),
-				WIDTH,
-				HEIGHT);
+    /**
+     * Bootstraps the primary stage with the initial view and window constraints.
+     *
+     * @param stage primary stage created by JavaFX
+     * @throws IOException if the initial FXML cannot be loaded
+     */
+    @Override
+    public void start(@NotNull Stage stage) throws IOException {
+
+        scene = new Scene(loadFXML(root), WIDTH, HEIGHT);
 
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
 
-		stage.setMaximized(false);
-		stage.setScene(scene);
-		stage.show();
-	}
+        stage.setMaximized(false);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

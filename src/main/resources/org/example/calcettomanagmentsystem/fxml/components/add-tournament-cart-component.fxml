@@ -5,17 +5,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root onAction="#selectTournament" styleClass="add-tournament-card" type="javafx.scene.control.Button" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="org.example.calcettomanagmentsystem.controller.components.AddTournamentController">
+<fx:root onAction="#selectTournament" styleClass="add-tournament-card" type="javafx.scene.control.Button"
+         xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.AddTournamentController">
 
     <stylesheets>
-        <URL value="@../../css/global-styles.css" />
-        <URL value="@../../css/components/add-tournament-cart-styles.css" />
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/components/add-tournament-cart-styles.css"/>
     </stylesheets>
 
     <graphic>
         <HBox alignment="CENTER" styleClass="tournament-card-hbox">
             <children>
-                <Label maxWidth="Infinity" text="Add Tournament" HBox.hgrow="ALWAYS" />
+                <Label maxWidth="Infinity" text="Add Tournament" HBox.hgrow="ALWAYS"/>
             </children>
         </HBox>
     </graphic>

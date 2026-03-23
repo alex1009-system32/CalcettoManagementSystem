@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 public class MatchCart extends Button {
-    MatchCartController matchCartController;
+    private final MatchCartController matchCartController;
 
     public MatchCart(Match match, Consumer<Match> onOpenRequested) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.MATCH_CART.getPath()));

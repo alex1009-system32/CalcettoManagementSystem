@@ -10,7 +10,7 @@ import org.example.calcettomanagmentsystem.model.Team;
 
 import java.util.Map;
 
-public class MatchModalController {
+public class MatchModalController extends VBox {
     @FXML
     private FlowPane teamFlowPane;
 

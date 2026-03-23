@@ -27,8 +27,7 @@ public class PlayerService {
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"))
             throw new ValidationException("Player name cannot contain Special Characters");
 
-        return playerRepository.save(new Player(name, email, tournament))
-                               .orElse(null);
+        return playerRepository.save(new Player(name, email, tournament)).orElse(null);
     }
 
     public boolean delete(@NotNull Player player) {
@@ -45,8 +44,8 @@ public class PlayerService {
         if (tournament.id() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
         return playerRepository.findAll()
-                               .stream()
-                               .filter(player -> player.tournament().id() == tournament.id())
-                               .toList();
+                .stream()
+                .filter(player -> player.tournament().id() == tournament.id())
+                .toList();
     }
 }

@@ -3,10 +3,8 @@ package org.example.calcettomanagmentsystem.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
-import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.components.AddTournamentCart;
 import org.example.calcettomanagmentsystem.components.TournamentCart;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.model.Tournament;
 
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
@@ -19,7 +17,7 @@ public class SelectTournamentController implements Initializable {
 	@FXML
 	private FlowPane tournamentFlowPane;
 
-	private void updateList() {
+	private void update() {
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {
             TournamentCart tournamentCart = new TournamentCart(tournament);
             tournamentFlowPane.getChildren().add(tournamentCart);
@@ -31,6 +29,6 @@ public class SelectTournamentController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		updateList();
+		update();
 	}
 }

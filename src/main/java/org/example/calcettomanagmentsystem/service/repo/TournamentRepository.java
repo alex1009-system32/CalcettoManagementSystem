@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TournamentRepository implements org.example.calcettomanagmentsystem.service.interfaces.TournamentRepository {
-    private TournamentDao tournamentDao;
+    private final TournamentDao tournamentDao;
 
     public TournamentRepository(TournamentDao tournamentDao) {
         this.tournamentDao = tournamentDao;

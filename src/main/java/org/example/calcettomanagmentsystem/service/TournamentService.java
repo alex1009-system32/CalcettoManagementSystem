@@ -23,13 +23,15 @@ public class TournamentService {
         if (!name.matches("^[a-zA-Z0-9]*$")) throw new ValidationException("Name enthält ungültige Sonderzeichen");
         if (maxTeamSize < 1) throw new ValidationException("Ein Team braucht mindestens 2 Spieler");
 
-        return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize)).orElseThrow(() -> new DataAccessException("Could not save tournament"));
+        return tournamentRepository.save(new Tournament(name, duration, preRound, maxTeamSize))
+                .orElseThrow(() -> new DataAccessException("Could not save tournament"));
     }
 
     public Tournament increaseRound(Tournament tournament) {
         if (tournament.id() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
-        return tournamentRepository.increaseRound(tournament).orElseThrow(() -> new DataAccessException("Could not find tournament"));
+        return tournamentRepository.increaseRound(tournament)
+                .orElseThrow(() -> new DataAccessException("Could not find tournament"));
     }
 
     public boolean delete(@NotNull Tournament tournament) {

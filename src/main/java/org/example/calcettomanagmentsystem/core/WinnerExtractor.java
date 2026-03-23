@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WinnerExtractor {
-    
+
     @Deprecated
     @NotNull
     public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
@@ -31,12 +31,9 @@ public class WinnerExtractor {
         }
 
         Map<Team, Double> sortedMap = teams.entrySet()
-                                           .stream()
-                                           .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
-                                           .collect(Collectors.toMap(Map.Entry::getKey,
-                                                                     Map.Entry::getValue,
-                                                                     (e1, e2) -> e1,
-                                                                     LinkedHashMap::new));
+                .stream()
+                .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         sortingOut:
         {
@@ -54,14 +51,9 @@ public class WinnerExtractor {
     public List<Team> getAllWinners(List<Match> matches) {
         List<Team> list = new LinkedList<>();
         Map<Team, Double> teams = matches.stream()
-                                         .map(match -> match.teamResults()
-                                                            .entrySet()
-                                                            .stream()
-                                                            .max(Map.Entry.comparingByValue()))
-                                         .flatMap(Optional::stream)
-                                         .collect(Collectors.toMap(Map.Entry::getKey,
-                                                                   Map.Entry::getValue,
-                                                                   Double::max));
+                .map(match -> match.teamResults().entrySet().stream().max(Map.Entry.comparingByValue()))
+                .flatMap(Optional::stream)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Double::max));
 
         for (Team team : orderByPoints(teams).keySet()) {
             list.add(team);
@@ -75,7 +67,7 @@ public class WinnerExtractor {
         List<Team> list = new LinkedList<>();
         Map<Team, Double> teams = new HashMap<>();
         for (Match match : matches) {
-            for(Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
+            for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
                 if (teams.containsKey(entry.getKey())) {
                     teams.put(entry.getKey(), teams.get(entry.getKey()) + entry.getValue());
                 } else {
@@ -95,11 +87,8 @@ public class WinnerExtractor {
 
     public Map<Team, Double> orderByPoints(Map<Team, Double> teams) {
         return teams.entrySet()
-                    .stream()
-                    .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
-                    .collect(Collectors.toMap(Map.Entry::getKey,
-                                              Map.Entry::getValue,
-                                              (e1, e2) -> e1,
-                                              LinkedHashMap::new));
+                .stream()
+                .sorted(Map.Entry.<Team, Double>comparingByValue().reversed())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 }

@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root type="Button"
-        onAction="#openModal"
-        styleClass="tournament-list-button, match-button"
-        xmlns="http://javafx.com/javafx/17"
-        xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="org.example.calcettomanagmentsystem.controller.components.MatchCartController">
+<fx:root onAction="#openModal" styleClass="match-card" type="Button" xmlns="http://javafx.com/javafx/25"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.MatchCartController">
+
+    <stylesheets>
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/components/match-cart-styles.css"/>
+    </stylesheets>
+
     <graphic>
-        <HBox styleClass="match-content-hbox">
+        <HBox styleClass="match-card-hbox">
             <children>
-                <Label fx:id="matchInfoLabel"
-                       styleClass="label-major, match-info-label"
-                       text="Match Name Placeholder" />
+                <Label fx:id="matchInfoLabel" alignment="CENTER" maxHeight="1.7976931348623157E308"
+                       maxWidth="1.7976931348623157E308" styleClass="match-card-label" text="Match Name Placeholder"
+                       HBox.hgrow="ALWAYS"/>
             </children>
         </HBox>
     </graphic>

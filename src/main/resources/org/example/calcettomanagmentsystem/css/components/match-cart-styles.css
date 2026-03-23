@@ -1,0 +1,23 @@
+.match-card-hbox {
+  -fx-alignment: CENTER;
+  -fx-fill-height: false;
+  -fx-padding: 10px;
+  -fx-spacing: 15px;
+}
+
+.match-card-label {
+  -fx-font-size: 15px;
+  -fx-padding: 10px;
+  -fx-max-width: infinity;
+  -fx-max-height: infinity;
+}
+
+.match-card .label {
+  -fx-font-size: 18px;
+  -fx-text-fill: -fx-secondary;
+  -fx-font-family: "Segoe UI Semibold";
+}
+
+.match-card:hover {
+  -fx-border-color: -fx-secondary;
+}

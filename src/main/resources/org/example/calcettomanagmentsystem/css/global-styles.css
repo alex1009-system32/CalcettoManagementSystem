@@ -75,6 +75,14 @@
   -fx-font-family: "Segoe UI Semibold";
 }
 
+.error-label {
+  -fx-font-size: 15px;
+  -fx-underline: true;
+  -fx-text-fill: -fx-error;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-padding: 5px 0px 0px 0px;
+}
+
 .text-field-custom {
   -fx-background-color: -fx-primary;
   -fx-border-color: -fx-border-color-default;
@@ -83,21 +91,6 @@
   -fx-padding: 10px 12px;
   -fx-font-size: 14px;
   -fx-text-fill: -fx-text-base;
-}
-
-.text-field-custom:focused {
-    -fx-background-color: -fx-primary-light;
-    -fx-border-color: -fx-border-color-default;
-    -fx-effect: dropshadow(three-pass-box, rgba(247, 231, 206, 0.4), 8, 0, 0, 0);
-}
-
-.text-field-custom:disabled {
-  -fx-opacity: 0.6;
-}
-
-.text-field-error {
-  -fx-background-color: #fffafb;
-  -fx-border-color: -fx-error;
 }
 
 /* Modal Styles */
@@ -154,6 +147,28 @@
   -fx-border-color: -fx-error;
   -fx-border-width: 1.5px;
   -fx-text-fill: -fx-error;
+}
+
+.custom-text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2f3640;
+}
+
+.custom-text-field:focused {
+    -fx-background-color: #f0fff4;
+    -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.1), 5, 0, 0, 0);
+}
+
+.custom-text-field:disabled {
+    -fx-background-color: #f5f6fa;
+    -fx-border-color: #ecf0f1;
+    -fx-opacity: 0.7;
+    -fx-text-fill: #95a5a6;
 }
 
 /* ScrollPane */

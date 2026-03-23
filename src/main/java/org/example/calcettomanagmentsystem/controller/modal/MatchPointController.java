@@ -32,7 +32,11 @@ public class MatchPointController {
         try {
             ServiceManager.getMatchService().setPoints(team, match, Integer.parseInt(pointTextField.getText()));
         } catch (ValidationException e) {
-            // ToDo
+            pointTextField.setText(e.getMessage());
+            pointTextField.getStyleClass().add("error-label");
+        }  catch (NumberFormatException _) {
+            pointTextField.setText("Please enter a number");
+            pointTextField.getStyleClass().add("error-label");
         }
     }
 }

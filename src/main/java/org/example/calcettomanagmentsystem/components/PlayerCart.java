@@ -4,13 +4,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import org.example.calcettomanagmentsystem.controller.components.PlayerCartController;
 import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 
 import java.io.IOException;
 
 public class PlayerCart extends Button {
-    PlayerCartController playerCartController;
+    private final PlayerCartController playerCartController;
 
     public PlayerCart(Player player, Runnable onActionCallback) {
         FXMLLoader loader = new FXMLLoader(AddTournamentCart.class.getResource(FXMLNavigator.PLAYER_CART.getPath()));

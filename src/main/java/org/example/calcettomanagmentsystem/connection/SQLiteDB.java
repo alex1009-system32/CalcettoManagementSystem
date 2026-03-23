@@ -32,7 +32,8 @@ public class SQLiteDB implements DataBaseSource {
     private static java.sql.Connection connection;
 
     static {
-        try (InputStream inputStream = SQLiteDB.class.getResourceAsStream("/org/example/calcettomanagmentsystem/config/db.properties")) {
+        try (InputStream inputStream = SQLiteDB.class.getResourceAsStream(
+                "/org/example/calcettomanagmentsystem/config/db.properties")) {
 
             if (inputStream == null) {
                 throw new RuntimeException("Properties file not found!");
@@ -78,7 +79,7 @@ public class SQLiteDB implements DataBaseSource {
      *
      * @throws SQLException wenn das Test-Schema nicht ausgeführt werden kann
      */
-    public void initTest(){
+    public void initTest() {
         try (Statement statement = getConnection().createStatement()) {
             statement.executeUpdate(SQLReader.readFile(SQLSchemaNavigator.TEST_DB));
         } catch (SQLException | IOException e) {

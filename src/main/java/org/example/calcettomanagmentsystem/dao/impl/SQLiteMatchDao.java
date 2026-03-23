@@ -31,12 +31,9 @@ public class SQLiteMatchDao implements MatchDao {
                 int trid = rs.getInt("trid");
                 Tournament tournament = tournamentCache.computeIfAbsent(trid, tId -> {
                     try {
-                        return new Tournament(tId,
-                                              rs.getString("tournament_name"),
-                                              LocalDate.parse(rs.getString("start_date")),
-                                              rs.getInt("duration"),
-                                              rs.getInt("pre_round"),
-                                              rs.getInt("current_round"),
+                        return new Tournament(tId, rs.getString("tournament_name"),
+                                              LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
+                                              rs.getInt("pre_round"), rs.getInt("current_round"),
                                               rs.getInt("max_team_size"));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -74,7 +71,8 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 while (resultSet.next()) {
-                    return Optional.ofNullable(findById(resultSet.getInt(1))).orElseThrow(() -> new DataAccessException("Team not found"));
+                    return Optional.ofNullable(findById(resultSet.getInt(1)))
+                            .orElseThrow(() -> new DataAccessException("Team not found"));
                 }
             }
         } catch (SQLException e) {
@@ -93,7 +91,7 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(1, team.id());
             preparedStatement.setInt(2, match.id());
 
-            int affected =  preparedStatement.executeUpdate();
+            int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Match could not be saved");
 
             if (!match.teamResults().containsKey(team)) {

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Gatherers;
 
 public class TeamShuffler {
-    
+
     @Unmodifiable
     @NotNull
     public List<List<Team>> shuffleTeamList(List<Team> teams, int teamSize) {

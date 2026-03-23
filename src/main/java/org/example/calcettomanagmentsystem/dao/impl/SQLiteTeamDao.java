@@ -21,7 +21,9 @@ public class SQLiteTeamDao implements TeamDao {
         this.dataBaseSource = dataBaseSource;
     }
 
-    private void mapResultSetToTeam(ResultSet rs, Map<Integer, Team> teamMap, Map<Integer, Tournament> tournamentCache) throws SQLException {
+    private void mapResultSetToTeam(ResultSet rs,
+                                    Map<Integer, Team> teamMap,
+                                    Map<Integer, Tournament> tournamentCache) throws SQLException {
         int teamId = rs.getInt("tid");
         Team team = teamMap.computeIfAbsent(teamId, id -> {
             try {
@@ -37,15 +39,10 @@ public class SQLiteTeamDao implements TeamDao {
         if (!rs.wasNull()) {
             tournament = tournamentCache.computeIfAbsent(tourneyId, id -> {
                 try {
-                    return new Tournament(
-                            id,
-                            rs.getString("tournament_name"),
-                            LocalDate.parse(rs.getString("start_date")),
-                            rs.getInt("duration"),
-                            rs.getInt("pre_round"),
-                            rs.getInt("current_round"),
-                            rs.getInt("max_team_size")
-                    );
+                    return new Tournament(id, rs.getString("tournament_name"),
+                                          LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
+                                          rs.getInt("pre_round"), rs.getInt("current_round"),
+                                          rs.getInt("max_team_size"));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -56,7 +53,7 @@ public class SQLiteTeamDao implements TeamDao {
         Player player;
 
         if (!rs.wasNull()) {
-             player = new Player(playerId, rs.getString("pname"), rs.getString("pemail"), tournament);
+            player = new Player(playerId, rs.getString("pname"), rs.getString("pemail"), tournament);
             if (!team.players().contains(player)) {
                 team.players().add(player);
             }
@@ -77,7 +74,7 @@ public class SQLiteTeamDao implements TeamDao {
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             while (resultSet.next()) {
                 return Optional.ofNullable(findById(resultSet.getInt(1)))
-                               .orElseThrow(() -> new DataAccessException("Team not found"));
+                        .orElseThrow(() -> new DataAccessException("Team not found"));
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error while Saving Team", e);

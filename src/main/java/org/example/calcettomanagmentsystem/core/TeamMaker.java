@@ -31,7 +31,7 @@ public class TeamMaker {
             name = faker.funnyName().name();
             team = new Team(name);
             for (Player player : teamList) {
-               team.players().add(player);
+                team.players().add(player);
             }
 
             returnList.add(team);
@@ -40,7 +40,7 @@ public class TeamMaker {
         return returnList;
     }
 
-    
+
     @NotNull
     private @Unmodifiable List<List<Player>> partitionTeams(@NotNull List<Player> players, int teamSize) {
         return players.stream().gather(Gatherers.windowFixed(teamSize)).toList();

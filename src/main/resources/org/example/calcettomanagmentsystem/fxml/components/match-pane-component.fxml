@@ -3,8 +3,11 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" type="ScrollPane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.controller.components.MatchPaneController">
+<fx:root hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" type="ScrollPane"
+         vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.MatchPaneController">
     <content>
-        <FlowPane fx:id="flowPane" alignment="TOP_RIGHT" columnHalignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" rowValignment="TOP" />
+        <FlowPane fx:id="flowPane" alignment="TOP_CENTER" columnHalignment="CENTER" maxHeight="1.7976931348623157E308"
+                  maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" rowValignment="TOP"/>
     </content>
 </fx:root>

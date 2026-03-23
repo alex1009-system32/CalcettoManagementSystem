@@ -22,14 +22,15 @@ public class MatchService {
 
         if (tournament.id() < 0) throw new ValidationException("Tournament id must be greater than 0.");
 
-        return matchRepository.save(new Match(round, tournament)).orElseThrow(() -> new  ValidationException("Can't get out of the Database"));
+        return matchRepository.save(new Match(round, tournament))
+                .orElseThrow(() -> new ValidationException("Can't get out of the Database"));
     }
 
     public Match addTeam(Team team, Match match) {
         if (team.id() < 0) throw new ValidationException("Team id must be greater than 0.");
         if (match.id() < 0) throw new ValidationException("Match id must be greater than 0.");
 
-        if(match.teamResults().containsKey(team.id())) throw new ValidationException("Team already exists");
+        if (match.teamResults().containsKey(team.id())) throw new ValidationException("Team already exists");
 
         return matchRepository.addTeam(team, match);
     }

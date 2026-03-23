@@ -18,6 +18,13 @@ public class TournamentCartController extends javafx.scene.control.Button {
 
     private Tournament tournament;
 
+    public void setData(Tournament tournament) {
+        this.tournament = tournament;
+        nameLabel.setText(tournament.name());
+        dateLabel.setText(tournament.date().toString());
+        durationLabel.setText(String.valueOf(tournament.duration()));
+    }
+
     @FXML
     private void click() {
         ServiceManager.setTournament(tournament);
@@ -27,12 +34,5 @@ public class TournamentCartController extends javafx.scene.control.Button {
         } else {
             App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
         }
-    }
-
-    public void setData(Tournament tournament) {
-        this.tournament = tournament;
-        nameLabel.setText(tournament.name());
-        dateLabel.setText(tournament.date().toString());
-        durationLabel.setText(String.valueOf(tournament.duration()));
     }
 }

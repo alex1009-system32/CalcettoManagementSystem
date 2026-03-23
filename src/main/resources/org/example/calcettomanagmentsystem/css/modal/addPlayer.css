@@ -1,0 +1,26 @@
+.main-container {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+
+.info-pane {
+    -fx-background-color: -fx-primary-dark;
+    -fx-background-radius: 20;
+    -fx-border-color: #dcdde1;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(46, 204, 113, 0.1), 5, 0, 0, 0);
+}
+
+.header-text {
+    -fx-font-family: "Segoe UI Semibold", "Arial";
+    -fx-font-size: 26px;
+    -fx-text-fill: #1a302a;
+}
+
+.label-minor {
+    -fx-font-family: "Segoe UI Bold";
+    -fx-font-size: 11px;
+    -fx-text-fill: #a0a8a5;
+    -fx-text-overrun: uppercase;
+}

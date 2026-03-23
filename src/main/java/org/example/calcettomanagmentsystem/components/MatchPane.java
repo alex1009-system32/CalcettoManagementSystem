@@ -9,7 +9,7 @@ import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import java.io.IOException;
 
 public class MatchPane extends ScrollPane {
-    MatchPaneController matchPaneController;
+    private final MatchPaneController matchPaneController;
 
     public MatchPane() {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.MATCH_TAP.getPath()));

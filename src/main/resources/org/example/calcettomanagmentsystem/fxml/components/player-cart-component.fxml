@@ -6,11 +6,11 @@
 <?import java.net.URL?>
 
 <fx:root type="javafx.scene.control.Button"
-        mnemonicParsing="false"
-        styleClass="player-card"
-        xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="org.example.calcettomanagmentsystem.controller.components.PlayerCartController">
+         mnemonicParsing="false"
+         styleClass="player-card"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="org.example.calcettomanagmentsystem.controller.components.PlayerCartController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css"/>

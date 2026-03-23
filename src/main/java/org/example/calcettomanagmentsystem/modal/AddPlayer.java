@@ -5,14 +5,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.calcettomanagmentsystem.components.TournamentCart;
 import org.example.calcettomanagmentsystem.controller.modal.AddPlayerController;
-import org.example.calcettomanagmentsystem.model.Tournament;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 public class AddPlayer extends VBox {
-    private AddPlayerController addPlayerController;
+    private final AddPlayerController addPlayerController;
 
     public AddPlayer(Stage stage, Runnable onSaveCallback) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.ADD_PLAYER.getPath()));
