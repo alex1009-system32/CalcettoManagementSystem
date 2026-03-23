@@ -21,14 +21,19 @@ public class SQLiteTournamentDao implements TournamentDao {
     }
 
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
-        return new Tournament(rs.getInt("tid"), rs.getString("tournament_name"),
-                              LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
-                              rs.getInt("pre_round"), rs.getInt("current_round"), rs.getInt("max_team_size"));
+        return new Tournament(rs.getInt("tid"),
+                              rs.getString("tournament_name"),
+                              LocalDate.parse(rs.getString("start_date")),
+                              rs.getInt("duration"),
+                              rs.getInt("pre_round"),
+                              rs.getInt("current_round"),
+                              rs.getInt("max_team_size"));
     }
 
     @Override
     public Optional<Tournament> save(@NotNull Tournament obj) {
-        String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
+        String sql =
+                "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
         try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
@@ -41,11 +46,16 @@ public class SQLiteTournamentDao implements TournamentDao {
 
             preparedStatement.executeUpdate();
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            while (resultSet.next()) {
-                return Optional.of(
-                        new Tournament(resultSet.getInt(1), obj.name(), obj.date(), obj.duration(), obj.preRound(),
-                                       obj.currentRound(), obj.maxTeamSize()));
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                while (resultSet.next()) {
+                    return Optional.of(new Tournament(resultSet.getInt(1),
+                                                      obj.name(),
+                                                      obj.date(),
+                                                      obj.duration(),
+                                                      obj.preRound(),
+                                                      obj.currentRound(),
+                                                      obj.maxTeamSize()));
+                }
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error Inserting Into tournament from the database", e);
@@ -94,12 +104,11 @@ public class SQLiteTournamentDao implements TournamentDao {
         try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                tournament = mapResultSetToTournament(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    tournament = mapResultSetToTournament(resultSet);
+                }
             }
-
         } catch (SQLException e) {
             throw new DataAccessException("Error Finding Tournament from the database", e);
         }
@@ -119,8 +128,13 @@ public class SQLiteTournamentDao implements TournamentDao {
             preparedStatement.setInt(2, tournament.id());
             preparedStatement.executeUpdate();
 
-            return new Tournament(tournament.id(), tournament.name(), tournament.date(), tournament.duration(),
-                                  tournament.preRound(), newCurrentRound, tournament.maxTeamSize());
+            return new Tournament(tournament.id(),
+                                  tournament.name(),
+                                  tournament.date(),
+                                  tournament.duration(),
+                                  tournament.preRound(),
+                                  newCurrentRound,
+                                  tournament.maxTeamSize());
         } catch (SQLException e) {
             throw new DataAccessException("Error Inserting Into tournament from the database", e);
         }

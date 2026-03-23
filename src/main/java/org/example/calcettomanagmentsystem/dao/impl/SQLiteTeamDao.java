@@ -39,9 +39,12 @@ public class SQLiteTeamDao implements TeamDao {
         if (!rs.wasNull()) {
             tournament = tournamentCache.computeIfAbsent(tourneyId, id -> {
                 try {
-                    return new Tournament(id, rs.getString("tournament_name"),
-                                          LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
-                                          rs.getInt("pre_round"), rs.getInt("current_round"),
+                    return new Tournament(id,
+                                          rs.getString("tournament_name"),
+                                          LocalDate.parse(rs.getString("start_date")),
+                                          rs.getInt("duration"),
+                                          rs.getInt("pre_round"),
+                                          rs.getInt("current_round"),
                                           rs.getInt("max_team_size"));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -71,10 +74,11 @@ public class SQLiteTeamDao implements TeamDao {
             int affected = preparedStatement.executeUpdate();
             if (affected == 0) throw new DataAccessException("Update failed");
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            while (resultSet.next()) {
-                return Optional.ofNullable(findById(resultSet.getInt(1)))
-                        .orElseThrow(() -> new DataAccessException("Team not found"));
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                while (resultSet.next()) {
+                    return Optional.ofNullable(findById(resultSet.getInt(1)))
+                                   .orElseThrow(() -> new DataAccessException("Team not found"));
+                }
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error while Saving Team", e);
@@ -153,10 +157,11 @@ public class SQLiteTeamDao implements TeamDao {
         try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
                 sql)) {
             preparedStatement.setInt(1, tournament.id());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()) {
-                mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                while (resultSet.next()) {
+                    mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                }
             }
         } catch (SQLException e) {
             throw new DataAccessException("Error while loading Teams out of Database", e);
