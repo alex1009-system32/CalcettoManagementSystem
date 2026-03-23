@@ -7,7 +7,7 @@
 
 <fx:root onAction="#selectTournament" styleClass="add-tournament-card" type="javafx.scene.control.Button"
          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
-         fx:controller="org.example.calcettomanagmentsystem.controller.components.AddTournamentController">
+         fx:controller="org.example.calcettomanagmentsystem.ui.controller.components.AddTournamentController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css"/>

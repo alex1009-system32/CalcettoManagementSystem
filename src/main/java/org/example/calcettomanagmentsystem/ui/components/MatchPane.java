@@ -1,14 +1,14 @@
-package org.example.calcettomanagmentsystem.components;
+package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
-import org.example.calcettomanagmentsystem.controller.components.MatchPaneController;
+import javafx.scene.layout.HBox;
+import org.example.calcettomanagmentsystem.ui.controller.components.MatchPaneController;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 
 import java.io.IOException;
 
-public class MatchPane extends ScrollPane {
+public class MatchPane extends HBox {
     private final MatchPaneController matchPaneController;
 
     public MatchPane() {

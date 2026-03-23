@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.components;
+package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

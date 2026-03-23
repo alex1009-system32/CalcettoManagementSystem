@@ -1,8 +1,8 @@
-package org.example.calcettomanagmentsystem.components;
+package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import org.example.calcettomanagmentsystem.controller.components.PlayerCartController;
+import org.example.calcettomanagmentsystem.ui.controller.components.PlayerCartController;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 

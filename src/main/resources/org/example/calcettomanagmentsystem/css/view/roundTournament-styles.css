@@ -1,77 +1,28 @@
-.custom-tab-pane {
-  -fx-background-color: transparent;
-}
-
-.custom-tab-pane .tab-header-area {
-  -fx-padding: 0px 0px 10px 0px;
-  -fx-background-color: transparent;
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
 }
 
 .custom-tab-pane .tab {
-  -fx-background-color: -fx-surface;
-  -fx-background-insets: 0px 5px 0px 5px;
-  -fx-background-radius: 8px 8px 0px 0px;
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 15px;
+
+  -fx-text-fill: -fx-secondary;
+  -fx-background-color: -fx-primary;
   -fx-padding: 10px 25px 10px 25px;
+
+  -fx-border-color: -fx-secondary;
+  -fx-border-color: -fx-secondary;
+  -fx-border-radius: 5px 5px 0px 0px;
+  -fx-border-width: 0px 0px 1px 0px;
+
   -fx-cursor: hand;
 }
 
-.custom-tab-pane .tab .tab-label {
-  -fx-text-fill: -fx-text-muted;
-  -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 14px;
-}
-
 .custom-tab-pane .tab:selected {
-  -fx-border-color: -fx-primary;
-  -fx-border-width: 0px 0px 3px 0px;
+  -fx-background-color: -fx-primary-dark;
+  -fx-border-width: 1px;
 }
 
-.custom-tab-pane .tab:selected .tab-label {
-  -fx-text-fill: -fx-primary;
-}
-
-.custom-tab-pane .tab-content-area {
-  -fx-background-color: -fx-surface;
-  -fx-background-radius: 0px 0px 20px 20px;
-}
-
-.match-flow-pane {
-  -fx-orientation: VERTICAL;
-  -fx-alignment: CENTER;
-
-    -fx-background-color: red;
-
-  -fx-hgap: 20px;
-  -fx-vgap: 20px;
-  -fx-padding: 30px;
-}
-
-.match-button {
-  -fx-pref-width: 350px;
-  -fx-pref-height: 80px;
-}
-
-.match-content-hbox {
-  -fx-alignment: CENTER;
-  -fx-spacing: 15px;
-  -fx-pref-width: 330px;
-}
-
-.match-info-label {
-  -fx-font-family: "Segoe UI Semibold";
-  -fx-font-size: 14px;
-}
-
-.match-update-row {
-  -fx-alignment: CENTER;
-  -fx-pref-height: 50px;
-  -fx-spacing: 10px;
-}
-
-.match-update-field {
-  -fx-pref-width: 80px;
-}
-
-.label-major {
-  -fx-text-fill: -fx-text-base;
+.custom-tab-pane .tab:hover {
+    -fx-background-color: -fx-primary-dark;
 }

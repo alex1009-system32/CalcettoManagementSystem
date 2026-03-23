@@ -13,6 +13,9 @@
 
   -fx-font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   -fx-background-color: -fx-base;
+
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
 }
 
 .main-container {
@@ -142,13 +145,6 @@
   -fx-effect: dropshadow(three-pass-box, rgba(122, 9, 9, 4), 12, 0, 0, 4);
 }
 
-.btn-danger-outline {
-  -fx-background-color: transparent;
-  -fx-border-color: -fx-error;
-  -fx-border-width: 1.5px;
-  -fx-text-fill: -fx-error;
-}
-
 .custom-text-field {
     -fx-background-color: #ffffff;
     -fx-border-color: #dcdde1;
@@ -175,4 +171,9 @@
 .custom-scroll-pane,
 .custom-scroll-pane > .viewport {
     -fx-background-color: transparent;
+}
+
+/* TapPane */
+.custom-tap-pane {
+  -fx-background-color: transparent;
 }

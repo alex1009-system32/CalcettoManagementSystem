@@ -11,7 +11,7 @@
 
 <fx:root styleClass="main-container, modal-root" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/25"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="org.example.calcettomanagmentsystem.controller.modal.AddPlayerController">
+         fx:controller="org.example.calcettomanagmentsystem.ui.controller.modal.AddPlayerController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css"/>
@@ -25,6 +25,8 @@
                     <children>
                         <Label styleClass="header-title" text="Add New Player" VBox.vgrow="SOMETIMES"/>
                         <Region styleClass="accent-line"/>
+                        <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER"
+                               maxWidth="1.7976931348623157E308" styleClass="error-label" text="test" visible="false"/>
                     </children>
                 </VBox>
 

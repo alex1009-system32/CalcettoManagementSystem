@@ -1,10 +1,10 @@
-package org.example.calcettomanagmentsystem.modal;
+package org.example.calcettomanagmentsystem.ui.modal;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.components.TournamentCart;
-import org.example.calcettomanagmentsystem.controller.modal.AddPlayerController;
+import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
+import org.example.calcettomanagmentsystem.ui.controller.modal.AddPlayerController;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 
 import java.io.IOException;

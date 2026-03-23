@@ -1,15 +1,8 @@
-package org.example.calcettomanagmentsystem.controller.components;
+package org.example.calcettomanagmentsystem.ui.controller.components;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.components.MatchCart;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.model.Team;
 import org.jetbrains.annotations.NotNull;

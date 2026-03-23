@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.controller.view;
+package org.example.calcettomanagmentsystem.ui.controller.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,9 +10,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.components.MatchCart;
-import org.example.calcettomanagmentsystem.components.MatchPane;
-import org.example.calcettomanagmentsystem.modal.MatchModal;
+import org.example.calcettomanagmentsystem.ui.components.MatchCart;
+import org.example.calcettomanagmentsystem.ui.components.MatchPane;
+import org.example.calcettomanagmentsystem.ui.modal.MatchModal;
 import org.example.calcettomanagmentsystem.model.Match;
 import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;

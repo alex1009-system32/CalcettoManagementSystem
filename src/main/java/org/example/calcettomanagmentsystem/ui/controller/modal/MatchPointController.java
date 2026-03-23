@@ -1,7 +1,6 @@
-package org.example.calcettomanagmentsystem.controller.modal;
+package org.example.calcettomanagmentsystem.ui.controller.modal;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;

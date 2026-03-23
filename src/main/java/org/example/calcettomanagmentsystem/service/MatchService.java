@@ -36,6 +36,7 @@ public class MatchService {
     }
 
     public Match setPoints(Team team, Match match, int points) {
+        if (points < 0) throw new ValidationException("Points must be greater than 0.");
         if (team.id() < 0) throw new ValidationException("Team id must be greater than 0.");
         if (match.id() < 0) throw new ValidationException("Match id must be greater than 0.");
 

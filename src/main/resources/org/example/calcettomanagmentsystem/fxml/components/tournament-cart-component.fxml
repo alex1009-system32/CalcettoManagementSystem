@@ -7,7 +7,7 @@
 
 <fx:root maxWidth="Infinity" onAction="#click" styleClass="tournament-card" type="javafx.scene.control.Button"
          xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="org.example.calcettomanagmentsystem.controller.components.TournamentCartController">
+         fx:controller="org.example.calcettomanagmentsystem.ui.controller.components.TournamentCartController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css"/>

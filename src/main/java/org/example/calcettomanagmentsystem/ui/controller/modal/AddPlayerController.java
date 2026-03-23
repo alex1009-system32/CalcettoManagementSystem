@@ -1,14 +1,11 @@
-package org.example.calcettomanagmentsystem.controller.modal;
+package org.example.calcettomanagmentsystem.ui.controller.modal;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
-
-import java.util.function.Consumer;
 
 public class AddPlayerController {
     @FXML

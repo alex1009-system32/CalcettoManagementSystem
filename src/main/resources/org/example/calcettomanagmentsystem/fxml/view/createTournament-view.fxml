@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,8 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" styleClass="main-container"
-      stylesheets="@../css/global-styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.calcettomanagmentsystem.controller.CreateTournamentController">
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.calcettomanagmentsystem.ui.controller.view.CreateTournamentController">
+
+    <stylesheets>
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/view/createTournament-styles.css"/>
+    </stylesheets>
 
     <children>
         <VBox maxWidth="500" spacing="25" styleClass="card">

@@ -10,7 +10,7 @@
          styleClass="player-card"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         fx:controller="org.example.calcettomanagmentsystem.controller.components.PlayerCartController">
+         fx:controller="org.example.calcettomanagmentsystem.ui.controller.components.PlayerCartController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css"/>
