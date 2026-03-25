@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TeamDao extends GeneralDao<Team> {
     Team addPlayer(Team team, Player player);
-    List<Team> getTeams(Tournament tournament);
+    List<Team> findByTournament(Tournament tournament);
 }

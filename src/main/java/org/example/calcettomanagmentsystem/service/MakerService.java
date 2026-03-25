@@ -19,7 +19,7 @@ public class MakerService {
     }
 
     public List<Team> generateTeams(Tournament tournament) {
-        return makerRepository.generateTeams(ServiceManager.getPlayerService().findAllOfTournament(tournament),
+        return makerRepository.generateTeams(ServiceManager.getPlayerService().findAllByTournament(tournament),
                                              tournament.maxTeamSize());
     }
 

@@ -3,6 +3,7 @@ package org.example.calcettomanagmentsystem.service.repo;
 import org.example.calcettomanagmentsystem.dao.TeamDao;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Team;
+import org.example.calcettomanagmentsystem.model.Tournament;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +21,6 @@ public class TeamRepository implements org.example.calcettomanagmentsystem.servi
     }
 
     @Override
-    public Team addPlayer(Player player, Team team) {
-        return teamDao.addPlayer(team, player);
-    }
-
-    @Override
     public boolean delete(Team obj) {
         return teamDao.delete(obj);
     }
@@ -37,5 +33,15 @@ public class TeamRepository implements org.example.calcettomanagmentsystem.servi
     @Override
     public Optional<Team> findById(int id) {
         return teamDao.findById(id);
+    }
+
+    @Override
+    public Team addPlayer(Player player, Team team) {
+        return teamDao.addPlayer(team, player);
+    }
+
+    @Override
+    public List<Team> findByTournament(Tournament tournament) {
+        return teamDao.findByTournament(tournament);
     }
 }

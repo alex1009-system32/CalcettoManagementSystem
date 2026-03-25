@@ -139,7 +139,7 @@ public class SQLiteTeamDao implements TeamDao {
     }
 
     @Override
-    public List<Team> getTeams(Tournament tournament) {
+    public List<Team> findByTournament(Tournament tournament) {
         String sql = """
                 SELECT t.tid, t.team_name,
                                            p.pid, p.pname, p.pemail,

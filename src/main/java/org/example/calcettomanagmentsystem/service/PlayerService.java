@@ -1,6 +1,5 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
 import org.example.calcettomanagmentsystem.exeptions.ValidationException;
 import org.example.calcettomanagmentsystem.model.Player;
 import org.example.calcettomanagmentsystem.model.Tournament;
@@ -40,7 +39,7 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public List<Player> findAllOfTournament(Tournament tournament) {
+    public List<Player> findAllByTournament(Tournament tournament) {
         if (tournament.id() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
         return playerRepository.findAll()

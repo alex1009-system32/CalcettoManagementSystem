@@ -31,10 +31,6 @@ public class TeamService {
     public List<Team> findAllByTournament(Tournament tournament) {
         if (tournament.id() < 0) throw new ValidationException("Tournament id cannot be less than 0");
 
-        return teamRepository.findAll()
-                .stream()
-                .filter(team -> !team.players().isEmpty())
-                .filter(team -> team.players().stream().anyMatch(player -> tournament.equals(player.tournament())))
-                .toList();
+        return teamRepository.findByTournament(tournament);
     }
 }
