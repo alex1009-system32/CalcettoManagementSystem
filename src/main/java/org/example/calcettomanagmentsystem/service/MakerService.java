@@ -19,13 +19,12 @@ public class MakerService {
     }
 
     public List<Team> generateTeams(Tournament tournament) {
-        return makerRepository.generateTeams(ServiceManager.getPlayerService().findAllByTournament(tournament),
-                                             tournament.maxTeamSize());
+        return makerRepository.generateTeams(ServiceManager.getPlayerService()
+                                                           .findAllByTournament(tournament), tournament.maxTeamSize());
     }
 
     public List<Match> generateNextMatches(@NotNull Tournament tournament) {
         if (tournament.id() < 0) throw new ValidationException("tournament id must be greater than 0");
-
 
         List<Match> matches;
         switch (tournament) {
@@ -35,11 +34,10 @@ public class MakerService {
             case Tournament t when t.preRound() == t.currentRound() -> {
                 matches = generateRoundMatchesAfterPreRounds(tournament);
             }
-            default -> {
+            case Tournament t -> {
                 matches = generateRoundMatches(tournament);
             }
         }
-        matches.forEach(System.out::println);
 
         return matches;
     }

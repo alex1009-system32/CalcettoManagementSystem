@@ -20,6 +20,14 @@ public record Match (int id, int round, @NotNull Tournament tournament, Map<Team
         this(-1, round, tournament, new LinkedHashMap<>());
     }
 
+    public String createMatchName() {
+        List<String> names = new ArrayList<>();
+        for (Map.Entry<Team, Double> entry : teamResults().entrySet()) {
+            names.add(entry.getKey().name());
+        }
+        return String.join(" vs. ", names);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

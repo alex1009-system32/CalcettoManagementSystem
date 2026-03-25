@@ -31,10 +31,7 @@ public class SQLiteMatchDao implements MatchDao {
                 int trid = rs.getInt("trid");
                 Tournament tournament = tournamentCache.computeIfAbsent(trid, tId -> {
                     try {
-                        return new Tournament(tId, rs.getString("tournament_name"),
-                                              LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"),
-                                              rs.getInt("pre_round"), rs.getInt("current_round"),
-                                              rs.getInt("max_team_size"));
+                        return new Tournament(tId, rs.getString("tournament_name"), LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"), rs.getInt("pre_round"), rs.getInt("current_round"), rs.getInt("max_team_size"));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -63,16 +60,15 @@ public class SQLiteMatchDao implements MatchDao {
     public Optional<Match> save(Match obj) {
         String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
-                sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, obj.round());
             preparedStatement.setInt(2, obj.tournament().id());
 
             preparedStatement.executeUpdate();
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
                 while (resultSet.next()) {
-                    return Optional.ofNullable(findById(resultSet.getInt(1)))
-                            .orElseThrow(() -> new DataAccessException("Team not found"));
+                    return Optional.ofNullable(new Match(resultSet.getInt(1), obj.round(), obj.tournament()));
                 }
             }
         } catch (SQLException e) {
@@ -86,8 +82,8 @@ public class SQLiteMatchDao implements MatchDao {
     public Match registerTeam(Team team, Match match) {
         String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, team.id());
             preparedStatement.setInt(2, match.id());
 
@@ -108,8 +104,8 @@ public class SQLiteMatchDao implements MatchDao {
     public Match assignPoints(Team team, double point, Match match) {
         String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setDouble(1, point);
             preparedStatement.setInt(2, team.id());
             preparedStatement.setInt(3, match.id());
@@ -140,8 +136,8 @@ public class SQLiteMatchDao implements MatchDao {
         Map<Integer, Match> matchMap = new LinkedHashMap<>();
         Map<Integer, Team> teamCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setInt(1, tournament.id());
 
@@ -192,8 +188,8 @@ public class SQLiteMatchDao implements MatchDao {
         Map<Integer, Match> matchMap = new LinkedHashMap<>();
         Map<Integer, Team> teamCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setInt(1, tournament.id());
             prepareStatement.setInt(2, round);
 
@@ -248,8 +244,9 @@ public class SQLiteMatchDao implements MatchDao {
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
         Map<Integer, Team> teamCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
-                sql); ResultSet rs = prepareStatement.executeQuery()) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql);
+             ResultSet rs = prepareStatement.executeQuery()) {
 
             while (rs.next()) {
                 mapResultSetToMatch(rs, matchMap, tournamentCache, teamCache);
@@ -266,8 +263,8 @@ public class SQLiteMatchDao implements MatchDao {
     public boolean delete(Match obj) {
         String sql = "DELETE FROM \"match\" WHERE mid = ?";
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, obj.id());
 
             int affected = preparedStatement.executeUpdate();
@@ -295,8 +292,8 @@ public class SQLiteMatchDao implements MatchDao {
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
         Map<Integer, Team> teamCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(
-                sql)) {
+        try (Connection connection = dataBaseSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setInt(1, id);
 

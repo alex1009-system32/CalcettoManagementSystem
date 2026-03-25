@@ -44,7 +44,7 @@ public class StartTournamentController implements Initializable {
 
         playerFlowPane.getChildren().clear();
 
-        for (Player player : ServiceManager.getPlayerService().findAllOfTournament(ServiceManager.getTournament())) {
+        for (Player player : ServiceManager.getPlayerService().findAllByTournament(ServiceManager.getTournament())) {
             PlayerCart playerCart = new PlayerCart(player, this::update);
             playerFlowPane.getChildren().add(playerCart);
         }

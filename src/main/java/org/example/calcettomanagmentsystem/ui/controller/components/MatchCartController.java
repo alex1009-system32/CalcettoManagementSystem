@@ -23,16 +23,7 @@ public class MatchCartController extends Button {
         this.match = match;
         this.onOpenRequested = onOpenRequested;
 
-        matchInfoLabel.setText(createMatchName(match));
-    }
-
-    // Dosen't belong here
-    private String createMatchName(Match match) {
-        List<String> names = new ArrayList<>();
-        for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-            names.add(entry.getKey().name());
-        }
-        return String.join(" vs. ", names);
+        matchInfoLabel.setText(match.createMatchName());
     }
 
     @FXML
