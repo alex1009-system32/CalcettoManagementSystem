@@ -1,22 +1,21 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
+import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.MatchMaker;
 import org.example.calcettomanagmentsystem.core.TeamMaker;
-import org.example.calcettomanagmentsystem.dao.MatchDao;
-import org.example.calcettomanagmentsystem.dao.TeamDao;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.dao.MatchDao;
+import org.example.calcettomanagmentsystem.core.dao.TeamDao;
+import org.example.calcettomanagmentsystem.core.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Player;
+import org.example.calcettomanagmentsystem.core.model.Team;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class MakerRepository implements org.example.calcettomanagmentsystem.service.interfaces.MakerRepository {
     private TournamentDao tournamentDao;

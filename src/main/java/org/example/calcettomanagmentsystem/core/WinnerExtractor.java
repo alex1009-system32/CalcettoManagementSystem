@@ -1,16 +1,32 @@
 package org.example.calcettomanagmentsystem.core;
 
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Component for analyzing match results and identifying winners.
+ * <p>
+ * This class handles aggregating points across matches and ranking teams
+ * to determine who advances to the next rounds of the tournament.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class WinnerExtractor {
 
+    /**
+     * Identifies winners of the current preliminary rounds for a tournament.
+     *
+     * @param tournament The tournament context.
+     * @return A list of teams that have won enough points to advance.
+     * @deprecated Use {@link #getAllWinnersAfterPreRounds(List)} for better flexibility.
+     */
     @Deprecated
     @NotNull
     public List<Team> getWinnersOfCurrentPreRound(@NotNull Tournament tournament) {
@@ -48,6 +64,12 @@ public class WinnerExtractor {
         return winner;
     }
 
+    /**
+     * Extracts winners from a provided list of matches.
+     *
+     * @param matches The list of matches to analyze.
+     * @return A list of winning teams ordered by their total points.
+     */
     public List<Team> getAllWinners(List<Match> matches) {
         List<Team> list = new LinkedList<>();
         Map<Team, Double> teams = matches.stream()
@@ -60,9 +82,14 @@ public class WinnerExtractor {
         }
 
         return list;
-
     }
 
+    /**
+     * Calculates total points and ranks teams after preliminary rounds.
+     *
+     * @param matches The list of preliminary round matches.
+     * @return A list of teams ranked by total points earned across all provided matches.
+     */
     public List<Team> getAllWinnersAfterPreRounds(List<Match> matches) {
         List<Team> list = new LinkedList<>();
         Map<Team, Double> teams = new HashMap<>();
@@ -81,10 +108,14 @@ public class WinnerExtractor {
         }
 
         return list;
-
-
     }
 
+    /**
+     * Sorts a map of teams and their points in descending order.
+     *
+     * @param teams A map containing team-to-score associations.
+     * @return A sorted {@link LinkedHashMap} of the teams.
+     */
     public Map<Team, Double> orderByPoints(Map<Team, Double> teams) {
         return teams.entrySet()
                 .stream()

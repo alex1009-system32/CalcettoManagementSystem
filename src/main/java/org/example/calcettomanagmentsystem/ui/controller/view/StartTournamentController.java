@@ -12,8 +12,8 @@ import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.ui.components.PlayerCart;
 import org.example.calcettomanagmentsystem.ui.modal.AddPlayer;
-import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.core.model.Player;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;

@@ -1,10 +1,5 @@
 package org.example.calcettomanagmentsystem;
 
-import javafx.application.Application;
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
-
-import java.io.InputStream;
-
 /**
  * Bootstrap entry point to support JavaFX launch in packaging and IDE contexts.
  * <p>

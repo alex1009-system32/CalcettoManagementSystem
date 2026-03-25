@@ -3,8 +3,8 @@ package org.example.calcettomanagmentsystem.ui.components;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import org.example.calcettomanagmentsystem.ui.controller.components.MatchCartController;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 import java.util.function.Consumer;

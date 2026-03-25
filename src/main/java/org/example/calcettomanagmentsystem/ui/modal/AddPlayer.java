@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
 import org.example.calcettomanagmentsystem.ui.controller.modal.AddPlayerController;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 

@@ -3,9 +3,9 @@ package org.example.calcettomanagmentsystem.ui.controller.modal;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.example.calcettomanagmentsystem.exeptions.ValidationException;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
+import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 public class MatchPointController {

@@ -4,9 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
 import org.example.calcettomanagmentsystem.ui.controller.modal.MatchPointController;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 

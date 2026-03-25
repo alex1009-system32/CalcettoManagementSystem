@@ -1,15 +1,26 @@
-package org.example.calcettomanagmentsystem.connection;
+package org.example.calcettomanagmentsystem.core.connection;
 
-import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
-import org.example.calcettomanagmentsystem.navigation.SQLSchemaNavigator;
+import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
+import org.example.calcettomanagmentsystem.shared.navigation.SQLSchemaNavigator;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * Implementation of {@link DataBaseSource} for SQLite database.
+ * <p>
+ * This class manages a singleton database connection and handles schema initialization
+ * using SQL scripts loaded via {@link SQLReader}.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class SQLiteDB implements DataBaseSource {
+    /** Configuration properties for the SQLite connection. */
     private static final Properties properties = new Properties();
+    /** The singleton database connection instance. */
     private static java.sql.Connection connection;
 
     static {
@@ -22,10 +33,16 @@ public class SQLiteDB implements DataBaseSource {
 
             properties.load(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load database properties", e);
         }
     }
 
+    /**
+     * Obtains the shared database connection, opening it if necessary.
+     *
+     * @return The active {@link Connection}.
+     * @throws SQLException If connection fails.
+     */
     public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(properties.getProperty("db.sqlite.url"));
@@ -33,21 +50,27 @@ public class SQLiteDB implements DataBaseSource {
         return connection;
     }
 
+    /**
+     * Initializes the database schema for standard operations.
+     */
     public void init() {
         try (PreparedStatement preparedStatement = this.getConnection()
                 .prepareStatement(SQLReader.readFile(SQLSchemaNavigator.SETUP))) {
             preparedStatement.execute();
         } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database initialization failed", e);
         }
     }
 
+    /**
+     * Initializes the database schema specifically for testing scenarios.
+     */
     public void initTest() {
         try (PreparedStatement preparedStatement = this.getConnection()
                 .prepareStatement(SQLReader.readFile(SQLSchemaNavigator.SETUP))) {
             preparedStatement.execute();
         } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Test database initialization failed", e);
         }
     }
 }

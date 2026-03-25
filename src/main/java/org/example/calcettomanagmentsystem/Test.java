@@ -1,21 +1,7 @@
 package org.example.calcettomanagmentsystem;
 
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
-import org.example.calcettomanagmentsystem.core.MatchMaker;
-import org.example.calcettomanagmentsystem.core.TeamShuffler;
-import org.example.calcettomanagmentsystem.core.WinnerExtractor;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTeamDao;
-import org.example.calcettomanagmentsystem.dao.impl.SQLiteTournamentDao;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Player;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.service.management.ServiceManager;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import org.example.calcettomanagmentsystem.core.connection.SQLiteDB;
 
 
 public class Test {

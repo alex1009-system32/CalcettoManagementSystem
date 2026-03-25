@@ -1,24 +1,48 @@
-package org.example.calcettomanagmentsystem.dao.impl;
+package org.example.calcettomanagmentsystem.core.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
-import org.example.calcettomanagmentsystem.dao.MatchDao;
-import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
+import org.example.calcettomanagmentsystem.core.dao.MatchDao;
+import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * SQLite implementation of the {@link MatchDao} interface.
+ * <p>
+ * This class provides methods to interact with a SQLite database to manage
+ * match records, including score assignments and tournament filtering.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class SQLiteMatchDao implements MatchDao {
+    /** The source providing database connections. */
     DataBaseSource dataBaseSource;
 
+    /**
+     * Constructs a new SQLiteMatchDao with the specified data source.
+     *
+     * @param dataBaseSource The database connection source.
+     */
     public SQLiteMatchDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;
     }
 
+    /**
+     * Maps a row from a {@link ResultSet} to a {@link Match} object, handling tournament and team caching.
+     *
+     * @param rs The result set containing match data.
+     * @param matchMap A map of existing matches for round grouping.
+     * @param tournamentCache A cache for {@link Tournament} objects to avoid redundant mapping.
+     * @param teamCache A cache for {@link Team} objects.
+     * @throws SQLException If database access fails.
+     */
     private void mapResultSetToMatch(ResultSet rs,
                                      Map<Integer, Match> matchMap,
                                      Map<Integer, Tournament> tournamentCache,
@@ -33,7 +57,7 @@ public class SQLiteMatchDao implements MatchDao {
                     try {
                         return new Tournament(tId, rs.getString("tournament_name"), LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"), rs.getInt("pre_round"), rs.getInt("current_round"), rs.getInt("max_team_size"));
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("Mapping error for tournament ID " + tId, e);
                     }
                 });
 
@@ -49,13 +73,16 @@ public class SQLiteMatchDao implements MatchDao {
                 try {
                     return new Team(tId, rs.getString("team_name"));
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new RuntimeException("Mapping error for team ID " + tId, e);
                 }
             });
             match.teamResults().put(team, rs.getDouble("points"));
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Match> save(Match obj) {
         String sql = "INSERT INTO \"match\" (round, tid) VALUES (?, ?)";
@@ -72,12 +99,15 @@ public class SQLiteMatchDao implements MatchDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error while Inserting Into Database", e);
+            throw new DataAccessException("Failed to insert match into database.", e);
         }
 
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Match registerTeam(Team team, Match match) {
         String sql = "INSERT INTO team_match(tid, mid) VALUES (?, ?)";
@@ -88,7 +118,7 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(2, match.id());
 
             int affected = preparedStatement.executeUpdate();
-            if (affected == 0) throw new DataAccessException("Match could not be saved");
+            if (affected == 0) throw new DataAccessException("Match association could not be saved.");
 
             if (!match.teamResults().containsKey(team)) {
                 match.teamResults().put(team, -1.0);
@@ -96,10 +126,13 @@ public class SQLiteMatchDao implements MatchDao {
 
             return match;
         } catch (SQLException e) {
-            throw new DataAccessException("Error while Inserting Into Database", e);
+            throw new DataAccessException("Failed to insert team-match association into database.", e);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Match assignPoints(Team team, double point, Match match) {
         String sql = "UPDATE team_match SET points = ? WHERE tid = ? AND mid = ?";
@@ -111,15 +144,18 @@ public class SQLiteMatchDao implements MatchDao {
             preparedStatement.setInt(3, match.id());
 
             int affected = preparedStatement.executeUpdate();
-            if (affected == 0) throw new DataAccessException("Match could not be saved");
+            if (affected == 0) throw new DataAccessException("Point assignment could not be updated.");
 
             match.teamResults().put(team, point);
             return match;
         } catch (SQLException e) {
-            throw new DataAccessException("Error while Updating Database", e);
+            throw new DataAccessException("Failed to update points in database.", e);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Match> findMatchesByTournament(@NotNull Tournament tournament) {
         String sql = """
@@ -149,7 +185,7 @@ public class SQLiteMatchDao implements MatchDao {
                         try {
                             return new Match(id, rs.getInt("round"), tournament);
                         } catch (SQLException e) {
-                            throw new DataAccessException("Fehler beim Mapping des Matches", e);
+                            throw new DataAccessException("Failed to map match from result set.", e);
                         }
                     });
 
@@ -159,7 +195,7 @@ public class SQLiteMatchDao implements MatchDao {
                             try {
                                 return new Team(tId, rs.getString("team_name"));
                             } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                                throw new RuntimeException("Failed to map team from result set.", e);
                             }
                         });
 
@@ -168,12 +204,15 @@ public class SQLiteMatchDao implements MatchDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Fehler beim Laden der Turnier-Matches", e);
+            throw new DataAccessException("Failed to retrieve tournament matches from database.", e);
         }
 
         return new ArrayList<>(matchMap.values());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Match> findMatchesByTournament(@NotNull Tournament tournament, int round) {
         String sql = """
@@ -201,7 +240,7 @@ public class SQLiteMatchDao implements MatchDao {
                         try {
                             return new Match(id, rs.getInt("round"), tournament);
                         } catch (SQLException e) {
-                            throw new DataAccessException("Fehler beim Mapping des Matches", e);
+                            throw new DataAccessException("Failed to map match from result set.", e);
                         }
                     });
 
@@ -211,7 +250,7 @@ public class SQLiteMatchDao implements MatchDao {
                             try {
                                 return new Team(tId, rs.getString("team_name"));
                             } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                                throw new RuntimeException("Failed to map team from result set.", e);
                             }
                         });
 
@@ -220,12 +259,15 @@ public class SQLiteMatchDao implements MatchDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Fehler beim Laden der Turnier-Matches", e);
+            throw new DataAccessException("Failed to retrieve round matches from database.", e);
         }
 
         return new ArrayList<>(matchMap.values());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Match> findAll() {
         String sql = """
@@ -253,12 +295,15 @@ public class SQLiteMatchDao implements MatchDao {
             }
 
         } catch (SQLException e) {
-            throw new DataAccessException("Fehler beim Laden der Matches aus der Datenbank", e);
+            throw new DataAccessException("Failed to retrieve all matches from database.", e);
         }
 
         return new ArrayList<>(matchMap.values());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean delete(Match obj) {
         String sql = "DELETE FROM \"match\" WHERE mid = ?";
@@ -270,10 +315,13 @@ public class SQLiteMatchDao implements MatchDao {
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
         } catch (SQLException e) {
-            throw new DataAccessException("Failed to delete match.", e);
+            throw new DataAccessException("Failed to delete match record from database.", e);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Match> findById(int id) {
         String sql = """
@@ -306,7 +354,7 @@ public class SQLiteMatchDao implements MatchDao {
             Match match = matchMap.get(id);
             return Optional.ofNullable(match);
         } catch (SQLException e) {
-            throw new DataAccessException("Fehler beim Suchen des Matches mit ID " + id, e);
+            throw new DataAccessException("Failed to search for match with ID " + id, e);
         }
     }
 }

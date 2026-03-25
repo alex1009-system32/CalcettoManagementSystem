@@ -1,6 +1,6 @@
 package org.example.calcettomanagmentsystem.service.interfaces;
 
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 
 import java.util.Optional;
 

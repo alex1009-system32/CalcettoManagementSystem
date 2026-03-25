@@ -1,7 +1,7 @@
 package org.example.calcettomanagmentsystem.ui.controller.components;
 
 import javafx.fxml.FXML;
-import org.example.calcettomanagmentsystem.model.Player;
+import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 

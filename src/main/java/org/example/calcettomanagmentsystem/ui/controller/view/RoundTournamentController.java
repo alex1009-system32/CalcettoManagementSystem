@@ -13,8 +13,8 @@ import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.ui.components.MatchCart;
 import org.example.calcettomanagmentsystem.ui.components.MatchPane;
 import org.example.calcettomanagmentsystem.ui.modal.MatchModal;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;

@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.exeptions;
+package org.example.calcettomanagmentsystem.shared.exceptions;
 
 public class ValidationException extends RuntimeException {
     public ValidationException(String message) {

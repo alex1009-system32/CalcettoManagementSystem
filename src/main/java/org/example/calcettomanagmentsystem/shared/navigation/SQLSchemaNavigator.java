@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.navigation;
+package org.example.calcettomanagmentsystem.shared.navigation;
 
 public enum SQLSchemaNavigator {
 

@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 

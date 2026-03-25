@@ -3,8 +3,8 @@ package org.example.calcettomanagmentsystem.ui.controller.components;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.model.Tournament;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 public class TournamentCartController extends javafx.scene.control.Button {

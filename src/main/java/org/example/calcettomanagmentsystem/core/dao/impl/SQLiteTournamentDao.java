@@ -1,9 +1,9 @@
-package org.example.calcettomanagmentsystem.dao.impl;
+package org.example.calcettomanagmentsystem.core.dao.impl;
 
-import org.example.calcettomanagmentsystem.connection.interfaces.DataBaseSource;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.exeptions.DataAccessException;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
+import org.example.calcettomanagmentsystem.core.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
@@ -13,23 +13,48 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * SQLite implementation of the {@link TournamentDao} interface.
+ * <p>
+ * This class provides methods to interact with a SQLite database to manage
+ * tournament records and round progression.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class SQLiteTournamentDao implements TournamentDao {
+    /** The source providing database connections. */
     DataBaseSource dataBaseSource;
 
+    /**
+     * Constructs a new SQLiteTournamentDao with the specified data source.
+     *
+     * @param dataBaseSource The database connection source.
+     */
     public SQLiteTournamentDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;
     }
 
+    /**
+     * Maps a row from a {@link ResultSet} to a {@link Tournament} object.
+     *
+     * @param rs The result set containing tournament data.
+     * @return A new {@link Tournament} instance.
+     * @throws SQLException If database access fails.
+     */
     private Tournament mapResultSetToTournament(ResultSet rs) throws SQLException {
         return new Tournament(rs.getInt("tid"), rs.getString("tournament_name"), LocalDate.parse(rs.getString("start_date")), rs.getInt("duration"), rs.getInt("pre_round"), rs.getInt("current_round"), rs.getInt("max_team_size"));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Tournament> save(@NotNull Tournament obj) {
         String sql = "INSERT INTO tournament (tournament_name, start_date, duration, pre_round, current_round, max_team_size) VALUES (?, ?, ?, ?, ?, ?);";
 
         try (Connection connection = dataBaseSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, obj.name());
             preparedStatement.setString(2, DateTimeFormatter.ofPattern("yyyy-MM-dd").format(obj.date()));
             preparedStatement.setLong(3, obj.duration());
@@ -45,12 +70,15 @@ public class SQLiteTournamentDao implements TournamentDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error Inserting Into tournament from the database", e);
+            throw new DataAccessException("Failed to insert tournament record into database.", e);
         }
 
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Tournament> findAll() {
         String sql = "SELECT * FROM tournament";
@@ -64,12 +92,15 @@ public class SQLiteTournamentDao implements TournamentDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error Finding All Tournament from the database", e);
+            throw new DataAccessException("Failed to retrieve all tournaments from database.", e);
         }
 
         return tournaments;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean delete(Tournament obj) {
         String sql = "DELETE FROM tournament WHERE tid = ?";
@@ -80,10 +111,13 @@ public class SQLiteTournamentDao implements TournamentDao {
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
         } catch (SQLException e) {
-            throw new DataAccessException("Error Deleting Tournament from the database", e);
+            throw new DataAccessException("Failed to delete tournament from database.", e);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Tournament> findById(int id) {
         String sql = "SELECT * FROM tournament WHERE tid = ?";
@@ -99,12 +133,15 @@ public class SQLiteTournamentDao implements TournamentDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Error Finding Tournament from the database", e);
+            throw new DataAccessException("Failed to search for tournament with ID " + id, e);
         }
 
         return Optional.ofNullable(tournament);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Tournament increaseRound(Tournament tournament) {
         String sql = "UPDATE tournament SET current_round = ? WHERE tid = ?";
@@ -119,7 +156,7 @@ public class SQLiteTournamentDao implements TournamentDao {
 
             return new Tournament(tournament.id(), tournament.name(), tournament.date(), tournament.duration(), tournament.preRound(), newCurrentRound, tournament.maxTeamSize());
         } catch (SQLException e) {
-            throw new DataAccessException("Error Inserting Into tournament from the database", e);
+            throw new DataAccessException("Failed to update tournament round in database.", e);
         }
     }
 }

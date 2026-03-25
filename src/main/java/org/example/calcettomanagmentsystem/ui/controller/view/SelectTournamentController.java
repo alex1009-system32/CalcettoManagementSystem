@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import org.example.calcettomanagmentsystem.ui.components.AddTournamentCart;
 import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 

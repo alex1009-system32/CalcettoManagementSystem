@@ -1,8 +1,8 @@
 package org.example.calcettomanagmentsystem.service.interfaces;
 
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
-import org.example.calcettomanagmentsystem.model.Tournament;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 
 import java.util.List;
 

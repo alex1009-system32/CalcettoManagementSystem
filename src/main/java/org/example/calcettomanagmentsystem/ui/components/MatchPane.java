@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import org.example.calcettomanagmentsystem.ui.controller.components.MatchPaneController;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 

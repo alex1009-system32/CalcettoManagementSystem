@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * JavaFX entry point that centralizes UI navigation and application-wide state.
  * <p>
  * The intent is to keep view transitions and the currently selected
- * {@link org.example.calcettomanagmentsystem.model.Tournament} in one place,
+ * {@link org.example.calcettomanagmentsystem.core.model.Tournament} in one place,
  * so controllers can switch screens without duplicating bootstrapping logic.
  * </p>
  */

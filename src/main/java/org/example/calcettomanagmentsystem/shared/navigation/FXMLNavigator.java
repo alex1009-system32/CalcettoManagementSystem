@@ -1,6 +1,4 @@
-package org.example.calcettomanagmentsystem.navigation;
-
-import org.example.calcettomanagmentsystem.App;
+package org.example.calcettomanagmentsystem.shared.navigation;
 
 /**
  * Central registry for FXML resources to avoid scattered literal paths.

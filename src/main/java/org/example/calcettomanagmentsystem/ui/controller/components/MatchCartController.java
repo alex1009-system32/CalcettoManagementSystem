@@ -3,13 +3,9 @@ package org.example.calcettomanagmentsystem.ui.controller.components;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import org.example.calcettomanagmentsystem.model.Match;
-import org.example.calcettomanagmentsystem.model.Team;
+import org.example.calcettomanagmentsystem.core.model.Match;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class MatchCartController extends Button {

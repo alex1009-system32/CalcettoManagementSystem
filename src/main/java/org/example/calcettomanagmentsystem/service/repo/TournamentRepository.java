@@ -1,43 +1,69 @@
 package org.example.calcettomanagmentsystem.service.repo;
 
-import org.example.calcettomanagmentsystem.connection.SQLiteDB;
-import org.example.calcettomanagmentsystem.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.model.Tournament;
-import org.sqlite.SQLiteConnection;
+import org.example.calcettomanagmentsystem.core.dao.TournamentDao;
+import org.example.calcettomanagmentsystem.core.model.Tournament;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository implementation for tournament data access.
+ * <p>
+ * This class acts as a mediator between the {@link TournamentService} and the {@link TournamentDao}.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class TournamentRepository implements org.example.calcettomanagmentsystem.service.interfaces.TournamentRepository {
-    private final TournamentDao tournamentDao;
+    /** The underlying DAO for database operations. */
+    private TournamentDao tournamentDao;
 
+    /**
+     * Constructs a new TournamentRepository with the specified DAO.
+     *
+     * @param tournamentDao The DAO to use for persistence.
+     */
     public TournamentRepository(TournamentDao tournamentDao) {
         this.tournamentDao = tournamentDao;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<Tournament> save(Tournament tournament) {
-        return tournamentDao.save(tournament);
+    public Optional<Tournament> save(Tournament obj) {
+        return tournamentDao.save(obj);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Optional<Tournament> increaseRound(Tournament tournament) {
-        return Optional.ofNullable(tournamentDao.increaseRound(tournament));
+    public boolean delete(Tournament obj) {
+        return tournamentDao.delete(obj);
     }
 
-    @Override
-    public boolean delete(Tournament tournament) {
-        return tournamentDao.delete(tournament);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Tournament> findAll() {
         return tournamentDao.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Tournament> findById(int id) {
         return tournamentDao.findById(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<Tournament> increaseRound(Tournament tournament) {
+        return Optional.ofNullable(tournamentDao.increaseRound(tournament));
     }
 }

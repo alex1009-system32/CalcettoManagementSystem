@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.exeptions.ValidationException;
+import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 public class AddPlayerController {
