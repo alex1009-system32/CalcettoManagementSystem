@@ -93,7 +93,7 @@ public class SQLiteTeamDao implements TeamDao {
         String sql = "INSERT INTO team (team_name) VALUES (?)";
 
         try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, obj.name());
 
             int affected = preparedStatement.executeUpdate();
