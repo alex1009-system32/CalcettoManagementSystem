@@ -40,15 +40,15 @@ public class SQLiteTeamDao implements TeamDao {
      * Maps a row from a {@link ResultSet} to a {@link Team} object, handling tournament and player data.
      *
      * @param rs The result set containing team, player, and tournament data.
-     * @param teamMap A map of existing teams to handle multi-player rosters per team row.
+     * @param teamCache A map of existing teams to handle multi-player rosters per team row.
      * @param tournamentCache A cache for {@link Tournament} objects.
      * @throws SQLException If database access fails.
      */
     private void mapResultSetToTeam(ResultSet rs,
-                                    Map<Integer, Team> teamMap,
+                                    Map<Integer, Team> teamCache,
                                     Map<Integer, Tournament> tournamentCache) throws SQLException {
         int teamId = rs.getInt("tid");
-        Team team = teamMap.computeIfAbsent(teamId, id -> {
+        Team team = teamCache.computeIfAbsent(teamId, id -> {
             try {
                 return new Team(id, rs.getString("team_name"), new ArrayList<>());
             } catch (SQLException e) {
@@ -56,11 +56,11 @@ public class SQLiteTeamDao implements TeamDao {
             }
         });
 
-        int tourneyId = rs.getInt("trid");
+        int tournamentId = rs.getInt("trid");
         Tournament tournament = null;
 
         if (!rs.wasNull()) {
-            tournament = tournamentCache.computeIfAbsent(tourneyId, id -> {
+            tournament = tournamentCache.computeIfAbsent(tournamentId, id -> {
                 try {
                     return new Tournament(id,
                                           rs.getString("tournament_name"),
@@ -153,7 +153,7 @@ public class SQLiteTeamDao implements TeamDao {
                     ORDER BY t.tid
                 """;
 
-        Map<Integer, Team> teamMap = new LinkedHashMap<>();
+        Map<Integer, Team> teamCache = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
         try (Connection connection = dataBaseSource.getConnection(); 
@@ -161,13 +161,13 @@ public class SQLiteTeamDao implements TeamDao {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                mapResultSetToTeam(resultSet, teamCache, tournamentCache);
             }
         } catch (SQLException e) {
             throw new DataAccessException("Failed to load teams from database.", e);
         }
 
-        return new ArrayList<>(teamMap.values());
+        return new ArrayList<>(teamCache.values());
     }
 
     /**
@@ -186,7 +186,7 @@ public class SQLiteTeamDao implements TeamDao {
                                     ORDER BY t.tid
                 """;
 
-        Map<Integer, Team> teamMap = new LinkedHashMap<>();
+        Map<Integer, Team> teamCache = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
         try (Connection connection = dataBaseSource.getConnection(); 
@@ -195,14 +195,14 @@ public class SQLiteTeamDao implements TeamDao {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 while (resultSet.next()) {
-                    mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                    mapResultSetToTeam(resultSet, teamCache, tournamentCache);
                 }
             }
         } catch (SQLException e) {
             throw new DataAccessException("Failed to load tournament teams from database.", e);
         }
 
-        return new ArrayList<>(teamMap.values());
+        return new ArrayList<>(teamCache.values());
     }
 
     /**
