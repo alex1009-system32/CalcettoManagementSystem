@@ -20,22 +20,39 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller for the 'Start Tournament' view.
+ * <p>
+ * This class displays tournament overview and allows for player registration
+ * before teams and initial matches are generated.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class StartTournamentController implements Initializable {
+    /** Label for the tournament name. */
     @FXML
     private Label tournamentNameLabel;
 
+    /** Label for the number of preliminary rounds. */
     @FXML
     private Label preRoundLabel;
 
+    /** Label for the current round number. */
     @FXML
     private Label currentRoundLabel;
 
+    /** Label for the maximum players per team. */
     @FXML
     private Label maxTeamSizeLabel;
 
+    /** Flow pane for displaying registered player cards. */
     @FXML
     private FlowPane playerFlowPane;
 
+    /**
+     * Updates the UI elements with current tournament and player data.
+     */
     public void update() {
         tournamentNameLabel.setText(ServiceManager.getTournament().name());
         preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
@@ -51,6 +68,11 @@ public class StartTournamentController implements Initializable {
 
     }
 
+    /**
+     * Configures and displays the modal window for adding new players.
+     *
+     * @param stage The parent stage.
+     */
     private void renderModal(Stage stage) {
         Stage modalStage = new Stage();
 
@@ -68,11 +90,18 @@ public class StartTournamentController implements Initializable {
         modalStage.showAndWait();
     }
 
+    /**
+     * Opens the modal window for adding players.
+     */
     @FXML
     private void openModal() {
         renderModal((Stage) tournamentNameLabel.getScene().getWindow());
     }
 
+    /**
+     * Finalizes the tournament setup by generating teams and matches,
+     * then navigates to the round management view.
+     */
     @FXML
     private void startTournament() {
         ServiceManager.getMakerService().generateTeams(ServiceManager.getTournament());
@@ -80,11 +109,17 @@ public class StartTournamentController implements Initializable {
         App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
     }
 
+    /**
+     * Navigates back to the tournament selection view.
+     */
     @FXML
     private void goBack() {
         App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (ServiceManager.getTournament() == null) App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
