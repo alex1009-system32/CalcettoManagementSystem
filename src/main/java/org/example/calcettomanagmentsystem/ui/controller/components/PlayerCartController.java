@@ -14,7 +14,8 @@ import javafx.scene.control.Label;
  * provides a deletion action.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class PlayerCartController {
     /** Label for the player's name. */

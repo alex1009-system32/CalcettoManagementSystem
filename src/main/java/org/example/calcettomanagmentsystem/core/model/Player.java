@@ -17,7 +17,8 @@ import java.util.Objects;
  * @param email Contact email address for identification.
  * @param tournament The tournament context this player is associated with.
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public record Player(int id, String name, String email, Tournament tournament) {
     /**

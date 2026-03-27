@@ -6,7 +6,7 @@ import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
 import org.example.calcettomanagmentsystem.ui.controller.modal.MatchPointController;
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Team;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -16,7 +16,8 @@ import java.io.IOException;
  * This component is used within the match details modal to provide a per-team score input.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TeamPoint extends HBox {
     /** The controller managing the score input logic. */

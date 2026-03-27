@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.core.dao.impl;
 
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.dao.TeamDao;
-import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
@@ -21,7 +21,8 @@ import java.util.*;
  * team records, player rosters, and tournament associations.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SQLiteTeamDao implements TeamDao {
     /** The source providing database connections. */

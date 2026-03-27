@@ -5,7 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.service.management.ServiceManager;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -18,7 +19,8 @@ import java.io.IOException;
  * identified by {@link FXMLNavigator}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class App extends Application {
     /**
@@ -85,6 +87,8 @@ public class App extends Application {
      */
     @Override
     public void start(@NotNull Stage stage) throws IOException {
+
+        ServiceManager.
 
         scene = new Scene(loadFXML(root), WIDTH, HEIGHT);
 

@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
  * and includes an option to create a new tournament.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SelectTournamentController implements Initializable {
 

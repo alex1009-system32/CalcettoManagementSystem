@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.interfaces;
+package org.example.calcettomanagmentsystem.core.repo;
 
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Team;
@@ -9,11 +9,12 @@ import java.util.List;
 /**
  * Repository interface specializing in team-related data operations.
  * <p>
- * This extends {@link Repository} to include methods for managing team rosters 
+ * This extends {@link Repository} to include methods for managing team rosters
  * and tournament associations.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface TeamRepository extends Repository<Team> {
     /**

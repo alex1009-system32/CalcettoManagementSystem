@@ -8,7 +8,8 @@ package org.example.calcettomanagmentsystem;
  * avoids issues with modules and classpath in certain environments.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class Launcher {
 	/**

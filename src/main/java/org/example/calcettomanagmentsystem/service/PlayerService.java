@@ -1,9 +1,8 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.service.repo.PlayerRepository;
+import org.example.calcettomanagmentsystem.core.repo.impl.PlayerRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -15,7 +14,8 @@ import java.util.List;
  * deleting records, and filtering players by tournament.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class PlayerService {
     /** The repository handling player data persistence. */

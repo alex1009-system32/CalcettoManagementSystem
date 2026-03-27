@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
 import org.example.calcettomanagmentsystem.ui.controller.modal.MatchModalController;
 import org.example.calcettomanagmentsystem.core.model.Match;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -16,7 +16,8 @@ import java.io.IOException;
  * This component provides the layout for viewing and editing scores of a match.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchModal extends VBox {
     /** The controller managing the visual logic of this modal. */

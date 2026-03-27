@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.shared.navigation;
+package org.example.calcettomanagmentsystem.ui;
 
 /**
  * Central registry for FXML resource paths to ensure type-safe navigation.
@@ -7,7 +7,8 @@ package org.example.calcettomanagmentsystem.shared.navigation;
  * FXML file locations in the application resources.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public enum FXMLNavigator {
     /** Component for displaying a single tournament card. */

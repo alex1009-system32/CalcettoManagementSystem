@@ -1,7 +1,5 @@
 package org.example.calcettomanagmentsystem.core.connection;
 
-import org.example.calcettomanagmentsystem.shared.navigation.SQLSchemaNavigator;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
@@ -13,7 +11,8 @@ import java.util.stream.Collectors;
  * and converting them into string format for execution.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SQLReader {
     /**

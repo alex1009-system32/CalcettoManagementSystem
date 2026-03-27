@@ -15,7 +15,8 @@ import java.util.function.Consumer;
  * and handles the user request to view match details.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchCartController extends Button {
     /** Label displaying basic match information (e.g., Team A vs Team B). */

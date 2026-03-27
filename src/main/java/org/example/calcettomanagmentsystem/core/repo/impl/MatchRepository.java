@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.repo;
+package org.example.calcettomanagmentsystem.core.repo.impl;
 
 import org.example.calcettomanagmentsystem.core.dao.MatchDao;
 import org.example.calcettomanagmentsystem.core.model.Match;
@@ -15,9 +15,10 @@ import java.util.Optional;
  * providing a cleaner interface for service-level operations.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
-public class MatchRepository implements org.example.calcettomanagmentsystem.service.interfaces.MatchRepository {
+public class MatchRepository implements org.example.calcettomanagmentsystem.core.repo.MatchRepository {
     /** The underlying DAO for database operations. */
     private MatchDao matchDao;
 

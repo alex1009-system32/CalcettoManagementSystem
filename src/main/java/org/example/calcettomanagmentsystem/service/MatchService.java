@@ -1,10 +1,9 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.service.repo.MatchRepository;
+import org.example.calcettomanagmentsystem.core.repo.impl.MatchRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,7 +15,8 @@ import java.util.List;
  * assigning teams, and updating scores with integrated validation logic.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchService {
     /** The repository handling match data persistence. */

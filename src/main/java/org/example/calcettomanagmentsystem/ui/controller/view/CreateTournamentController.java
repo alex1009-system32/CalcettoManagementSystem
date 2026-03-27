@@ -4,8 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.service.ValidationException;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 /**
@@ -16,7 +16,8 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
  * to persist the new tournament.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class CreateTournamentController {
     /** Input field for the tournament name. */

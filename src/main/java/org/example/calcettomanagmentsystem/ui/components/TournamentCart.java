@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import org.example.calcettomanagmentsystem.ui.controller.components.TournamentCartController;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -15,7 +15,8 @@ import java.io.IOException;
  * and allows the user to select the tournament for management.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TournamentCart extends Button {
     /** The controller managing the visual elements of this tournament card. */

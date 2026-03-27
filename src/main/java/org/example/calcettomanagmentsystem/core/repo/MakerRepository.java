@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.interfaces;
+package org.example.calcettomanagmentsystem.core.repo;
 
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Player;
@@ -14,7 +14,8 @@ import java.util.List;
  * and match schedules across different tournament phases.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface MakerRepository {
      /**

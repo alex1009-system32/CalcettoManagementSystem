@@ -16,7 +16,8 @@ import java.util.Map;
  * This class displays scoring components for each team in the match.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchModalController extends VBox {
     /** Flow pane for displaying team scoring elements. */

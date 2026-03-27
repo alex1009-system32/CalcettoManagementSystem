@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.interfaces;
+package org.example.calcettomanagmentsystem.core.repo;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,8 @@ import java.util.Optional;
  *
  * @param <T> The type of domain object managed by the repository.
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface Repository<T> {
     /**

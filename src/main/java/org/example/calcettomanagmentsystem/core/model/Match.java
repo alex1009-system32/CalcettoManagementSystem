@@ -17,7 +17,8 @@ import java.util.*;
  * @param teamResults A map containing the participating {@link Team}s and their scores.
  *
  * @see Team
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public record Match (int id, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
     /**

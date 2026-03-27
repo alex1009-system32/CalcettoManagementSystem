@@ -1,11 +1,8 @@
 package org.example.calcettomanagmentsystem.service.management;
 
+import org.example.calcettomanagmentsystem.core.*;
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.connection.SQLiteDB;
-import org.example.calcettomanagmentsystem.core.MatchMaker;
-import org.example.calcettomanagmentsystem.core.TeamMaker;
-import org.example.calcettomanagmentsystem.core.TeamShuffler;
-import org.example.calcettomanagmentsystem.core.WinnerExtractor;
 import org.example.calcettomanagmentsystem.core.dao.MatchDao;
 import org.example.calcettomanagmentsystem.core.dao.PlayerDao;
 import org.example.calcettomanagmentsystem.core.dao.TeamDao;
@@ -15,8 +12,8 @@ import org.example.calcettomanagmentsystem.core.dao.impl.SQLitePlayerDao;
 import org.example.calcettomanagmentsystem.core.dao.impl.SQLiteTeamDao;
 import org.example.calcettomanagmentsystem.core.dao.impl.SQLiteTournamentDao;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
+import org.example.calcettomanagmentsystem.core.repo.impl.*;
 import org.example.calcettomanagmentsystem.service.*;
-import org.example.calcettomanagmentsystem.service.repo.*;
 
 /**
  * Centralized manager for application services and global state.
@@ -25,7 +22,8 @@ import org.example.calcettomanagmentsystem.service.repo.*;
  * domain services and manages the currently active {@link Tournament}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class ServiceManager {
     /** Global data source for all DAOs. */

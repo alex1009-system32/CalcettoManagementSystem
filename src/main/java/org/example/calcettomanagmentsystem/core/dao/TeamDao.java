@@ -13,7 +13,8 @@ import java.util.List;
  * team rosters and tournament associations.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface TeamDao extends GeneralDao<Team> {
     /**

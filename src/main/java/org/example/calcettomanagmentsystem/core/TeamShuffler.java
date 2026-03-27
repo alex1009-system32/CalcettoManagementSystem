@@ -16,7 +16,8 @@ import java.util.stream.Gatherers;
  * partition them into fixed-size groups for match generation.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TeamShuffler {
 

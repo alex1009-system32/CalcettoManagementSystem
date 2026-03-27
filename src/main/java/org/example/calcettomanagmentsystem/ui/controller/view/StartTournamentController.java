@@ -13,7 +13,7 @@ import org.example.calcettomanagmentsystem.App;
 import org.example.calcettomanagmentsystem.ui.components.PlayerCart;
 import org.example.calcettomanagmentsystem.ui.modal.AddPlayer;
 import org.example.calcettomanagmentsystem.core.model.Player;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
@@ -27,7 +27,8 @@ import java.util.ResourceBundle;
  * before teams and initial matches are generated.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class StartTournamentController implements Initializable {
     /** Label for the tournament name. */

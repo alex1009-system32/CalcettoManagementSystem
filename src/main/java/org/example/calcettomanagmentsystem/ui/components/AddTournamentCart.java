@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -13,7 +13,8 @@ import java.io.IOException;
  * typically displayed as a card in a gallery view.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class AddTournamentCart extends Button {
     /**

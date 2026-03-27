@@ -15,7 +15,8 @@ import java.util.*;
  * bracket-style elimination rounds based on winners from previous stages.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchMaker {
     /** Helper for shuffling team lists. */

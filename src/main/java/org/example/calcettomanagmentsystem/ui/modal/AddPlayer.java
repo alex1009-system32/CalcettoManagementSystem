@@ -5,7 +5,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.calcettomanagmentsystem.ui.components.TournamentCart;
 import org.example.calcettomanagmentsystem.ui.controller.modal.AddPlayerController;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -15,7 +15,8 @@ import java.io.IOException;
  * This component provides the layout and data binding for adding a new player.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class AddPlayer extends VBox {
     /** The controller managing the visual logic of this modal. */

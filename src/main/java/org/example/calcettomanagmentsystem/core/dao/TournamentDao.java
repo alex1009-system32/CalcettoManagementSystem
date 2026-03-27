@@ -9,7 +9,8 @@ import org.example.calcettomanagmentsystem.core.model.Tournament;
  * the progression of tournament rounds.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface TournamentDao extends GeneralDao<Tournament> {
     /**

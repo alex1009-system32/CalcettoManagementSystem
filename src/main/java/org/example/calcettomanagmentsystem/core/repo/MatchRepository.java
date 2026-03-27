@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.interfaces;
+package org.example.calcettomanagmentsystem.core.repo;
 
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Team;
@@ -9,11 +9,12 @@ import java.util.List;
 /**
  * Repository interface specializing in match-related data operations.
  * <p>
- * This extends {@link Repository} to include methods for managing team assignments, 
+ * This extends {@link Repository} to include methods for managing team assignments,
  * scoring, and tournament-based filtering of matches.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface MatchRepository extends Repository<Match> {
     /**

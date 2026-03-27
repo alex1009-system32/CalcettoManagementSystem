@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.shared.exceptions;
+package org.example.calcettomanagmentsystem.core;
 
 /**
  * Exception thrown when a persistence-level operation fails.
@@ -7,7 +7,8 @@ package org.example.calcettomanagmentsystem.shared.exceptions;
  * to provide a consistent error handling mechanism within the application.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class DataAccessException extends RuntimeException {
     /**

@@ -12,7 +12,8 @@ import java.util.Optional;
  *
  * @param <T> The type of domain object this DAO manages.
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface GeneralDao<T> {
         /**

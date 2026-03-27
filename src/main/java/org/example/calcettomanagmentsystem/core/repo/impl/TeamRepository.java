@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.repo;
+package org.example.calcettomanagmentsystem.core.repo.impl;
 
 import org.example.calcettomanagmentsystem.core.dao.TeamDao;
 import org.example.calcettomanagmentsystem.core.model.Player;
@@ -14,9 +14,10 @@ import java.util.Optional;
  * This class acts as a mediator between the {@link TeamService} and the {@link TeamDao}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
-public class TeamRepository implements org.example.calcettomanagmentsystem.service.interfaces.TeamRepository {
+public class TeamRepository implements org.example.calcettomanagmentsystem.core.repo.TeamRepository {
     /** The underlying DAO for database operations. */
     private TeamDao teamDao;
 

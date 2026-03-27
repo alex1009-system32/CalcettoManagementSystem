@@ -13,7 +13,8 @@ import java.util.List;
  * based on their tournament participation.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface PlayerDao extends GeneralDao<Player> {
     /**

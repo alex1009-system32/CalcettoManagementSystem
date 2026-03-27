@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.core.dao.impl;
 
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.dao.PlayerDao;
-import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,8 @@ import java.util.Optional;
  * player records, including tournament-specific filtering.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SQLitePlayerDao implements PlayerDao {
     /** The source providing database connections. */

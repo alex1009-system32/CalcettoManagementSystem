@@ -21,7 +21,8 @@ import java.util.Objects;
  * @param maxTeamSize Maximum number of players allowed per team.
  *
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public record Tournament(int id, String name, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
     /**

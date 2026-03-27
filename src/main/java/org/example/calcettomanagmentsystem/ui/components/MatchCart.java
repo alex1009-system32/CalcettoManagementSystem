@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import org.example.calcettomanagmentsystem.ui.controller.components.MatchCartController;
 import org.example.calcettomanagmentsystem.core.model.Match;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -16,7 +16,8 @@ import java.util.function.Consumer;
  * for opening the match details modal.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchCart extends Button {
     /** The controller managing the visual elements of this match card. */

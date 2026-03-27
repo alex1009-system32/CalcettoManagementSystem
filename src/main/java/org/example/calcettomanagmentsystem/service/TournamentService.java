@@ -1,10 +1,9 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
-import org.example.calcettomanagmentsystem.service.repo.TournamentRepository;
+import org.example.calcettomanagmentsystem.core.repo.MakerRepository;
+import org.example.calcettomanagmentsystem.core.repo.impl.TournamentRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,7 +15,8 @@ import java.util.List;
  * advancing rounds, and deleting tournament records.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TournamentService {
     /** The repository handling tournament data persistence. */

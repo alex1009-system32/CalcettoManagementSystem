@@ -14,7 +14,8 @@ import java.util.List;
  * team assignments and scoring within matches.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface MatchDao extends GeneralDao<Match> {
     /**

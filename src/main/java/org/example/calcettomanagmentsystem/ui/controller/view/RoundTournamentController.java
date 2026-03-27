@@ -14,7 +14,7 @@ import org.example.calcettomanagmentsystem.ui.components.MatchCart;
 import org.example.calcettomanagmentsystem.ui.components.MatchPane;
 import org.example.calcettomanagmentsystem.ui.modal.MatchModal;
 import org.example.calcettomanagmentsystem.core.model.Match;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
@@ -31,7 +31,8 @@ import java.util.stream.Collectors;
  * It facilitates navigating through rounds and opening match detail modals.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class RoundTournamentController implements Initializable {
 

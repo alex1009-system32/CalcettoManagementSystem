@@ -9,7 +9,8 @@ import javafx.scene.layout.FlowPane;
  * This class manages a layout pane for multiple match cards.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchPaneController {
     /** The flow pane used to layout match cards. */

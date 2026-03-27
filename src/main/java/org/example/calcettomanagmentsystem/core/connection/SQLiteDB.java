@@ -1,7 +1,6 @@
 package org.example.calcettomanagmentsystem.core.connection;
 
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
-import org.example.calcettomanagmentsystem.shared.navigation.SQLSchemaNavigator;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +14,8 @@ import java.util.Properties;
  * using SQL scripts loaded via {@link SQLReader}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SQLiteDB implements DataBaseSource {
     /** Configuration properties for the SQLite connection. */

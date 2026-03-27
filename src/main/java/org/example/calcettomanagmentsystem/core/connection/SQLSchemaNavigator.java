@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.shared.navigation;
+package org.example.calcettomanagmentsystem.core.connection;
 
 /**
  * Central registry for SQL schema resource paths.
@@ -7,7 +7,8 @@ package org.example.calcettomanagmentsystem.shared.navigation;
  * database initialization and testing within the application.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public enum SQLSchemaNavigator {
     /** Primary SQL script for setting up the production database schema. */

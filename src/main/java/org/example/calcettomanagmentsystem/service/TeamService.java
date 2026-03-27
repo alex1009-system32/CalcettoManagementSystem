@@ -1,10 +1,9 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.service.repo.TeamRepository;
+import org.example.calcettomanagmentsystem.core.repo.impl.TeamRepository;
 
 import java.util.List;
 
@@ -15,7 +14,8 @@ import java.util.List;
  * to teams within a tournament context.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TeamService {
     /** The repository handling team data persistence. */

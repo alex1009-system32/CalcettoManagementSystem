@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.shared.exceptions;
+package org.example.calcettomanagmentsystem.service;
 
 /**
  * Exception thrown when domain-level data validation fails.
@@ -7,7 +7,8 @@ package org.example.calcettomanagmentsystem.shared.exceptions;
  * (e.g., empty names, invalid email formats) back to the user interface.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class ValidationException extends RuntimeException {
     /**

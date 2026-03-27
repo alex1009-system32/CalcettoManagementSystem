@@ -10,7 +10,8 @@ import java.sql.SQLException;
  * database implementation (e.g., SQLite, MySQL).
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface DataBaseSource {
     /**

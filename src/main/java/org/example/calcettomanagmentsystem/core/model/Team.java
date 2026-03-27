@@ -18,7 +18,8 @@ import java.util.Objects;
  * @param players A list of {@link Player} members belonging to this team.
  *
  * @see Player
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public record Team (int id, String name, List<Player> players) {
     /**

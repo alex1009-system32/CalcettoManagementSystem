@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import org.example.calcettomanagmentsystem.ui.controller.components.MatchPaneController;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 import java.io.IOException;
 
@@ -14,7 +14,8 @@ import java.io.IOException;
  * This component provides a {@link FlowPane} to layout multiple {@link MatchCart} instances.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MatchPane extends HBox {
     /** The controller managing the layout and content of this match pane. */

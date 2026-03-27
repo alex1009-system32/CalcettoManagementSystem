@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.core.dao.impl;
 
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.dao.MatchDao;
-import org.example.calcettomanagmentsystem.shared.exceptions.DataAccessException;
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
@@ -19,7 +19,8 @@ import java.util.*;
  * match records, including score assignments and tournament filtering.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class SQLiteMatchDao implements MatchDao {
     /** The source providing database connections. */

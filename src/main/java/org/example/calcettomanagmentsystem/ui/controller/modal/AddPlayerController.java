@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
+import org.example.calcettomanagmentsystem.service.ValidationException;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 /**
@@ -14,7 +14,8 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
  * handles validation errors, and triggers a UI update upon successful creation.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class AddPlayerController {
     /** Label for displaying validation error messages. */

@@ -23,19 +23,37 @@ A professional JavaFX-based desktop application designed to manage tournaments e
 
 ## Project Structure
 
-```text
-src/main/java/org/example/calcettomanagmentsystem/
-├── core/          # Business logic (Matchmaking, Team generation)
-├── dao/           # Data Access Objects (JDBC implementations)
-├── model/         # Domain entities (Tournament, Player, Team, Match)
-├── navigation/    # FXML and Schema navigation logic
-├── service/       # Service layer coordinating UI and Persistence
-└── view/          # JavaFX Controllers and View logic
-
-src/main/resources/
-├── css/           # Modular CSS architecture (Global & View-specific)
-├── fxml/          # UI layout definitions
-└── sql/           # Database schema and initialization scripts
+```textsrc/main/
+src/main/
+├── java/ ... /calcettomanagmentsystem/
+│   ├── core/
+│   │   ├── connection/
+│   │   ├── dao/
+│   │   │   └── impl/
+│   │   ├── model/
+│   │   └── repo/
+│   │       └── impl/
+│   ├── service/
+│   │   └── management/
+│   └── ui/
+│       ├── components/
+│       ├── controller/
+│       │   ├── components/
+│       │   ├── modal/
+│       │   └── view/
+│       └── modal/
+│
+└── resources/ ... /calcettomanagmentsystem/
+    ├── config/
+    ├── css/
+    │   ├── components/
+    │   ├── modal/
+    │   └── view/
+    ├── fxml/
+    │   ├── components/
+    │   ├── modal/
+    │   └── view/
+    └── schemas/
 ```
 
 ## Installation

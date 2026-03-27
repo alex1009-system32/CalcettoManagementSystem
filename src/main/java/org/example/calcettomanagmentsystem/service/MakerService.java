@@ -1,10 +1,9 @@
 package org.example.calcettomanagmentsystem.service;
 
-import org.example.calcettomanagmentsystem.shared.exceptions.ValidationException;
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
-import org.example.calcettomanagmentsystem.service.interfaces.MakerRepository;
+import org.example.calcettomanagmentsystem.core.repo.MakerRepository;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +17,8 @@ import java.util.Map;
  * for different tournament phases (preliminary, elimination).
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class MakerService {
     /** The repository handling the low-level generation logic. */

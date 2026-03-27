@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.repo;
+package org.example.calcettomanagmentsystem.core.repo.impl;
 
 import org.example.calcettomanagmentsystem.core.dao.TournamentDao;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
@@ -12,9 +12,10 @@ import java.util.Optional;
  * This class acts as a mediator between the {@link TournamentService} and the {@link TournamentDao}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
-public class TournamentRepository implements org.example.calcettomanagmentsystem.service.interfaces.TournamentRepository {
+public class TournamentRepository implements org.example.calcettomanagmentsystem.core.repo.TournamentRepository {
     /** The underlying DAO for database operations. */
     private TournamentDao tournamentDao;
 

@@ -1,4 +1,4 @@
-package org.example.calcettomanagmentsystem.service.interfaces;
+package org.example.calcettomanagmentsystem.core.repo;
 
 import org.example.calcettomanagmentsystem.core.model.Tournament;
 
@@ -7,11 +7,12 @@ import java.util.Optional;
 /**
  * Repository interface specializing in tournament-related data operations.
  * <p>
- * This extends {@link Repository} to include methods for managing 
+ * This extends {@link Repository} to include methods for managing
  * tournament-specific lifecycle events like round progression.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public interface TournamentRepository extends Repository<Tournament> {
     /**

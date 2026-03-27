@@ -1,8 +1,8 @@
-package org.example.calcettomanagmentsystem.service.repo;
+package org.example.calcettomanagmentsystem.core.repo.impl;
 
 import org.example.calcettomanagmentsystem.core.dao.PlayerDao;
 import org.example.calcettomanagmentsystem.core.model.Player;
-import org.example.calcettomanagmentsystem.service.interfaces.Repository;
+import org.example.calcettomanagmentsystem.core.repo.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,8 @@ import java.util.Optional;
  * This class acts as a mediator between the {@link PlayerService} and the {@link PlayerDao}.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class PlayerRepository implements Repository<Player> {
     /** The underlying DAO for database operations. */

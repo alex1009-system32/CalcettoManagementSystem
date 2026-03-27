@@ -2,7 +2,7 @@ package org.example.calcettomanagmentsystem.ui.controller.components;
 
 import javafx.fxml.FXML;
 import org.example.calcettomanagmentsystem.App;
-import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
+import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 
 /**
  * Controller for the {@link org.example.calcettomanagmentsystem.ui.components.AddTournamentCart} component.
@@ -10,7 +10,8 @@ import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
  * This class handles the user interaction for initiating a new tournament creation.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class AddTournamentController extends javafx.scene.control.Button {
     /**

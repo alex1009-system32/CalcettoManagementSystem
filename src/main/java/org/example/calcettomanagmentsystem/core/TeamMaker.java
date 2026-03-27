@@ -18,7 +18,8 @@ import java.util.stream.Gatherers;
  * and assigns them random names using the Faker library.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class TeamMaker {
 

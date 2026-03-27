@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
  * to determine who advances to the next rounds of the tournament.
  * </p>
  *
- * @author Senior Developer
+ * @author Alex Kerschbamer
+ * @version 0.0
  */
 public class WinnerExtractor {
 
