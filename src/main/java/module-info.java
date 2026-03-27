@@ -21,7 +21,6 @@ module org.example.calcettomanagmentsystem {
     exports org.example.calcettomanagmentsystem.ui.controller.components;
     exports org.example.calcettomanagmentsystem.ui.controller.modal;
     exports org.example.calcettomanagmentsystem.ui.controller.view;
-    exports org.example.calcettomanagmentsystem.shared.navigation;
 
     opens org.example.calcettomanagmentsystem to javafx.fxml;
     opens org.example.calcettomanagmentsystem.ui.components to javafx.fxml;

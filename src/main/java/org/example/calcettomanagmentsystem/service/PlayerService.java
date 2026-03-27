@@ -39,7 +39,7 @@ public class PlayerService {
      * @return The persisted {@link Player} instance, or {@code null} if saving failed.
      * @throws ValidationException If name or email format is invalid.
      */
-    public Player create(@NotNull String name, @NotNull String email, @NotNull Tournament tournament) {
+    public Player create(@NotNull String name, @NotNull String email, @NotNull Tournament tournament) throws ValidationException {
         if (name.isEmpty()) throw new ValidationException("Player name cannot be empty.");
         if (name.matches(".* .*")) throw new ValidationException("Player name cannot contain spaces.");
         if (name.matches(".*[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~].*"))
@@ -60,7 +60,7 @@ public class PlayerService {
      * @return {@code true} if deletion was successful; {@code false} otherwise.
      * @throws ValidationException If the player ID is invalid.
      */
-    public boolean delete(@NotNull Player player) {
+    public boolean delete(@NotNull Player player) throws ValidationException {
         if (player.id() < 0) throw new ValidationException("Invalid player ID.");
 
         return playerRepository.delete(player);
@@ -82,7 +82,7 @@ public class PlayerService {
      * @return A list of players associated with the tournament.
      * @throws ValidationException If the tournament ID is invalid.
      */
-    public List<Player> findAllByTournament(Tournament tournament) {
+    public List<Player> findAllByTournament(Tournament tournament) throws ValidationException {
         if (tournament.id() < 0) throw new ValidationException("Invalid tournament ID.");
 
         return playerRepository.findAll()

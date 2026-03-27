@@ -46,7 +46,7 @@ public class TournamentService {
      * @throws ValidationException If name is empty, contains invalid characters, or team size is too small.
      * @throws DataAccessException If saving to the database fails.
      */
-    public Tournament create(@NotNull String name, long duration, int preRound, int maxTeamSize) {
+    public Tournament create(@NotNull String name, long duration, int preRound, int maxTeamSize) throws ValidationException {
         if (name == null || name.isBlank()) throw new ValidationException("Tournament name cannot be empty.");
         if (!name.matches("^[a-zA-Z0-9]*$")) throw new ValidationException("Tournament name contains invalid characters.");
         if (maxTeamSize < 1) throw new ValidationException("A team must have at least one player.");
@@ -63,7 +63,7 @@ public class TournamentService {
      * @throws ValidationException If the tournament ID is invalid.
      * @throws DataAccessException If the tournament cannot be found or updated.
      */
-    public Tournament increaseRound(Tournament tournament) {
+    public Tournament increaseRound(Tournament tournament) throws ValidationException {
         if (tournament.id() < 0) throw new ValidationException("Invalid tournament ID.");
 
         return tournamentRepository.increaseRound(tournament)
@@ -77,7 +77,7 @@ public class TournamentService {
      * @return {@code true} if deletion was successful; {@code false} otherwise.
      * @throws ValidationException If the tournament ID is invalid.
      */
-    public boolean delete(@NotNull Tournament tournament) {
+    public boolean delete(@NotNull Tournament tournament) throws  ValidationException {
         if (tournament.id() < 0) throw new ValidationException("Invalid tournament ID.");
 
         return tournamentRepository.delete(tournament);

@@ -39,7 +39,7 @@ public class MatchService {
      * @return The persisted {@link Match} instance.
      * @throws ValidationException If round or tournament ID is invalid.
      */
-    public Match save(int round, Tournament tournament) {
+    public Match save(int round, Tournament tournament) throws ValidationException {
         if (round < 0) throw new ValidationException("Match round must be greater than 0.");
 
         if (tournament.id() < 0) throw new ValidationException("Tournament ID must be greater than 0.");
@@ -56,7 +56,7 @@ public class MatchService {
      * @return The updated {@link Match} instance.
      * @throws ValidationException If IDs are invalid or team is already in the match.
      */
-    public Match addTeam(Team team, Match match) {
+    public Match addTeam(Team team, Match match) throws ValidationException {
         if (team.id() < 0) throw new ValidationException("Team ID must be greater than 0.");
         if (match.id() < 0) throw new ValidationException("Match ID must be greater than 0.");
 
@@ -75,7 +75,7 @@ public class MatchService {
      * @return The updated {@link Match} instance.
      * @throws ValidationException If points or IDs are invalid.
      */
-    public Match setPoints(Team team, Match match, int points) {
+    public Match setPoints(Team team, Match match, int points) throws ValidationException {
         if (points < 0) throw new ValidationException("Points must be non-negative.");
         if (team.id() < 0) throw new ValidationException("Team ID must be greater than 0.");
         if (match.id() < 0) throw new ValidationException("Match ID must be greater than 0.");

@@ -2,10 +2,13 @@ package org.example.calcettomanagmentsystem.ui.controller.components;
 
 import javafx.fxml.FXML;
 import org.example.calcettomanagmentsystem.core.model.Player;
+import org.example.calcettomanagmentsystem.service.ValidationException;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
 import javafx.scene.control.Label;
+
+import java.io.IOException;
 
 /**
  * Controller for the {@link org.example.calcettomanagmentsystem.ui.components.PlayerCart} component.
@@ -49,7 +52,7 @@ public class PlayerCartController {
      * After deletion, it triggers the provided action callback.
      */
     @FXML
-    private void handleDelete() {
+    private void handleDelete() throws ValidationException {
         ServiceManager.getPlayerService().delete(player);
         if (onActionCallback != null) {
             onActionCallback.run();

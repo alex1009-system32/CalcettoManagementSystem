@@ -37,7 +37,7 @@ public class TeamService {
      * @return The persisted {@link Team} instance.
      * @throws ValidationException If saving fails.
      */
-    public Team save(String name) {
+    public Team save(String name) throws ValidationException {
         return teamRepository.save(new Team(name))
                 .orElseThrow(() -> new ValidationException("Failed to save team to database."));
     }
@@ -69,7 +69,7 @@ public class TeamService {
      * @return A list of teams in the tournament.
      * @throws ValidationException If the tournament ID is invalid.
      */
-    public List<Team> findAllByTournament(Tournament tournament) {
+    public List<Team> findAllByTournament(Tournament tournament) throws ValidationException {
         if (tournament.id() < 0) throw new ValidationException("Invalid tournament ID.");
 
         return teamRepository.findByTournament(tournament);

@@ -39,7 +39,7 @@ public class MakerService {
      * @param tournament The tournament to generate teams for.
      * @return A list of newly created teams.
      */
-    public List<Team> generateTeams(Tournament tournament) {
+    public List<Team> generateTeams(Tournament tournament) throws ValidationException {
         return makerRepository.generateTeams(ServiceManager.getPlayerService()
                                                            .findAllByTournament(tournament), tournament.maxTeamSize());
     }
@@ -51,7 +51,7 @@ public class MakerService {
      * @return A list of generated matches for the next round.
      * @throws ValidationException If the tournament state is invalid or previous matches are not completed.
      */
-    public List<Match> generateNextMatches(@NotNull Tournament tournament) {
+    public List<Match> generateNextMatches(@NotNull Tournament tournament) throws ValidationException {
         if (tournament.id() < 0) throw new ValidationException("Tournament ID must be greater than 0.");
 
         List<Match> matches;
@@ -76,7 +76,7 @@ public class MakerService {
      * @param tournament The tournament context.
      * @return A list of generated matches.
      */
-    private List<Match> generatePreRoundMatches(@NotNull Tournament tournament) {
+    private List<Match> generatePreRoundMatches(@NotNull Tournament tournament) throws ValidationException {
         List<Team> teams = ServiceManager.getTeamService().findAllByTournament(tournament);
         return makerRepository.generatePreRoundMatches(tournament, teams);
     }
@@ -88,7 +88,7 @@ public class MakerService {
      * @return A list of matches for the first elimination round.
      * @throws ValidationException If preliminary matches are not all completed.
      */
-    private List<Match> generateRoundMatchesAfterPreRounds(@NotNull Tournament tournament) {
+    private List<Match> generateRoundMatchesAfterPreRounds(@NotNull Tournament tournament) throws ValidationException {
         List<Match> matches = ServiceManager.getMatchService().findMatchesByTournament(tournament);
 
         if (!areAllRoundsCompleted(matches)) throw new ValidationException("Matches not finished.");
@@ -103,7 +103,7 @@ public class MakerService {
      * @return A list of matches for the next round.
      * @throws ValidationException If current round matches are not all completed.
      */
-    private List<Match> generateRoundMatches(@NotNull Tournament tournament) {
+    private List<Match> generateRoundMatches(@NotNull Tournament tournament) throws ValidationException {
         List<Match> matches = ServiceManager.getMatchService().findMatchesByTournamentInCurrentRound(tournament);
 
         if (!areAllRoundsCompleted(matches)) throw new ValidationException("Matches not finished.");

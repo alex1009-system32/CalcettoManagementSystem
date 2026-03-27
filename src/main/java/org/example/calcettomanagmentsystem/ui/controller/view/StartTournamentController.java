@@ -10,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.service.ValidationException;
 import org.example.calcettomanagmentsystem.ui.components.PlayerCart;
 import org.example.calcettomanagmentsystem.ui.modal.AddPlayer;
 import org.example.calcettomanagmentsystem.core.model.Player;
@@ -55,16 +56,22 @@ public class StartTournamentController implements Initializable {
      * Updates the UI elements with current tournament and player data.
      */
     public void update() {
-        tournamentNameLabel.setText(ServiceManager.getTournament().name());
-        preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
-        currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
-        maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().maxTeamSize()));
+        try {
 
-        playerFlowPane.getChildren().clear();
+            preRoundLabel.setText(String.valueOf(ServiceManager.getTournament().preRound()));
+            tournamentNameLabel.setText(ServiceManager.getTournament().name());
+            currentRoundLabel.setText(String.valueOf(ServiceManager.getTournament().currentRound()));
+            maxTeamSizeLabel.setText(String.valueOf(ServiceManager.getTournament().maxTeamSize()));
 
-        for (Player player : ServiceManager.getPlayerService().findAllByTournament(ServiceManager.getTournament())) {
-            PlayerCart playerCart = new PlayerCart(player, this::update);
-            playerFlowPane.getChildren().add(playerCart);
+            playerFlowPane.getChildren().clear();
+
+            for (Player player : ServiceManager.getPlayerService().findAllByTournament(ServiceManager.getTournament())) {
+                PlayerCart playerCart = new PlayerCart(player, this::update);
+                playerFlowPane.getChildren().add(playerCart);
+            }
+        } catch (ValidationException e) {
+            Label errorLabel = new Label(e.getMessage());
+            playerFlowPane.getChildren().add(errorLabel);
         }
 
     }
@@ -105,9 +112,13 @@ public class StartTournamentController implements Initializable {
      */
     @FXML
     private void startTournament() {
-        ServiceManager.getMakerService().generateTeams(ServiceManager.getTournament());
-        ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
-        App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
+        try {
+            ServiceManager.getMakerService().generateTeams(ServiceManager.getTournament());
+            ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
+            App.setRoot(FXMLNavigator.ROUND_TOURNAMENT);
+        } catch (ValidationException e) {
+            // todo
+        }
     }
 
     /**
