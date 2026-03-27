@@ -1,6 +1,6 @@
 # Calcetto Management System
 
-A professional JavaFX-based desktop application designed to manage amateur football (calcetto) tournaments efficiently. The system handles everything from tournament creation and player registration to automated team generation and match scheduling.
+A professional JavaFX-based desktop application designed to manage tournaments efficiently. The system handles everything from tournament creation and player registration to automated team generation and match scheduling.
 
 ## Features
 
@@ -10,7 +10,6 @@ A professional JavaFX-based desktop application designed to manage amateur footb
 - **Score Tracking**: Real-time point updates and leaderboard management.
 - **Modern UI/UX**: Clean, responsive interface built with JavaFX and modular CSS.
 - **Persistent Storage**: Robust data management using SQLite and JDBC.
-- **Asynchronous Processing**: Optimized performance for database operations.
 
 ## Tech Stack
 
@@ -19,11 +18,8 @@ A professional JavaFX-based desktop application designed to manage amateur footb
 - **Database**: SQLite with JDBC
 - **Build Tool**: Maven
 - **Libraries**:
-  - `ControlsFX` for advanced UI components.
-  - `BootstrapFX` for modern styling.
-  - `Ikonli` for high-quality icons.
   - `SQLite-JDBC` for database connectivity.
-  - `JUnit 5` & `Mockito` for testing.
+  - `JavaFaker` for Randomly generating Team Names
 
 ## Project Structure
 

@@ -9,9 +9,24 @@ import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 
+/**
+ * Custom JavaFX component for the 'Add Player' modal view.
+ * <p>
+ * This component provides the layout and data binding for adding a new player.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class AddPlayer extends VBox {
+    /** The controller managing the visual logic of this modal. */
     private final AddPlayerController addPlayerController;
 
+    /**
+     * Constructs a new AddPlayer modal component.
+     *
+     * @param stage The {@link Stage} instance for the modal.
+     * @param onSaveCallback Callback to execute after a player is successfully saved.
+     */
     public AddPlayer(Stage stage, Runnable onSaveCallback) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.ADD_PLAYER.getPath()));
         loader.setRoot(this);
@@ -23,14 +38,19 @@ public class AddPlayer extends VBox {
             setCardDetails(stage, onSaveCallback);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load AddPlayer modal component", e);
         }
     }
 
+    /**
+     * Initializes the modal's controller with required data.
+     *
+     * @param stage The modal's stage.
+     * @param onEditRequest Callback for post-save updates.
+     */
     public void setCardDetails(Stage stage, Runnable onEditRequest) {
         if (addPlayerController != null) {
             addPlayerController.setData(stage, onEditRequest);
         }
     }
-
 }

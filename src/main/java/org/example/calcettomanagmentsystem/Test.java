@@ -4,7 +4,21 @@ package org.example.calcettomanagmentsystem;
 import org.example.calcettomanagmentsystem.core.connection.SQLiteDB;
 
 
+/**
+ * Utility class for manual testing and database initialization.
+ * <p>
+ * This class contains a main method used to initialize the test database schema
+ * and provides commented-out boilerplate for manual data setup.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class Test {
+    /**
+     * Entry point for manual testing and schema setup.
+     *
+     * @param args Command-line arguments.
+     */
     static void main(String[] args) {
         new SQLiteDB().initTest();
 

@@ -10,9 +10,24 @@ import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 
+/**
+ * Custom JavaFX component for editing points of a single team in a match.
+ * <p>
+ * This component is used within the match details modal to provide a per-team score input.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class TeamPoint extends HBox {
+    /** The controller managing the score input logic. */
     MatchPointController matchPointController;
 
+    /**
+     * Constructs a new TeamPoint component.
+     *
+     * @param match The {@link Match} context.
+     * @param team The {@link Team} to manage points for.
+     */
     public TeamPoint(Match match, Team team) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.TEAM_POINT.getPath()));
         loader.setRoot(this);
@@ -24,10 +39,16 @@ public class TeamPoint extends HBox {
             setCardDetails(match, team);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load TeamPoint component", e);
         }
     }
 
+    /**
+     * Initializes the component's controller with required data.
+     *
+     * @param match The match context.
+     * @param team The team data.
+     */
     private void setCardDetails(Match match, Team team) {
         if (matchPointController != null) {
             matchPointController.setData(match, team);

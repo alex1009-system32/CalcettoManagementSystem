@@ -8,22 +8,38 @@ import org.example.calcettomanagmentsystem.shared.navigation.FXMLNavigator;
 
 import java.io.IOException;
 
+/**
+ * Custom JavaFX component representing a container for matches.
+ * <p>
+ * This component provides a {@link FlowPane} to layout multiple {@link MatchCart} instances.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class MatchPane extends HBox {
+    /** The controller managing the layout and content of this match pane. */
     private final MatchPaneController matchPaneController;
 
+    /**
+     * Constructs a new MatchPane by loading its FXML definition.
+     */
     public MatchPane() {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.MATCH_TAP.getPath()));
-        System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
         loader.setRoot(this);
 
         try {
             loader.load();
             matchPaneController = (MatchPaneController) loader.getController();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load MatchPane component", e);
         }
     }
 
+    /**
+     * Retrieves the underlying flow pane for adding match cards.
+     *
+     * @return The {@link FlowPane} instance used for layout.
+     */
     public FlowPane getFlowPane() {
         return matchPaneController.getFlowPane();
     }

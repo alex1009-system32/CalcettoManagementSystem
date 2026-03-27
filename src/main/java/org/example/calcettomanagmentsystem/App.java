@@ -11,12 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 /**
- * JavaFX entry point that centralizes UI navigation and application-wide state.
+ * Entry point for the JavaFX application.
  * <p>
- * The intent is to keep view transitions and the currently selected
- * {@link org.example.calcettomanagmentsystem.core.model.Tournament} in one place,
- * so controllers can switch screens without duplicating bootstrapping logic.
+ * This class manages the primary stage, scene transitions, and global application state.
+ * It provides a centralized mechanism for navigating between different views
+ * identified by {@link FXMLNavigator}.
  * </p>
+ *
+ * @author Senior Developer
  */
 public class App extends Application {
     /**
@@ -48,35 +50,38 @@ public class App extends Application {
     private static String root = FXMLNavigator.SELECT_TOURNAMENT.getPath();
 
     /**
-     * Switches the active scene root to the specified view.
-     * <p>
-     * This keeps navigation consistent and allows controllers to request view
-     * changes without owning scene construction details.
-     * </p>
+     * Changes the current root of the application scene.
      *
-     * @param FXMLNavigator logical view identifier for the target screen
-     * @throws RuntimeException if the FXML cannot be loaded
+     * @param FXMLNavigator The navigator entry for the target view.
+     * @throws RuntimeException If the FXML resource cannot be loaded.
      */
     public static void setRoot(@NotNull FXMLNavigator FXMLNavigator) {
         try {
             scene.setRoot(loadFXML(FXMLNavigator.getPath()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to change scene root to " + FXMLNavigator.getPath(), e);
         }
 
         root = FXMLNavigator.toString();
     }
 
+    /**
+     * Loads an FXML file and returns its parent node.
+     *
+     * @param fxml The resource path to the FXML file.
+     * @return The root {@link Parent} node of the loaded FXML.
+     * @throws IOException If the file cannot be read.
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
         return fxmlLoader.load();
     }
 
     /**
-     * Bootstraps the primary stage with the initial view and window constraints.
+     * Initializes and displays the primary application stage.
      *
-     * @param stage primary stage created by JavaFX
-     * @throws IOException if the initial FXML cannot be loaded
+     * @param stage The primary stage provided by the JavaFX runtime.
+     * @throws IOException If the initial view cannot be loaded.
      */
     @Override
     public void start(@NotNull Stage stage) throws IOException {

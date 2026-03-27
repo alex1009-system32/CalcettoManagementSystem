@@ -1,17 +1,20 @@
 package org.example.calcettomanagmentsystem;
 
 /**
- * Bootstrap entry point to support JavaFX launch in packaging and IDE contexts.
+ * Bootstrap entry point for the application.
  * <p>
- * Keeps {@link App} free from static {@code main} concerns while preserving
- * standard Java entry semantics.
+ * This class serves as the main entry point to launch the JavaFX application
+ * without requiring the {@link App} class to be the direct target, which
+ * avoids issues with modules and classpath in certain environments.
  * </p>
+ *
+ * @author Senior Developer
  */
 public class Launcher {
 	/**
-	 * Delegates to the JavaFX launcher.
+	 * Main method that delegates the launch to the JavaFX {@link App} class.
 	 *
-	 * @param args raw process arguments passed to the JavaFX runtime
+	 * @param args Command-line arguments passed to the application.
 	 */
 	public static void main(String[] args) {
 		javafx.application.Application.launch(App.class, args);

@@ -24,11 +24,25 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
+/**
+ * Controller for the 'Round Tournament' view.
+ * <p>
+ * This class manages the display of matches grouped by rounds using a {@link TabPane}.
+ * It facilitates navigating through rounds and opening match detail modals.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class RoundTournamentController implements Initializable {
 
+    /** TabPane containing match listings for each round. */
     @FXML
     private TabPane matchOfRoundPane;
 
+    /**
+     * Updates the UI by loading all matches for the active tournament 
+     * and grouping them into tabs by round number.
+     */
     private void update() {
         List<Match> matchList =
                 ServiceManager.getMatchService().findMatchesByTournament(ServiceManager.getTournament());
@@ -63,10 +77,21 @@ public class RoundTournamentController implements Initializable {
         }
     }
 
+    /**
+     * Helper method to initiate modal display for a specific match.
+     *
+     * @param match The {@link Match} instance to show.
+     */
     private void openModal(Match match) {
         renderModal((Stage) matchOfRoundPane.getScene().getWindow(), match);
     }
 
+    /**
+     * Configures and displays the match details modal.
+     *
+     * @param stage The parent stage.
+     * @param match The match data.
+     */
     private void renderModal(Stage stage, Match match) {
         Stage modalStage = new Stage();
 
@@ -84,16 +109,28 @@ public class RoundTournamentController implements Initializable {
         modalStage.showAndWait();
     }
 
+    /**
+     * Triggers the generation of the next set of matches for the tournament.
+     */
     @FXML
     private void nextRound() {
         ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
     }
 
+    /**
+     * Navigates back to the tournament selection view.
+     */
     @FXML
     private void goBack() {
         App.setRoot(FXMLNavigator.SELECT_TOURNAMENT);
     }
 
+    /**
+     * Initializes the controller class.
+     *
+     * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         update();

@@ -10,12 +10,28 @@ import org.example.calcettomanagmentsystem.core.model.Team;
 
 import java.util.Map;
 
+/**
+ * Controller for the match details modal dialog.
+ * <p>
+ * This class displays scoring components for each team in the match.
+ * </p>
+ *
+ * @author Senior Developer
+ */
 public class MatchModalController extends VBox {
+    /** Flow pane for displaying team scoring elements. */
     @FXML
     private FlowPane teamFlowPane;
 
+    /** The modal's stage instance. */
     private Stage stage;
 
+    /**
+     * Initializes the controller with match data.
+     *
+     * @param stage The {@link Stage} instance of the modal.
+     * @param match The {@link Match} whose details are to be shown.
+     */
     public void setData(Stage stage, Match match) {
         this.stage = stage;
 
@@ -24,6 +40,9 @@ public class MatchModalController extends VBox {
         }
     }
 
+    /**
+     * Closes the match details modal window.
+     */
     @FXML
     private void close() {
         stage.close();
