@@ -10,7 +10,7 @@ package org.example.calcettomanagmentsystem.service;
  * @author Alex Kerschbamer
  * @version 0.0
  */
-public class ValidationException extends RuntimeException {
+public class ValidationException extends Exception {
     /**
      * Constructs a new ValidationException with the specified message.
      *

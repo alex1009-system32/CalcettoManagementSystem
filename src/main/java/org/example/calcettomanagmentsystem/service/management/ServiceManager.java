@@ -66,21 +66,19 @@ public class ServiceManager {
     }
 
     /**
+     * Calls the init Method form the {@link DataBaseSource} interface.
+     */
+    public static void initDB() {
+        DATA_BASE_SOURCE.init();
+    }
+
+    /**
      * Sets the active tournament for the application session.
      *
      * @param tournament The {@link Tournament} to set as active.
      */
     public static void setTournament(Tournament tournament) {
         ServiceManager.tournament = tournament;
-    }
-
-    /**
-     * Provides access to the shared data source.
-     *
-     * @return The singleton {@link DataBaseSource} instance.
-     */
-    public static DataBaseSource getDataBaseSource() {
-        return DATA_BASE_SOURCE;
     }
 
     /**

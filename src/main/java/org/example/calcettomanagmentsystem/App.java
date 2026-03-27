@@ -80,6 +80,23 @@ public class App extends Application {
     }
 
     /**
+     * Initializes the application's resources before the UI is launched.
+     * <p>
+     * This method is called by the JavaFX launcher thread after the
+     * Application instance is constructed, but before the {@link #start}
+     * method is invoked. It is used here to initialize the database
+     * connection and schema via {@link ServiceManager}.
+     * </p>
+     *
+     * @throws Exception if the database initialization fails or
+     * resources cannot be loaded.
+     */
+    @Override
+    public void init() throws Exception {
+        ServiceManager.initDB();
+    }
+
+    /**
      * Initializes and displays the primary application stage.
      *
      * @param stage The primary stage provided by the JavaFX runtime.
@@ -87,8 +104,6 @@ public class App extends Application {
      */
     @Override
     public void start(@NotNull Stage stage) throws IOException {
-
-        ServiceManager.
 
         scene = new Scene(loadFXML(root), WIDTH, HEIGHT);
 
