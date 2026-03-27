@@ -10,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.service.ValidationException;
 import org.example.calcettomanagmentsystem.ui.components.MatchCart;
 import org.example.calcettomanagmentsystem.ui.components.MatchPane;
 import org.example.calcettomanagmentsystem.ui.modal.MatchModal;
@@ -115,7 +116,11 @@ public class RoundTournamentController implements Initializable {
      */
     @FXML
     private void nextRound() {
-        ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
+        try {
+            ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
+        } catch (ValidationException e) {
+            // todo
+        }
     }
 
     /**

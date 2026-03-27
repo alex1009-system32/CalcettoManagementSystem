@@ -54,9 +54,18 @@ public class SQLiteDB implements DataBaseSource {
      * Initializes the database schema for standard operations.
      */
     public void init() {
-        try (PreparedStatement preparedStatement = this.getConnection()
-                .prepareStatement(SQLReader.readFile(SQLSchemaNavigator.SETUP))) {
-            preparedStatement.execute();
+        try (Connection conn = this.getConnection()) {
+            String fullScript = SQLReader.readFile(SQLSchemaNavigator.SETUP);
+            String[] statements = fullScript.split(";");
+
+            try (Statement stmt = conn.createStatement()) {
+                for (String sql : statements) {
+                    String trimmedSql = sql.trim();
+                    if (!trimmedSql.isEmpty()) {
+                        stmt.execute(trimmedSql);
+                    }
+                }
+            }
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Database initialization failed", e);
         }
@@ -66,9 +75,18 @@ public class SQLiteDB implements DataBaseSource {
      * Initializes the database schema specifically for testing scenarios.
      */
     public void initTest() {
-        try (PreparedStatement preparedStatement = this.getConnection()
-                .prepareStatement(SQLReader.readFile(SQLSchemaNavigator.SETUP))) {
-            preparedStatement.execute();
+        try (Connection conn = this.getConnection()) {
+            String fullScript = SQLReader.readFile(SQLSchemaNavigator.TEST_DB);
+            String[] statements = fullScript.split(";");
+
+            try (Statement stmt = conn.createStatement()) {
+                for (String sql : statements) {
+                    String trimmedSql = sql.trim();
+                    if (!trimmedSql.isEmpty()) {
+                        stmt.execute(trimmedSql);
+                    }
+                }
+            }
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Test database initialization failed", e);
         }

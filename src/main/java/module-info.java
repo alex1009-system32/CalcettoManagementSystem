@@ -27,7 +27,6 @@ module org.example.calcettomanagmentsystem {
     opens org.example.calcettomanagmentsystem.ui.controller.components to javafx.fxml;
     opens org.example.calcettomanagmentsystem.ui.controller.modal to javafx.fxml;
     opens org.example.calcettomanagmentsystem.ui.controller.view to javafx.fxml;
-    opens org.example.calcettomanagmentsystem.shared.navigation to javafx.fxml;
     exports org.example.calcettomanagmentsystem.ui;
     opens org.example.calcettomanagmentsystem.ui to javafx.fxml;
     exports org.example.calcettomanagmentsystem.core.connection;
