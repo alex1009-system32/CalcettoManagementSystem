@@ -91,4 +91,10 @@ public class TournamentService {
     public List<Tournament> findAll() {
         return tournamentRepository.findAll();
     }
+
+    public Tournament findById(int id) throws ValidationException {
+        if (id < 0) throw new ValidationException("Invalid tournament ID.");
+        return tournamentRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("Could not find tournament with id " + id));
+    }
 }

@@ -72,6 +72,15 @@ public class ServiceManager {
         DATA_BASE_SOURCE.init();
     }
 
+    public static void updateTournament(){
+        try {
+            int id = tournament.id();
+            tournament = ServiceManager.getTournamentService().findById(id);
+        } catch (ValidationException e) {
+            // toDo
+        }
+    }
+
     /**
      * Sets the active tournament for the application session.
      *

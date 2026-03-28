@@ -3,19 +3,19 @@ module org.example.calcettomanagmentsystem {
 	requires javafx.fxml;
 	requires javafx.web;
 
-	requires org.controlsfx.controls;
+	requires com.almasb.fxgl.all;
 	requires com.dlsc.formsfx;
+	requires eu.hansolo.tilesfx;
+	requires java.desktop;
+	requires javafaker;
+	requires java.sql;
+	requires jdk.unsupported;
 	requires net.synedra.validatorfx;
+	requires org.controlsfx.controls;
+	requires org.jetbrains.annotations;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.bootstrapfx.core;
-	requires eu.hansolo.tilesfx;
-	requires com.almasb.fxgl.all;
-	requires java.sql;
 	requires org.xerial.sqlitejdbc;
-	requires java.desktop;
-    requires jdk.unsupported;
-	requires javafaker;
-	requires org.jetbrains.annotations;
 
     exports org.example.calcettomanagmentsystem;
     exports org.example.calcettomanagmentsystem.ui.controller.components;

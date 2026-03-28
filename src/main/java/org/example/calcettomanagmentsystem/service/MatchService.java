@@ -7,6 +7,8 @@ import org.example.calcettomanagmentsystem.core.repo.impl.MatchRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * Service for managing match operations and result processing.

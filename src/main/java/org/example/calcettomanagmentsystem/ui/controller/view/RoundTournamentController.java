@@ -11,18 +11,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.calcettomanagmentsystem.App;
+import org.example.calcettomanagmentsystem.core.model.Match;
+import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.service.ValidationException;
 import org.example.calcettomanagmentsystem.ui.components.MatchCart;
 import org.example.calcettomanagmentsystem.ui.components.MatchPane;
+import org.example.calcettomanagmentsystem.ui.components.WinnerPane;
 import org.example.calcettomanagmentsystem.ui.modal.MatchModal;
-import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
 import org.example.calcettomanagmentsystem.service.management.ServiceManager;
 
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -50,6 +50,7 @@ public class RoundTournamentController implements Initializable {
      * and grouping them into tabs by round number.
      */
     private void update() {
+        ServiceManager.updateTournament();
         List<Match> matchList =
                 ServiceManager.getMatchService().findMatchesByTournament(ServiceManager.getTournament());
 
@@ -80,6 +81,29 @@ public class RoundTournamentController implements Initializable {
             tab.setContent(matchPane);
 
             matchOfRoundPane.getTabs().add(tab);
+        }
+
+        Match finalMatch = getMatchOfTournament(gorupedByMatchList);
+        if (finalMatch != null) {
+
+            nextRoundButton.setDisable(true);
+            boolean isFinished = finalMatch.teamResults().entrySet().stream().anyMatch(entry -> entry.getValue() != -1);
+
+            if  (isFinished) {
+                Team winner = gorupedByMatchList.getLast().getFirst().teamResults().entrySet()
+                        .stream()
+                        .max(Map.Entry.comparingByValue())
+                        .map(Map.Entry::getKey).orElseThrow(() -> new RuntimeException("Something went wrong"));
+
+                System.out.println(winner.toString());
+
+                Tab winnerTab = new Tab();
+
+                winnerTab.setText("Winner");
+                winnerTab.setContent(new WinnerPane(winner));
+
+                matchOfRoundPane.getTabs().add(winnerTab);
+            }
         }
     }
 
@@ -113,6 +137,13 @@ public class RoundTournamentController implements Initializable {
         modalStage.setScene(scene);
         modalStage.setResizable(false);
         modalStage.showAndWait();
+    }
+
+    public Match getMatchOfTournament(List<List<Match>> orderedMatches) {
+        if (orderedMatches.getLast().size() == 1) {
+            return orderedMatches.getFirst().getFirst();
+        }
+        return null;
     }
 
     /**
