@@ -54,7 +54,8 @@ public class SQLiteDB implements DataBaseSource {
      * Initializes the database schema for standard operations.
      */
     public void init() {
-        try (Connection conn = this.getConnection()) {
+        try {
+            Connection conn = this.getConnection();
             String fullScript = SQLReader.readFile(SQLSchemaNavigator.SETUP);
             String[] statements = fullScript.split(";");
 
@@ -75,7 +76,8 @@ public class SQLiteDB implements DataBaseSource {
      * Initializes the database schema specifically for testing scenarios.
      */
     public void initTest() {
-        try (Connection conn = this.getConnection()) {
+        try {
+            Connection conn = this.getConnection();
             String fullScript = SQLReader.readFile(SQLSchemaNavigator.TEST_DB);
             String[] statements = fullScript.split(";");
 

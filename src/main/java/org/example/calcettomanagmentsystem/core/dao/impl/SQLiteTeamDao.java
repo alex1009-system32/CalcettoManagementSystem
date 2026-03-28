@@ -1,8 +1,8 @@
 package org.example.calcettomanagmentsystem.core.dao.impl;
 
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.dao.TeamDao;
-import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Team;
 import org.example.calcettomanagmentsystem.core.model.Tournament;
@@ -25,7 +25,9 @@ import java.util.*;
  * @version 0.0
  */
 public class SQLiteTeamDao implements TeamDao {
-    /** The source providing database connections. */
+    /**
+     * The source providing database connections.
+     */
     DataBaseSource dataBaseSource;
 
     /**
@@ -40,8 +42,8 @@ public class SQLiteTeamDao implements TeamDao {
     /**
      * Maps a row from a {@link ResultSet} to a {@link Team} object, handling tournament and player data.
      *
-     * @param rs The result set containing team, player, and tournament data.
-     * @param teamCache A map of existing teams to handle multi-player rosters per team row.
+     * @param rs              The result set containing team, player, and tournament data.
+     * @param teamCache       A map of existing teams to handle multi-player rosters per team row.
      * @param tournamentCache A cache for {@link Tournament} objects.
      * @throws SQLException If database access fails.
      */
@@ -92,24 +94,25 @@ public class SQLiteTeamDao implements TeamDao {
     @Override
     public Optional<Team> save(Team obj) {
         String sql = "INSERT INTO team (team_name) VALUES (?)";
+        try {
+            Connection connection = dataBaseSource.getConnection();
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, obj.name());
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql,
+                                                                                   PreparedStatement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, obj.name());
 
-            int affected = preparedStatement.executeUpdate();
-            if (affected == 0) throw new DataAccessException("Failed to insert team record.");
+                int affected = preparedStatement.executeUpdate();
+                if (affected == 0) throw new DataAccessException("Failed to insert team record.");
 
-            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
-                while (resultSet.next()) {
-                    return Optional.ofNullable(findById(resultSet.getInt(1)))
-                                   .orElseThrow(() -> new DataAccessException("Newly created team not found."));
+                try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        return findById(resultSet.getInt(1));
+                    }
                 }
             }
         } catch (SQLException e) {
             throw new DataAccessException("Failed to save team into database.", e);
         }
-
         return Optional.empty();
     }
 
@@ -120,20 +123,20 @@ public class SQLiteTeamDao implements TeamDao {
     public Team addPlayer(Team team, Player player) {
         String sql = "UPDATE player SET tid = ? WHERE pid = ?";
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, team.id());
-            preparedStatement.setInt(2, player.id());
+        try {
+            Connection connection = dataBaseSource.getConnection();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, team.id());
+                preparedStatement.setInt(2, player.id());
 
-            int affected = preparedStatement.executeUpdate();
-            if (affected == 0) throw new DataAccessException("Failed to update player's team assignment.");
+                int affected = preparedStatement.executeUpdate();
+                if (affected == 0) throw new DataAccessException("Failed to update player assignment.");
 
-            if (!team.players().contains(player)) {
-                team.players().add(player);
+                if (!team.players().contains(player)) {
+                    team.players().add(player);
+                }
+                return team;
             }
-
-            return team;
-
         } catch (SQLException e) {
             throw new DataAccessException("Failed to update player in database.", e);
         }
@@ -157,9 +160,8 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamCache = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql); 
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql); ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 mapResultSetToTeam(resultSet, teamCache, tournamentCache);
@@ -190,8 +192,8 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamCache = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
             preparedStatement.setInt(1, tournament.id());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -213,8 +215,8 @@ public class SQLiteTeamDao implements TeamDao {
     public boolean delete(Team obj) {
         String sql = "DELETE FROM team WHERE tid = ?";
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = dataBaseSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                sql)) {
             preparedStatement.setInt(1, obj.id());
             int affected = preparedStatement.executeUpdate();
             return affected > 0;
@@ -242,13 +244,15 @@ public class SQLiteTeamDao implements TeamDao {
         Map<Integer, Team> teamMap = new LinkedHashMap<>();
         Map<Integer, Tournament> tournamentCache = new HashMap<>();
 
-        try (Connection connection = dataBaseSource.getConnection(); 
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, id);
+        try {
+            Connection connection = dataBaseSource.getConnection();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        mapResultSetToTeam(resultSet, teamMap, tournamentCache);
+                    }
                 }
             }
         } catch (SQLException e) {

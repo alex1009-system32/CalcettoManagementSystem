@@ -3,6 +3,7 @@ package org.example.calcettomanagmentsystem.ui.controller.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
@@ -36,6 +37,9 @@ import java.util.stream.Collectors;
  * @version 0.0
  */
 public class RoundTournamentController implements Initializable {
+
+    @FXML
+    private Button nextRoundButton;
 
     /** TabPane containing match listings for each round. */
     @FXML
@@ -99,7 +103,7 @@ public class RoundTournamentController implements Initializable {
 
         modalStage.initOwner(stage);
 
-        Scene scene = new Scene(new MatchModal(modalStage, match));
+        Scene scene = new Scene(new MatchModal(modalStage, match, this::update));
 
         modalStage.initStyle(StageStyle.TRANSPARENT);
         scene.setFill(Color.TRANSPARENT);
@@ -118,8 +122,9 @@ public class RoundTournamentController implements Initializable {
     private void nextRound() {
         try {
             ServiceManager.getMakerService().generateNextMatches(ServiceManager.getTournament());
+            update();
         } catch (ValidationException e) {
-            // todo
+            nextRoundButton.setText(e.getMessage());
         }
     }
 

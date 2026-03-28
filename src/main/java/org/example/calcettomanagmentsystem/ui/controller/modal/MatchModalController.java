@@ -33,11 +33,11 @@ public class MatchModalController extends VBox {
      * @param stage The {@link Stage} instance of the modal.
      * @param match The {@link Match} whose details are to be shown.
      */
-    public void setData(Stage stage, Match match) {
+    public void setData(Stage stage, Match match, Runnable runnable) {
         this.stage = stage;
 
         for (Map.Entry<Team, Double> entry : match.teamResults().entrySet()) {
-            teamFlowPane.getChildren().add(new TeamPoint(match, entry.getKey()));
+            teamFlowPane.getChildren().add(new TeamPoint(match, entry.getKey(), runnable));
         }
     }
 

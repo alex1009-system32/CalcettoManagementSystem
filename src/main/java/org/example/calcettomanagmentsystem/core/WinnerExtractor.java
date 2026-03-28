@@ -66,26 +66,6 @@ public class WinnerExtractor {
     }
 
     /**
-     * Extracts winners from a provided list of matches.
-     *
-     * @param matches The list of matches to analyze.
-     * @return A list of winning teams ordered by their total points.
-     */
-    public List<Team> getAllWinners(List<Match> matches) {
-        List<Team> list = new LinkedList<>();
-        Map<Team, Double> teams = matches.stream()
-                .map(match -> match.teamResults().entrySet().stream().max(Map.Entry.comparingByValue()))
-                .flatMap(Optional::stream)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Double::max));
-
-        for (Team team : orderByPoints(teams).keySet()) {
-            list.add(team);
-        }
-
-        return list;
-    }
-
-    /**
      * Calculates total points and ranks teams after preliminary rounds.
      *
      * @param matches The list of preliminary round matches.
@@ -103,6 +83,26 @@ public class WinnerExtractor {
                 }
             }
         }
+
+        for (Team team : orderByPoints(teams).keySet()) {
+            list.add(team);
+        }
+
+        return list;
+    }
+
+    /**
+     * Extracts winners from a provided list of matches.
+     *
+     * @param matches The list of matches to analyze.
+     * @return A list of winning teams ordered by their total points.
+     */
+    public List<Team> getAllWinners(List<Match> matches) {
+        List<Team> list = new LinkedList<>();
+        Map<Team, Double> teams = matches.stream()
+                .map(match -> match.teamResults().entrySet().stream().max(Map.Entry.comparingByValue()))
+                .flatMap(Optional::stream)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Double::max));
 
         for (Team team : orderByPoints(teams).keySet()) {
             list.add(team);

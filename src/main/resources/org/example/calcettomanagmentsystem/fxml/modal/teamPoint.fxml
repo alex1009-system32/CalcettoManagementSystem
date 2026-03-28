@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 
-<fx:root prefWidth="400.0" styleClass="match-update-row" type="HBox" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.ui.controller.modal.MatchPointController">
+<fx:root prefWidth="400.0" styleClass="match-update-row" type="HBox" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.ui.controller.modal.TeamPointController">
 
     <stylesheets>
         <URL value="@../../css/global-styles.css" />

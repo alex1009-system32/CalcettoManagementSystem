@@ -15,6 +15,7 @@ public enum FXMLNavigator {
     TOURNAMENT_CART("/org/example/calcettomanagmentsystem/fxml/components/tournament-cart-component.fxml"),
     /** Component for the 'add new tournament' action card. */
     ADD_TOURNAMENT_CART("/org/example/calcettomanagmentsystem/fxml/components/add-tournament-cart-component.fxml"),
+    WINNER_PANE("/org/example/calcettomanagmentsystem/fxml/components/winner-pane-component.fxml"),
     /** Component for displaying a single player card. */
     PLAYER_CART("/org/example/calcettomanagmentsystem/fxml/components/player-cart-component.fxml"),
     /** Main container pane for match listings. */

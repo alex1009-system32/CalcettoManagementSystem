@@ -1,12 +1,12 @@
 package org.example.calcettomanagmentsystem.core.repo.impl;
 
+import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.MatchMaker;
 import org.example.calcettomanagmentsystem.core.TeamMaker;
 import org.example.calcettomanagmentsystem.core.connection.interfaces.DataBaseSource;
 import org.example.calcettomanagmentsystem.core.dao.MatchDao;
 import org.example.calcettomanagmentsystem.core.dao.TeamDao;
 import org.example.calcettomanagmentsystem.core.dao.TournamentDao;
-import org.example.calcettomanagmentsystem.core.DataAccessException;
 import org.example.calcettomanagmentsystem.core.model.Match;
 import org.example.calcettomanagmentsystem.core.model.Player;
 import org.example.calcettomanagmentsystem.core.model.Team;
@@ -51,16 +51,23 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.core
             try {
                 for (Team team : teams) {
                     Team finalTeam = teamDao.save(team)
-                            .orElseThrow(() -> new DataAccessException("Team could not be saved"));
+                                            .orElseThrow(() -> new DataAccessException("Team could not be saved"));
                     for (Player player : team.players()) {
                         finalTeam = teamDao.addPlayer(finalTeam, player);
                     }
                     finalTeams.add(finalTeam);
                 }
+
+
+                System.out.println(connection.isClosed());
                 connection.commit();
                 return finalTeams;
             } catch (SQLException e) {
-                connection.rollback();
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    throw new DataAccessException("Rollback got wrong", ex);
+                }
                 throw new DataAccessException("Something went wrong while trying to save the teams", e);
             }
         } catch (SQLException e) {
@@ -84,7 +91,7 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.core
             try {
                 for (Match match : newMatches) {
                     Match finalMatch = matchDao.save(match)
-                            .orElseThrow(() -> new DataAccessException("Match could not be saved"));
+                                               .orElseThrow(() -> new DataAccessException("Match could not be saved"));
                     for (Team team : match.teamResults().keySet()) {
                         finalMatch = matchDao.registerTeam(team, finalMatch);
                     }
@@ -93,7 +100,11 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.core
                 connection.commit();
                 return finalMatches;
             } catch (SQLException e) {
-                connection.rollback();
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    throw new DataAccessException("Something went wrong while trying to save the teams", ex);
+                }
                 throw new DataAccessException("Something went wrong while trying to save the matches", e);
             }
         } catch (SQLException e) {

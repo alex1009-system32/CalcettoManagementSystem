@@ -29,7 +29,7 @@ public class MatchModal extends VBox {
      * @param stage The {@link Stage} instance for the modal.
      * @param match The {@link Match} to display details for.
      */
-    public MatchModal(Stage stage, Match match) {
+    public MatchModal(Stage stage, Match match, Runnable runnable) {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.MATCH_MODAL.getPath()));
         loader.setRoot(this);
 
@@ -37,7 +37,7 @@ public class MatchModal extends VBox {
             loader.load();
             this.matchModalController = loader.getController();
 
-            setCardDetails(stage, match);
+            setCardDetails(stage, match, runnable);
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to load MatchModal component", e);
@@ -51,9 +51,9 @@ public class MatchModal extends VBox {
      * @param stage The modal's stage.
      * @param match The match data.
      */
-    private void setCardDetails(Stage stage, Match match) {
+    private void setCardDetails(Stage stage, Match match, Runnable runnable) {
         if (matchModalController != null) {
-            matchModalController.setData(stage, match);
+            matchModalController.setData(stage, match,  runnable);
         }
     }
 
