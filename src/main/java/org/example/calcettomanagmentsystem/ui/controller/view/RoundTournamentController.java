@@ -141,7 +141,7 @@ public class RoundTournamentController implements Initializable {
 
     public Match getMatchOfTournament(List<List<Match>> orderedMatches) {
         if (orderedMatches.getLast().size() == 1) {
-            return orderedMatches.getFirst().getFirst();
+            return orderedMatches.getLast().getFirst();
         }
         return null;
     }

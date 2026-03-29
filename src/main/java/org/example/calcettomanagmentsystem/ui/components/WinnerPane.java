@@ -1,16 +1,15 @@
 package org.example.calcettomanagmentsystem.ui.components;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.calcettomanagmentsystem.core.model.Team;
-import org.example.calcettomanagmentsystem.core.model.Tournament;
 import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
-import org.example.calcettomanagmentsystem.ui.controller.components.TournamentCartController;
 import org.example.calcettomanagmentsystem.ui.controller.components.WinnerPaneController;
 
 import java.io.IOException;
 
-public class WinnerPane extends VBox {
+public class WinnerPane extends HBox {
 
     /** The controller managing the visual elements of this tournament card. */
     private WinnerPaneController winnerPaneController;
