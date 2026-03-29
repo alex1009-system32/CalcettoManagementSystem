@@ -1,20 +1,34 @@
 module org.example.calcettomanagmentsystem {
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.web;
+	requires javafx.controls;
+	requires javafx.fxml;
+	requires javafx.web;
 
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-    requires com.almasb.fxgl.all;
-    requires java.sql;
-    requires annotations;
+	requires com.almasb.fxgl.all;
+	requires com.dlsc.formsfx;
+	requires eu.hansolo.tilesfx;
+	requires java.desktop;
+	requires javafaker;
+	requires java.sql;
+	requires jdk.unsupported;
+	requires net.synedra.validatorfx;
+	requires org.controlsfx.controls;
+	requires org.jetbrains.annotations;
+	requires org.kordamp.ikonli.javafx;
+	requires org.kordamp.bootstrapfx.core;
+	requires org.xerial.sqlitejdbc;
+
+    exports org.example.calcettomanagmentsystem;
+    exports org.example.calcettomanagmentsystem.ui.controller.components;
+    exports org.example.calcettomanagmentsystem.ui.controller.modal;
+    exports org.example.calcettomanagmentsystem.ui.controller.view;
 
     opens org.example.calcettomanagmentsystem to javafx.fxml;
-    exports org.example.calcettomanagmentsystem;
-    exports org.example.calcettomanagmentsystem.controller;
-    opens org.example.calcettomanagmentsystem.controller to javafx.fxml;
+    opens org.example.calcettomanagmentsystem.ui.components to javafx.fxml;
+    opens org.example.calcettomanagmentsystem.ui.controller.components to javafx.fxml;
+    opens org.example.calcettomanagmentsystem.ui.controller.modal to javafx.fxml;
+    opens org.example.calcettomanagmentsystem.ui.controller.view to javafx.fxml;
+    exports org.example.calcettomanagmentsystem.ui;
+    opens org.example.calcettomanagmentsystem.ui to javafx.fxml;
+    exports org.example.calcettomanagmentsystem.core.connection;
+    opens org.example.calcettomanagmentsystem.core.connection to javafx.fxml;
 }

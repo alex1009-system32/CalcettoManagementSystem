@@ -1,0 +1,6 @@
+.tournament-grid {
+  -fx-alignment: TOP_CENTER;
+  -fx-background-color: transparent;
+  -fx-hgap: 20;
+  -fx-vgap: 20;
+}

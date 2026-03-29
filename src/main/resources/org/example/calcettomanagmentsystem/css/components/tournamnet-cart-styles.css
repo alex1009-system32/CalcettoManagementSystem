@@ -1,0 +1,29 @@
+.tournament-card {
+  -fx-background-color: -fx-primary-dark;
+  -fx-pref-height: 75px;
+  -fx-pref-width: 660px;
+}
+
+.tournament-card-hbox {
+  -fx-alignment: CENTER;
+  -fx-fill-height: false;
+  -fx-padding: 10px;
+  -fx-spacing: 15px;
+}
+
+.tournament-card-label {
+  -fx-font-size: 15px;
+  -fx-padding: 10px;
+  -fx-max-width: infinity;
+  -fx-max-height: infinity;
+}
+
+.tournament-card .label {
+  -fx-font-size: 18px;
+  -fx-text-fill: -fx-secondary;
+  -fx-font-family: "Segoe UI Semibold";
+}
+
+.tournament-card:hover {
+  -fx-border-color: -fx-secondary;
+}

@@ -1,0 +1,65 @@
+.stats-container {
+  -fx-padding: 20px;
+  -fx-background-color: -fx-primary-light;
+  -fx-background-radius: 15px;
+}
+
+.stat-item {
+  -fx-spacing: 2px;
+}
+
+.label-major {
+  -fx-font-size: 16px;
+  -fx-text-fill: -fx-text-base;
+  -fx-font-family: "Segoe UI Semibold";
+}
+
+.label-major-primary {
+  -fx-font-size: 16px;
+  -fx-text-fill: -fx-primary-dark;
+  -fx-font-family: "Segoe UI Bold";
+}
+
+.player-grid {
+  -fx-alignment: TOP_CENTER;
+  -fx-background-color: transparent;
+}
+
+.player-list-hbox {
+  -fx-alignment: CENTER;
+  -fx-pref-height: 50px;
+  -fx-pref-width: 700px;
+}
+
+.player-list-label {
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+  -fx-max-height: infinity;
+}
+
+.player-list-delete-btn {
+  -fx-alignment: CENTER;
+  -fx-max-width: infinity;
+  -fx-max-height: 50px;
+
+  -fx-border-color: -fx-error;
+  -fx-border-width: 1.5px;
+
+  -fx-text-fill: -fx-error;
+}
+
+.footer-area {
+  -fx-background-color: transparent;
+}
+
+.player-card {
+    -fx-background-color: -fx-primary-dark;
+    -fx-pref-height: 75px;
+    -fx-pref-width: 650px;
+
+}
+
+.player-card:hover {
+  -fx-background-color: -fx-primary-light;
+    -fx-border-color: -fx-secondary;
+}

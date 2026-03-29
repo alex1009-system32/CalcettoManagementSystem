@@ -1,0 +1,28 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.custom-tab-pane .tab {
+  -fx-font-family: "Segoe UI Semibold";
+  -fx-font-size: 15px;
+
+  -fx-text-fill: -fx-secondary;
+  -fx-background-color: -fx-primary;
+  -fx-padding: 10px 25px 10px 25px;
+
+  -fx-border-color: -fx-secondary;
+  -fx-border-color: -fx-secondary;
+  -fx-border-radius: 5px 5px 0px 0px;
+  -fx-border-width: 0px 0px 1px 0px;
+
+  -fx-cursor: hand;
+}
+
+.custom-tab-pane .tab:selected {
+  -fx-background-color: -fx-primary-dark;
+  -fx-border-width: 1px;
+}
+
+.custom-tab-pane .tab:hover {
+    -fx-background-color: -fx-primary-dark;
+}

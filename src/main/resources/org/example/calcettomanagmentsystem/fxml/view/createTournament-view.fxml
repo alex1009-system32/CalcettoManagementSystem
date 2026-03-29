@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" styleClass="main-container"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.calcettomanagmentsystem.ui.controller.view.CreateTournamentController">
+
+    <stylesheets>
+        <URL value="@../../css/global-styles.css"/>
+        <URL value="@../../css/view/createTournament-styles.css"/>
+    </stylesheets>
+
+    <children>
+        <VBox maxWidth="500" spacing="25" styleClass="card">
+            <children>
+                <VBox alignment="CENTER_LEFT" styleClass="header-area">
+                    <Label styleClass="header-title" text="Create Tournament"/>
+                    <Region styleClass="accent-line"/>
+                    <Label fx:id="errorLabel" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM"
+                           maxWidth="1.7976931348623157E308" styleClass="error-label" text="ghmjdzj"
+                           textAlignment="CENTER" visible="false" VBox.vgrow="ALWAYS">
+                    </Label>
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Tournament Name"/>
+                    <TextField fx:id="nameField" promptText="e.g. Winter Cup 2024" styleClass="text-field-custom"/>
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Duration (Days)"/>
+                    <TextField fx:id="durationField" promptText="e.g. 14" styleClass="text-field-custom"/>
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Pre-Round"/>
+                    <TextField fx:id="preRoundField" promptText="e.g. 0" styleClass="text-field-custom"/>
+                </VBox>
+
+                <VBox styleClass="input-group">
+                    <Label styleClass="input-label" text="Max Team Size"/>
+                    <TextField fx:id="teamSizeField" disable="true" promptText="e.g. 5" styleClass="text-field-custom"/>
+                </VBox>
+
+                <HBox alignment="CENTER" spacing="20.0" styleClass="button-group">
+                    <children>
+                        <Button maxWidth="1.7976931348623157E308" onAction="#cancelTournament"
+                                styleClass="btn-base, btn-outline" text="Cancel" HBox.hgrow="ALWAYS"/>
+                        <Button maxWidth="1.7976931348623157E308" onAction="#createTournament"
+                                styleClass="btn-base, btn-primary" text="Create" HBox.hgrow="ALWAYS"/>
+                    </children>
+                    <padding>
+                        <Insets top="10"/>
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</VBox>

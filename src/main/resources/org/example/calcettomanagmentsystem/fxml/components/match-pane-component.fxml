@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root alignment="TOP_CENTER" styleClass="match-tap" type="HBox" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.calcettomanagmentsystem.ui.controller.components.MatchPaneController">
+
+    <stylesheets>
+        <URL value="@../../css/global-styles.css" />
+        <URL value="@../../css/components/match-pane-styles.css" />
+    </stylesheets>
+
+    <children>
+        <ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" prefWidth="700.0" styleClass="custom-scroll-pane" vbarPolicy="NEVER" HBox.hgrow="ALWAYS">
+            <content>
+                <FlowPane fx:id="flowPane" alignment="TOP_CENTER" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWrapLength="658.0" styleClass="match-tap" />
+            </content>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+        </ScrollPane>
+    </children>
+</fx:root>
