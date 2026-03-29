@@ -1,6 +1,6 @@
 # Calcetto Management System
 
-A professional JavaFX-based desktop application designed to manage tournaments efficiently. The system handles everything from tournament creation and player registration to automated team generation and match scheduling.
+A amateur JavaFX-based desktop application designed to manage tournaments efficiently. The system handles everything from tournament creation and player registration to automated team generation and match scheduling.
 
 ## Features
 
@@ -176,52 +176,6 @@ flowchart TD
     class CORE_TM,CORE_MM,CORE_SH,CORE_WE core
     class SQLITE db_node
     class MODEL_T,MODEL_P,MODEL_TM,MODEL_M model
-```
-
-## DB Notation
-
-```mermaid
-erDiagram
-    TOURNAMENT ||--o{ PLAYER : "assigns"
-    TOURNAMENT ||--o{ MATCH : "schedules"
-    TEAM ||--o{ PLAYER : "kader"
-    TEAM ||--o{ TEAM_MATCH : "participates"
-    MATCH ||--o{ TEAM_MATCH : "includes"
-
-    TOURNAMENT {
-        int tid PK
-        string tournament_name
-        string start_date
-        int duration
-        int pre_round
-        int current_round
-        int max_team_size
-    }
-
-    TEAM {
-        int tid PK
-        string team_name
-    }
-
-    PLAYER {
-        int pid PK
-        string pname
-        string pemail
-        int tid FK "Link to TEAM"
-        int trid FK "Link to TOURNAMENT"
-    }
-
-    MATCH {
-        int mid PK
-        int round
-        int tid FK "Link to TOURNAMENT"
-    }
-
-    TEAM_MATCH {
-        int team_id PK, FK "Link to TEAM"
-        int match_id PK, FK "Link to MATCH"
-        float points
-    }
 ```
 
 ## Installation
