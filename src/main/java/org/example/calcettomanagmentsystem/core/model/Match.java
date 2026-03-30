@@ -19,10 +19,14 @@ import java.util.*;
  * @see Team
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public record Match (int id, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
     /**
      * Constructs a match with a specific ID, round, and tournament, initializing an empty results map.
+     * <p>
+     * This constructor is typically used when loading existing matches from a persistent data store.
+     * </p>
      *
      * @param mid Unique identifier for the match.
      * @param round Round number of the match.
@@ -34,6 +38,9 @@ public record Match (int id, int round, @NotNull Tournament tournament, Map<Team
 
     /**
      * Constructs a match with a round and tournament, assigning a default ID of -1 and initializing an empty results map.
+     * <p>
+     * This constructor is intended for creating new matches that have not yet been persisted.
+     * </p>
      *
      * @param round Round number of the match.
      * @param tournament Associated tournament context.

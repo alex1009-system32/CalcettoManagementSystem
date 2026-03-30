@@ -10,12 +10,16 @@ package org.example.calcettomanagmentsystem;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class Launcher {
 	/**
-	 * Main method that delegates the launch to the JavaFX {@link App} class.
+	 * Main entry point for the application.
+	 * <p>
+	 * This method delegates the startup process to the JavaFX {@link App} class.
+	 * </p>
 	 *
-	 * @param args Command-line arguments passed to the application.
+	 * @param args Command-line arguments passed during application startup.
 	 */
 	public static void main(String[] args) {
 		javafx.application.Application.launch(App.class, args);

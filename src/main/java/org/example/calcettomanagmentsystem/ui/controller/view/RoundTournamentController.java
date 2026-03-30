@@ -35,19 +35,25 @@ import java.util.stream.Collectors;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class RoundTournamentController implements Initializable {
 
+    /** Button to advance the tournament to the next round. */
     @FXML
     private Button nextRoundButton;
 
-    /** TabPane containing match listings for each round. */
+    /** TabPane container for displaying matches grouped by round. */
     @FXML
     private TabPane matchOfRoundPane;
 
     /**
-     * Updates the UI by loading all matches for the active tournament 
-     * and grouping them into tabs by round number.
+     * Synchronizes the user interface with the current tournament state.
+     * <p>
+     * This method reloads all matches for the active tournament, groups them by 
+     * round number, and updates the {@link TabPane} content accordingly. It also 
+     * handles the display of the final winner if the tournament is completed.
+     * </p>
      */
     private void update() {
         ServiceManager.updateTournament();

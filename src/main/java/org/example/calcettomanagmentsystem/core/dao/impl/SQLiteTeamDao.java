@@ -23,17 +23,19 @@ import java.util.*;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SQLiteTeamDao implements TeamDao {
-    /**
-     * The source providing database connections.
-     */
-    DataBaseSource dataBaseSource;
+    /** The source providing database connections for team and roster SQL operations. */
+    private final DataBaseSource dataBaseSource;
 
     /**
      * Constructs a new SQLiteTeamDao with the specified data source.
+     * <p>
+     * Ensures that team data and player rosters can be persisted in the SQLite database.
+     * </p>
      *
-     * @param dataBaseSource The database connection source.
+     * @param dataBaseSource The database connection source used for persistence.
      */
     public SQLiteTeamDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;

@@ -21,16 +21,17 @@ import java.util.ResourceBundle;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SelectTournamentController implements Initializable {
 
-    /** Flow pane used to layout tournament cards. */
+    /** Flow pane container used to layout and display individual tournament cards. */
 	@FXML
 	private FlowPane tournamentFlowPane;
 
     /**
-     * Updates the UI by fetching all tournaments and rendering 
-     * a card for each one, followed by an 'add new' card.
+     * Updates the user interface by fetching all existing tournaments from the service 
+     * and rendering a {@link TournamentCart} for each, followed by an {@link AddTournamentCart}.
      */
 	private void update() {
 		for (Tournament tournament : ServiceManager.getTournamentService().findAll()) {

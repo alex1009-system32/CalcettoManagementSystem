@@ -17,18 +17,19 @@ import java.util.*;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class MatchMaker {
-    /** Helper for shuffling team lists. */
-    TeamShuffler teamShuffler;
-    /** Helper for extracting winners from match results. */
-    WinnerExtractor winnerExtractor;
+    /** Helper component for randomizing team lists and creating groups. */
+    private final TeamShuffler teamShuffler;
+    /** Helper component for analyzing match results and identifying winners. */
+    private final WinnerExtractor winnerExtractor;
 
     /**
-     * Constructs a new MatchMaker with required helper components.
+     * Constructs a new MatchMaker with the required helper components for scheduling.
      *
-     * @param teamShuffler Component for team randomization.
-     * @param winnerExtractor Component for result analysis and winner identification.
+     * @param teamShuffler Component used for team randomization and partitioning.
+     * @param winnerExtractor Component used for result analysis and winner identification.
      */
     public MatchMaker(TeamShuffler teamShuffler, WinnerExtractor winnerExtractor) {
         this.teamShuffler = teamShuffler;

@@ -18,15 +18,19 @@ import java.util.stream.Collectors;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class WinnerExtractor {
 
     /**
      * Identifies winners of the current preliminary rounds for a tournament.
+     * <p>
+     * <b>Note:</b> This method is scheduled for removal in future versions.
+     * </p>
      *
-     * @param tournament The tournament context.
-     * @return A list of teams that have won enough points to advance.
-     * @deprecated Use {@link #getAllWinnersAfterPreRounds(List)} for better flexibility.
+     * @param tournament The tournament context for which winners are extracted.
+     * @return A {@link List} of {@link Team} entities that have qualified to advance.
+     * @deprecated Use {@link #getAllWinnersAfterPreRounds(List)} for more flexible analysis.
      */
     @Deprecated
     @NotNull

@@ -14,15 +14,16 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class TournamentRepository implements org.example.calcettomanagmentsystem.core.repo.TournamentRepository {
-    /** The underlying DAO for database operations. */
-    private TournamentDao tournamentDao;
+    /** The underlying DAO for tournament-related database operations. */
+    private final TournamentDao tournamentDao;
 
     /**
-     * Constructs a new TournamentRepository with the specified DAO.
+     * Constructs a new TournamentRepository with the required DAO for data access.
      *
-     * @param tournamentDao The DAO to use for persistence.
+     * @param tournamentDao The DAO used to handle tournament persistence.
      */
     public TournamentRepository(TournamentDao tournamentDao) {
         this.tournamentDao = tournamentDao;

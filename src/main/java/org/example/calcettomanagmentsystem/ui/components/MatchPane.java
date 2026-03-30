@@ -16,13 +16,20 @@ import java.io.IOException;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class MatchPane extends HBox {
-    /** The controller managing the layout and content of this match pane. */
+    /** The controller instance responsible for managing the layout and content of this match pane. */
     private final MatchPaneController matchPaneController;
 
     /**
-     * Constructs a new MatchPane by loading its FXML definition.
+     * Constructs a new {@code MatchPane} by loading its corresponding FXML definition.
+     * <p>
+     * This component acts as a specialized container for displaying multiple 
+     * {@link MatchCart} instances within a tournament round view.
+     * </p>
+     *
+     * @throws RuntimeException If the FXML resource cannot be loaded or the controller is not found.
      */
     public MatchPane() {
         FXMLLoader loader = new FXMLLoader(TournamentCart.class.getResource(FXMLNavigator.MATCH_TAP.getPath()));

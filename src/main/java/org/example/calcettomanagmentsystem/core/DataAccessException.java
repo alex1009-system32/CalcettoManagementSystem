@@ -9,12 +9,17 @@ package org.example.calcettomanagmentsystem.core;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class DataAccessException extends RuntimeException {
     /**
-     * Constructs a new DataAccessException with the specified detail message.
+     * Constructs a new DataAccessException with a specific detail message.
+     * <p>
+     * Use this constructor when a high-level error occurs that doesn't 
+     * wrap a specific underlying cause.
+     * </p>
      *
-     * @param message The error message.
+     * @param message A descriptive error message explaining the failure.
      */
     public DataAccessException(String message) {
         super(message);
@@ -22,9 +27,13 @@ public class DataAccessException extends RuntimeException {
 
     /**
      * Constructs a new DataAccessException with a message and an underlying cause.
+     * <p>
+     * This constructor is preferred when wrapping a {@link java.sql.SQLException} 
+     * or other low-level persistence error.
+     * </p>
      *
-     * @param message The error message.
-     * @param cause The root cause of the exception.
+     * @param message A descriptive error message explaining the failure.
+     * @param cause The root cause that triggered this exception.
      */
     public DataAccessException(String message, Throwable cause) {
         super(message, cause);

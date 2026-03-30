@@ -19,10 +19,15 @@ import java.util.Objects;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public record Player(int id, String name, String email, Tournament tournament) {
     /**
      * Constructs a new Player with a default ID of -1.
+     * <p>
+     * This constructor is primarily used when creating new players before they are
+     * assigned a permanent identifier in the database.
+     * </p>
      *
      * @param name Display name of the player.
      * @param email Contact email address.

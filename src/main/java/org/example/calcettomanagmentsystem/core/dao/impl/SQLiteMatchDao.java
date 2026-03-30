@@ -21,17 +21,19 @@ import java.util.*;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SQLiteMatchDao implements MatchDao {
-    /**
-     * The source providing database connections.
-     */
-    DataBaseSource dataBaseSource;
+    /** The source providing database connections for all SQL operations. */
+    private final DataBaseSource dataBaseSource;
 
     /**
      * Constructs a new SQLiteMatchDao with the specified data source.
+     * <p>
+     * This DAO requires a valid data source to interact with the underlying SQLite database.
+     * </p>
      *
-     * @param dataBaseSource The database connection source.
+     * @param dataBaseSource The database connection source used for persistence operations.
      */
     public SQLiteMatchDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;

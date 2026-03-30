@@ -23,10 +23,14 @@ import java.util.Objects;
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public record Tournament(int id, String name, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
     /**
      * Constructs a tournament with a specific ID, name, duration, and other parameters, using today's date.
+     * <p>
+     * This constructor allows specifying the current round state, useful for resuming existing tournaments.
+     * </p>
      *
      * @param id Unique identifier.
      * @param name Tournament name.
@@ -41,6 +45,9 @@ public record Tournament(int id, String name, LocalDate date, long duration, int
 
     /**
      * Constructs a new tournament with a name, duration, and constraints, assigning a default round of 0 and current date.
+     * <p>
+     * Usually invoked when creating a new tournament that starts immediately from the first phase.
+     * </p>
      *
      * @param id Unique identifier.
      * @param name Tournament name.
@@ -54,6 +61,9 @@ public record Tournament(int id, String name, LocalDate date, long duration, int
 
     /**
      * Constructs a new tournament without an initial ID (defaults to -1).
+     * <p>
+     * The preferred constructor for new tournament creation from user input.
+     * </p>
      *
      * @param name Tournament name.
      * @param duration Duration in days.

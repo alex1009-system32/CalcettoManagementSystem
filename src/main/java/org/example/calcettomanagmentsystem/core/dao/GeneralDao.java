@@ -14,37 +14,44 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface GeneralDao<T> {
         /**
          * Persists the provided object to the database.
+         * <p>
+         * If the object is new, it should be inserted; if it already exists, 
+         * its state should be updated.
+         * </p>
          *
-         * @param obj The object to save.
-         * @return An {@link Optional} containing the persisted object with its generated ID,
-         *         or empty if saving failed.
+         * @param obj The domain object to save or update.
+         * @return An {@link Optional} containing the persisted object with its potentially 
+         *         generated identifier, or empty if the operation failed.
          */
         Optional<T> save(T obj);
 
         /**
-         * Deletes the specified object from the database.
+         * Deletes the specified object from the persistent data store.
          *
-         * @param obj The object to delete.
-         * @return {@code true} if deletion was successful; {@code false} otherwise.
+         * @param obj The domain object to remove.
+         * @return {@code true} if the deletion was successful; {@code false} if the 
+         *         object could not be found or deletion failed.
          */
         boolean delete(T obj);
 
         /**
-         * Retrieves all instances of type T from the database.
+         * Retrieves all instances of type {@code T} from the database.
          *
-         * @return A {@link List} containing all found entities.
+         * @return A {@link List} containing all entities found in the data store.
          */
         List<T> findAll();
 
         /**
-         * Searches for an entity by its unique identifier.
+         * Searches for a single entity by its unique identifier.
          *
-         * @param id The unique ID of the object.
-         * @return An {@link Optional} containing the entity if found, or empty otherwise.
+         * @param id The unique ID of the domain object to find.
+         * @return An {@link Optional} containing the found entity, or empty if no 
+         *         entity exists with the given ID.
          */
         Optional<T> findById(int id);
 }

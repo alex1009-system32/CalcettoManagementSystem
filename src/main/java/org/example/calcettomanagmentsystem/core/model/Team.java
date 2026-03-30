@@ -20,10 +20,14 @@ import java.util.Objects;
  * @see Player
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public record Team (int id, String name, List<Player> players) {
     /**
      * Constructs a team with a specific ID and name, initializing an empty player list.
+     * <p>
+     * Typically used for initializing existing teams where player data is loaded later.
+     * </p>
      *
      * @param id Unique identifier for the team.
      * @param name Name of the team.
@@ -34,6 +38,9 @@ public record Team (int id, String name, List<Player> players) {
 
     /**
      * Constructs a team with a name and a default ID of -1, initializing an empty player list.
+     * <p>
+     * Used for creating a new team that has not yet been saved to the database.
+     * </p>
      *
      * @param name Name of the team.
      */

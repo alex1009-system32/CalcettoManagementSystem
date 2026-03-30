@@ -15,13 +15,18 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface PlayerDao extends GeneralDao<Player> {
     /**
-     * Retrieves all players registered for a specific tournament.
+     * Retrieves all players registered for a specific tournament from the data store.
+     * <p>
+     * This method is essential for operations like team generation and tournament 
+     * roster management.
+     * </p>
      *
-     * @param tournament The tournament context.
-     * @return A list of players belonging to the tournament.
+     * @param tournament The tournament context for filtering players.
+     * @return A {@link List} of all {@link Player} entities associated with the given tournament.
      */
     List<Player> getAllPlayersFromTournament(@NotNull Tournament tournament);
 }

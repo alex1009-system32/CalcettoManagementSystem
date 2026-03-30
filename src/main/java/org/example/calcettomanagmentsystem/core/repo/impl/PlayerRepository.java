@@ -15,15 +15,16 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class PlayerRepository implements Repository<Player> {
-    /** The underlying DAO for database operations. */
-    private PlayerDao playerDao;
+    /** The underlying DAO for player-related database operations. */
+    private final PlayerDao playerDao;
 
     /**
-     * Constructs a new PlayerRepository with the specified DAO.
+     * Constructs a new PlayerRepository with the required DAO for data access.
      *
-     * @param playerDao The DAO to use for persistence.
+     * @param playerDao The DAO used to handle player persistence.
      */
     public PlayerRepository(PlayerDao playerDao) {
         this.playerDao = playerDao;

@@ -13,14 +13,18 @@ import java.util.stream.Collectors;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SQLReader {
     /**
      * Reads a resource-based SQL file and returns its content as a string.
+     * <p>
+     * This method assumes UTF-8 encoding for the SQL file contents.
+     * </p>
      *
-     * @param sqlSchemaNavigator The navigator identifying the specific SQL script to load.
-     * @return The complete SQL script as a single {@link String}.
-     * @throws IOException If the file cannot be found or read.
+     * @param sqlSchemaNavigator The navigator identifying the specific SQL script to load from resources.
+     * @return The complete SQL script as a single {@link String}, with lines joined by newlines.
+     * @throws IOException If the resource cannot be found or an error occurs during reading.
      */
     public static String readFile(SQLSchemaNavigator sqlSchemaNavigator) throws IOException {
         try (InputStream is = SQLReader.class.getResourceAsStream(sqlSchemaNavigator.getPath())) {

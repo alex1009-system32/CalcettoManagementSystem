@@ -16,15 +16,16 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class PlayerService {
-    /** The repository handling player data persistence. */
-    PlayerRepository playerRepository;
+    /** The repository responsible for persisting and retrieving player data. */
+    private final PlayerRepository playerRepository;
 
     /**
-     * Constructs a new PlayerService with the specified repository.
+     * Constructs a new PlayerService with the specified repository for player data access.
      *
-     * @param playerRepository The repository for player data operations.
+     * @param playerRepository The repository used for all player-related business logic.
      */
     public PlayerService(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;

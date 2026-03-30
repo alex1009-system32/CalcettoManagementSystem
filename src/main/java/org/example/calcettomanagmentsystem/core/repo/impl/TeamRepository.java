@@ -16,15 +16,16 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class TeamRepository implements org.example.calcettomanagmentsystem.core.repo.TeamRepository {
-    /** The underlying DAO for database operations. */
-    private TeamDao teamDao;
+    /** The underlying DAO for team and roster database operations. */
+    private final TeamDao teamDao;
 
     /**
-     * Constructs a new TeamRepository with the specified DAO.
+     * Constructs a new TeamRepository with the required DAO for data access.
      *
-     * @param teamDao The DAO to use for persistence.
+     * @param teamDao The DAO used to handle team persistence.
      */
     public TeamRepository(TeamDao teamDao) {
         this.teamDao = teamDao;

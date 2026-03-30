@@ -19,15 +19,16 @@ import java.util.Map;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class MakerService {
-    /** The repository handling the low-level generation logic. */
-    MakerRepository makerRepository;
+    /** The repository responsible for executing the low-level generation algorithms. */
+    private final MakerRepository makerRepository;
 
     /**
-     * Constructs a new MakerService with the specified repository.
+     * Constructs a new MakerService with the specified repository for generation tasks.
      *
-     * @param makerRepository The repository used for generation operations.
+     * @param makerRepository The repository used for all scheduling and team creation logic.
      */
     public MakerService(MakerRepository makerRepository) {
         this.makerRepository = makerRepository;

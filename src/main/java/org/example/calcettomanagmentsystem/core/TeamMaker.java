@@ -20,15 +20,19 @@ import java.util.stream.Gatherers;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class TeamMaker {
 
     /**
-     * Creates a list of {@link Team} objects by partitioning the provided players.
+     * Creates a list of {@link Team} objects by partitioning the provided players into groups.
+     * <p>
+     * Each generated team is assigned a random "funny name" using the Faker library.
+     * </p>
      *
-     * @param players The pool of players to group.
-     * @param teamSize The target number of players per team.
-     * @return A list of newly created teams with rosters and random names.
+     * @param players The pool of players to be organized into teams.
+     * @param teamSize The target number of players per team for partitioning.
+     * @return A {@link List} of newly created teams with rosters and random names.
      */
     public List<Team> makeTeams(List<Player> players, int teamSize) {
         String name;

@@ -22,15 +22,19 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SQLitePlayerDao implements PlayerDao {
-    /** The source providing database connections. */
-    DataBaseSource dataBaseSource;
+    /** The source providing database connections for player-related SQL operations. */
+    private final DataBaseSource dataBaseSource;
 
     /**
      * Constructs a new SQLitePlayerDao with the specified data source.
+     * <p>
+     * Ensures that player data can be persisted and retrieved from the SQLite database.
+     * </p>
      *
-     * @param dataBaseSource The database connection source.
+     * @param dataBaseSource The database connection source used for persistence.
      */
     public SQLitePlayerDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;

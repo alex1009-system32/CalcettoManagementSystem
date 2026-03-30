@@ -17,16 +17,44 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository implementation for generating tournament structures.
+ * <p>
+ * This class coordinates the creation of teams and match schedules by leveraging 
+ * specialized makers and DAOs, while ensuring transactional integrity for complex 
+ * generation operations.
+ * </p>
+ *
+ * @author Alex Kerschbamer
+ * @version 0.1
+ * @since 1.0
+ */
 public class MakerRepository implements org.example.calcettomanagmentsystem.core.repo.MakerRepository {
-    private TournamentDao tournamentDao;
-    private MatchDao matchDao;
-    private TeamDao teamDao;
+    /** DAO for tournament-related operations. */
+    private final TournamentDao tournamentDao;
+    /** DAO for match-related operations. */
+    private final MatchDao matchDao;
+    /** DAO for team-related operations. */
+    private final TeamDao teamDao;
 
-    private DataBaseSource dataBaseSource;
+    /** Data source for managing database connections and transactions. */
+    private final DataBaseSource dataBaseSource;
 
-    private TeamMaker teamMaker;
-    private MatchMaker matchMaker;
+    /** Component for team generation logic. */
+    private final TeamMaker teamMaker;
+    /** Component for match generation logic. */
+    private final MatchMaker matchMaker;
 
+    /**
+     * Constructs a new MakerRepository with all required dependencies.
+     *
+     * @param tournamentDao DAO for tournament state management.
+     * @param matchDao DAO for match persistence.
+     * @param teamDao DAO for team persistence.
+     * @param dataBaseSource Data source for transactional operations.
+     * @param teamMaker Helper for organizing players into teams.
+     * @param matchMaker Helper for generating match schedules.
+     */
     public MakerRepository(TournamentDao tournamentDao,
                            MatchDao matchDao,
                            TeamDao teamDao,
@@ -41,6 +69,13 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.core
         this.matchMaker = matchMaker;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation organizes players into teams using {@link TeamMaker} 
+     * and persists each team and its roster in a single transaction.
+     * </p>
+     */
     @Override
     public List<Team> generateTeams(List<Player> players, int teamSize) {
         List<Team> finalTeams = new ArrayList<>();
@@ -66,15 +101,27 @@ public class MakerRepository implements org.example.calcettomanagmentsystem.core
                 try {
                     connection.rollback();
                 } catch (SQLException ex) {
-                    throw new DataAccessException("Rollback got wrong", ex);
+                    throw new DataAccessException("Rollback failed", ex);
                 }
-                throw new DataAccessException("Something went wrong while trying to save the teams", e);
+                throw new DataAccessException("Error occurred while saving generated teams", e);
             }
         } catch (SQLException e) {
-            throw new DataAccessException("Something went wrong while trying to save the teams", e);
+            throw new DataAccessException("Database access error during team generation", e);
         }
     }
 
+    /**
+     * Helper method to persist a list of generated matches and update the tournament round.
+     * <p>
+     * This method ensures that the tournament state and all generated matches are 
+     * updated atomically.
+     * </p>
+     *
+     * @param tournament The tournament context.
+     * @param newMatches The list of matches to be persisted.
+     * @return A list of successfully persisted {@link Match} entities.
+     * @throws DataAccessException If database operations fail.
+     */
     private List<Match> generateMatches(Tournament tournament, List<Match> newMatches) {
         List<Match> finalMatches = new ArrayList<>();
         try (Connection connection = dataBaseSource.getConnection()) {

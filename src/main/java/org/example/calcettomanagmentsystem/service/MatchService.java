@@ -19,15 +19,16 @@ import java.util.stream.Collectors;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class MatchService {
-    /** The repository handling match data persistence. */
-    MatchRepository matchRepository;
+    /** The repository handling the persistent storage and retrieval of match data. */
+    private final MatchRepository matchRepository;
 
     /**
-     * Constructs a new MatchService with the specified repository.
+     * Constructs a new MatchService with the specified repository for match data access.
      *
-     * @param matchRepository The repository for match data operations.
+     * @param matchRepository The repository used for all match-related operations.
      */
     public MatchService(MatchRepository matchRepository) {
         this.matchRepository = matchRepository;

@@ -22,17 +22,20 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class SQLiteTournamentDao implements TournamentDao {
-    /**
-     * The source providing database connections.
-     */
-    DataBaseSource dataBaseSource;
+    /** The source providing database connections for tournament-related SQL operations. */
+    private final DataBaseSource dataBaseSource;
 
     /**
      * Constructs a new SQLiteTournamentDao with the specified data source.
+     * <p>
+     * Enables persistence and retrieval of tournament configuration and round state 
+     * in the SQLite database.
+     * </p>
      *
-     * @param dataBaseSource The database connection source.
+     * @param dataBaseSource The database connection source used for persistence.
      */
     public SQLiteTournamentDao(DataBaseSource dataBaseSource) {
         this.dataBaseSource = dataBaseSource;

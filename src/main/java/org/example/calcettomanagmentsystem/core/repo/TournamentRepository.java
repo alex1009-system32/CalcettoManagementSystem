@@ -13,13 +13,19 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface TournamentRepository extends Repository<Tournament> {
     /**
-     * Increments the current round number of a tournament.
+     * Increments the current round counter of a tournament in the repository.
+     * <p>
+     * This method persists the progression of the tournament to the next round, 
+     * typically after all matches of the current round are completed.
+     * </p>
      *
-     * @param tournament The tournament to update.
-     * @return An {@link Optional} containing the updated {@link Tournament} instance.
+     * @param tournament The {@link Tournament} to advance to the next round.
+     * @return An {@link Optional} containing the updated {@link Tournament} instance, 
+     *         or empty if the operation failed.
      */
     Optional<Tournament> increaseRound(Tournament tournament);
 }

@@ -15,22 +15,27 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface TeamDao extends GeneralDao<Team> {
     /**
-     * Adds a player to a specific team's roster.
+     * Persists the addition of a player to a specific team's roster in the data store.
+     * <p>
+     * This method updates the team membership, enabling roster management and 
+     * match participation tracking.
+     * </p>
      *
-     * @param team The target {@link Team}.
-     * @param player The {@link Player} to add.
-     * @return The updated {@link Team} instance.
+     * @param team The target {@link Team} receiving the player.
+     * @param player The {@link Player} to add to the team.
+     * @return The updated {@link Team} instance reflecting the new roster.
      */
     Team addPlayer(Team team, Player player);
 
     /**
-     * Retrieves all teams participating in a specific tournament.
+     * Retrieves all teams participating in a specific tournament from the data store.
      *
-     * @param tournament The tournament context.
-     * @return A list of teams in the tournament.
+     * @param tournament The tournament context for filtering teams.
+     * @return A {@link List} of all {@link Team} entities associated with the tournament.
      */
     List<Team> findByTournament(Tournament tournament);
 }

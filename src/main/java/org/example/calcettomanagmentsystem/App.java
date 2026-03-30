@@ -21,41 +21,33 @@ import java.io.IOException;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class App extends Application {
-    /**
-     * Shared scene instance to allow root swaps without recreating the window.
-     */
+    /** The shared {@link Scene} instance used for switching between different views. */
     private static Scene scene;
 
-    /**
-     * Default initial width chosen to match the target layout baseline.
-     */
+    /** The default initial width of the application window in pixels. */
     private final int WIDTH = 1500;
-    /**
-     * Default initial height chosen to match the target layout baseline.
-     */
+    /** The default initial height of the application window in pixels. */
     private final int HEIGHT = 900;
 
-    /**
-     * Minimum width to avoid layout breakage in core views.
-     */
+    /** The minimum allowed width of the application window to ensure layout stability. */
     private final int MIN_WIDTH = 1500;
-    /**
-     * Minimum height to avoid layout breakage in core views.
-     */
+    /** The minimum allowed height of the application window to ensure layout stability. */
     private final int MIN_HEIGHT = 800;
 
-    /**
-     * Initial root view so the app can start without controller-driven navigation.
-     */
+    /** The current root FXML resource path as a {@link String}. */
     private static String root = FXMLNavigator.SELECT_TOURNAMENT.getPath();
 
     /**
-     * Changes the current root of the application scene.
+     * Changes the current root of the application scene to the specified FXML view.
+     * <p>
+     * This method facilitates type-safe navigation by using the {@link FXMLNavigator} enum.
+     * </p>
      *
-     * @param FXMLNavigator The navigator entry for the target view.
-     * @throws RuntimeException If the FXML resource cannot be loaded.
+     * @param FXMLNavigator The navigator entry identifying the target FXML resource.
+     * @throws RuntimeException If the FXML resource cannot be loaded or parsed.
      */
     public static void setRoot(@NotNull FXMLNavigator FXMLNavigator) {
         try {

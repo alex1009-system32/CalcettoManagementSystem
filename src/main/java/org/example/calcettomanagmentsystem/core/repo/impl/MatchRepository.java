@@ -17,15 +17,16 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class MatchRepository implements org.example.calcettomanagmentsystem.core.repo.MatchRepository {
-    /** The underlying DAO for database operations. */
-    private MatchDao matchDao;
+    /** The underlying DAO used for persisting match and score data. */
+    private final MatchDao matchDao;
 
     /**
-     * Constructs a new MatchRepository with the specified DAO.
+     * Constructs a new MatchRepository with the required DAO for data access.
      *
-     * @param matchDao The DAO to use for persistence.
+     * @param matchDao The DAO used to handle match persistence.
      */
     public MatchRepository(MatchDao matchDao) {
         this.matchDao = matchDao;

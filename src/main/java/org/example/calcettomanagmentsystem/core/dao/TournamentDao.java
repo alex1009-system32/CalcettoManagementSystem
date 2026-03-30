@@ -11,13 +11,18 @@ import org.example.calcettomanagmentsystem.core.model.Tournament;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface TournamentDao extends GeneralDao<Tournament> {
     /**
-     * Increments the current round of the specified tournament in the database.
+     * Increments the current round counter of the specified tournament in the data store.
+     * <p>
+     * This method advances the tournament's progression, marking the start 
+     * of the next scheduled phase.
+     * </p>
      *
-     * @param tournament The {@link Tournament} whose round is to be increased.
-     * @return The updated {@link Tournament} instance.
+     * @param tournament The {@link Tournament} whose current round should be advanced.
+     * @return The updated {@link Tournament} instance with the incremented round number.
      */
     Tournament increaseRound(Tournament tournament);
 }

@@ -17,18 +17,19 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class TournamentService {
-    /** The repository handling tournament data persistence. */
-    TournamentRepository tournamentRepository;
-    /** The repository handling tournament scheduling logic. */
-    MakerRepository makerRepository;
+    /** The repository responsible for persisting and retrieving tournament data. */
+    private final TournamentRepository tournamentRepository;
+    /** The repository responsible for tournament scheduling and round generation. */
+    private final MakerRepository makerRepository;
 
     /**
-     * Constructs a new TournamentService with required repositories.
+     * Constructs a new TournamentService with the required repositories for data access and scheduling.
      *
-     * @param tournamentRepository Repository for tournament data.
-     * @param makerRepository Repository for tournament generation logic.
+     * @param tournamentRepository The repository used for tournament data operations.
+     * @param makerRepository The repository used for tournament generation logic.
      */
     public TournamentService(TournamentRepository tournamentRepository, MakerRepository makerRepository) {
         this.tournamentRepository = tournamentRepository;

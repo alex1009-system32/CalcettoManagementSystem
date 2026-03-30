@@ -16,15 +16,16 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class TeamService {
-    /** The repository handling team data persistence. */
-    TeamRepository teamRepository;
+    /** The repository responsible for persisting and retrieving team and roster data. */
+    private final TeamRepository teamRepository;
 
     /**
-     * Constructs a new TeamService with the specified repository.
+     * Constructs a new TeamService with the specified repository for team data access.
      *
-     * @param teamRepository The repository for team data operations.
+     * @param teamRepository The repository used for all team-related business logic.
      */
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;

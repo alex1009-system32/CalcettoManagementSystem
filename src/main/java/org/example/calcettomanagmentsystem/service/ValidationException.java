@@ -9,12 +9,17 @@ package org.example.calcettomanagmentsystem.service;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public class ValidationException extends Exception {
     /**
-     * Constructs a new ValidationException with the specified message.
+     * Constructs a new ValidationException with the specified descriptive error message.
+     * <p>
+     * This constructor is used when a business rule is violated, and the message 
+     * should be clear enough for the end user to understand the corrective action.
+     * </p>
      *
-     * @param message The validation error message.
+     * @param message A string explaining the validation failure.
      */
     public ValidationException(String message) {
         super(message);

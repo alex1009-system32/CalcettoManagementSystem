@@ -15,22 +15,27 @@ import java.util.List;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface TeamRepository extends Repository<Team> {
     /**
-     * Adds a player to a specific team's roster.
+     * Persists the addition of a player to a specific team's roster in the repository.
+     * <p>
+     * This method mediates between the service layer and the DAO to update 
+     * team membership.
+     * </p>
      *
-     * @param player The player to add.
-     * @param team The target team.
-     * @return The updated {@link Team} instance.
+     * @param player The {@link Player} entity to add to the team.
+     * @param team The target {@link Team} receiving the player.
+     * @return The updated {@link Team} instance reflecting the roster change.
      */
     Team addPlayer(Player player, Team team);
 
     /**
      * Retrieves all teams participating in a specific tournament.
      *
-     * @param tournament The tournament context.
-     * @return A list of teams in the tournament.
+     * @param tournament The {@link Tournament} context for filtering teams.
+     * @return A {@link List} of all teams registered for the given tournament.
      */
     List<Team> findByTournament(Tournament tournament);
 }

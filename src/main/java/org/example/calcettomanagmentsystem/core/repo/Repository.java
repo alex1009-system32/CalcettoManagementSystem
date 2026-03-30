@@ -14,33 +14,38 @@ import java.util.Optional;
  *
  * @author Alex Kerschbamer
  * @version 0.1
+ * @since 1.0
  */
 public interface Repository<T> {
     /**
-     * Persists the provided object.
+     * Persists the provided object to the underlying data store.
+     * <p>
+     * This method acts as a bridge to the corresponding DAO for saving operations.
+     * </p>
      *
-     * @param obj The object to save.
-     * @return An {@link Optional} containing the persisted object, or empty if saving failed.
+     * @param obj The domain entity to save.
+     * @return An {@link Optional} containing the persisted entity, or empty if the 
+     *         operation failed.
      */
     Optional<T> save(T obj);
 
     /**
-     * Deletes the specified object.
+     * Deletes the specified object from the data store.
      *
-     * @param obj The object to delete.
-     * @return {@code true} if deletion was successful; {@code false} otherwise.
+     * @param obj The domain entity to remove.
+     * @return {@code true} if the deletion was successful; {@code false} otherwise.
      */
     boolean delete(T obj);
 
     /**
-     * Retrieves all instances of type T.
+     * Retrieves all instances of type {@code T} from the repository.
      *
      * @return A {@link List} containing all found entities.
      */
     List<T> findAll();
 
     /**
-     * Searches for an entity by its unique identifier.
+     * Searches for a specific entity by its unique identifier.
      *
      * @param id The unique ID of the entity.
      * @return An {@link Optional} containing the entity if found, or empty otherwise.
