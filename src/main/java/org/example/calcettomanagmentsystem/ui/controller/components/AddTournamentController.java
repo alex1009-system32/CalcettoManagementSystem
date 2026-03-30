@@ -11,7 +11,7 @@ import org.example.calcettomanagmentsystem.ui.FXMLNavigator;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class AddTournamentController extends javafx.scene.control.Button {
     /**

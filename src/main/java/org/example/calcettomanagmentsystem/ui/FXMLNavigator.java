@@ -8,7 +8,7 @@ package org.example.calcettomanagmentsystem.ui;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public enum FXMLNavigator {
     /** Component for displaying a single tournament card. */

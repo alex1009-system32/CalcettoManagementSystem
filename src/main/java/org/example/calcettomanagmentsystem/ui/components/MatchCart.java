@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchCart extends Button {
     /** The controller managing the visual elements of this match card. */

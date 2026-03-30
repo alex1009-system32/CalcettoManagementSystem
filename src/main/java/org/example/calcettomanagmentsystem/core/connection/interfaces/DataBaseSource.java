@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public interface DataBaseSource {
     /**

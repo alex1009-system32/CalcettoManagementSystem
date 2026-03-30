@@ -16,7 +16,7 @@ import java.util.*;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchMaker {
     /** Helper for shuffling team lists. */

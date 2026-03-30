@@ -15,7 +15,7 @@ import org.example.calcettomanagmentsystem.service.management.ServiceManager;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class AddPlayerController {
     /** Label for displaying validation error messages. */

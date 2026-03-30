@@ -18,7 +18,7 @@ import java.util.*;
  *
  * @see Team
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public record Match (int id, int round, @NotNull Tournament tournament, Map<Team, Double> teamResults){
     /**

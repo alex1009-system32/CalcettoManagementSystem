@@ -8,7 +8,7 @@ package org.example.calcettomanagmentsystem.core.connection;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public enum SQLSchemaNavigator {
     /** Primary SQL script for setting up the production database schema. */

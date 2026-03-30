@@ -16,7 +16,7 @@ import java.io.IOException;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class TournamentCart extends Button {
     /** The controller managing the visual elements of this tournament card. */

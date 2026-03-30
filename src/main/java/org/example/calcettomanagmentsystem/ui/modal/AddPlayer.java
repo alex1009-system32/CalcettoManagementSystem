@@ -16,7 +16,7 @@ import java.io.IOException;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class AddPlayer extends VBox {
     /** The controller managing the visual logic of this modal. */

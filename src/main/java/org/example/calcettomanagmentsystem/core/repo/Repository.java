@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <T> The type of domain object managed by the repository.
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public interface Repository<T> {
     /**

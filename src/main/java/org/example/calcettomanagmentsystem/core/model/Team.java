@@ -19,7 +19,7 @@ import java.util.Objects;
  *
  * @see Player
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public record Team (int id, String name, List<Player> players) {
     /**

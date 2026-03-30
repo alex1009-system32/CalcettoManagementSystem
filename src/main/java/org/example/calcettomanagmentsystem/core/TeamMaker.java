@@ -19,7 +19,7 @@ import java.util.stream.Gatherers;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class TeamMaker {
 

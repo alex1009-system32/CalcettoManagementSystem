@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchService {
     /** The repository handling match data persistence. */

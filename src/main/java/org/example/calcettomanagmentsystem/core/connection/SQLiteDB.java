@@ -15,7 +15,7 @@ import java.util.Properties;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class SQLiteDB implements DataBaseSource {
     /** Configuration properties for the SQLite connection. */

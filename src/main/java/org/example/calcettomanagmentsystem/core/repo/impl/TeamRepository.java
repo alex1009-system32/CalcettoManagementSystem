@@ -15,7 +15,7 @@ import java.util.Optional;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class TeamRepository implements org.example.calcettomanagmentsystem.core.repo.TeamRepository {
     /** The underlying DAO for database operations. */

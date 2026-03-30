@@ -15,7 +15,7 @@ import java.io.IOException;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchPane extends HBox {
     /** The controller managing the layout and content of this match pane. */

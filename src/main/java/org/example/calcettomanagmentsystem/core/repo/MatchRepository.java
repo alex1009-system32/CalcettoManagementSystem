@@ -14,7 +14,7 @@ import java.util.List;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public interface MatchRepository extends Repository<Match> {
     /**

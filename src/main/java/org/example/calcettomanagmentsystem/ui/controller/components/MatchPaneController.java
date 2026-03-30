@@ -10,7 +10,7 @@ import javafx.scene.layout.FlowPane;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchPaneController {
     /** The flow pane used to layout match cards. */

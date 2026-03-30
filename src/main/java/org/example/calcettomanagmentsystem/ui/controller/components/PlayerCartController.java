@@ -18,7 +18,7 @@ import java.io.IOException;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class PlayerCartController {
     /** Label for the player's name. */

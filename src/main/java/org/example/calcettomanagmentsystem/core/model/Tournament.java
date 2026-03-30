@@ -22,7 +22,7 @@ import java.util.Objects;
  *
  * @see org.example.calcettomanagmentsystem.core.MatchMaker
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public record Tournament(int id, String name, LocalDate date, long duration, int preRound, int currentRound, int maxTeamSize) {
     /**

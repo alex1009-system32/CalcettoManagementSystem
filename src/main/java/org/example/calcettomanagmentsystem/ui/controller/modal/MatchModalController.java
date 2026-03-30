@@ -17,7 +17,7 @@ import java.util.Map;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchModalController extends VBox {
     /** Flow pane for displaying team scoring elements. */

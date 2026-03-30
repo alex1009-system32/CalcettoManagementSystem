@@ -23,7 +23,7 @@ import org.example.calcettomanagmentsystem.service.*;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class ServiceManager {
     /** Global data source for all DAOs. */

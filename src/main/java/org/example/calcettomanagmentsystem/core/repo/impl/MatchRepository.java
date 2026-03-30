@@ -16,7 +16,7 @@ import java.util.Optional;
  * </p>
  *
  * @author Alex Kerschbamer
- * @version 0.0
+ * @version 0.1
  */
 public class MatchRepository implements org.example.calcettomanagmentsystem.core.repo.MatchRepository {
     /** The underlying DAO for database operations. */
